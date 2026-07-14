@@ -1,12 +1,11 @@
-# WorkBuddy 咖啡师教练技能 · barista
+# Barista 咖啡师教练技能
 
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Version](https://img.shields.io/badge/version-1.2.1-blue)
-![Skill](https://img.shields.io/badge/WorkBuddy-skill-orange)
-![Coverage](https://img.shields.io/badge/coverage-16%20methods-success)
-![References](https://img.shields.io/badge/references-10%20files-informational)
+![Version](https://img.shields.io/badge/version-1.4.1-blue)
+![Coverage](https://img.shields.io/badge/coverage-17%20methods-success)
+![References](https://img.shields.io/badge/references-11%20files-informational)
 
-一个 WorkBuddy / CodeBuddy 技能，帮你把咖啡做好、也品明白。
+一个通用 AI Agent 咖啡师教练技能，帮你把咖啡做好、也品明白。兼容 WorkBuddy / QoderWork / Claude Code / Cursor / 通用 Agent 平台。
 
 > **30 秒预览**：用户：「我做的手冲好苦怎么办？」→ 技能：「先问 1 个问题：你是用 V60 还是 Kalita？水温多少？出液用了多久？」→ 拿到答案后给口诀「苦调粗」+ 下一步具体动作「把磨豆机往'粗'那边转 1–2 格」。**全程不甩术语。**
 
@@ -17,7 +16,7 @@
 - **咖啡豆（Beans）** —— 豆标/豆卡解读、按做法与豆性选豆、烘焙度/处理法/产区/豆种如何影响冲煮法与萃取、新鲜度与保存
 - **器具与磨豆机画像** —— 结合咖啡机品牌型号（意式/手冲/法压等）、磨豆机型号（手摇/电动）、粉碗容量、滤纸类型，给"贴机器"的方案
 - **水质** —— TDS/硬度/pH 参数、家用水判断与建议（最常被忽略的变量）
-- **特调与变压** —— 特调/冰手冲提前给配方与器材清单；带变压功能的机器联网查萃取曲线（含品牌社区方案）
+- **特调与经典奶咖** —— 特调/冰手冲/卡布奇诺/拿铁等经典奶咖提前给配方与器材清单（比例已联网核实）；带变压功能的机器联网查萃取曲线（含品牌社区方案）
 - **感官品鉴（Sensory）** —— 教你描述喝到的味道，并据此调整
 - **故障排查** —— 意式/手冲/磨豆机/奶泡的决策树式诊断
 
@@ -56,25 +55,32 @@ barista/
 ├── LICENSE                   # MIT 许可
 ├── .gitignore                # 忽略临时文件
 └── references/
-    ├── recipes-baseline.md   # 16 种做法的稳妥起步参数（新手可直接照做）
+    ├── recipes-baseline.md   # 17 种做法的稳妥起步参数（新手可直接照做）
     ├── sensory.md            # 风味问题 → 调整动作（双栏）+ 如何品咖啡
     ├── beans.md              # 豆标解读 / 选豆 / 豆性→萃取 / 新鲜度保存（双栏）
     ├── glossary.md           # 新手禁用术语表（完整版）
     ├── pressure-profiles.md  # 变压萃取：机型索引 + 联网核实话术
     ├── water-quality.md      # 水质参数与家用水的判断/建议
-    ├── equipment-profiles.md # 常见咖啡机/磨豆机/器材画像
+    ├── equipment-profiles.md # 常见咖啡机/磨豆机/器材画像 + 设备组合推荐
     ├── troubleshooting.md    # 故障决策树（意式/手冲/磨豆机/奶泡）
     ├── search-queries.md     # 联网检索查询模板
-    └── eval-cases.md         # 评估用例与自检清单
+    ├── example-dialogues.md  # 补充示例对话（8 个场景）
+    └── eval-cases.md         # 评估用例与自检清单（21 个 Case）
 ```
 
 ## 安装
 
-方式一：把 `barista/` 整个目录放入你的技能目录
-- 本机路径：`~/.workbuddy/skills/barista/`
-- 放入后重启对话，输入 `/barista` 触发。
+把 `barista/` 整个目录放入你所用 Agent 平台的技能目录：
 
-方式二：使用打包文件 `barista.zip`，解压到技能目录即可。
+| 平台 | 技能目录 | 触发方式 |
+|------|----------|----------|
+| WorkBuddy | `~/.workbuddy/skills/barista/` | `/barista` 或关键词自动触发 |
+| QoderWork | `~/.qoderworkcn/skills/barista/` | `/barista` 或关键词自动触发 |
+| Claude Code | `~/.claude/skills/barista/` | 在 CLAUDE.md 中引用或关键词触发 |
+| Cursor | 项目根目录 `.cursor/skills/barista/` | 在 .cursorrules 中引用 |
+| 其他 Agent | 将 SKILL.md 及 references/ 放入项目上下文目录，在系统提示中引用 | 按平台配置 |
+
+方式二：用 WorkBuddy 的 `package_skill.py` 把本目录打包成 `barista.skill`（zip 格式）后，在支持的平台一键安装。
 
 ## 使用
 
@@ -84,8 +90,9 @@ barista/
 - 萃取 / 研磨 / 风味 / 手冲 / 浓缩
 - 爱乐压 / 摩卡壶 / 冷萃 / 冰滴 / 聪明杯 / Kalita
 - 特调 / 澳白 / flat white / dirty / ristretto / SOE / lungo
+- 卡布奇诺 / 拿铁 / 玛奇朵 / 摩卡 / 康宝蓝 / 爱尔兰咖啡 / 维也纳咖啡 / 可塔朵 / 馥芮白 / 美式
 - 变压 / 咖啡师 / 品鉴 / 豆子 / 烘焙度 / 处理法 / 养豆 / 赏味期 / 豆标 / 粉碗 / 磨豆机
-- 挂耳 / 虹吸 / 赛风 / 闪萃 / 土耳其 / 冰冲 / 速溶
+- 挂耳 / 虹吸 / 赛风 / 闪萃 / 土耳其 / 冰冲 / 越南咖啡 / phin
 
 ## 许可
 
