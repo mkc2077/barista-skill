@@ -1,7 +1,7 @@
 # WorkBuddy 咖啡师教练技能 · barista
 
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Version](https://img.shields.io/badge/version-1.2.0-blue)
+![Version](https://img.shields.io/badge/version-1.2.1-blue)
 ![Skill](https://img.shields.io/badge/WorkBuddy-skill-orange)
 ![Coverage](https://img.shields.io/badge/coverage-16%20methods-success)
 ![References](https://img.shields.io/badge/references-10%20files-informational)
