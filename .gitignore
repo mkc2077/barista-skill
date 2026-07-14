@@ -1,0 +1,8 @@
+# OS / editor temp
+.DS_Store
+*.tmp
+*.bak
+*.swp
+
+# local archives
+*.zip

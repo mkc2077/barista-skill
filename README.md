@@ -1,10 +1,10 @@
 # WorkBuddy 咖啡师教练技能 · barista
 
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Version](https://img.shields.io/badge/version-1.1.0-blue)
+![Version](https://img.shields.io/badge/version-1.2.0-blue)
 ![Skill](https://img.shields.io/badge/WorkBuddy-skill-orange)
-![Coverage](https://img.shields.io/badge/coverage-12%20methods-success)
-![References](https://img.shields.io/badge/references-9%20files-informational)
+![Coverage](https://img.shields.io/badge/coverage-16%20methods-success)
+![References](https://img.shields.io/badge/references-10%20files-informational)
 
 一个 WorkBuddy / CodeBuddy 技能，帮你把咖啡做好、也品明白。
 
@@ -53,8 +53,10 @@ barista/
 ├── SKILL.md                  # 技能主文件：机制、流程、示例、注意事项
 ├── CHANGELOG.md              # 版本历史
 ├── README.md                 # 本文件
+├── LICENSE                   # MIT 许可
+├── .gitignore                # 忽略临时文件
 └── references/
-    ├── recipes-baseline.md   # 12 种做法的稳妥起步参数（新手可直接照做）
+    ├── recipes-baseline.md   # 16 种做法的稳妥起步参数（新手可直接照做）
     ├── sensory.md            # 风味问题 → 调整动作（双栏）+ 如何品咖啡
     ├── beans.md              # 豆标解读 / 选豆 / 豆性→萃取 / 新鲜度保存（双栏）
     ├── glossary.md           # 新手禁用术语表（完整版）
@@ -83,6 +85,7 @@ barista/
 - 爱乐压 / 摩卡壶 / 冷萃 / 冰滴 / 聪明杯 / Kalita
 - 特调 / 澳白 / flat white / dirty / ristretto / SOE / lungo
 - 变压 / 咖啡师 / 品鉴 / 豆子 / 烘焙度 / 处理法 / 养豆 / 赏味期 / 豆标 / 粉碗 / 磨豆机
+- 挂耳 / 虹吸 / 赛风 / 闪萃 / 土耳其 / 冰冲 / 速溶
 
 ## 许可
 
