@@ -1,9 +1,9 @@
 # Barista 咖啡师教练技能
 
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Version](https://img.shields.io/badge/version-1.4.1-blue)
+![Version](https://img.shields.io/badge/version-2.0.0-blue)
 ![Coverage](https://img.shields.io/badge/coverage-17%20methods-success)
-![References](https://img.shields.io/badge/references-11%20files-informational)
+![References](https://img.shields.io/badge/references-15%20files-informational)
 
 一个通用 AI Agent 咖啡师教练技能，帮你把咖啡做好、也品明白。兼容 WorkBuddy / QoderWork / Claude Code / Cursor / 通用 Agent 平台。
 
@@ -17,8 +17,12 @@
 - **器具与磨豆机画像** —— 结合咖啡机品牌型号（意式/手冲/法压等）、磨豆机型号（手摇/电动）、粉碗容量、滤纸类型，给"贴机器"的方案
 - **水质** —— TDS/硬度/pH 参数、家用水判断与建议（最常被忽略的变量）
 - **特调与经典奶咖** —— 特调/冰手冲/卡布奇诺/拿铁等经典奶咖提前给配方与器材清单（比例已联网核实）；带变压功能的机器联网查萃取曲线（含品牌社区方案）
-- **感官品鉴（Sensory）** —— 教你描述喝到的味道，并据此调整
+- **感官品鉴（Sensory）** —— 教你描述喝到的味道，并据此调整；含 SCA 风味轮原理与使用、系统化感官训练方案（味觉/嗅觉训练、对比品鉴、个人风味记忆库）
 - **故障排查** —— 意式/手冲/磨豆机/奶泡的决策树式诊断
+- **专业杯测（Cupping）** —— SCA 杯测标准流程（干香→湿香→破渣→啜吸→评分→余韵）、100 分十维度评分体系、环境/器具/水质要求
+- **研磨度校准（Grind Calibration）** —— 粒径分布原理、C40/EK43/Eureka 等磨豆机校准方法、Dose→Yield→Time 通用原则
+- **参数灵活应用（Parameters Guide）** —— SCA 金杯理论、化合物溶出顺序、按产区/品种/处理法/烘焙度/口味调整矩阵与实例分析
+- **权威学习资源（Learning Resources）** —— 按入门/进阶/专业三级分类的学习资源推荐、SCA 认证体系概览、可检索咖啡师/博主名录
 
 ## 核心机制：先问经验，再决定语气
 
@@ -65,7 +69,11 @@ barista/
     ├── troubleshooting.md    # 故障决策树（意式/手冲/磨豆机/奶泡）
     ├── search-queries.md     # 联网检索查询模板
     ├── example-dialogues.md  # 补充示例对话（8 个场景）
-    └── eval-cases.md         # 评估用例与自检清单（21 个 Case）
+    ├── eval-cases.md         # 评估用例与自检清单（21 个 Case）
+    ├── cupping.md            # SCA 杯测教程：标准流程 + 100 分评分体系 + 环境/器具要求
+    ├── grind-calibration.md  # 研磨度校准指南：粒径原理 + 多机型校准方法 + 故障排查
+    ├── parameters-guide.md   # 参数灵活应用：金杯理论 + 按豆性/烘焙度/口味调整矩阵
+    └── learning-resources.md # 权威学习资源整合：三级分类 + SCA 认证 + 咖啡师名录
 ```
 
 ## 安装
@@ -93,6 +101,9 @@ barista/
 - 卡布奇诺 / 拿铁 / 玛奇朵 / 摩卡 / 康宝蓝 / 爱尔兰咖啡 / 维也纳咖啡 / 可塔朵 / 馥芮白 / 美式
 - 变压 / 咖啡师 / 品鉴 / 豆子 / 烘焙度 / 处理法 / 养豆 / 赏味期 / 豆标 / 粉碗 / 磨豆机
 - 挂耳 / 虹吸 / 赛风 / 闪萃 / 土耳其 / 冰冲 / 越南咖啡 / phin
+- 杯测 / cupping / 校准 / 刻度 / 粒径 / 金杯 / TDS / 萃取率
+- 风味轮 / flavor wheel / 闻香瓶 / 三角杯测 / 味觉训练 / 嗅觉 / 感官训练
+- 学习资源 / SCA / Q-Grader / 粉水比 / 水温 / 萃取时间 / 流速
 
 ## 许可
 
