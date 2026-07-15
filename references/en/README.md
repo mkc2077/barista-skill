@@ -7,7 +7,7 @@ grinder steps, flavor wheel groups, sensory-solution recipes, water TDS, etc.).
 > The Chinese originals remain the full source of truth under `references/` (one
 > level up). The English mirrors are a convenience for international agents/users.
 
-## Currently translated (8 / 15)
+## Currently translated (10 / 15)
 
 | File | Topic | Intl. value |
 |------|-------|------|
@@ -19,16 +19,17 @@ grinder steps, flavor wheel groups, sensory-solution recipes, water TDS, etc.).
 | grind-calibration.md | particle-size theory + multi-grinder calibration (C40/EK43/Eureka) | high |
 | beans.md | label reading / bean selection / freshness & storage | high |
 | water-quality.md | TDS/hardness/pH + home-water guidance | medium |
+| equipment-profiles.md | espresso machines, grinders, brew gear profiles + combo recommendations | medium |
+| pressure-profiles.md | pressure-profile machine index + live-lookup prompts + curve templates | medium |
 
-All 8 high-international-value core files are translated. The remaining 7 are
-CN-specific and add little for an English reader; translation is deferred.
+All 8 high-international-value core files + 2 medium-value gear/diagnostics files
+are translated. The remaining 5 are CN-specific and add little for an English
+reader; translation is deferred.
 
-## Not yet translated (7) -- see references/ (Chinese) originals
+## Not yet translated (5) -- see references/ (Chinese) originals
 
-| File | Topic | intl. value |
+| File | Topic | Intl. value |
 |------|-------|------|
-| pressure-profiles.md | pressure-profile machine index + live-lookup prompts | medium (CN brands/lists) |
-| equipment-profiles.md | common machine/grinder/equipment profiles | medium |
 | learning-resources.md | tiered resources + SCA certs + barista directory | medium (CN resources) |
 | glossary.md | beginner jargon-ban list + plain swaps | low (CN-centric) |
 | search-queries.md | live-search query templates | low (CN templates) |
@@ -37,8 +38,9 @@ CN-specific and add little for an English reader; translation is deferred.
 
 > Low-value files are CN-specific (community resources, CN-language dialogues/
 > eval cases); translating them faithfully adds little for an English reader and
-> is deferred. The medium-value remaining files (pressure-profiles,
-> equipment-profiles, learning-resources) can be added on request.
+> is deferred. Learning-resources.md is medium-value but China-centric
+> (domestic platform links, WeChat groups, CN certification paths) and can be
+> added on request.
 
 ## Notes for translators expanding this set
 - Use plain ASCII where possible; avoid em/en dashes (use `--`), write temps as
