@@ -4,6 +4,32 @@
 
 ---
 
+## [2.1.0] - 2026-07-15
+
+### 重构与双语化 / Refactor & bilingualization (zh/en)
+
+#### 修复 / Fixed
+- **入口点失效修复 / entry point**: 新增 `main()`,`barista-mcp` 命令脚本现在可用 / Added `main()` so the `barista-mcp` console script works.
+- **删除死代码 / dead code removed**: 移除从未调用的 `KNOWLEDGE`/`load_reference` 加载与 5 个未用导入(`sys/os/json/re/Optional`) / Removed the never-used `KNOWLEDGE` loader and 5 unused imports.
+- **单一数据源 / single source**: `calculate_cupping_score` 现复用 `CUPPING_DIMENSIONS`,消除两份重复定义 / cupping scoring now consumes `CUPPING_DIMENSIONS`, removing duplicate definitions.
+- **打包配置 / packaging**: `packages=["."]` -> `py-modules=["server"]`,避免把整目录打进 wheel / Fixed packaging to ship only the single module.
+
+#### 新增 / Added
+- **双语 / bilingual**: 全部 9 个 MCP 工具新增 `language="zh"/"en"` 参数,返回对应语言 / All 9 MCP tools now take a `language` arg returning localized output.
+- **扩展覆盖面 / expanded coverage**: 冲煮法从 9 -> **14 种**(补 挂耳/虹吸/土耳其/闪萃/越南 phin);新增 `get_milk_drink` 工具覆盖 **11 款经典奶咖**(比例沿用联网核实) / Brew methods 9 -> 14 (drip bag/syphon/Turkish/flash brew/Vietnamese phin); new `get_milk_drink` tool for 11 classic milk drinks.
+- **文档对齐 / docs aligned**: README 徽章与方法数对齐(14 brew / 11 milk / 9 tools / 15 references);SKILL.md 加英文速览块与英文总结 / README badges aligned; English summary block added to SKILL.md.
+- 安装说明简化为 `pip install "mcp[cli]"` 最短路径 / Shortened install to the shortest path.
+
+#### 测试 / Tests
+- **新增 test_server.py**: 111 条 pytest 覆盖 9 工具的 zh/en 返回、未知输入兜底、杯测扣分与等级、参数矩阵等 / Added test_server.py: 111 pytest cases covering all 9 tools' zh/en output, unknown-input fallbacks, cupping deductions & grades, parameter matrices.
+- 运行: `pip install -e ".[test]" && pytest mcp-server/test_server.py`(需 `mcp[cli]` 可导入)/ Run with the `test` extra; requires `mcp[cli]` importable.
+- **打包修复 / packaging**: 剥离 Set-Content 误加的 UTF-8 BOM(pyproject/server/test/README),修正 pytest 与 tomllib 加载 / Stripped an accidentally-added UTF-8 BOM from pyproject/server/test/README so pytest & tomllib load cleanly.
+
+#### 不变 / Unchanged
+- SKILL.md 中文 prompt 主体与 references 15 文件内容保持不变,仅加英文层 / The tuned Chinese prompt body and the 15 reference files are unchanged; only an English layer was added.
+
+---
+
 ## [2.0.0] - 2026-07-15
 
 ### 新增（五大专业模块）

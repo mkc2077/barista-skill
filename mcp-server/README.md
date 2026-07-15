@@ -1,38 +1,39 @@
-# Barista MCP Server
+# Barista MCP Server (bilingual / 双语)
 
-将 [barista-skill](../) 咖啡师教练技能封装为 MCP (Model Context Protocol) 服务，可通过任何 MCP 兼容客户端调用。
+将 [barista-skill](../) 咖啡师教练技能封装为 MCP (Model Context Protocol) 服务，可通过任何 MCP 兼容客户端调用。**每个工具都支持 `language="zh"`/`"en"` 双语返回。**
 
-## 提供的工具（8 个）
+Wraps the [barista-skill](../) coffee-coach skill as a Model Context Protocol service, callable from any MCP-compatible client. **Every tool takes a `language="zh"`/`"en"` argument and returns localized output.**
 
-| 工具 | 功能 | 示例调用场景 |
-|------|------|-------------|
-| `get_recipe` | 按冲煮法获取起步参数 | "帮我查手冲的参数" |
-| `diagnose_flavor` | 风味问题诊断与调整建议 | "咖啡太苦怎么办" |
-| `calculate_cupping_score` | SCA 100 分杯测评分计算 | "帮我算杯测分数" |
-| `calibrate_grinder` | 磨豆机校准方法与刻度 | "C40 怎么校准" |
-| `get_parameters_guide` | 按豆性/烘焙度/口味调整参数 | "浅烘埃塞怎么调参数" |
-| `get_flavor_wheel` | SCA 风味轮类别与描述词查询 | "查一下水果类有哪些风味" |
-| `get_sensory_training` | 感官训练方案（味觉/嗅觉/品鉴/记忆库） | "怎么练品鉴能力" |
-| `get_learning_resources` | 按阶段推荐学习资源 | "入门该看什么" |
+## 提供的工具 (9) / Tools (9)
 
-## 快速开始
+| 工具 / Tool | 功能 / What | 示例 / Example |
+|------|------|------|
+| `get_recipe` | 冲煮法起步参数 (14 种) / brew starter params (14 methods) | "查手冲参数" / "pour_over params" |
+| `get_milk_drink` | 经典奶咖配方 (11 款, 比例联网核实) / milk-drink recipes | "卡布配方" / "cappuccino recipe" |
+| `diagnose_flavor` | 风味问题诊断与调整 / flavor diagnosis & fix | "太苦怎么办" / "too bitter" |
+| `calculate_cupping_score` | SCA 杯测 100 分计算 / SCA cupping score | "算杯测分" / "score my cupping" |
+| `calibrate_grinder` | 磨豆机校准方法与刻度 / grinder calibration | "C40 校准" / "calibrate C40" |
+| `get_parameters_guide` | 按豆性/口味调参矩阵 / parameter tuning | "浅烘埃塞怎么调" / "light ethiopia" |
+| `get_flavor_wheel` | SCA 风味轮类别与描述词 / flavor wheel | "水果类风味" / "Fruit flavors" |
+| `get_sensory_training` | 感官训练方案 / sensory training plan | "怎么练品鉴" / "how to train palate" |
+| `get_learning_resources` | 分阶段学习资源 / learning resources | "入门看什么" / "where to start" |
 
-### 1. 安装依赖
+所有工具签名：最后一个可选参数 `language: str = "zh"`，传 `"en"` 即得到英文输出。
+All tools accept an optional trailing `language` arg; pass `"en"` for English.
+
+## 快速开始 / Quick start
+
+### 1. 安装依赖 / Install
 
 ```bash
-# 推荐使用 uv
-pip install uv
-uv pip install "mcp[cli]"
-
-# 或直接 pip
 pip install "mcp[cli]"
 ```
 
-### 2. 在 MCP 客户端中配置
+### 2. 在 MCP 客户端中配置 / Configure your client
 
 #### Claude Desktop
 
-编辑配置文件（Windows: `%APPDATA%/Claude/claude_desktop_config.json`）：
+Windows: `%APPDATA%/Claude/claude_desktop_config.json`
 
 ```json
 {
@@ -45,75 +46,64 @@ pip install "mcp[cli]"
 }
 ```
 
-#### TRAE / Cursor / VS Code
+#### Cursor / VS Code / TRAE
 
-在 MCP 设置中添加：
+在 MCP 设置中添加（路径用正斜杠 `/` 或双反斜杠 `\\`）/ Add to MCP settings (use `/` or `\\` in the path):
 
 ```json
 {
   "mcpServers": {
-    "barista": {
-      "command": "python",
-      "args": ["C:/path/to/barista-skill/mcp-server/server.py"]
-    }
+    "barista": { "command": "python", "args": ["C:/path/to/barista-skill/mcp-server/server.py"] }
   }
 }
 ```
 
-> **注意**：请将路径替换为实际的绝对路径，Windows 路径使用正斜杠 `/` 或双反斜杠 `\\`。
+### 3. 重启客户端 / Restart the client
 
-### 3. 重启客户端
-
-重启后即可在对话中使用咖啡相关功能，客户端会自动识别并调用工具。
-
-### 4. 本地调试
+### 4. 本地调试 / Local debug
 
 ```bash
-# 使用 MCP CLI 调试
-mcp dev server.py
-
-# 列出所有工具
-mcp list server.py
+mcp dev server.py          # MCP inspector / 检查器
+python server.py            # 启动 stdio server / start stdio server
 ```
 
-## 使用示例
+安装为命令 / Install as a console script (可选 / optional):
 
-配置完成后，在客户端对话中直接提问即可：
+```bash
+pip install -e .            # 之后可直接用 `barista-mcp` 启动
+```
 
-- "帮我查一下意式浓缩的参数，用的深烘豆"
-- "我的手冲咖啡太酸了怎么办"
-- "帮我算一下杯测分数：干香8.5 风味8.0 余韵7.5..."
-- "Comandante C40 怎么校准？手冲用几格？"
-- "浅烘埃塞日晒豆手冲参数怎么调？"
-- "查一下风味轮水果类有哪些描述词"
-- "怎么系统训练咖啡品鉴能力"
-- "咖啡入门该看什么网站"
+## 使用示例 / Examples
 
-## 架构
+- "帮我查意式浓缩参数,深烘" / "espresso params, dark roast"
+- "我的手冲太酸了" / "my pour-over is too sour"
+- "卡布奇诺配方" / "cappuccino recipe"
+- "算杯测分: 干香8.5 风味8.0 余韵7.5..." / "score: aroma 8.5 flavor 8.0 aftertaste 7.5..."
+- "Comandante C40 怎么校准" / "how to calibrate C40"
+- "浅烘埃塞日晒怎么调参" / "light ethiopia natural tuning"
+- "查风味轮水果类" / "flavor wheel Fruit"
+- "怎么系统训练品鉴" / "how to train palate"
+- "咖啡入门看什么" / "where to start learning"
+
+## 架构 / Architecture
 
 ```
 mcp-server/
-├── server.py          # MCP Server 主文件（8 个工具）
-├── pyproject.toml     # 项目配置
-└── README.md          # 本文件
-
-知识库来源:
-../references/         # 15 个 Markdown 参考文件（由 server.py 加载）
+├── server.py          # MCP server, 9 tools (bilingual)
+├── pyproject.toml     # packaging (entry point: barista-mcp -> server:main)
+└── README.md          # this file
 ```
 
-Server 启动时会自动加载上层 `references/` 目录的 15 个参考文件作为知识库，工具返回的结构化数据内置于 `server.py` 中。
+知识来源 / Knowledge source: `../references/` (15 Markdown files). 工具返回的结构化数据内置于 `server.py`。The structured data returned by tools is built into `server.py`.
 
-## 传输协议
+## 传输协议 / Transport
 
-默认使用 **stdio** 传输（适合本地使用）。
-
-如需 SSE 模式（HTTP 远程访问），修改 `server.py` 末尾：
+默认 stdio（本地）/ Default **stdio** (local). 如需 SSE (HTTP 远程) / for SSE (HTTP remote), 改 `main()`:
 
 ```python
-if __name__ == "__main__":
-    mcp.run(transport="sse", host="0.0.0.0", port=8000)
+mcp.run(transport="sse", host="0.0.0.0", port=8000)
 ```
 
-## 许可
+## 许可 / License
 
-MIT — 与 barista-skill 主项目一致。
+MIT — 与 barista-skill 主项目一致 / same as the main project.
