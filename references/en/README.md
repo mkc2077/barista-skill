@@ -7,7 +7,7 @@ grinder steps, flavor wheel groups, sensory-solution recipes, water TDS, etc.).
 > The Chinese originals remain the full source of truth under `references/` (one
 > level up). The English mirrors are a convenience for international agents/users.
 
-## Currently translated (10 / 15)
+## Currently translated (12 / 17)
 
 | File | Topic | Intl. value |
 |------|-------|------|
@@ -21,10 +21,12 @@ grinder steps, flavor wheel groups, sensory-solution recipes, water TDS, etc.).
 | water-quality.md | TDS/hardness/pH + home-water guidance | medium |
 | equipment-profiles.md | espresso machines, grinders, brew gear profiles + combo recommendations | medium |
 | pressure-profiles.md | pressure-profile machine index + live-lookup prompts + curve templates | medium |
+| champion-brewing.md | champion brewing index (Kasuya 4:6, Du Jianing, Berg Wu, Peng, etc.) | high |
+| craft-coffee.md | craft/signature coffee shops & bloggers index (CN + overseas) | medium |
 
-All 8 high-international-value core files + 2 medium-value gear/diagnostics files
-are translated. The remaining 5 are CN-specific and add little for an English
-reader; translation is deferred.
+All 8 high-international-value core files + 2 medium-value gear files + 2 new
+champion/craft indexes are translated. The remaining 5 are CN-specific and add
+little for an English reader; translation is deferred.
 
 ## Not yet translated (5) -- see references/ (Chinese) originals
 
