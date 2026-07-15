@@ -231,7 +231,10 @@ version: 2.1.0
 - 新手推荐 1–2 个中文资源（咖啡沙龙+中国咖啡网）；资深推荐 SCA 课程+WCR Lexicon+Le Nez du Café。
 
 ## 参考资料
-详细映射与基础参数见 `references/`：
+详细映射与基础参数见 `references/`（英文镜像见 `references/en/`）：
+
+> **English mirrors / 英文镜像**: 5 high-value core files are translated under `references/en/` (recipes-baseline, troubleshooting, parameters-guide, cupping, sensory); see `references/en/README.md` for coverage and the not-yet-translated list. English users/agents read those directly; the Chinese originals remain the full source of truth.
+
 - [references/sensory.md](references/sensory.md) — 风味问题 → 调整动作（双栏）+ 品鉴方法 + 风味词典（30+ 词）+ 风味轮原理与使用 + 系统化感官训练方案
 - [references/beans.md](references/beans.md) — 豆标解读、选豆、豆性→萃取、新鲜度与保存（双栏）
 - [references/recipes-baseline.md](references/recipes-baseline.md) — 17 种做法的稳妥起步参数

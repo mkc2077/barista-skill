@@ -71,6 +71,7 @@ barista-skill/
 ├── mcp-server/               # MCP 服务 (9 bilingual tools)
 │   ├── server.py / pyproject.toml / README.md
 └── references/               # 15 个参考文件
+│   └── en/                  # English mirrors (5 core: recipes/trouble/param/cup/sensory)
     ├── recipes-baseline.md   # 14 冲煮法 + 经典奶咖起步参数
     ├── sensory.md / beans.md / glossary.md
     ├── pressure-profiles.md / water-quality.md / equipment-profiles.md
