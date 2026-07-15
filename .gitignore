@@ -6,3 +6,6 @@
 
 # local archives
 *.zip
+__pycache__/
+*.pyc
+.venv/
