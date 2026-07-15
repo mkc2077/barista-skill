@@ -4,6 +4,37 @@
 
 ---
 
+## [2.2.0] - 2026-07-16
+
+### 新增（冠军冲煮方案索引 + 特调咖啡索引，双语 / Champion brewing & craft coffee indexes, bilingual）
+
+#### 冠军冲煮方案索引 / Champion brewing index
+- **references/champion-brewing.md (+ en/champion-brewing.md)**：
+  - SCA 金杯标准先行校准 + WBrC 赛制说明（Open Service / Compulsory Service）
+  - 7 位联网核实名家：粕谷哲 4:6 法（2016 WBrC 冠军）、王策 VWI（2017）、杜嘉宁（2019 冠军，中国首位世锦赛冠军）、吴则霖 Berg Wu 三温暖手冲法（2016 WBC 冠军）、徐诗媛 Sherry Hsu（2022）、彭近洋/乔治队长（2025 最新冠军，"温度"哲学）、Andrea Allen / Onyx Coffee Lab（2020 USBC 冠军、2021 WBC 亚军）
+  - 4:6 风味调整逻辑对照表（太酸→前段集中/太淡→后段集中）+ 三温暖手冲法完整流程
+  - 其他可检索冠军（Matt Winton 2021 / Diego Campos 2021 / 李震 / 林东源 GABEE.）
+  - 检索起点 + 输出模板 + 铁律（具体粉量/水温/比例/时间必须再次联网核实，标注来源 + 日期）
+
+#### 特调咖啡索引 / Craft coffee index
+- **references/craft-coffee.md (+ en/craft-coffee.md)**：
+  - 国内博主/门店：吉米"咖啡届直男"（抖音/小红书）、store by .jpg / JPG coffee（广州，含可可/瑞夫/波比系列、寺右限定 Dirty、茉莉冷萃、争气芒芒、ALOHA）、GABEE.（台北，林东源）
+  - 海外门店：Onyx Coffee Lab（Rogers, AR）、SEY Coffee（Brooklyn，2019 Food&Wine 美国最佳）、Blue Bottle（Hayes Valley Espresso + Kyoto-Style Espresso）、% Arabica、Coffee Collective（Copenhagen）
+  - 意式特调通用要点（豆子/辅料顺序/冰量/平衡/分层）+ 检索话术 + 输出模板
+
+#### 其他改动 / Other
+- **SKILL.md**：frontmatter version 2.1.0 -> 2.2.0；触发关键词扩充（冠军冲煮/名家配方/4:6/四六法/粕谷哲/杜嘉宁/彭近洋/乔治队长/王策/WVI/吴则霖/Berg Wu/三温暖/徐诗媛/SCA 冲煮/WBrC/创意特调/吉米/咖啡届直男/JPG coffee/GABEE/Onyx/SEY/Blue Bottle/% Arabica/Coffee Collective/signature/craft coffee）；新增「冠军冲煮方案索引」与增强「特调与创意饮专项」两个专业子章节；获取方案触发原则点名链接到两个新文件；参考资料索引补两条
+- **references/en/README.md**：覆盖表更新 -> 12/17（新增 champion-brewing、craft-coffee 两条）
+- 全部数字联网核实；遵守"禁止编造"铁律——未核实配方仅作检索起点
+
+### 测试 / Tests
+- 111 条 pytest 全部通过（纯文档新增，无功能代码改动）
+
+### 不变 / Unchanged
+- mcp-server 代码、中文 prompt 主体、原有 15 个 reference 内容保持不变
+
+---
+
 ## [2.1.0] - 2026-07-15
 
 ### 重构与双语化 / Refactor & bilingualization (zh/en)
