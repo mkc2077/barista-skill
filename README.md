@@ -11,10 +11,15 @@
 
 > **30 秒预览 / 30-second preview**：用户「我做的手冲好苦怎么办？」"My pour-over is too bitter." → 顾问：「哪种苦——焦苦还是尾段涩？最近有没有换豆子或调了研磨度？」→ 追问锁定了变量后：「大概率是研磨太细 + 深烘豆。只改研磨度：往粗的方向转 1–2 格，其他全不变。做完喝一口，关注苦感是否从焦苦变成柔和的微苦。」**顾问主导, 穿透追问, 一次只改一个变量。** Consultant-led, penetrating follow-ups, one variable at a time.
 
-另见项目自带 MCP server（`barista-mcp`），可在 Claude Desktop / Cursor / ChatGPT 中直接使用（需 MCP 客户端环境）。
+附带一个标准 MCP server（`barista-mcp`），可在 Claude Desktop / Cursor / ChatGPT 中直接调用（需 MCP 客户端）。详见 [mcp-server/README.md](mcp-server/README.md)。
+
+> **部署方式 / Deployment** — 本 Skill 是为 Claude Code / Coze / WorkBuddy / QoderWork 等平台设计的 **Skill 文件**，由平台托管模型与 API key，你不需要 own 任何模型管理。下载目录 → 放入平台技能目录 → 即用。
 
 
 ## 覆盖内容 / Coverage
+
+> 以下全部知识在**顾问主导穿透追问**模式下交付——顾问先锁定你的器具/豆子/口感问题，再精准给方案，而非一次性信息堆砌。
+> All knowledge below is delivered in the **consultant-led penetrating questioning** model — the consultant locks in your gear/beans/taste problem first, then gives a targeted solution.
 
 - **意式萃取 / Espresso** —— 浓缩、美式、拿铁、澳白、dirty；含 espresso / ristretto / lungo / 单份方案
 - **冲煮方法 (14 种) / Brew methods (14)** —— 手冲(V60/Kalita Wave)、冰手冲、法压、爱乐压、摩卡壶、冷萃、冰滴、聪明杯、挂耳、虹吸(赛风)、土耳其、闪萃(日式冰冲)、越南 phin
@@ -113,6 +118,7 @@ MCP 用法见 [`mcp-server/README.md`](mcp-server/README.md)（`pip install "mcp
 
 ### 触发关键词速查 / Trigger keywords
 - 萃取 / 研磨 / 风味 / 手冲 / 浓缩 / pour-over / espresso / grind / extraction / flavor
+- 顾问 / consultant / 专属顾问 / 调整冲煮 / 改进萃取 / 问题排查 / diagnose
 - 爱乐压 / 摩卡壶 / 冷萃 / 冰滴 / 聪明杯 / Kalita / AeroPress / moka / cold brew / ice drip
 - 特调 / 澳白 / flat white / dirty / ristretto / SOE / lungo /Signature / flat white
 - 卡布奇诺 / 拿铁 / 玛奇朵 / 摩卡 / 康宝蓝 / 爱尔兰咖啡 / 维也纳 / 可塔朵 / 馥芮白 / 美式 / cappuccino / latte / mocha / con panna / affogato
