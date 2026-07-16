@@ -7,7 +7,7 @@ grinder steps, flavor wheel groups, sensory-solution recipes, water TDS, etc.).
 > The Chinese originals remain the full source of truth under `references/` (one
 > level up). The English mirrors are a convenience for international agents/users.
 
-## Currently translated (12 / 17)
+## Currently translated (13 / 17)
 
 | File | Topic | Intl. value |
 |------|-------|------|
@@ -23,26 +23,22 @@ grinder steps, flavor wheel groups, sensory-solution recipes, water TDS, etc.).
 | pressure-profiles.md | pressure-profile machine index + live-lookup prompts + curve templates | medium |
 | champion-brewing.md | champion brewing index + dripper/filter-paper recipes (V60/Origami/Kasuya model) & champion dripper map | high |
 | craft-coffee.md | craft coffee as a standalone category: base specs + tea base + homemade syrup SOP + store-bought list + full build SOP | high |
+| learning-resources.md | curated coffee learning resources by stage + SCA cert system + searchable barista directory | medium |
 
-All 8 high-international-value core files + 2 medium-value gear files + 2 new
-champion/craft indexes are translated. The remaining 5 are CN-specific and add
-little for an English reader; translation is deferred.
+All 8 high-value core files + 2 medium-value gear files + 3 indexes/guides
+(champion-brewing, craft-coffee, learning-resources) are translated. The remaining 4 are CN-specific (jargon glossary, search templates, sample dialogues,
+eval cases) and translate to little for an English reader; deferred.
 
-## Not yet translated (5) -- see references/ (Chinese) originals
+## Not yet translated (4) -- see references/ (Chinese) originals
 
 | File | Topic | Intl. value |
 |------|-------|------|
-| learning-resources.md | tiered resources + SCA certs + barista directory | medium (CN resources) |
 | glossary.md | beginner jargon-ban list + plain swaps | low (CN-centric) |
 | search-queries.md | live-search query templates | low (CN templates) |
 | example-dialogues.md | sample conversations (8 scenarios) | low (CN) |
 | eval-cases.md | eval cases (21) | low (CN) |
 
-> Low-value files are CN-specific (community resources, CN-language dialogues/
-> eval cases); translating them faithfully adds little for an English reader and
-> is deferred. Learning-resources.md is medium-value but China-centric
-> (domestic platform links, WeChat groups, CN certification paths) and can be
-> added on request.
+> The remaining 4 are CN-specific (Chinese jargon-ban glossary, Chinese search templates, 8 CN-language sample dialogues, 21 CN eval cases); translating them to English adds little for an English reader and is deferred. The high/medium-value files are all now mirrored.
 
 ## Notes for translators expanding this set
 - Use plain ASCII where possible; avoid em/en dashes (use `--`), write temps as
