@@ -4,6 +4,46 @@
 
 ---
 
+## [2.5.0] - 2026-07-16  (独立 Agent MVP / Standalone Agent MVP)
+
+### 新增 / Added — 路径 A 独立 Agent (OpenAI Agents SDK)
+
+- `mcp-server/agent.py`（5346 chars）：
+  - 用 OpenAI Agents SDK 把项目重构成一个**独立运行的 coffee-coach Agent**（无需 MCP 客户端）
+  - SKILL.md 全文作为 Agent 系统指令；10 个 MCP 工具通过 `MCPServerStdio` 注册为 Agent 工具
+  - `_load_instructions()` 把 SKILL.md 与 bilingual header 拼成统一系统提示
+  - `_load_default_model()` 从 `BARISTA_MODEL` 环境变量读取模型名（默认 `gpt-4o-mini`），支持 monkeypatch 测试
+  - 双模式：`run_once()` 一句一答、`repl()` 交互式对话
+  - `main()` 入口，cli 支持 `--en`（英文通道）、`--model`（每轮覆写模型）、`-h`（帮助输出）
+  - 无 `OPENAI_API_KEY` 直接 exit 2，避免静默连接的外部前端挂在启动失败
+- `mcp-server/pyproject.toml`：
+  - version `2.4.0` -> `2.5.0`
+  - `[agent]` extra 新增 `openai-agents>=0.0.10`
+  - scripts 新增 `barista-agent = "agent:main"`（与 `barista-mcp` 并列）
+  - `py-modules` 加 `"agent"`
+- `mcp-server/test_agent.py`（3130 chars，10 tests）：
+  - 用 `pytest.importorskip("agents")` 在不装 openai-agents 时完全跳过
+  - 覆盖：指令加载、路径完好、模型 env fallback / 覆写、参数解析/默认/en 前缀/无参数/无 key exit 2、Agent 构造
+  - 已验证：装后以 `python -m pytest` 在真实 `openai-agents` 库上通过 10/10
+
+### 其他 / Other
+
+- `README.md`：新增「独立 Agent 用法 (v2.5)」章节，含 pip/pyproject 安装与 env 指示；badge version `2.4.0`->`2.5.0`
+- `SKILL.md` frontmatter：version `2.4.0` -> `2.5.0`
+- 完整的测试流水：`test_server.py` 116 条 pyted（MCP tools） + `test_agent.py` 10 条 pyted（Agent 逻辑） -> **126 条**
+
+### 不变 / Unchanged
+
+- MCP server 源代码 `server.py` 保持原样；所有 `test_server.py` 的 116 条测试一致
+- references 系列不变
+
+### 环境依赖 / Pre-reqs
+
+- 需 `pip install -e "mcp-server[agent]"` 一次（装 openai-agens + mcp[cli]）
+- 需 `export OPENAI_API_KEY=sk-...`（别漏掉，无此直接 exit 2）
+
+---
+
 ## [2.4.0] - 2026-07-16
 
 ### 新增（MCP 第 10 个工具 get_craft_recipe + 滤杯原则入 parameters-guide / Craft coffee SOP tool + dripper principle in parameters-guide）
