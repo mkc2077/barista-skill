@@ -1,32 +1,15 @@
 # Barista 咖啡师教练技能 / Barista Coffee-Coach Skill
 
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Version](https://img.shields.io/badge/version-2.5.1-blue)
+![Version](https://img.shields.io/badge/version-2.6.0-blue)
 ![Methods](https://img.shields.io/badge/brew-14%20methods-success)
 ![Milk drinks](https://img.shields.io/badge/milk%20drinks-11-success)
 ![MCP tools](https://img.shields.io/badge/MCP%20tools-10-blueviolet)
 ![References](https://img.shields.io/badge/references-17%20files-informational)
 
-一个通用 AI Agent 咖啡师教练技能，帮你把咖啡做好、也品明白。A general-purpose AI-agent coffee coach skill that helps you brew better coffee and taste it more clearly. **中文 / English 双语**（MCP 工具全部支持 `language="zh"/"en"`）。兼容 WorkBuddy / QoderWork / Claude Code / Cursor / 通用 Agent 平台。
+一个通用 AI Agent **专属咖啡顾问 Skill**（非被动问答机器）——顾问**主导对话节奏**，通过连续穿透式追问帮你摸清现状、拆解问题、找到影响口感的关键变量。A general-purpose AI-agent coffee-consultant Skill (not a Q&A bot) — the consultant **drives the conversation** with penetrating follow-up questions to map your situation, break down the problem, and find the ONE variable that will make your coffee better. **中文 / English 双语**（MCP 工具全部支持 `language="zh"/"en"`）。兼容 WorkBuddy / QoderWork / Claude Code / Cursor / 通用 Agent 平台。
 
-> **30 秒预览 / 30-second preview**：用户「我做的手冲好苦怎么办？」"My pour-over is too bitter." → 技能：「先问 1 个问题：你是用 V60 还是 Kalita？水温多少？出液用了多久？」→ 拿到答案后给口诀「苦调粗」+ 下一步具体动作「把磨豆机往'粗'那边转 1–2 格」。**全程不甩术语。** No jargon, plain language, one actionable step at a time.
-
-## 本地运行应用 (v2.5.1) / Local app (100% offline by default)
-
-从 v2.5.1 起，项目内置一条**纯离线**咖啡师本地应用：零外部 API、零密钥、零网络，依赖项目内部 10 个 MCP 工具直答。
-
-```bash
-pip install -e "mcp-server[local]"
-barista-local                                      # 交互式REPL（内置工具直答，离线）
-barista-local "我的手冲太苦怎么办"                  # 一句一问
-barista-local "brew me a pour-over"                # 英文输入
-barista-local --ollama                              # 想用本地LLM也行（先 ollama pull llama3.2:3b）
-barista-local --info                                # 查看所有可用工具
-```
-
-- **默认全离线**：关键词→工具调度→直接回复（覆盖 14 种冲煮/11款奶咖/风味诊断/特调 SOP/SCA 杯测等 10 个工具）
-- **支持本地 LLM**（可选）：`--ollama` 标志转成 llama3.2:3b 本地模型，效果更自然
-- **无外部依赖**：不要 OpenAI key，不要联网，不要安装额外服务器
+> **30 秒预览 / 30-second preview**：用户「我做的手冲好苦怎么办？」"My pour-over is too bitter." → 顾问：「哪种苦——焦苦还是尾段涩？最近有没有换豆子或调了研磨度？」→ 追问锁定了变量后：「大概率是研磨太细 + 深烘豆。只改研磨度：往粗的方向转 1–2 格，其他全不变。做完喝一口，关注苦感是否从焦苦变成柔和的微苦。」**顾问主导, 穿透追问, 一次只改一个变量。** Consultant-led, penetrating follow-ups, one variable at a time.
 
 另见项目自带 MCP server（`barista-mcp`），可在 Claude Desktop / Cursor / ChatGPT 中直接使用（需 MCP 客户端环境）。
 
@@ -51,17 +34,19 @@ barista-local --info                                # 查看所有可用工具
 
 > English coverage: 14 brew methods, 11 classic milk drinks, beans, water quality, pressure profiling, sensory training, SCA cupping, grinder calibration, golden-cup parameter matrices (incl. dripper/filter paper as the pour-over zero-th variable), troubleshooting, curated learning resources, a champion brewing recipes index (Kasuya 4:6, Du Jianing, Berg Wu, Carlos Medina, Peng, etc. with dripper/filter-paper map), and craft coffee as a standalone major category (base extraction specs / tea base / homemade syrup SOP / store-bought / full build SOP). 13/17 reference files mirrored in English under `references/en/`.
 
-## 核心机制：先问经验，再决定语气 / Core: assess experience first
+## 核心机制：顾问主导穿透提问 / Core: consultant-led penetrating questioning
 
-| 档位 / Level | 怎么沟通 / Tone |
-|------|----------|
-| 新手 / Beginner | 全程大白话，禁用专业术语；给可直接照做的步骤 + 顺口口诀（"苦调粗，酸调细""深烘磨粗温要低"） |
-| 进阶 / Intermediate | 可用少量术语，首次出现都解释；给区间而非精确值 |
-| 资深 / Advanced | 直接用粉水比、水温、流速、萃取时间、萃取率、压力曲线等专业参数 |
+> **本 Skill 不是"用户问你答"——是你（顾问）来提问，用户来回答。** 通过连续、高质量、穿透式的追问，把"咖啡不好喝"的 20 个可能原因缩到 1 个关键变量。
+> **It is not Q&A — the consultant asks, the user answers.** Through continuous penetrating questions, narrow 20 possible causes to ONE key variable.
 
-> 新手反馈味道问题时先做**诊断式提问**再给建议，避免猜错方向。For beginners, the skill asks one diagnostic question before advising. 完整决策树见 `references/troubleshooting.md`。
+| 交互阶段 / Phase | 说明 / Description |
+|---|---|
+| **开场** / Opening | 穿透式开场提问（直奔口感问题或目标），永不说"有什么可以帮你"。A penetrating opening question targeting taste or goal; never "How can I help?" |
+| **追问** / Follow-up | 每个答案 → 1–2 条更深的追问（"哪种苦？""最近换了豆子吗？""什么滤纸？"），缩窄变量范围。Each answer → 1–2 deeper follow-ups that narrow the variable space. |
+| **观察+动作** / Observation + Step | 3 轮追问后给判断（"大概率是 X 导致 Y"）+ 单变量动作 + 验证方法。After ~3 rounds: observation → single‑variable action → verification check. |
+| **档位判定** / Level detection | 嵌入追问中——用户说得出参数 → 资深；只能描述风味 → 进阶；只说"不好喝" → 新手。沟通语言按档位自动切换。Embedded in questioning — parameter fluency reveals level; speech adapts automatically (plain+mnemonics vs. parameters+logic). |
 
-**给建议前必须先问清 / Always confirm first**：经验水平 / experience、器具画像 / equipment（咖啡机/磨豆机型号、粉碗容量）、豆卡 / bean card（烘焙度·处理法·产区·豆种）。特调与冰手冲先给配方与器材清单再动手。
+**给建议前必须锁定 / Always lock in before advising**：经验档位（经追问链判定）、器具画像 / equipment（咖啡机/磨豆机型号、粉碗容量）、豆卡 / bean card（烘焙度·处理法·产区·豆种）。特调与冰手冲先给配方与器材清单再动手。
 
 ## MCP Server（10 个双语工具）/ MCP server (10 bilingual tools)
 
@@ -91,7 +76,7 @@ barista-skill/
 ├── LICENSE                   # MIT
 ├── .gitignore
 ├── mcp-server/               # MCP 服务 (10 bilingual tools)
-│   ├── server.py / local_app.py / test_server.py
+│   ├── server.py / test_server.py
 │   ├── pyproject.toml / README.md
 └── references/               # 17 个参考文件 (中文原版 = 真相源)
     ├── en/                   # English mirrors (13/17: 高/中价值文件全部完成)
@@ -120,11 +105,11 @@ barista-skill/
 | Cursor | 项目根 `.cursor/skills/barista-skill/` |
 | 其他 / Other | 放入项目上下文目录，在系统提示中引用 |
 
-MCP 用法见 [`mcp-server/README.md`](mcp-server/README.md)（`pip install "mcp[cli]"` + 配置客户端）。**本地离线应用用法见上文 `## 本地运行应用`。**
+MCP 用法见 [`mcp-server/README.md`](mcp-server/README.md)（`pip install "mcp[cli]"` + 配置客户端）。
 
 ## 使用 / Usage
 
-对话中说"帮我冲一杯手冲""这个萃取好苦怎么办""深烘豆怎么调"等，技能自动识别并先确认经验水平。Ask "brew me a pour-over" / "my espresso is too bitter" / "tune for dark roast" — it auto-detects and confirms your level first.
+对话中说"帮我冲一杯手冲""这个萃取好苦怎么办""深烘豆怎么调"等，顾问自动用穿透式追问主导对话、锁定关键变量，而非被动等待指令。Say "brew me a pour-over" / "my espresso is too bitter" / "tune for dark roast" — the consultant auto-drives the conversation with penetrating follow-ups to lock in the key variable.
 
 ### 触发关键词速查 / Trigger keywords
 - 萃取 / 研磨 / 风味 / 手冲 / 浓缩 / pour-over / espresso / grind / extraction / flavor

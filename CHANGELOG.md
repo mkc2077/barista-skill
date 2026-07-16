@@ -4,6 +4,41 @@
 
 ---
 
+## [2.6.0] - 2026-07-16  (顾问主导穿透提问 / Consultant-led penetrating questioning)
+
+### 核心变更 / Core change — 交互模式从"被动问答"升级为"顾问主导节奏"
+
+- **交互模式重构**：Skill 从"用户问你答"的被动 Q&A 升级为**专属咖啡顾问**，顾问**主动主导对话节奏**，通过连续穿透式追问帮用户拆解问题、锁定关键变量
+- **SKILL.md 核心机制重写**：
+  - 新增 "顾问主导交互——你来提问，用户来回答" 章节（A 开场/B 追问节奏/C 观察+动作/D 档位判定）
+  - 永不说"有什么可以帮你"——第一句话必须是穿透式开场提问
+  - 追问节奏表：用户每个答案 → 1–2 条更深追问（"哪种苦？""什么滤纸？""最近有没有换豆子？"）
+  - 经验档位嵌入追问链中自动判定（不开头单独做问卷）
+  - 工作流程重写为 "顾问主导版"——开场追问链锁变量→联网核实→顾问口吻建议→风味调整追问链
+  - 触发关键词新增：顾问 / consultant / 咖啡顾问 / 帮我调咖啡 / 调整冲煮 / 改进萃取 / 问题排查
+  - English summary 同步更新：新增 consultant-led interaction 与 level detection 段落
+- **SKILL.md frontmatter**：description 更新为 "专属咖啡顾问 Skill"，version `2.5.1` → `2.6.0`
+- **部署路线**：从 "本地离线应用"回归 "平台 Skill（Claude/Coze/WorkBuddy）"，由平台托管模型与 API key
+
+### 夺走 / Removed
+- **`mcp-server/local_app.py`** 已删除（v2.5.1 的纯离线本地应用）。理由：用户希望由 Claude/Coze/WorkBuddy 托管模型与 API key，不想 own 模型管理
+- **`mcp-server/pyproject.toml`** `[local]` 可选依赖（`ollama>=0.5.0`）已移除
+- **`mcp-server/pyproject.toml`** `barista-local` 脚本入口已移除
+- **`mcp-server/pyproject.toml`** `py-modules` 中 `local_app` 已移除，仅保留 `server`
+
+### 变更 / Changed
+- **`SKILL.md`**：version `2.5.1` → `2.6.0`；核心机制段与工作流程段全面重写为顾问主导穿透提问模式；English summary 同步
+- **`README.md`**：version badge `2.5.1` → `2.6.0`；移除 "本地运行应用" 整段；核心机制段重写为 "顾问主导穿透提问"；文件结构树移除 `local_app.py`
+- **`mcp-server/pyproject.toml`**：version `2.5.1` → `2.6.0`
+
+### 保留 / Retained
+- **10 个 MCP 双语工具**（`barista-mcp`）全部保留，无改动
+- **references/** 全部 17 个中文原版 + 13 个英文镜像保留
+- **联网核实能力**（名家配方 + 变压曲线）保留
+- **所有专业知识**（冠军冲煮/特调 SOP/SCA 杯测/金杯矩阵/滤杯滤纸等）完整保留
+
+---
+
 ## [2.5.1] - 2026-07-16  (纯离线本地应用 / 100% offline local app)
 
 ### 更改 / Changed — Agent 路线从 OpenAI SDK 切到全离线内置工具
