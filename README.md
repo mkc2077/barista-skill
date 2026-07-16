@@ -41,11 +41,11 @@
 
 **给建议前必须先问清 / Always confirm first**：经验水平 / experience、器具画像 / equipment（咖啡机/磨豆机型号、粉碗容量）、豆卡 / bean card（烘焙度·处理法·产区·豆种）。特调与冰手冲先给配方与器材清单再动手。
 
-## MCP Server（9 个双语工具）/ MCP server (9 bilingual tools)
+## MCP Server（10 个双语工具）/ MCP server (10 bilingual tools)
 
 把技能封装为标准 MCP 服务，任何 MCP 客户端可直接调用；每个工具带 `language` 参数。Packaged as a standard MCP service; every tool is bilingual. 见 / See [`mcp-server/README.md`](mcp-server/README.md)。
 
-`get_recipe` · `get_milk_drink` · `diagnose_flavor` · `calculate_cupping_score` · `calibrate_grinder` · `get_parameters_guide` · `get_flavor_wheel` · `get_sensory_training` · `get_learning_resources`
+`get_recipe` · `get_milk_drink` · `get_craft_recipe` · `diagnose_flavor` · `calculate_cupping_score` · `calibrate_grinder` · `get_parameters_guide` · `get_flavor_wheel` · `get_sensory_training` · `get_learning_resources`
 
 ## 联网检索（点名才搜）/ Live search (on request only)
 
@@ -68,7 +68,7 @@ barista-skill/
 ├── README.md                 # 本文件
 ├── LICENSE                   # MIT
 ├── .gitignore
-├── mcp-server/               # MCP 服务 (9 bilingual tools)
+├── mcp-server/               # MCP 服务 (10 bilingual tools)
 │   ├── server.py / pyproject.toml / README.md
 └── references/               # 15 个参考文件
 │   └── en/                  # English mirrors (5 core: recipes/trouble/param/cup/sensory)

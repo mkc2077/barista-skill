@@ -38,12 +38,13 @@ def test_main_entrypoint_exists():
     assert callable(b.main)
 
 
-def test_tool_count_is_nine():
+def test_tool_count_is_ten():
     tools = sorted(b.mcp._tool_manager._tools)
     assert tools == [
         "calculate_cupping_score", "calibrate_grinder", "diagnose_flavor",
-        "get_flavor_wheel", "get_learning_resources", "get_milk_drink",
-        "get_parameters_guide", "get_recipe", "get_sensory_training",
+        "get_craft_recipe", "get_flavor_wheel", "get_learning_resources",
+        "get_milk_drink", "get_parameters_guide", "get_recipe",
+        "get_sensory_training",
     ]
 
 
@@ -108,6 +109,33 @@ def test_get_milk_drink_ratios_crosschecked_note():
     assert "联网核对" in b.get_milk_drink("cappuccino", "zh")
     assert "cross-checked" in b.get_milk_drink("cappuccino", "en").lower()
 
+
+# --- get_craft_recipe --------------------------------------------------------
+def test_get_craft_recipe_unknown_base_zh():
+    out = b.get_craft_recipe("nope")
+    assert "可用" in out and "espresso_classic" in out
+
+
+def test_get_craft_recipe_unknown_base_en():
+    out = b.get_craft_recipe("nope", language="en")
+    assert "not found" in out and "soe_ristretto" in out
+
+
+def test_get_craft_recipe_espresso_classic_zh_sop():
+    out = b.get_craft_recipe("espresso_classic")
+    assert "SOP" in out and "咖啡基底" in out and "拼装" in out and "联网核实" in out
+    assert "1:2" in out and "92-94C" in out
+
+
+def test_get_craft_recipe_soe_ristretto_en():
+    out = b.get_craft_recipe("soe_ristretto", language="en")
+    assert "SOP" in out and "Coffee base" in out and "1:1-1:1.5" in out and "front-mid cut only" in out
+
+
+def test_get_craft_recipe_tea_toggle():
+    no_tea = b.get_craft_recipe("pour_over")
+    tea = b.get_craft_recipe("pour_over", include_tea=True)
+    assert "无" in no_tea and "茉莉" in tea
 
 # --- diagnose_flavor ---------------------------------------------------------
 

@@ -565,6 +565,78 @@ def get_milk_drink(drink: str, language: str = "zh") -> str:
 
 
 @mcp.tool()
+def get_craft_recipe(base: str = "espresso_classic", include_tea: bool = False, language: str = "zh") -> str:
+    """特调咖啡 SOP 模板（独立大类）/ Craft coffee SOP template (standalone major category).
+
+    Args:
+        base: 咖啡基底萃取方案 / coffee base extraction spec:
+            espresso_classic (中深烘浓缩 / mid-dark espresso),
+            soe_ristretto (中浅烘 SOE ristretto / light SOE short cut),
+            pour_over (手冲基底 / pour-over base),
+            cold_brew (冷萃基底 / cold brew base)
+        include_tea: 是否含茶底 / include a tea base (default False)
+        language: 输出语言 / output language: zh or en (默认 zh)
+    Returns: 8 项必填 SOP 框架；具体克数/萃取参数/门店当下配方需联网核实补全。
+    """
+    lang = language if language in ("zh", "en") else "zh"
+    BASES = {"espresso_classic", "soe_ristretto", "pour_over", "cold_brew"}
+    if base not in BASES:
+        avail = ", ".join(sorted(BASES))
+        return (f"未找到基底 '{base}'。可用: {avail}" if lang == "zh"
+                else f"Base '{base}' not found. Available: {avail}")
+
+    L = {"zh": {
+            "title": "特调咖啡 SOP（独立大类）",
+            "base": "咖啡基底",
+            "tea": "茶底",
+            "homemade": "自制辅料",
+            "store": "采购辅料",
+            "cupice": "杯具与冰",
+            "build": "拼装 SOP",
+            "present": "呈现与饮用",
+            "source": "来源",
+            "verify": "具体克数/萃取参数需联网核实门店当下配方，标注来源链接 + 获取日期。详见 references/craft-coffee.md。",
+        },
+         "en": {
+            "title": "Craft coffee SOP (standalone major category)",
+            "base": "Coffee base",
+            "tea": "Tea base",
+            "homemade": "Homemade adjuncts",
+            "store": "Store-bought adjuncts",
+            "cupice": "Glass & ice",
+            "build": "Build SOP",
+            "present": "Presentation & drinking",
+            "source": "Source",
+            "verify": "Specific grams/extraction params need online verification of the shop's current recipe, with source link + retrieval date. See references/craft-coffee.md.",
+        }}[lang]
+
+    BASE_INFO = {
+        "espresso_classic": {"zh": "A. 中深烘浓缩：豆=中深烘拼配；粉 18g / 出液 36g (1:2) / 92-94C / 9 bar / 25-30s",
+                             "en": "A. Mid-dark espresso: beans=medium-dark blend; 18g / 36g out (1:2) / 92-94C / 9 bar / 25-30s"},
+        "soe_ristretto":   {"zh": "B. 中浅烘 SOE ristretto：豆=中浅烘单一产地；粉 18-20g / 出液 18-27g (1:1-1:1.5) / 93-95C / 9 bar / 20-25s，只取前中段",
+                             "en": "B. Light SOE ristretto: beans=mid-light SOE; 18-20g / 18-27g out (1:1-1:1.5) / 93-95C / 9 bar / 20-25s, front-mid cut only"},
+        "pour_over":       {"zh": "C. 手冲基底：粉 15-20g / 总水 225-300g (1:15-1:16) / 90-92C / 2:00-2:45；滤杯按风格选(V60锥形=明亮酸香 / Kalita波浪=圆厚甜感)",
+                             "en": "C. Pour-over base: 15-20g / 225-300g (1:15-1:16) / 90-92C / 2:00-2:45; dripper by style (V60 cone=bright acid / Kalita wave=round body)"},
+        "cold_brew":       {"zh": "D. 冷萃基底：粉 1:8-1:12 冷水浸泡 / 冷藏 12-24h / 粗研磨；完成后过滤可稀释到 1:15 饮用",
+                             "en": "D. Cold brew base: 1:8-1:12 cold steep / refrigerated 12-24h / coarse grind; filter, dilute to 1:15 to drink"},
+    }
+    TEA_INFO = {"zh": "茶类+茶水比+水温+时间（如茉莉 1:50-1:80/80-85C/1.5-2.5min；乌龙 1:40-1:60/90-95C/1.5-3min；红茶 1:40-1:60/92-95C/2-4min；冷泡茶 1:100/4-8h）",
+                "en": "Tea + ratio + temp + time (e.g. jasmine 1:50-1:80/80-85C/1.5-2.5min; oolong 1:40-1:60/90-95C/1.5-3min; black 1:40-1:60/92-95C/2-4min; cold-brew tea 1:100/4-8h)"}
+
+    lines = [f"## {L['title']}", "",
+             f"1. {L['base']}: {BASE_INFO[base][lang]}",
+             (f"2. {L['tea']}: {TEA_INFO[lang]}" if include_tea else f"2. {L['tea']}: 无 / None"),
+             f"3. {L['homemade']}: {{辅料名 [g] — 做法 SOP}}（如糖浆 1:1/1:2；香草/焦糖/生姜/肉桂变体；果泥/果酱/cascara syrup）",
+             f"4. {L['store']}: {{椰子水/气泡水/鲜榨果汁/奶/枫糖/可可抹茶粉 g}} — 注明品牌取向与甜度校准",
+             f"5. {L['cupice']}: 杯={{玻璃杯/高球/陶瓷拿铁杯 g}}；冰={{无/普通/大方冰/碎冰 g}}",
+             f"6. {L['build']}: 1) {{先入杯}} 2) {{次入}} 3) {{次入}} 4) {{咖啡液顶部缓注}} 5) {{收尾}}；口诀={{...}}",
+             f"7. {L['present']}: 是否搅拌/分几口/分层顺序；饮用窗口=X min；含酒精注明",
+             f"8. {L['source']}: [title](url)，获取于 YYYY-MM-DD",
+             "", f"> {L['verify']}"]
+    return "\n".join(lines)
+
+
+@mcp.tool()
 def diagnose_flavor(problem: str, experience: str = "beginner", flow_rate: str = "", language: str = "zh") -> str:
     """根据风味问题诊断并给调整建议 / Diagnose a flavor problem and suggest fixes.
 

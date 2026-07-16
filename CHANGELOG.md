@@ -4,6 +4,35 @@
 
 ---
 
+## [2.4.0] - 2026-07-16
+
+### 新增（MCP 第 10 个工具 get_craft_recipe + 滤杯原则入 parameters-guide / Craft coffee SOP tool + dripper principle in parameters-guide）
+
+#### MCP server 新增工具 / New MCP tool — `get_craft_recipe`
+- **第 10 个 MCP 工具** `get_craft_recipe(base, include_tea, language)`：返回特调咖啡 8 项必填 SOP 框架（咖啡基底/茶底/自制辅料/采购辅料/杯具冰/拼装/呈现/来源），把 `references/craft-coffee.md` 第六节的 SOP 模板固化进 MCP，AI agent 调一条即得可执行骨架。
+- **基底四选一**（预填默认方案）：`espresso_classic` 中深烘浓缩 18g/36g/1:2；`soe_ristretto` 中浅烘 SOE ristretto 18–20g→18–27g/1:1–1:1.5 只取前中段；`pour_over` 手冲 1:15–1:16；`cold_brew` 1:8–1:12 冷浸。
+- **茶底开关** `include_tea=True` 时填入茶类+茶水比+水温+时间默认区间（茉莉/乌龙/红茶/冷泡茶），否则标"无"。
+- 未核实基底返回可用列表；具体克数/萃取参数/门店当下配方提示联网核实并标来源日期（见铁律）。
+
+#### 参数灵活应用增强 / parameters-guide enhanced — `references/parameters-guide.md` (+ en mirror)
+- 新增 **1.4.1 滤杯与滤纸：手冲的"零号变量"**：明确手冲第一道变量是滤杯几何+滤纸形态而非研磨；列出 V60/V60 Kasuya Model/Origami(一杯两用)/Kalita Wave/Chemex/聪明杯/金属滤网的取向（锥形=明亮酸香、波浪=圆厚甜感、厚纸=极干净）。
+- 第五节变量优先级补"手冲专属前提：先固定滤杯+滤纸，再走 滤杯/滤纸 → 研磨 → 水温 → 粉水比 → 时间"。
+
+#### 测试 / Tests
+- 工具数断言 9 → 10（更名为 `test_tool_count_is_ten`）
+- 新增 5 个 craft 测试：未知基底 zh/en、espresso_classic zh SOP 结构校验、soe_ristretto en、茶底开关
+- **116 条 pytest 全部通过**（原 111 + 新 5）
+
+#### 其他 / Other
+- `SKILL.md`：version 2.3.0 -> 2.4.0；"9 bilingual tools" -> "10 bilingual tools"；MCP 工具枚举补 `get_craft_recipe`
+- `README.md` & `mcp-server/README.md`：工具数 9 -> 10；工具表新增 `get_craft_recipe` 一行
+- 测试基线：`test_tool_count_is_nine` -> `test_tool_count_is_ten`（按新增功能同步更新期望，非规避失败）
+
+### 不变 / Unchanged
+- 中文 prompt 主体、其余 MCP 工具实现、reference 中文原内容保持不变
+
+---
+
 ## [2.3.0] - 2026-07-16
 
 ### 增强（滤杯冲煮方案 + 特调独立大类 SOP / Dripper recipes + craft coffee as a standalone major category with SOP）

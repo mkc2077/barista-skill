@@ -44,6 +44,21 @@ Long-standing extraction guidance from SCAA (Specialty Coffee Association of Ame
 - Pouring too fast or irregularly causes channeling. Water takes the path of least resistance, so grounds-bed uniformity is critical.
 - Mantra: "fast flow -> finer, slow flow -> coarser."
 
+### 1.4.1 Dripper and filter paper: the "zero-th variable" of pour-over
+
+> The first variable in pour-over is NOT grind — it's **dripper geometry + filter paper shape**. They set the flow-rate ceiling and extraction shape; grind and pouring play inside their frame. Adjusting grind before fixing the dripper is often "moving the mark on a moving boat."
+
+- **Conical single-hole (V60)**: through-flow, high rate, the grounds hold the water back; leans bright acidity, juice-like.
+- **Conical, paper-swappable (Origami)**: one cup, two geometries — V60 cone paper = bright acidity, Kalita wave paper = round, sweet, full body.
+- **Rib-less conical (V60 Kasuya Model)**: deliberately slowed flow, pairs with 4:6 coarse grind for more strength.
+- **Flat-bottom multi-hole (Kalita Wave / Clever)**: slow & stable flow, more immersion feel, forgiving.
+- **Thick-paper conical (Chemex)**: very clean, near-zero fines, soft acidity.
+- **Metal filter**: keeps oils and fines, heavy body.
+
+**Mantra**: pick dripper + paper by the flavor you want (bright acidity -> cone paper; round body -> wave paper), THEN tune grind/temp/pours inside that frame. When changing beans, re-baseline on the SAME dripper — don't swap dripper and grind at once.
+
+Full dripper characteristics table and champion dripper map: see [champion-brewing.md](champion-brewing.md) section 2.
+
 ### 1.5 Dissolution order (core science)
 Soluble compounds in roasted coffee dissolve in a fixed order:
 1. **Fruit acids** (first) — sour, some sweet
@@ -129,6 +144,9 @@ Soluble compounds in roasted coffee dissolve in a fixed order:
 
 ## 5. Variable priority & tuning order
 When several params may need tuning, go in this priority:
+
+> **Pour-over-specific premise**: fix the **dripper + filter paper** as the "zero-th variable" first (see 1.4.1). In pour-over the real priority is: dripper/paper -> grind -> temp -> ratio -> time. Non-pour-over methods start from grind.
+
 1. **Grind** (first lever) — biggest effect, fastest result
 2. **Temp** (second lever) — when grind is maxed; +/−1-2C
 3. **Ratio** — adjusts strength

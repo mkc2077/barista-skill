@@ -10,6 +10,7 @@ Wraps the [barista-skill](../) coffee-coach skill as a Model Context Protocol se
 |------|------|------|
 | `get_recipe` | 冲煮法起步参数 (14 种) / brew starter params (14 methods) | "查手冲参数" / "pour_over params" |
 | `get_milk_drink` | 经典奶咖配方 (11 款, 比例联网核实) / milk-drink recipes | "卡布配方" / "cappuccino recipe" |
+| `get_craft_recipe` | 特调咖啡 8 项 SOP 框架 (咖啡基底/茶底/自制糖浆/采购辅料/拼装) / craft coffee SOP | "特调怎么做" / "make a craft drink" |
 | `diagnose_flavor` | 风味问题诊断与调整 / flavor diagnosis & fix | "太苦怎么办" / "too bitter" |
 | `calculate_cupping_score` | SCA 杯测 100 分计算 / SCA cupping score | "算杯测分" / "score my cupping" |
 | `calibrate_grinder` | 磨豆机校准方法与刻度 / grinder calibration | "C40 校准" / "calibrate C40" |
@@ -89,7 +90,7 @@ pip install -e .            # 之后可直接用 `barista-mcp` 启动
 
 ```
 mcp-server/
-├── server.py          # MCP server, 9 tools (bilingual)
+├── server.py          # MCP server, 10 tools (bilingual)
 ├── pyproject.toml     # packaging (entry point: barista-mcp -> server:main)
 └── README.md          # this file
 ```
