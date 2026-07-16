@@ -1,6 +1,6 @@
 [project]
 name = "barista-mcp-server"
-version = "2.1.0"
+version = "2.4.0"
 description = "Barista Skill MCP Server - bilingual (zh/en) coffee-coach MCP service"
 readme = "README.md"
 requires-python = ">=3.10"
