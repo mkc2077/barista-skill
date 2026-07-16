@@ -4,8 +4,8 @@
 ![Version](https://img.shields.io/badge/version-2.4.0-blue)
 ![Methods](https://img.shields.io/badge/brew-14%20methods-success)
 ![Milk drinks](https://img.shields.io/badge/milk%20drinks-11-success)
-![MCP tools](https://img.shields.io/badge/MCP%20tools-9-blueviolet)
-![References](https://img.shields.io/badge/references-15%20files-informational)
+![MCP tools](https://img.shields.io/badge/MCP%20tools-10-blueviolet)
+![References](https://img.shields.io/badge/references-17%20files-informational)
 
 一个通用 AI Agent 咖啡师教练技能，帮你把咖啡做好、也品明白。A general-purpose AI-agent coffee coach skill that helps you brew better coffee and taste it more clearly. **中文 / English 双语**（MCP 工具全部支持 `language="zh"/"en"`）。兼容 WorkBuddy / QoderWork / Claude Code / Cursor / 通用 Agent 平台。
 
@@ -25,9 +25,11 @@
 - **研磨校准 / Grind calibration** —— 粒径分布原理、C40/EK43/Eureka 等校准方法、Dose→Yield→Time
 - **参数灵活应用 / Parameters** —— 金杯理论、溶出顺序、按产区/品种/处理法/烘焙度/口味调整矩阵
 - **故障排查 / Troubleshooting** —— 决策树式诊断
+- **冠军冲煮方案 / Champion brewing** —— 粕谷哲 4:6、王策 VWI、杜嘉宁、吴则霖三温暖、Carlos Medina（2023 冠军）、彭近洋（2025 冠军）等检索起点；含**滤杯/滤纸冲煮方案**（V60 / V60 Kasuya Model / Origami 一杯两用 / Kalita Wave / Chemex / 聪明杯 / 金属滤网）+ 滤纸形态对风味影响实测 + 名家滤杯使用索引；具体配方联网核实
+- **特调咖啡（独立大类）/ Craft coffee (standalone category)** —— 8 项必填 SOP 框架：咖啡基底萃取方案（中深烘浓缩 / SOE ristretto / 手冲 / 冷萃）、茶底、自制糖浆 SOP、采购辅料、杯具冰、拼装顺序（带口诀）、呈现提示、来源；门店/博主索引（吉米"咖啡届直男"、JPG coffee、GABEE.、Onyx、SEY、Blue Bottle、% Arabica、Coffee Collective）
 - **学习资源 / Learning resources** —— 入门/进阶/专业三级 + SCA 认证 + 咖啡师名录
 
-> English coverage: 14 brew methods, 11 classic milk drinks, beans & roast/process/origin guidance, water quality, pressure profiling, sensory training, SCA cupping, grinder calibration, golden-cup parameter matrices, troubleshooting, and curated learning resources.
+> English coverage: 14 brew methods, 11 classic milk drinks, beans, water quality, pressure profiling, sensory training, SCA cupping, grinder calibration, golden-cup parameter matrices (incl. dripper/filter paper as the pour-over zero-th variable), troubleshooting, curated learning resources, a champion brewing recipes index (Kasuya 4:6, Du Jianing, Berg Wu, Carlos Medina, Peng, etc. with dripper/filter-paper map), and craft coffee as a standalone major category (base extraction specs / tea base / homemade syrup SOP / store-bought / full build SOP). 13/17 reference files mirrored in English under `references/en/`.
 
 ## 核心机制：先问经验，再决定语气 / Core: assess experience first
 
@@ -70,14 +72,19 @@ barista-skill/
 ├── .gitignore
 ├── mcp-server/               # MCP 服务 (10 bilingual tools)
 │   ├── server.py / pyproject.toml / README.md
-└── references/               # 15 个参考文件
-│   └── en/                  # English mirrors (5 core: recipes/trouble/param/cup/sensory)
+└── references/               # 17 个参考文件 (中文原版 = 真相源)
+    ├── en/                   # English mirrors (13/17: 高/中价值文件全部完成)
+    │   ├── recipes-baseline / troubleshooting / parameters-guide / cupping / sensory
+    │   ├── beans / grind-calibration / water-quality / equipment-profiles / pressure-profiles
+    │   ├── champion-brewing / craft-coffee / learning-resources / README.md (coverage table)
     ├── recipes-baseline.md   # 14 冲煮法 + 经典奶咖起步参数
     ├── sensory.md / beans.md / glossary.md
     ├── pressure-profiles.md / water-quality.md / equipment-profiles.md
     ├── troubleshooting.md / search-queries.md / example-dialogues.md
     ├── eval-cases.md / cupping.md / grind-calibration.md
     ├── parameters-guide.md / learning-resources.md
+    ├── champion-brewing.md   # 冠军冲煮方案索引 + 滤杯滤纸冲煮方案 (v2.2/v2.3)
+    └── craft-coffee.md       # 特调咖啡独立大类 + 8 项 SOP (v2.3)
 ```
 
 ## 安装 / Install
@@ -108,6 +115,9 @@ MCP 用法见 [`mcp-server/README.md`](mcp-server/README.md)（`pip install "mcp
 - 杯测 / cupping / 校准 / 刻度 / 粒径 / 金杯 / TDS / 萃取率 / calibration / golden cup
 - 风味轮 / flavor wheel / 闻香瓶 / 三角杯测 / 味觉训练 / 嗅觉 / 感官训练 / sensory
 - 学习资源 / SCA / Q-Grader / 粉水比 / 水温 / 萃取时间 / 流速 / ratio / temp
+- 滤杯 / 滤纸 / V60 / Origami / Kalita Wave / Kasuya / 锥形 / 波浪 / drawdown
+- 冠军冲煮 / 名家配方 / 粕谷哲 / 4:6 / 四六法 / 杜嘉宁 / 彭近洋 / 乔治队长 / 王策 / Berg Wu / 三温暖 / Carlos Medina / WBrC
+- 创意特调 / 特调配方 / 萃取方案 / 中深烘浓缩 / SOE ristretto / 手冲基底 / 冷萃基底 / 茶底 / 糖浆 / 自制糖浆 / 椰子水 / 气泡水 / SOP / 拼装顺序
 
 ## 许可 / License
 
