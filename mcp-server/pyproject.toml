@@ -1,6 +1,6 @@
 [project]
 name = "barista-mcp-server"
-version = "2.5.0"
+version = "2.5.1"
 description = "Barista Skill MCP Server - bilingual (zh/en) coffee-coach MCP service"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -12,14 +12,14 @@ dependencies = [
 
 [project.scripts]
 barista-mcp = "server:main"
-barista-agent = "agent:main"
+barista-local = "local_app:main"
 [project.optional-dependencies]
 test = ["pytest>=8.0"]
-agent = ["openai-agents>=0.0.10"]
+local = ["ollama>=0.5.0"]
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-py-modules = ["server", "agent"]
+py-modules = ["server", "local_app"]

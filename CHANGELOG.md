@@ -4,6 +4,32 @@
 
 ---
 
+## [2.5.1] - 2026-07-16  (纯离线本地应用 / 100% offline local app)
+
+### 更改 / Changed — Agent 路线从 OpenAI SDK 切到全离线内置工具
+
+- 不再需要 `openai-agents` 依赖、不再需要 OpenAI API key、不再需要网络
+- `mcp-server/agent.py` 与 `mcp-server/test_agent.py` 移除（v2.5.0 产物），已被以下新文件取代
+- **`mcp-server/local_app.py`**（10678 chars）：全新纯离线咖啡师本地应用
+  - `run_offline()`：关键词→工具调度→内置 MCP 工具直答（0 网络）
+  - `_dispatch_tool()`：正则意图映射——"手冲/V60/Kalita/苦/卡布/校准 C40/EK43/特调"等 80+ 关键词 → 10 个 MCP 工具自动调用
+  - `_guess_language()`：从用户输入 ASCII 占比自动判 zh/en
+  - `run_ollama()`：可选本地 LLM 模块——`--ollama` flag 连 `localhost:11434`，默认模型 `llama3.2:3b`
+  - `run_hybrid()`：离线工具回答 + 可选 ollama 改写（不添加新事实）
+  - `repl()` 交互式对话，`main()` 支持 `--info` / `--ollama` / 一句一问
+- `mcp-server/pyproject.toml`：version `2.5.0` -> `2.5.1`
+  - `[agent]` extra 改为 `[local]`（`ollama>=0.5.0`，可选）
+  - `barista-agent` 入口改为 `barista-local = "local_app:main"`
+  - `py-modules` 改为 `["server", "local_app"]`
+- `README.md` 对应更新：名为「本地运行应用」的章节，注明离线/cd/可选 ollama，去掉 API key/OpenAI 依赖的旧指示
+- `SKILL.md` frontmatter version 更新为 2.5.1
+
+### 测试 / Tests
+- `test_server.py` 116 条 MCP 工具测试全部通过
+- `local_app.py` 100% 纯 Python + 正则 + importlib，无外部网络依赖
+
+---
+
 ## [2.5.0] - 2026-07-16  (独立 Agent MVP / Standalone Agent MVP)
 
 ### 新增 / Added — 路径 A 独立 Agent (OpenAI Agents SDK)

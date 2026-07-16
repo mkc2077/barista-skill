@@ -1,7 +1,7 @@
 # Barista 咖啡师教练技能 / Barista Coffee-Coach Skill
 
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Version](https://img.shields.io/badge/version-2.5.0-blue)
+![Version](https://img.shields.io/badge/version-2.5.1-blue)
 ![Methods](https://img.shields.io/badge/brew-14%20methods-success)
 ![Milk drinks](https://img.shields.io/badge/milk%20drinks-11-success)
 ![MCP tools](https://img.shields.io/badge/MCP%20tools-10-blueviolet)
@@ -11,24 +11,24 @@
 
 > **30 秒预览 / 30-second preview**：用户「我做的手冲好苦怎么办？」"My pour-over is too bitter." → 技能：「先问 1 个问题：你是用 V60 还是 Kalita？水温多少？出液用了多久？」→ 拿到答案后给口诀「苦调粗」+ 下一步具体动作「把磨豆机往'粗'那边转 1–2 格」。**全程不甩术语。** No jargon, plain language, one actionable step at a time.
 
-## 独立 Agent 用法 (v2.5) / Standalone Agent (v2.5)
+## 本地运行应用 (v2.5.1) / Local app (100% offline by default)
 
-从 v2.5 起，项目自带一个**独立运行**的 coffee-coach Agent，无需 MCP 客户端：
+从 v2.5.1 起，项目内置一条**纯离线**咖啡师本地应用：零外部 API、零密钥、零网络，依赖项目内部 10 个 MCP 工具直答。
 
 ```bash
-pip install -e "mcp-server[agent]"
-export OPENAI_API_KEY=sk-...
-# export BARISTA_MODEL=gpt-4o-mini    # 可选换模型，默认 gpt-4o-mini
-# export OPENAI_BASE_URL=https://... # 可选，给国内兼容中转
-
-barista-agent                                   # REPL 交互式对话
-barista-agent "帮我冲一杯手冲"                  # 一句一答
-barista-agent --en "brew me a pour-over"       # 英文通道
+pip install -e "mcp-server[local]"
+barista-local                                      # 交互式REPL（内置工具直答，离线）
+barista-local "我的手冲太苦怎么办"                  # 一句一问
+barista-local "brew me a pour-over"                # 英文输入
+barista-local --ollama                              # 想用本地LLM也行（先 ollama pull llama3.2:3b）
+barista-local --info                                # 查看所有可用工具
 ```
 
-- `SKILL.md` 整份作为系统提示，**双向 zh/en** 全保留
-- 实时复用全套 **10 个 MCP 工具**，纯文档改动即升级 Agent
-- 另见项目自带 MCP server（`barista-mcp`），可在 Claude Desktop / Cursor / ChatGPT 中直接使用
+- **默认全离线**：关键词→工具调度→直接回复（覆盖 14 种冲煮/11款奶咖/风味诊断/特调 SOP/SCA 杯测等 10 个工具）
+- **支持本地 LLM**（可选）：`--ollama` 标志转成 llama3.2:3b 本地模型，效果更自然
+- **无外部依赖**：不要 OpenAI key，不要联网，不要安装额外服务器
+
+另见项目自带 MCP server（`barista-mcp`），可在 Claude Desktop / Cursor / ChatGPT 中直接使用（需 MCP 客户端环境）。
 
 
 ## 覆盖内容 / Coverage
@@ -91,7 +91,7 @@ barista-skill/
 ├── LICENSE                   # MIT
 ├── .gitignore
 ├── mcp-server/               # MCP 服务 (10 bilingual tools)
-│   ├── server.py / agent.py / test_server.py / test_agent.py
+│   ├── server.py / local_app.py / test_server.py
 │   ├── pyproject.toml / README.md
 └── references/               # 17 个参考文件 (中文原版 = 真相源)
     ├── en/                   # English mirrors (13/17: 高/中价值文件全部完成)
@@ -120,7 +120,7 @@ barista-skill/
 | Cursor | 项目根 `.cursor/skills/barista-skill/` |
 | 其他 / Other | 放入项目上下文目录，在系统提示中引用 |
 
-MCP 用法见 [`mcp-server/README.md`](mcp-server/README.md)（`pip install "mcp[cli]"` + 配置客户端）。**独立 Agent MVP 用法见上文 `## 独立 Agent 用法`。**
+MCP 用法见 [`mcp-server/README.md`](mcp-server/README.md)（`pip install "mcp[cli]"` + 配置客户端）。**本地离线应用用法见上文 `## 本地运行应用`。**
 
 ## 使用 / Usage
 
