@@ -21,8 +21,8 @@ grinder steps, flavor wheel groups, sensory-solution recipes, water TDS, etc.).
 | water-quality.md | TDS/hardness/pH + home-water guidance | medium |
 | equipment-profiles.md | espresso machines, grinders, brew gear profiles + combo recommendations | medium |
 | pressure-profiles.md | pressure-profile machine index + live-lookup prompts + curve templates | medium |
-| champion-brewing.md | champion brewing index (Kasuya 4:6, Du Jianing, Berg Wu, Peng, etc.) | high |
-| craft-coffee.md | craft/signature coffee shops & bloggers index (CN + overseas) | medium |
+| champion-brewing.md | champion brewing index + dripper/filter-paper recipes (V60/Origami/Kasuya model) & champion dripper map | high |
+| craft-coffee.md | craft coffee as a standalone category: base specs + tea base + homemade syrup SOP + store-bought list + full build SOP | high |
 
 All 8 high-international-value core files + 2 medium-value gear files + 2 new
 champion/craft indexes are translated. The remaining 5 are CN-specific and add

@@ -4,6 +4,51 @@
 
 ---
 
+## [2.3.0] - 2026-07-16
+
+### 增强（滤杯冲煮方案 + 特调独立大类 SOP / Dripper recipes + craft coffee as a standalone major category with SOP）
+
+#### 冠军冲煮方案索引增强 / Champion brewing index enhanced — `references/champion-brewing.md` (+ en/镜像)
+- **新增「二、滤杯冲煮方案索引」整章**：
+  - 主流滤杯特性对照表（V60 / V60 Kasuya Model / Origami / Origami Air / Kalita Wave / Chemex / 聪明杯 / 金属滤网）
+  - **滤纸形态对风味的影响实测**：锥形(V60型)=明亮活泼酸香、果汁感；波浪(Kalita型)=圆润甜厚、酸更柔；厚纸(Chemex)=极干净；结论"Origami 一杯两用，只换纸即换风格"
+  - **名家滤杯使用索引**（联网核实）：粕谷哲用 Hario V60（联名 Kasuya Model 去底部螺旋肋减流）、杜嘉宁 2019 用 Origami、Carlos Medina 2023 冠军用 Origami Air
+- **补全官方完整配方**：
+  - 粕谷哲 4:6 法官方配方（HARIO 访谈核实）：20g/300ml/1:15/92℃，完整注水分段 50→70→60→60→60 ml @ 3:30
+  - Carlos Medina 2023 冠军配方：哥伦比亚 Finca Potosí 自然 Sidra / 16g/250ml/1:16.1/91℃/3:00 五段各 50ml（+ 另版赛事配方）
+- **索引新增**：Martin Wölfl（2024 WBrC 冠军，奥地利）
+- 输出格式与常见误区补充"滤杯/滤纸当第一变量"原则
+
+#### 特调咖啡重构为独立大类 / Craft coffee rebuilt as a standalone major category — `references/craft-coffee.md` (+ en/镜像)
+- **特调独立成大类**（不是奶咖延伸），含自完整规范体系
+- **第二节 咖啡基底萃取方案规范**（四选一，写配方必填）：
+  - A. 中深烘浓缩（奶基/浓体）18g/36g/1:2
+  - B. 中浅烘 SOE ristretto（突出豆子本身）18–20g→18–27g/1:1–1:1.5，只取前中段
+  - C. 手冲基底（清饮/茶咖）1:15–1:16
+  - D. 冷萃基底（低酸顺滑）1:8–1:12 冷浸 12–24h
+  - 注：SOE 浅烘 crema 较薄（前街实测已核实，分层能力弱需调呈现）
+- **第三节 茶底方案**：茉莉/乌龙/红茶/冷泡茶/茶浓缩液 萃取规范，茶与咖啡分两套 SOP
+- **第四节 自制糖浆/辅料 SOP**（禁止写"适量糖浆"）：基础糖浆 1:1/1:2 做法 + 香草/焦糖/生姜/肉桂八角变体；芒果泥/莓果酱/咖啡果皮糖浆 SOP；利口酒含酒精注明
+- **第五节 采购辅料清单**：椰子水/气泡水/鲜榨果汁/奶/枫糖/可可抹茶粉，注明品牌取向与甜度校准
+- **第六节 特调 SOP 框架**（核心）：8 项必填模板——咖啡基底/茶底/自制辅料/采购辅料/杯具冰/拼装顺序(口诀)/呈现饮用提示/来源
+- 保留门店/博主索引（吉米"咖啡届直男" / JPG coffee / GABEE. / Onyx / SEY / Blue Bottle / % Arabica / Coffee Collective）作为第七节检索出口
+
+#### SKILL.md / Other
+- frontmatter version `2.2.0` -> `2.3.0`
+- 触发关键词扩充：滤杯/滤纸/V60/Origami/Kalita Wave/锥形/波浪/Kasuya/流速/drawdown/Carlos Medina/Martin Wölfl/萃取方案/中深烘浓缩/SOE ristretto/手冲基底/冷萃基底/茶底/茉莉/乌龙/红茶/糖浆/自制糖浆/椰子水/气泡水/果泥/SOP/操作步骤/拼装顺序
+- 「特调咖啡」章节重写为独立大类，补 5 条必填子项（基底/茶底/自制辅料/采购辅料/拼装 SOP）
+- 「冠军冲煮方案索引」专业模块补 1 条滤杯滤纸行
+- 参考资料索引两条描述更新
+- en/README 描述对齐：champion 加"drippers & filters"、craft 改为"standalone major category"
+
+### 测试 / Tests
+- 111 条 pytest 全部通过（纯文档增强，无功能代码改动）
+
+### 不变 / Unchanged
+- mcp-server 代码、中文 prompt 主体、其余 reference 内容保持不变
+
+---
+
 ## [2.2.0] - 2026-07-16
 
 ### 新增（冠军冲煮方案索引 + 特调咖啡索引，双语 / Champion brewing & craft coffee indexes, bilingual）
