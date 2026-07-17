@@ -1,10 +1,10 @@
 # Barista 咖啡师教练技能 / Barista Coffee-Coach Skill
 
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Version](https://img.shields.io/badge/version-2.6.0-blue)
+![Version](https://img.shields.io/badge/version-2.7.0-blue)
 ![Methods](https://img.shields.io/badge/brew-14%20methods-success)
 ![Milk drinks](https://img.shields.io/badge/milk%20drinks-11-success)
-![MCP tools](https://img.shields.io/badge/MCP%20tools-10-blueviolet)
+![MCP tools](https://img.shields.io/badge/MCP%20tools-11-blueviolet)
 ![References](https://img.shields.io/badge/references-17%20files-informational)
 
 一个通用 AI Agent **专属咖啡顾问 Skill**（非被动问答机器）——顾问**主导对话节奏**，通过连续穿透式追问帮你摸清现状、拆解问题、找到影响口感的关键变量。A general-purpose AI-agent coffee-consultant Skill (not a Q&A bot) — the consultant **drives the conversation** with penetrating follow-up questions to map your situation, break down the problem, and find the ONE variable that will make your coffee better. **中文 / English 双语**（MCP 工具全部支持 `language="zh"/"en"`）。兼容 WorkBuddy / QoderWork / Claude Code / Cursor / 通用 Agent 平台。
@@ -53,11 +53,24 @@
 
 **给建议前必须锁定 / Always lock in before advising**：经验档位（经追问链判定）、器具画像 / equipment（咖啡机/磨豆机型号、粉碗容量）、豆卡 / bean card（烘焙度·处理法·产区·豆种）。特调与冰手冲先给配方与器材清单再动手。
 
-## MCP Server（10 个双语工具）/ MCP server (10 bilingual tools)
+## MCP Server（11 个双语工具）/ MCP server (11 bilingual tools)
 
 把技能封装为标准 MCP 服务，任何 MCP 客户端可直接调用；每个工具带 `language` 参数。Packaged as a standard MCP service; every tool is bilingual. 见 / See [`mcp-server/README.md`](mcp-server/README.md)。
 
-`get_recipe` · `get_milk_drink` · `get_craft_recipe` · `diagnose_flavor` · `calculate_cupping_score` · `calibrate_grinder` · `get_parameters_guide` · `get_flavor_wheel` · `get_sensory_training` · `get_learning_resources`
+`get_recipe` · `get_milk_drink` · `get_craft_recipe` · `diagnose_flavor` · `calculate_cupping_score` · `calibrate_grinder` · `get_parameters_guide` · `get_flavor_wheel` · `get_sensory_training` · `get_learning_resources` · `search_references`
+
+## 报告模板 / Report templates
+
+顾问在四个固定输出场景下**套用**结构化模板（避免临场挥洒、降幻觉）。模板存于 `references/report_templates/`，由 `{{placeholder}}` 标记顾问在响应时填入的字段。The consultant reuses 4 structured output templates (live in `references/report_templates/`) to avoid improvisation and reduce hallucination; placeholders are filled by the consultant at response time.
+
+| 场景 / Trigger | 模板 / Template |
+|---|---|
+| 用户要配方 / `get_recipe` 输出 | `recipe_card.md` |
+| 追问收尾给观察+动作 / `diagnose_flavor` 输出 / “为什么不好喝” | `diagnosis_sheet.md` |
+| 杯测评分 / `calculate_cupping_score` 输出 | `cupping_scorecard.md` |
+| 校准磨豆机 / `calibrate_grinder` 输出 | `grinder_calibration.md` |
+
+每个模板都强制铁律：一次只改一个变量 + 每次改动都附验证与无变化时的下一步。Every template enforces: change ONE variable + verify after every change + fallback step when the change has no effect.
 
 ## 联网检索（点名才搜）/ Live search (on request only)
 
@@ -80,9 +93,12 @@ barista-skill/
 ├── README.md                 # 本文件
 ├── LICENSE                   # MIT
 ├── .gitignore
-├── mcp-server/               # MCP 服务 (10 bilingual tools)
+├── mcp-server/               # MCP 服务 (11 bilingual tools)
 │   ├── server.py / test_server.py
 │   ├── pyproject.toml / README.md
+├── data/                      # 13 个 JSON 数据文件 = 单一数据源 (recipes/milk/cupping/...)
+├── scripts/                   # self_check.py — 一致性自检 (33 项 PASS/FAIL)
+└── references/report_templates/  # 4 个顾问输出模板 + README
 └── references/               # 17 个参考文件 (中文原版 = 真相源)
     ├── en/                   # English mirrors (13/17: 高/中价值文件全部完成)
     │   ├── recipes-baseline / troubleshooting / parameters-guide / cupping / sensory
