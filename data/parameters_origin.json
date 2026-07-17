@@ -1,0 +1,74 @@
+{
+  "ethiopia": {
+    "water_temp": "92-94C",
+    "ratio": "1:16-1:17",
+    "grind": {
+      "zh": "中细偏细",
+      "en": "medium-fine"
+    },
+    "flavor": {
+      "zh": "花香、柑橘、莓果、茶感",
+      "en": "floral, citrus, berry, tea-like"
+    }
+  },
+  "kenya": {
+    "water_temp": "93-95C",
+    "ratio": "1:15-1:16",
+    "grind": {
+      "zh": "中细",
+      "en": "medium-fine"
+    },
+    "flavor": {
+      "zh": "浓郁浆果、番茄、咸鲜",
+      "en": "bold berry, tomato, savory"
+    }
+  },
+  "colombia": {
+    "water_temp": "90-93C",
+    "ratio": "1:15-1:16",
+    "grind": {
+      "zh": "中等",
+      "en": "medium"
+    },
+    "flavor": {
+      "zh": "平衡、焦糖、坚果",
+      "en": "balanced, caramel, nut"
+    }
+  },
+  "brazil": {
+    "water_temp": "88-91C",
+    "ratio": "1:14-1:15",
+    "grind": {
+      "zh": "中粗",
+      "en": "medium-coarse"
+    },
+    "flavor": {
+      "zh": "坚果、巧克力、低酸",
+      "en": "nut, chocolate, low acid"
+    }
+  },
+  "panama_geisha": {
+    "water_temp": "92-94C",
+    "ratio": "1:16-1:18",
+    "grind": {
+      "zh": "中细",
+      "en": "medium-fine"
+    },
+    "flavor": {
+      "zh": "茉莉花、佛手柑、优雅",
+      "en": "jasmine, bergamot, elegant"
+    }
+  },
+  "yunnan": {
+    "water_temp": "90-93C",
+    "ratio": "1:15-1:16",
+    "grind": {
+      "zh": "中等",
+      "en": "medium"
+    },
+    "flavor": {
+      "zh": "平衡、红糖、坚果",
+      "en": "balanced, brown sugar, nut"
+    }
+  }
+}

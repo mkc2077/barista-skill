@@ -7,6 +7,7 @@ Uses only stdlib + the server module; no live MCP transport needed.
 import importlib.util
 import os
 import pathlib
+import re
 
 import pytest
 
@@ -38,20 +39,20 @@ def test_main_entrypoint_exists():
     assert callable(b.main)
 
 
-def test_tool_count_is_ten():
+def test_tool_count_is_eleven():
     tools = sorted(b.mcp._tool_manager._tools)
     assert tools == [
         "calculate_cupping_score", "calibrate_grinder", "diagnose_flavor",
         "get_craft_recipe", "get_flavor_wheel", "get_learning_resources",
         "get_milk_drink", "get_parameters_guide", "get_recipe",
-        "get_sensory_training",
+        "get_sensory_training", "search_references",
     ]
 
 
 def test_no_dead_imports():
     src = (HERE.parent / "server.py").read_text(encoding="utf-8")
     # the four blocked stdlib imports must not be present
-    for dead in ("import sys", "import os", "import json", "import re",
+    for dead in ("import sys", "import os", "import re",
                  "from typing import import Optional", "KNOWLEDGE = "):
         assert dead not in src, f"dead symbol remains: {dead}"
 
@@ -287,6 +288,41 @@ def test_learning_resources_all(level, lang):
     assert "Barista Hustle" in out or "咖啡沙龙" in out
     assert "roadmap" in out.lower() or "路线图" in out
 
+
+
+
+# --- search_references (uses top-of-file session-level b) ---
+
+
+def test_search_references_returns_top_k():
+    out = b.search_references("espresso", "en", 2)
+    assert out.startswith("## ")
+    # Should contain at least 1 result section header
+    ranked = len(re.findall(r"^### \d+\.", out, re.MULTILINE))
+    assert ranked == 2, f"expected 2 ranked sections, got {ranked}"
+
+
+def test_search_references_zh_lang():
+    out = b.search_references("grind calibration", "zh", 3)
+    assert "## " in out
+
+
+def test_search_references_no_match():
+    out = b.search_references("zzznothingzzz", "en", 3)
+    assert "no" in out.lower() or "???" in out or "Did not" in out or "try" in out.lower()
+
+
+def test_search_references_is_bilingual_tool():
+    "search_references should accept language=zh and language=en"
+    out_en = b.search_references("espresso", "en", 2)
+    out_zh = b.search_references("espresso", "zh", 2)
+    assert out_en != out_zh  # bilingual produces different text
+
+
+def test_search_references_is_in_skill_md_tool_list():
+    "SKILL.md should list search_references alongside the other 10 tools"
+    skill_md = (HERE.parent.parent / "SKILL.md").read_text("utf-8")
+    assert "search_references" in skill_md, "SKILL.md missing search_references in tool list"
 
 if __name__ == "__main__":
     raise SystemExit(pytest.main([__file__, "-v"]))

@@ -1,0 +1,154 @@
+[
+  [
+    "水果",
+    "Fruit",
+    {
+      "zh": [
+        "柑橘",
+        "莓果",
+        "热带水果",
+        "核果",
+        "果干"
+      ],
+      "en": [
+        "citrus",
+        "berry",
+        "tropical fruit",
+        "stone fruit",
+        "dried fruit"
+      ]
+    }
+  ],
+  [
+    "花香",
+    "Floral",
+    {
+      "zh": [
+        "茉莉花",
+        "玫瑰",
+        "咖啡花"
+      ],
+      "en": [
+        "jasmine",
+        "rose",
+        "coffee blossom"
+      ]
+    }
+  ],
+  [
+    "坚果可可",
+    "Nutty/Cocoa",
+    {
+      "zh": [
+        "杏仁",
+        "榛果",
+        "黑巧克力",
+        "牛奶巧克力"
+      ],
+      "en": [
+        "almond",
+        "hazelnut",
+        "dark chocolate",
+        "milk chocolate"
+      ]
+    }
+  ],
+  [
+    "焦糖甜感",
+    "Caramel/Sweet",
+    {
+      "zh": [
+        "焦糖",
+        "蜂蜜",
+        "红糖",
+        "枫糖"
+      ],
+      "en": [
+        "caramel",
+        "honey",
+        "brown sugar",
+        "maple"
+      ]
+    }
+  ],
+  [
+    "香料",
+    "Spice",
+    {
+      "zh": [
+        "肉桂",
+        "丁香",
+        "黑胡椒"
+      ],
+      "en": [
+        "cinnamon",
+        "clove",
+        "black pepper"
+      ]
+    }
+  ],
+  [
+    "烘烤",
+    "Roasty",
+    {
+      "zh": [
+        "烤面包",
+        "烟熏",
+        "烟草"
+      ],
+      "en": [
+        "toast",
+        "smoky",
+        "tobacco"
+      ]
+    }
+  ],
+  [
+    "发酵酒香",
+    "Fermented/Fruity-Wine",
+    {
+      "zh": [
+        "红酒感",
+        "朗姆酒",
+        "发酵"
+      ],
+      "en": [
+        "red wine",
+        "rum",
+        "fermented"
+      ]
+    }
+  ],
+  [
+    "酸感发酵",
+    "Sour/Fermentation",
+    {
+      "zh": [
+        "醋酸",
+        "酒石酸",
+        "柠檬酸"
+      ],
+      "en": [
+        "acetic",
+        "tartaric",
+        "citric"
+      ]
+    }
+  ],
+  [
+    "其他",
+    "Other",
+    {
+      "zh": [
+        "土味",
+        "草药",
+        "橡胶"
+      ],
+      "en": [
+        "earthy",
+        "herbal",
+        "rubber"
+      ]
+    }
+  ]
+]

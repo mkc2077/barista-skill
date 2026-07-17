@@ -1,0 +1,18 @@
+{
+  "grind": {
+    "zh": "苦调粗,酸调细;淡了粉多水少,浓了粉少水多;水流快调细,水流慢调粗。",
+    "en": "bitter->coarser, sour->finer; weak->more grounds less water, strong->more water less grounds; fast flow->finer, slow flow->coarser."
+  },
+  "roast": {
+    "zh": "深烘磨粗温要低,浅烘磨细温要高;新豆要醒别急着,老豆磨细升点温。",
+    "en": "dark->coarser & lower temp, light->finer & higher temp; fresh beans->rest first, old beans->finer & warmer."
+  },
+  "temp": {
+    "zh": "酸升温,苦降温(仍优先调研磨)。",
+    "en": "sour->raise temp, bitter->lower temp (still tune grind first)."
+  },
+  "rule": {
+    "zh": "一次只改一个变量(研磨/水温/粉水比/时间四选一),改完喝一口再判断。",
+    "en": "change ONE variable at a time (grind/temp/ratio/time), sip before the next."
+  }
+}

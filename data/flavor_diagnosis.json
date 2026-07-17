@@ -1,0 +1,176 @@
+{
+  "bitter": {
+    "symptoms": [
+      "太苦",
+      "焦苦",
+      "中药味",
+      "焦味",
+      "bitter",
+      "burnt",
+      "ashy"
+    ],
+    "beginner": {
+      "zh": "粉磨粗一点;缩短时间。口诀:苦调粗",
+      "en": "Grind coarser; shorten time. bitter->coarser"
+    },
+    "advanced": {
+      "zh": "调粗研磨/降水温1-2C/缩短时间/降粉量比;排查过萃",
+      "en": "Coarser / drop temp 1-2C / shorter / lower ratio; check over-extraction"
+    },
+    "root_cause": {
+      "zh": "碳水化合物过度溶出(过萃)",
+      "en": "Carbohydrates over-extracted (over-extraction)"
+    }
+  },
+  "sour": {
+    "symptoms": [
+      "太酸",
+      "尖酸",
+      "刺舌",
+      "青涩",
+      "sour",
+      "tart",
+      "sharp"
+    ],
+    "beginner": {
+      "zh": "粉磨细一点;延长时间。口诀:酸调细",
+      "en": "Grind finer; extend time. sour->finer"
+    },
+    "advanced": {
+      "zh": "调细研磨/升水温/延长时间/提粉量比;排查欠萃",
+      "en": "Finer / raise temp / longer / raise ratio; check under-extraction"
+    },
+    "root_cause": {
+      "zh": "果酸类先溶出但糖类未充分萃取(欠萃)",
+      "en": "Acids extracted but sugars not yet (under-extraction)"
+    }
+  },
+  "weak": {
+    "symptoms": [
+      "淡如水",
+      "没味道",
+      "空",
+      "寡淡",
+      "weak",
+      "watery",
+      "hollow"
+    ],
+    "beginner": {
+      "zh": "粉磨细一点,或多放粉少放水",
+      "en": "Grind finer, or more grounds less water"
+    },
+    "advanced": {
+      "zh": "提高粉量、调细研磨、降低粉水比(1:15->1:14)",
+      "en": "Raise dose, finer, lower ratio (1:15->1:14)"
+    },
+    "root_cause": {
+      "zh": "萃取不足或粉水比过高",
+      "en": "Under-extraction or ratio too high"
+    }
+  },
+  "too_strong": {
+    "symptoms": [
+      "太浓",
+      "厚重",
+      "发闷",
+      "strong",
+      "heavy",
+      "muddy"
+    ],
+    "beginner": {
+      "zh": "粉磨粗一点,或多放水少放粉",
+      "en": "Grind coarser, or more water less grounds"
+    },
+    "advanced": {
+      "zh": "降粉量、调粗研磨、提粉水比",
+      "en": "Lower dose, coarser, raise ratio"
+    },
+    "root_cause": {
+      "zh": "浓度过高或过萃",
+      "en": "TDS too high or over-extraction"
+    }
+  },
+  "fast_flow": {
+    "symptoms": [
+      "水流太快",
+      "咖啡很稀",
+      "fast",
+      "runs through",
+      "thin"
+    ],
+    "beginner": {
+      "zh": "粉磨细一点",
+      "en": "Grind finer"
+    },
+    "advanced": {
+      "zh": "调细研磨、提粉量、检查布粉均匀度",
+      "en": "Finer, more dose, check distribution"
+    },
+    "root_cause": {
+      "zh": "研磨太粗或布粉不均致通道效应",
+      "en": "Too coarse or channeling from poor distribution"
+    }
+  },
+  "slow_flow": {
+    "symptoms": [
+      "水半天流不出",
+      "堵住",
+      "slow",
+      "stalls",
+      "blocked"
+    ],
+    "beginner": {
+      "zh": "粉磨粗一点",
+      "en": "Grind coarser"
+    },
+    "advanced": {
+      "zh": "调粗研磨、减粉量、检查填压力度",
+      "en": "Coarser, less dose, check tamp"
+    },
+    "root_cause": {
+      "zh": "研磨太细或粉量过多",
+      "en": "Too fine or too much dose"
+    }
+  },
+  "astringent": {
+    "symptoms": [
+      "涩口",
+      "干巴巴",
+      "刮舌头",
+      "astringent",
+      "dry",
+      "puckering"
+    ],
+    "beginner": {
+      "zh": "粉磨粗一点,水别太烫",
+      "en": "Grind coarser, lower the temp"
+    },
+    "advanced": {
+      "zh": "调粗研磨、降水温、排查通道效应与过萃",
+      "en": "Coarser, lower temp, check channeling & over-extraction"
+    },
+    "root_cause": {
+      "zh": "过萃或通道效应致高分子物质过度提取",
+      "en": "Over-extraction/channeling pulls heavy compounds"
+    }
+  },
+  "aroma_no_flavor": {
+    "symptoms": [
+      "闻着香喝着没味",
+      "smells good tastes flat",
+      "no body"
+    ],
+    "beginner": {
+      "zh": "多放点粉、粉磨细一点",
+      "en": "More grounds, grind finer"
+    },
+    "advanced": {
+      "zh": "提粉量、调细研磨、确认水温与新鲜度",
+      "en": "More dose, finer, check temp & freshness"
+    },
+    "root_cause": {
+      "zh": "萃取不足或豆子不新鲜",
+      "en": "Under-extraction or stale beans"
+    }
+  }
+}

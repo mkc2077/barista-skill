@@ -1,0 +1,98 @@
+{
+  "comandante_c40": {
+    "name": "Comandante C40",
+    "type": {
+      "zh": "手摇磨",
+      "en": "hand grinder"
+    },
+    "settings": {
+      "turkish": "5-10",
+      "espresso": "10-15",
+      "pour_over": "20-25",
+      "french_press": "30-35"
+    },
+    "calibration": {
+      "zh": "手摇归零:刀盘完全闭合(听金属摩擦声)=零点->逆时针到目标刻度",
+      "en": "Hand zero: close burrs (metal friction)=zero->counter-clockwise to target"
+    }
+  },
+  "1zpresso_jx_pro": {
+    "name": "1Zpresso JX-Pro",
+    "type": {
+      "zh": "手摇磨",
+      "en": "hand grinder"
+    },
+    "settings": {
+      "espresso": "1.0-1.2 turns",
+      "pour_over": "2.0-2.4 turns"
+    },
+    "calibration": {
+      "zh": "同C40:刀盘闭合=零点->数圈数",
+      "en": "Same as C40: burrs closed=zero->count turns"
+    }
+  },
+  "timemore_c3": {
+    "name": "Timemore C2/C3",
+    "type": {
+      "zh": "手摇磨",
+      "en": "hand grinder"
+    },
+    "settings": {
+      "espresso": "8-10",
+      "pour_over": "14-18"
+    },
+    "calibration": {
+      "zh": "归零同上,以刻度数为准",
+      "en": "Zero as above; use click number"
+    }
+  },
+  "mahlkonig_ek43": {
+    "name": {
+      "zh": "Mahlkonig EK43",
+      "en": "Mahlkonig EK43"
+    },
+    "type": {
+      "zh": "商用电动",
+      "en": "commercial electric"
+    },
+    "settings": {
+      "espresso_soe": "1.3-1.8",
+      "pour_over": "7-8.5"
+    },
+    "calibration": {
+      "zh": "调到刻度1->拧松旋钮螺丝(2个)->开机顺时针至轻微摩擦->逆时针微调到零界->锁死(Matt Perger'白板笔标记法'需查官方/社区)",
+      "en": "Set to 1->loosen dial screws(2)->powered, close to light friction->open a hair to zero->lock (Matt Perger 'marker method' needs official/community lookup)"
+    }
+  },
+  "eureka_mignon": {
+    "name": "Eureka Mignon (series)",
+    "type": {
+      "zh": "家用电动",
+      "en": "home electric"
+    },
+    "settings": {
+      "espresso": {
+        "zh": "零点以上数格范围调整",
+        "en": "a few clicks above zero"
+      }
+    },
+    "calibration": {
+      "zh": "找零点(刀盘接触)->以此为基准在意式范围调;改度盘后需校准",
+      "en": "Find zero (burrs touch)->set espresso range; recalibrate after dial swap"
+    }
+  },
+  "baratza_sette_270": {
+    "name": "Baratza Sette 270",
+    "type": {
+      "zh": "家用电动",
+      "en": "home electric"
+    },
+    "settings": {
+      "espresso": "5-10"
+    },
+    "calibration": {
+      "zh": "螺纹较粗,1档差较大;按杯况微调;Baratza有官方校准视频",
+      "en": "Coarse thread, 1 step = big jump; tune per cup; Baratza has official videos"
+    }
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "beginner": [
+    {
+      "name": "咖啡沙龙",
+      "url": "coffeesalon.com",
+      "type": {
+        "zh": "中文社区",
+        "en": "CN community"
+      },
+      "desc": {
+        "zh": "业界和爱好者推崇的咖啡主题网站",
+        "en": "respected coffee community site"
+      }
+    },
+    {
+      "name": "中国咖啡网",
+      "url": "gafei.com",
+      "type": {
+        "zh": "中文资讯",
+        "en": "CN info"
+      },
+      "desc": {
+        "zh": "涵盖咖啡知识、品鉴、技术学习交流",
+        "en": "knowledge, tasting & technique exchange"
+      }
+    },
+    {
+      "name": "Sweet Maria's (YouTube)",
+      "url": "youtube.com",
+      "type": {
+        "zh": "视频",
+        "en": "video"
+      },
+      "desc": {
+        "zh": "走访各产地视频,可见原产地处理过程",
+        "en": "origin visits, shows processing"
+      }
+    }
+  ],
+  "intermediate": [
+    {
+      "name": "Barista Hustle",
+      "url": "baristahustle.com",
+      "type": {
+        "zh": "英文研究站",
+        "en": "EN research"
+      },
+      "desc": {
+        "zh": "浓缩萃取率等方面的深度研究",
+        "en": "deep research on extraction yield"
+      }
+    },
+    {
+      "name": "Perfect Daily Grind",
+      "url": "perfectdailygrind.com",
+      "type": {
+        "zh": "英文媒体",
+        "en": "EN media"
+      },
+      "desc": {
+        "zh": "萃取/产区/烘焙全维度专业内容",
+        "en": "extraction/origin/roast coverage"
+      }
+    },
+    {
+      "name": "EHS咖啡西点学院",
+      "url": "ehs-academy.cn",
+      "type": {
+        "zh": "中文培训",
+        "en": "CN training"
+      },
+      "desc": {
+        "zh": "从品种到萃取、拉花的全面知识",
+        "en": "variety to extraction & latte art"
+      }
+    },
+    {
+      "name": "明谦咖啡学院",
+      "url": "mqcoffee.com",
+      "type": {
+        "zh": "中文培训",
+        "en": "CN training"
+      },
+      "desc": {
+        "zh": "SCA/CQI Q-Grader认证",
+        "en": "SCA & Q-Grader certification"
+      }
+    }
+  ],
+  "professional": [
+    {
+      "name": "WCR Sensory Lexicon",
+      "url": "worldcoffeeresearch.org",
+      "type": {
+        "zh": "标准参照",
+        "en": "standard ref"
+      },
+      "desc": {
+        "zh": "110种风味属性的标准参照体系,免费下载",
+        "en": "110 sensory references, free download"
+      }
+    },
+    {
+      "name": "SCA Sensory Skills",
+      "url": "sca.coffee",
+      "type": {
+        "zh": "认证课程",
+        "en": "cert. course"
+      },
+      "desc": {
+        "zh": "系统化感官训练,含36味闻香瓶、三角杯测",
+        "en": "systematic sensory training, 36 aromas, triangle tests"
+      }
+    },
+    {
+      "name": "CQI Q-Grader",
+      "url": "coffeeinstitute.org",
+      "type": {
+        "zh": "认证",
+        "en": "cert."
+      },
+      "desc": {
+        "zh": "咖啡品质鉴定师,含味觉/嗅觉测试",
+        "en": "Q-grader, taste/smell tests"
+      }
+    },
+    {
+      "name": "Le Nez du Cafe",
+      "url": "winearomas.com",
+      "type": {
+        "zh": "训练工具",
+        "en": "training tool"
+      },
+      "desc": {
+        "zh": "36味闻香瓶,Q-Grader必考工具",
+        "en": "36-aroma kit, Q-grader must-have"
+      }
+    }
+  ]
+}

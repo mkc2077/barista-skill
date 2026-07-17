@@ -1,0 +1,68 @@
+{
+  "light": {
+    "solubility": {
+      "zh": "低",
+      "en": "low"
+    },
+    "water_temp": "93-96C",
+    "grind": {
+      "zh": "偏细",
+      "en": "finer"
+    },
+    "time": {
+      "zh": "偏长",
+      "en": "longer"
+    },
+    "principle": {
+      "zh": "豆子结构紧密需更多能量;明亮酸质与花香要充分萃取",
+      "en": "Dense structure needs more energy; bright acids & florals need full extraction"
+    },
+    "mantra": {
+      "zh": "浅烘磨细温要高",
+      "en": "light roast: finer, higher temp"
+    }
+  },
+  "medium": {
+    "solubility": {
+      "zh": "中等",
+      "en": "medium"
+    },
+    "water_temp": "90-93C",
+    "grind": {
+      "zh": "中等",
+      "en": "medium"
+    },
+    "time": {
+      "zh": "标准",
+      "en": "standard"
+    },
+    "principle": {
+      "zh": "平衡型,接近金杯标准参数",
+      "en": "balanced, near golden-cup standard"
+    },
+    "mantra": "—"
+  },
+  "dark": {
+    "solubility": {
+      "zh": "高",
+      "en": "high"
+    },
+    "water_temp": "88-91C",
+    "grind": {
+      "zh": "偏粗",
+      "en": "coarser"
+    },
+    "time": {
+      "zh": "偏短",
+      "en": "shorter"
+    },
+    "principle": {
+      "zh": "受热久结构疏松易溶;快萃会苦涩",
+      "en": "Long roast = porous, easy to extract; fast pull = bitter"
+    },
+    "mantra": {
+      "zh": "深烘磨粗温要低",
+      "en": "dark roast: coarser, lower temp"
+    }
+  }
+}

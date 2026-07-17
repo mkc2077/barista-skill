@@ -1,0 +1,162 @@
+[
+  {
+    "id": "fragrance_aroma",
+    "name": {
+      "zh": "干香/湿香 Fragrance/Aroma",
+      "en": "Fragrance/Aroma"
+    },
+    "max": 10,
+    "type": {
+      "zh": "质量",
+      "en": "quality"
+    },
+    "desc": {
+      "zh": "干香=研磨后注水前挥发性香气;湿香=注水破渣后香气",
+      "en": "Dry aroma after grind, before pour; wet aroma after breaking crust"
+    }
+  },
+  {
+    "id": "flavor",
+    "name": {
+      "zh": "风味 Flavor",
+      "en": "Flavor"
+    },
+    "max": 10,
+    "type": {
+      "zh": "质量",
+      "en": "quality"
+    },
+    "desc": {
+      "zh": "水溶性滋味+挥发性气味综合感知,含鼻后嗅觉",
+      "en": "Soluble taste + volatile aroma, incl. retronasal"
+    }
+  },
+  {
+    "id": "aftertaste",
+    "name": {
+      "zh": "余韵 Aftertaste",
+      "en": "Aftertaste"
+    },
+    "max": 10,
+    "type": {
+      "zh": "质量",
+      "en": "quality"
+    },
+    "desc": {
+      "zh": "吞咽后口腔残留滋味,回甘持久给高分",
+      "en": "Lingering finish after swallow; long sweet finish scores high"
+    }
+  },
+  {
+    "id": "acidity",
+    "name": {
+      "zh": "酸质 Acidity",
+      "en": "Acidity"
+    },
+    "max": 10,
+    "type": {
+      "zh": "质量",
+      "en": "quality"
+    },
+    "desc": {
+      "zh": "按酸的品质而非强度评判,明亮果酸为优",
+      "en": "Judge quality not intensity; bright acids score high"
+    }
+  },
+  {
+    "id": "body",
+    "name": {
+      "zh": "醇厚度 Body",
+      "en": "Body"
+    },
+    "max": 10,
+    "type": {
+      "zh": "质量",
+      "en": "quality"
+    },
+    "desc": {
+      "zh": "纯触感评估:油脂感、黏度、质量感",
+      "en": "Tactile only: oiliness, viscosity, weight"
+    }
+  },
+  {
+    "id": "uniformity",
+    "name": {
+      "zh": "一致性 Uniformity",
+      "en": "Uniformity"
+    },
+    "max": 10,
+    "type": {
+      "zh": "勾选(5杯x2分)",
+      "en": "check (5 cupsx2pts)"
+    },
+    "desc": {
+      "zh": "杯间不一致扣2分/杯",
+      "en": "Inconsistent cups deduct 2pts/cup"
+    }
+  },
+  {
+    "id": "balance",
+    "name": {
+      "zh": "平衡感 Balance",
+      "en": "Balance"
+    },
+    "max": 10,
+    "type": {
+      "zh": "质量",
+      "en": "quality"
+    },
+    "desc": {
+      "zh": "各维度是否均衡和谐",
+      "en": "Whether dimensions are in harmony"
+    }
+  },
+  {
+    "id": "clean_cup",
+    "name": {
+      "zh": "干净度 Clean Cup",
+      "en": "Clean Cup"
+    },
+    "max": 10,
+    "type": {
+      "zh": "勾选(5杯x2分)",
+      "en": "check (5 cupsx2pts)"
+    },
+    "desc": {
+      "zh": "有缺陷味扣2分/杯",
+      "en": "Taint/fault deducts 2pts/cup"
+    }
+  },
+  {
+    "id": "sweetness",
+    "name": {
+      "zh": "甜度 Sweetness",
+      "en": "Sweetness"
+    },
+    "max": 10,
+    "type": {
+      "zh": "勾选(5杯x2分)",
+      "en": "check (5 cupsx2pts)"
+    },
+    "desc": {
+      "zh": "无甜感扣2分/杯",
+      "en": "No sweetness deducts 2pts/cup"
+    }
+  },
+  {
+    "id": "overall",
+    "name": {
+      "zh": "总评 Overall",
+      "en": "Overall"
+    },
+    "max": 10,
+    "type": {
+      "zh": "质量",
+      "en": "quality"
+    },
+    "desc": {
+      "zh": "杯测者综合主观评价",
+      "en": "Cupper's holistic subjective evaluation"
+    }
+  }
+]

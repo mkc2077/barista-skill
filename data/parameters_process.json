@@ -1,0 +1,42 @@
+{
+  "washed": {
+    "adjustment": {
+      "zh": "稍高水温或稍细研磨;粉水比略高(1:16-1:17)",
+      "en": "slightly higher temp or finer; ratio a touch higher (1:16-1:17)"
+    },
+    "flavor": {
+      "zh": "风味干净清晰、酸度明亮",
+      "en": "clean, clear, bright acidity"
+    }
+  },
+  "natural": {
+    "adjustment": {
+      "zh": "稍低水温或稍粗研磨防过萃;粉水比略低(1:15-1:16)",
+      "en": "slightly lower temp or coarser to avoid over-extraction; ratio lower (1:15-1:16)"
+    },
+    "flavor": {
+      "zh": "果香浓郁、甜感高、醇厚",
+      "en": "fruity, sweet, full body"
+    }
+  },
+  "honey": {
+    "adjustment": {
+      "zh": "中等参数,按蜜处理程度微调",
+      "en": "mid parameters, tune by honey level"
+    },
+    "flavor": {
+      "zh": "甜感突出、平衡",
+      "en": "sweet-forward, balanced"
+    }
+  },
+  "anaerobic": {
+    "adjustment": {
+      "zh": "通常降水温(88-92C)避免过度提取发酵风味",
+      "en": "often lower temp (88-92C) to avoid pulling too much funk"
+    },
+    "flavor": {
+      "zh": "风味独特强烈、发酵感、酒香",
+      "en": "intense, funky, wine-like"
+    }
+  }
+}

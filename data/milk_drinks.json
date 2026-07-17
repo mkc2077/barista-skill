@@ -1,0 +1,255 @@
+{
+  "macchiato": {
+    "name": {
+      "zh": "玛奇朵 Espresso Macchiato",
+      "en": "Espresso Macchiato"
+    },
+    "espresso": {
+      "zh": "1份浓缩",
+      "en": "1 shot"
+    },
+    "milk": {
+      "zh": "极少(一勺奶/奶泡点缀)",
+      "en": "tiny (a spoon of milk/foam)"
+    },
+    "foam": {
+      "zh": "一抹",
+      "en": "a dab"
+    },
+    "volume": "60-80ml",
+    "notes": {
+      "zh": "浓缩为主,奶只'点一下'。注意'拿铁玛奇朵'做法相反,给方案前先确认要哪种。",
+      "en": "Espresso-forward, milk just 'marks'. Latte Macchiato is the reverse; confirm which."
+    }
+  },
+  "cortado": {
+    "name": {
+      "zh": "可塔朵 Cortado",
+      "en": "Cortado"
+    },
+    "espresso": {
+      "zh": "1份浓缩",
+      "en": "1 shot"
+    },
+    "milk": {
+      "zh": "等量温奶(约40-60g)",
+      "en": "equal warm milk (~40-60g)"
+    },
+    "foam": {
+      "zh": "几乎无",
+      "en": "almost none"
+    },
+    "volume": "90-120ml",
+    "notes": {
+      "zh": "浓缩:奶 1:1 最平衡,玻璃小杯;奶只'降强度'不抢味。",
+      "en": "1:1 espresso:milk, balanced small glass; milk only cuts strength, not flavor."
+    }
+  },
+  "flat_white": {
+    "name": {
+      "zh": "澳白 Flat White",
+      "en": "Flat White"
+    },
+    "espresso": {
+      "zh": "1份(多用ristretto更浓)",
+      "en": "1 shot (often ristretto for strength)"
+    },
+    "milk": {
+      "zh": "微泡奶约100-150ml",
+      "en": "microfoam milk ~100-150ml"
+    },
+    "foam": {
+      "zh": "极薄(<=0.5cm,与奶融合)",
+      "en": "very thin (<=0.5cm, integrated)"
+    },
+    "volume": "150-160ml",
+    "notes": {
+      "zh": "重点是'微泡融合'不是厚泡;浓缩突出、丝绒感。别打成卡布。",
+      "en": "Silky integrated microfoam, not thick foam; espresso forward & velvety."
+    }
+  },
+  "cappuccino": {
+    "name": {
+      "zh": "卡布奇诺 Cappuccino",
+      "en": "Cappuccino"
+    },
+    "espresso": {
+      "zh": "1份浓缩(双份36-40g)",
+      "en": "1 double shot (36-40g)"
+    },
+    "milk": {
+      "zh": "等量热奶(约60ml)",
+      "en": "equal steamed milk (~60ml)"
+    },
+    "foam": {
+      "zh": "厚(1-2cm)",
+      "en": "thick (1-2cm)"
+    },
+    "volume": "150-180ml",
+    "notes": {
+      "zh": "1:1:1 三层,厚泡是灵魂。注气3-5秒比拿铁久,55-65C。",
+      "en": "1:1:1 layered; thick foam is the soul. Aerate 3-5s (longer than latte), 55-65C."
+    }
+  },
+  "latte": {
+    "name": {
+      "zh": "拿铁 Caffe Latte",
+      "en": "Caffe Latte"
+    },
+    "espresso": {
+      "zh": "1份浓缩",
+      "en": "1 shot"
+    },
+    "milk": {
+      "zh": "多奶(约150-240ml)",
+      "en": "lots of milk (~150-240ml)"
+    },
+    "foam": {
+      "zh": "薄(0.5-1cm)",
+      "en": "thin (0.5-1cm)"
+    },
+    "volume": "220-300ml",
+    "notes": {
+      "zh": "奶味主导、最顺;注气短、以漩涡加热为主。",
+      "en": "Milk-forward, smoothest; aerate briefly, heat via whirlpool."
+    }
+  },
+  "mocha": {
+    "name": {
+      "zh": "摩卡 Mocha",
+      "en": "Mocha"
+    },
+    "espresso": {
+      "zh": "1份浓缩",
+      "en": "1 shot"
+    },
+    "milk": {
+      "zh": "热奶+巧克力酱",
+      "en": "steamed milk + chocolate"
+    },
+    "foam": {
+      "zh": "薄+巧克力",
+      "en": "thin + chocolate"
+    },
+    "volume": "200-250ml",
+    "notes": {
+      "zh": "杯底放巧克力酱15-30g→加热奶搅匀→倒入浓缩→薄泡→可加鲜奶油。",
+      "en": "Chocolate 15-30g→stir hot milk→pour espresso→thin foam→optional whipped cream."
+    }
+  },
+  "con_panna": {
+    "name": {
+      "zh": "康宝蓝 Espresso Con Panna",
+      "en": "Espresso Con Panna"
+    },
+    "espresso": {
+      "zh": "1份(约36g)",
+      "en": "1 shot (~36g)"
+    },
+    "milk": {
+      "zh": "—",
+      "en": "—"
+    },
+    "foam": {
+      "zh": "打发鲜奶油一坨铺顶",
+      "en": "whipped cream dollop on top"
+    },
+    "volume": "40-60ml",
+    "notes": {
+      "zh": "浓缩打底,鲜奶油(约20-40ml)打至略流动铺顶;别打太硬。",
+      "en": "Espresso base; whipped cream (~20-40ml) just pourable, not stiff."
+    }
+  },
+  "americano": {
+    "name": {
+      "zh": "美式 Americano",
+      "en": "Americano"
+    },
+    "espresso": {
+      "zh": "1份浓缩(36g)",
+      "en": "1 shot (36g)"
+    },
+    "milk": {
+      "zh": "—(加热水)",
+      "en": "— (add hot water)"
+    },
+    "foam": {
+      "zh": "—",
+      "en": "—"
+    },
+    "volume": "150-250ml",
+    "notes": {
+      "zh": "热美式=浓缩+热水150-200ml(1:4-1:6);冰美式=浓缩+冰+冷水200ml。",
+      "en": "Hot = shot + hot water 150-200ml (1:4-1:6); iced = shot + ice + cold water 200ml."
+    }
+  },
+  "irish_coffee": {
+    "name": {
+      "zh": "爱尔兰咖啡 Irish Coffee",
+      "en": "Irish Coffee"
+    },
+    "espresso": {
+      "zh": "热咖啡/双份浓缩+水约150ml",
+      "en": "hot coffee/double shot + water ~150ml"
+    },
+    "milk": {
+      "zh": "爱尔兰威士忌30-40ml+红糖1茶匙",
+      "en": "Irish whiskey 30-40ml + brown sugar 1 tsp"
+    },
+    "foam": {
+      "zh": "打发鲜奶油浮顶层(不搅拌)",
+      "en": "whipped cream floated (un-stirred)"
+    },
+    "volume": "200ml",
+    "notes": {
+      "zh": "含酒精甜饮:温杯→红糖+热咖啡搅匀→加威士忌→鲜奶油勺背引流浮面。",
+      "en": "Alcoholic sweet drink: warm cup→sugar+coffee→whiskey→float cream off spoon back."
+    }
+  },
+  "vienna": {
+    "name": {
+      "zh": "维也纳咖啡 Vienna Coffee",
+      "en": "Vienna Coffee"
+    },
+    "espresso": {
+      "zh": "1-2份+热水约100ml(小美式)",
+      "en": "1-2 shots + hot water ~100ml"
+    },
+    "milk": {
+      "zh": "大量打发鲜奶油铺顶",
+      "en": "lots of whipped cream on top"
+    },
+    "foam": {
+      "zh": "巧克力碎装饰",
+      "en": "chocolate shavings"
+    },
+    "volume": "200ml",
+    "notes": {
+      "zh": "像甜点:小美式→顶部两勺鲜奶油→撒巧克力碎;比康宝蓝奶油更厚。",
+      "en": "Dessert-like: small americano→two spoons cream→chocolate shavings; thicker than con panna."
+    }
+  },
+  "affogato": {
+    "name": {
+      "zh": "阿芙佳朵 Affogato",
+      "en": "Affogato"
+    },
+    "espresso": {
+      "zh": "现萃浓缩1份(25-40ml)",
+      "en": "fresh shot (25-40ml)"
+    },
+    "milk": {
+      "zh": "香草冰淇淋/gelato 1-2球(50-100g)",
+      "en": "vanilla gelato 1-2 scoops (50-100g)"
+    },
+    "foam": {
+      "zh": "—",
+      "en": "—"
+    },
+    "volume": "—",
+    "notes": {
+      "zh": "甜品级:杯先冷冻→舀冰淇淋→立刻现萃浓缩浇上→马上桌配小勺,不搅拌。",
+      "en": "Dessert: chill cup→gelato→pour fresh shot on top→serve at once, do not stir."
+    }
+  }
+}

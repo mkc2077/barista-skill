@@ -1,0 +1,524 @@
+{
+  "espresso": {
+    "name": {
+      "zh": "意式浓缩",
+      "en": "Espresso"
+    },
+    "dose": "18g",
+    "yield": {
+      "zh": "约36g (1:2)",
+      "en": "~36g (1:2)"
+    },
+    "temp": "92-94C",
+    "time": {
+      "zh": "25-30秒",
+      "en": "25-30s"
+    },
+    "grind": {
+      "zh": "中等偏细",
+      "en": "medium-fine"
+    },
+    "gear": {
+      "zh": "半自动咖啡机+手柄/粉碗+磨豆机",
+      "en": "semi-auto machine+portafilter+grinder"
+    },
+    "steps": {
+      "zh": "称18g粉→铺平→轻压→开机计时→到36g停(约27秒)",
+      "en": "Weigh 18g→level→light tamp→start & time→stop at 36g (~27s)"
+    },
+    "adjust_bitter": {
+      "zh": "粉磨粗一点(苦调粗)",
+      "en": "grind coarser"
+    },
+    "adjust_sour": {
+      "zh": "粉磨细一点(酸调细)",
+      "en": "grind finer"
+    }
+  },
+  "pour_over": {
+    "name": {
+      "zh": "手冲",
+      "en": "Pour-over"
+    },
+    "dose": "15g",
+    "yield": {
+      "zh": "240g (1:16)",
+      "en": "240g (1:16)"
+    },
+    "temp": {
+      "zh": "90-92C(深烘88,浅烘93)",
+      "en": "90-92C (dark 88, light 93)"
+    },
+    "time": {
+      "zh": "2:30-3:30",
+      "en": "2:30-3:30"
+    },
+    "grind": {
+      "zh": "中等(粗砂糖)",
+      "en": "medium (raw sugar)"
+    },
+    "gear": {
+      "zh": "手冲壶+滤杯(V60)+滤纸+磨豆机+秤",
+      "en": "kettle+dripper(V60)+filter+grinder+scale"
+    },
+    "steps": {
+      "zh": "粉入滤杯→先倒30g水闷蒸30秒→分2-3次画圈加水到240g→等滤完",
+      "en": "Add grounds→bloom 30g 30s→pour 2-3 stages to 240g→let drip"
+    },
+    "adjust_bitter": {
+      "zh": "粉磨粗一点",
+      "en": "grind coarser"
+    },
+    "adjust_sour": {
+      "zh": "粉磨细一点",
+      "en": "grind finer"
+    }
+  },
+  "french_press": {
+    "name": {
+      "zh": "法压壶",
+      "en": "French Press"
+    },
+    "dose": "15g",
+    "yield": "250g",
+    "temp": "93C",
+    "time": {
+      "zh": "浸泡4分钟",
+      "en": "steep 4 min"
+    },
+    "grind": {
+      "zh": "粗研磨(海盐)",
+      "en": "coarse (sea salt)"
+    },
+    "gear": {
+      "zh": "法压壶+磨豆机+秤",
+      "en": "French press+grinder+scale"
+    },
+    "steps": {
+      "zh": "粉水混合→浸泡4分钟→压下→倒出",
+      "en": "Mix→steep 4 min→press→pour"
+    },
+    "adjust_bitter": {
+      "zh": "粉磨更粗",
+      "en": "grind coarser"
+    },
+    "adjust_sour": {
+      "zh": "粉磨细一点或延长浸泡",
+      "en": "grind finer or steep longer"
+    }
+  },
+  "aeropress": {
+    "name": {
+      "zh": "爱乐压",
+      "en": "AeroPress"
+    },
+    "dose": "15-17g",
+    "yield": "220-250g",
+    "temp": {
+      "zh": "80-90C(深烘低,浅烘高)",
+      "en": "80-90C (dark lower, light higher)"
+    },
+    "time": {
+      "zh": "浸泡1分钟+压20-30秒",
+      "en": "steep 1 min + press 20-30s"
+    },
+    "grind": {
+      "zh": "中细(比手冲细,比意式粗)",
+      "en": "medium-fine"
+    },
+    "gear": {
+      "zh": "爱乐压+滤纸/金属滤+磨豆机",
+      "en": "AeroPress+paper/metal filter+grinder"
+    },
+    "steps": {
+      "zh": "装粉倒水→搅两下→闷1分钟→盖滤盖慢慢压(20-30秒)",
+      "en": "Add grounds & water→stir→steep 1 min→press slowly (20-30s)"
+    },
+    "adjust_bitter": {
+      "zh": "粉磨粗一点或水降温",
+      "en": "grind coarser or lower temp"
+    },
+    "adjust_sour": {
+      "zh": "粉磨细一点或水升温",
+      "en": "grind finer or raise temp"
+    }
+  },
+  "moka_pot": {
+    "name": {
+      "zh": "摩卡壶",
+      "en": "Moka Pot"
+    },
+    "dose": "18-20g",
+    "yield": {
+      "zh": "下壶冷水至安全阀下",
+      "en": "cold water below safety valve"
+    },
+    "temp": {
+      "zh": "中小火",
+      "en": "medium-low heat"
+    },
+    "time": {
+      "zh": "出咖啡1-2分钟",
+      "en": "1-2 min flow"
+    },
+    "grind": {
+      "zh": "中细(细砂糖偏细)",
+      "en": "medium-fine"
+    },
+    "gear": {
+      "zh": "摩卡壶+磨豆机+热源",
+      "en": "moka pot+grinder+stove"
+    },
+    "steps": {
+      "zh": "下壶加冷水→粉碗装粉铺平别压→拧紧→中小火→出咖啡转最小火→咕噜声立刻关火",
+      "en": "Cold water→fill basket level, no tamp→tighten→medium heat→low on flow→cut at gurgle"
+    },
+    "adjust_bitter": {
+      "zh": "火关小/粉磨粗/别煮到咕噜太久",
+      "en": "lower heat / coarser / stop before gurgle"
+    },
+    "adjust_sour": {
+      "zh": "—",
+      "en": "—"
+    }
+  },
+  "cold_brew": {
+    "name": {
+      "zh": "冷萃",
+      "en": "Cold Brew"
+    },
+    "dose": "50-70g",
+    "yield": "500-700g",
+    "temp": {
+      "zh": "常温水或冷水",
+      "en": "room temp or cold water"
+    },
+    "time": {
+      "zh": "冰箱12-24小时",
+      "en": "fridge 12-24h"
+    },
+    "grind": {
+      "zh": "粗研磨(海盐)",
+      "en": "coarse (sea salt)"
+    },
+    "gear": {
+      "zh": "带盖容器/瓶+滤网/滤袋+冰箱",
+      "en": "lidded jar+strainer+fridge"
+    },
+    "steps": {
+      "zh": "粉水搅匀→盖好放冰箱→时间到过滤即可",
+      "en": "Stir grounds & water→cover→fridge→strain"
+    },
+    "adjust_bitter": {
+      "zh": "粉磨更粗或时间缩短",
+      "en": "coarser or shorter time"
+    },
+    "adjust_sour": {
+      "zh": "粉磨细一点或延长时间",
+      "en": "finer or longer time"
+    }
+  },
+  "ice_drip": {
+    "name": {
+      "zh": "冰滴",
+      "en": "Ice Drip / Cold Drip"
+    },
+    "dose": "40-60g",
+    "yield": {
+      "zh": "400-600g冰水",
+      "en": "400-600g ice water"
+    },
+    "temp": {
+      "zh": "冰水混合",
+      "en": "ice water"
+    },
+    "time": {
+      "zh": "4-8小时(每秒1滴)",
+      "en": "4-8h (1 drop/sec)"
+    },
+    "grind": {
+      "zh": "中粗研磨",
+      "en": "medium-coarse"
+    },
+    "gear": {
+      "zh": "冰滴塔/壶+冰+滤纸/滤网",
+      "en": "ice drip tower+ice+filter"
+    },
+    "steps": {
+      "zh": "粉铺平→调阀门让冰水慢滴→接住咖啡→冷藏后喝",
+      "en": "Level grounds→slow ice-water drip→collect→chill"
+    },
+    "adjust_bitter": {
+      "zh": "粉磨粗/冰水多加水",
+      "en": "coarser / more water"
+    },
+    "adjust_sour": {
+      "zh": "阀门调慢/粉磨细",
+      "en": "slower valve / finer"
+    }
+  },
+  "clever_dripper": {
+    "name": {
+      "zh": "聪明杯",
+      "en": "Clever Dripper"
+    },
+    "dose": "15-20g",
+    "yield": "240-300g",
+    "temp": "90-93C",
+    "time": {
+      "zh": "浸泡2-3分钟",
+      "en": "steep 2-3 min"
+    },
+    "grind": {
+      "zh": "中研磨(粗砂糖)",
+      "en": "medium (raw sugar)"
+    },
+    "gear": {
+      "zh": "聪明杯+滤纸+秤+磨豆机",
+      "en": "Clever Dripper+filter+scale+grinder"
+    },
+    "steps": {
+      "zh": "放滤纸加粉→倒水到目标量→盖好闷2-3分钟→放到杯上打开阀门滴下",
+      "en": "Filter & grounds→pour to target→cover steep 2-3 min→set on cup to drain"
+    },
+    "adjust_bitter": {
+      "zh": "粉磨粗",
+      "en": "coarser"
+    },
+    "adjust_sour": {
+      "zh": "粉磨细",
+      "en": "finer"
+    }
+  },
+  "iced_pour_over": {
+    "name": {
+      "zh": "冰手冲",
+      "en": "Iced Pour-over"
+    },
+    "dose": "15g",
+    "yield": {
+      "zh": "冰约100g+热水150g",
+      "en": "ice ~100g + hot 150g"
+    },
+    "temp": {
+      "zh": "90-93C(浅烘可高)",
+      "en": "90-93C (light higher)"
+    },
+    "time": {
+      "zh": "同热手冲",
+      "en": "same as pour-over"
+    },
+    "grind": {
+      "zh": "中细",
+      "en": "medium-fine"
+    },
+    "gear": {
+      "zh": "滤杯+滤纸+手冲壶+冰杯+冰",
+      "en": "dripper+filter+kettle+iced cup+ice"
+    },
+    "steps": {
+      "zh": "粉入滤杯→少量水闷蒸30s→分次注水→直接落在冰上冷却",
+      "en": "Bloom 30s→pour in stages→drip onto ice"
+    },
+    "adjust_bitter": {
+      "zh": "粉磨粗",
+      "en": "coarser"
+    },
+    "adjust_sour": {
+      "zh": "粉磨细",
+      "en": "finer"
+    }
+  },
+  "drip_bag": {
+    "name": {
+      "zh": "挂耳咖啡",
+      "en": "Drip Bag"
+    },
+    "dose": "10g",
+    "yield": {
+      "zh": "150g (1:15)",
+      "en": "150g (1:15)"
+    },
+    "temp": "90-93C",
+    "time": {
+      "zh": "2-3分钟",
+      "en": "2-3 min"
+    },
+    "grind": {
+      "zh": "中研磨(厂定)",
+      "en": "medium (factory)"
+    },
+    "gear": {
+      "zh": "挂耳包+杯+热水",
+      "en": "drip bag+mug+hot water"
+    },
+    "steps": {
+      "zh": "撕开挂耳架在杯口→先倒20-30g水闷蒸20秒→分2-3次加水到150g→取下丢弃",
+      "en": "Tear & hang→bloom 20-30g 20s→pour 2-3 stages to 150g→discard"
+    },
+    "adjust_bitter": {
+      "zh": "粉是固定的,多加水/水温降一点",
+      "en": "grounds fixed; add water or lower temp a touch"
+    },
+    "adjust_sour": {
+      "zh": "少加水/水温升一点",
+      "en": "less water or raise temp a touch"
+    }
+  },
+  "syphon": {
+    "name": {
+      "zh": "虹吸壶(赛风)",
+      "en": "Syphon (Siphon)"
+    },
+    "dose": "20g",
+    "yield": {
+      "zh": "300g (1:15)",
+      "en": "300g (1:15)"
+    },
+    "temp": {
+      "zh": "沸腾后约90-95C",
+      "en": "~90-95C after boil"
+    },
+    "time": {
+      "zh": "上壶浸泡60-90秒",
+      "en": "steep 60-90s upper"
+    },
+    "grind": {
+      "zh": "中研磨(粗砂糖)",
+      "en": "medium (raw sugar)"
+    },
+    "gear": {
+      "zh": "虹吸壶+酒精灯/瓦斯炉+滤布/滤芯+搅拌棒",
+      "en": "syphon+burner+cloth/steel filter+stirrer"
+    },
+    "steps": {
+      "zh": "下壶加水加热→水上升上壶→加粉搅拌→浸泡60-90秒→离火→咖啡回落下壶→倒出",
+      "en": "Heat lower→rises→add grounds & stir→steep 60-90s→off heat→draws down→pour"
+    },
+    "adjust_bitter": {
+      "zh": "缩短浸泡/搅拌轻一点",
+      "en": "shorter steep / gentler stir"
+    },
+    "adjust_sour": {
+      "zh": "延长浸泡/多搅拌",
+      "en": "longer steep / stir more"
+    }
+  },
+  "turkish": {
+    "name": {
+      "zh": "土耳其咖啡",
+      "en": "Turkish Coffee (Cezve/Ibrik)"
+    },
+    "dose": "10g",
+    "yield": {
+      "zh": "120g (1:12)",
+      "en": "120g (1:12)"
+    },
+    "temp": {
+      "zh": "煮至近沸不起沫",
+      "en": "heat to near-boil, no overflow"
+    },
+    "time": {
+      "zh": "6-8分钟",
+      "en": "6-8 min"
+    },
+    "grind": {
+      "zh": "极细(面粉状)",
+      "en": "extra-fine (flour)"
+    },
+    "gear": {
+      "zh": "铜壶(cezve/ibrik)+小热源",
+      "en": "cezve/ibrik+low heat"
+    },
+    "steps": {
+      "zh": "壶加冷水+粉+糖搅匀→小火加热→起沫快离火→重复2-3次→静置1分钟倒出(含细粉不滤)",
+      "en": "Cold water+grounds+sugar→low heat→foam rises, lift off→repeat 2-3×→rest 1 min→pour with grounds"
+    },
+    "adjust_bitter": {
+      "zh": "火更小/少起沫次数",
+      "en": "lower heat / fewer foam cycles"
+    },
+    "adjust_sour": {
+      "zh": "多煮一会/再多重复一次起沫",
+      "en": "cook longer / one more foam cycle"
+    }
+  },
+  "flash_brew": {
+    "name": {
+      "zh": "闪萃/日式冰冲",
+      "en": "Flash Brew (Japanese iced)"
+    },
+    "dose": "20g",
+    "yield": {
+      "zh": "热水200g+冰80g",
+      "en": "hot 200g + ice 80g"
+    },
+    "temp": {
+      "zh": "93-96C",
+      "en": "93-96C"
+    },
+    "time": {
+      "zh": "2:00-3:00",
+      "en": "2:00-3:00"
+    },
+    "grind": {
+      "zh": "中细",
+      "en": "medium-fine"
+    },
+    "gear": {
+      "zh": "滤杯+滤纸+手冲壶+冰壶+冰",
+      "en": "dripper+filter+kettle+iced carafe+ice"
+    },
+    "steps": {
+      "zh": "冰先放壶里→按热手冲流程注水→咖啡直接落在冰上瞬间冷却锁香",
+      "en": "Ice in carafe→pour hot as pour-over→drips onto ice, instant chill locks aroma"
+    },
+    "adjust_bitter": {
+      "zh": "粉磨粗",
+      "en": "coarser"
+    },
+    "adjust_sour": {
+      "zh": "粉磨细",
+      "en": "finer"
+    }
+  },
+  "vietnamese_phin": {
+    "name": {
+      "zh": "越南咖啡(phin滴漏壶)",
+      "en": "Vietnamese Phin"
+    },
+    "dose": "15g",
+    "yield": {
+      "zh": "100g (1:7 浓)",
+      "en": "100g (1:7 strong)"
+    },
+    "temp": {
+      "zh": "90-94C",
+      "en": "90-94C"
+    },
+    "time": {
+      "zh": "3-5分钟滴漏",
+      "en": "3-5 min drip"
+    },
+    "grind": {
+      "zh": "中粗(粗砂糖)",
+      "en": "medium-coarse"
+    },
+    "gear": {
+      "zh": "越南phin壶+压板+杯+甜炼乳(可选)",
+      "en": "phin filter+press plate+cup+condensed milk (opt.)"
+    },
+    "steps": {
+      "zh": "杯底抹炼乳(可选)→phin加粉装压板→倒少量水闷蒸30秒→注满水盖盖→滴漏→搅匀",
+      "en": "Condensed milk (opt.)→add grounds & press plate→bloom 30s→fill & cover→drip→stir"
+    },
+    "adjust_bitter": {
+      "zh": "压板松一点/水降温",
+      "en": "loosen plate / lower temp"
+    },
+    "adjust_sour": {
+      "zh": "压板紧一点/水升温",
+      "en": "tighten plate / raise temp"
+    }
+  }
+}
