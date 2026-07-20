@@ -220,7 +220,7 @@ def diagnose_flavor(problem: str, experience: str = "beginner", flow_rate: str =
         experience: 经验水平 / experience: beginner/intermediate/advanced (默认 beginner)
         flow_rate: 水流速度描述(可选) / flow rate, e.g. "很快"/"fast","很慢"/"slow"
         language: 输出语言 / output language: zh or en (默认 zh)
-    Returns: 诊断结果与调整建议 (localized).
+    Returns: 诊断结果与调整建议 (JSON 中需人话改写层落地)。
     """
     lang = language if language in ("zh", "en") else "zh"
     p = problem.lower()
@@ -231,30 +231,28 @@ def diagnose_flavor(problem: str, experience: str = "beginner", flow_rate: str =
             break
     if not matched:
         avail = "; ".join("/".join(d["symptoms"]) for d in FLAVOR_DIAGNOSIS.values())
-        return (f"未能识别风味问题 '{problem}'。可识别: {avail}" if lang == "zh"
-                else f"Could not recognize flavor problem '{problem}'. Known: {avail}")
+        err = f"未能识别风味问题 '{problem}'。可识别: {avail}" if lang == "zh" else f"Could not recognize flavor problem '{problem}'. Known: {avail}"
+        return json.dumps({"ok": False, "error": err}, ensure_ascii=False, indent=2)
     diag = FLAVOR_DIAGNOSIS[matched]
-    L = {"zh": {"title": "风味诊断结果", "kind": "问题类型", "cause": "根本原因", "adv_begin": "调整建议(新手版)",
-                "adv_pro": "调整建议(资深版)", "mantra": "口诀", "q": "诊断提问",
-                "q_text": "做的时候水是很快就流完了,还是磨蹭很久才流完?"}, 
-         "en": {"title": "Flavor diagnosis", "kind": "Issue", "cause": "Root cause", "adv_begin": "Fix (beginner)",
-                "adv_pro": "Fix (advanced)", "mantra": "Mantra", "q": "Diagnostic question",
-                "q_text": "Did the water run through fast, or take a long time to finish?"}}[lang]
-    lines = [f"## {L['title']}", "", f"**{L['kind']}**: {' / '.join(diag['symptoms'])}",
-             f"**{L['cause']}**: {_t(diag['root_cause'], lang)}", ""]
+    fields = {
+        "problem": problem,
+        "matched": matched,
+        "symptoms": diag["symptoms"],
+        "root_cause": _t(diag["root_cause"], lang),
+        "experience": experience,
+        "flow_rate": flow_rate,
+    }
     if experience == "beginner":
-        lines += [f"### {L['adv_begin']}", _t(diag['beginner'], lang), "", f"### {L['mantra']}",
-                  f"> {_t(MANTRAS['grind'], lang)}", f"> {_t(MANTRAS['rule'], lang)}"]
+        fields["beginner_fix"] = _t(diag["beginner"], lang)
+        fields["mantra"] = _t(MANTRAS["grind"], lang) + " | " + _t(MANTRAS["rule"], lang)
         if matched in ("bitter", "sour") and not flow_rate:
-            lines += ["", f"### {L['q']}", L['q_text'],
-                      (f"- 流得快 -> 粉太粗/水太多\n- 流得慢 -> 可能其实过萃了" if lang == "zh"
-                       else f"- Fast -> too coarse / too much water\n- Slow -> may actually be over-extracted")]
+            fields["flow_diagnostic_question"] = ("做的时候水是很快就流完了,还是磨蹭很久才流完?" if lang == "zh" else "Did the water run through fast, or take a long time to finish?")
+            fields["flow_diagnostic_hints"] = ("流得快 -> 粉太粗/水太多；流得慢 -> 可能其实过萃了" if lang == "zh" else "Fast -> too coarse / too much water; Slow -> may actually be over-extracted")
     else:
-        lines += [f"### {L['adv_pro']}", _t(diag['advanced'], lang), "",
-                  (f"### 科学原理\n化合物溶出顺序: 果酸类(先) -> 脂类 -> 糖类(甜) -> 碳水化合物(苦, 后)\n金杯区间: 萃取率 18-22%, TDS 1.15-1.35%"
-                   if lang == "zh"
-                   else f"### Science\nDissolution order: acids(first) -> lipids -> sugars(sweet) -> carbs(bitter, last)\nGolden cup: extraction 18-22%, TDS 1.15-1.35%")]
-    return "\n".join(lines)
+        fields["advanced_fix"] = _t(diag["advanced"], lang)
+        fields["science"] = ("化合物溶出顺序: 果酸类(先) -> 脂类 -> 糖类(甜) -> 碳水化合物(苦, 后)；金杯区间: 萃取率 18-22%, TDS 1.15-1.35%" if lang == "zh" else "Dissolution order: acids(first) -> lipids -> sugars(sweet) -> carbs(bitter, last); Golden cup: extraction 18-22%, TDS 1.15-1.35%")
+    fields["verify"] = ("单变量铁律：一次只改一个变量，喝一口再判断。" if lang == "zh" else "Iron law: change ONE variable at a time, sip before next change.")
+    return json.dumps(fields, ensure_ascii=False, indent=2)
 
 
 @mcp.tool()
@@ -321,41 +319,39 @@ def calibrate_grinder(grinder_model: str, target_method: str = "espresso", langu
     """获取磨豆机校准方法与推荐刻度 / Get grinder calibration & recommended settings.
 
     Args:
-        grinder_model: 磨豆机型号 / grinder:
-            comandante_c40, 1zpresso_jx_pro, timemore_c3, mahlkonig_ek43, eureka_mignon, baratza_sette_270
+        grinder_model: 磨豆机型号 / grinder: comandante_c40, 1zpresso_jx_pro, timemore_c3, mahlkonig_ek43, eureka_mignon, baratza_sette_270
         target_method: 目标冲煮法 / target: espresso, pour_over, french_press, turkish
         language: 输出语言 / output language: zh or en (默认 zh)
-    Returns: 校准步骤与推荐刻度 (localized).
+    Returns: 校准步骤与推荐刻度 (JSON 中需人话改写层落地)。
     """
     lang = language if language in ("zh", "en") else "zh"
     g = GRINDER_SETTINGS.get(grinder_model)
     if not g:
         avail = ", ".join(GRINDER_SETTINGS.keys())
-        return (f"未找到磨豆机 '{grinder_model}'。可用: {avail}" if lang == "zh"
-                else f"Grinder '{grinder_model}' not found. Available: {avail}")
-    L = {"zh": {"cal": "校准指南", "type": "类型", "rec": "推荐刻度", "zero": "归零校准步骤",
-                "principle": "校准原则 (Dose->Yield->Time)", "common": "常见问题"},
-         "en": {"cal": "calibration guide", "type": "Type", "rec": "Recommended settings", "zero": "Zeroing steps",
-                "principle": "Calibration principle (Dose->Yield->Time)", "common": "Common issues"}}[lang]
-    lines = [f"## {_t(g['name'], lang)} {L['cal']}", "", f"**{L['type']}**: {_t(g['type'], lang)}", "", f"### {L['rec']}"]
+        err = f"未找到磨豆机 '{grinder_model}'。可用: {avail}" if lang == "zh" else f"Grinder '{grinder_model}' not found. Available: {avail}"
+        return json.dumps({"ok": False, "error": err}, ensure_ascii=False, indent=2)
     settings = g["settings"]
+    targeted = {}
     if isinstance(settings, dict):
         mn = {"turkish": {"zh": "土耳其咖啡", "en": "Turkish"}, "espresso": {"zh": "意式浓缩", "en": "Espresso"},
               "espresso_soe": {"zh": "SOE意式", "en": "SOE espresso"}, "pour_over": {"zh": "手冲", "en": "Pour-over"},
               "french_press": {"zh": "法压/冷萃", "en": "French press/cold brew"}}
         for mth, cfg in settings.items():
-            hl = " <--" if mth == target_method else ""
-            lines.append(f"- {_t(mn.get(mth, mth), lang)}: **{_t(cfg, lang)}**{hl}")
+            targeted[mth] = {"label": _t(mn.get(mth, mth), lang), "setting": _t(cfg, lang), "is_target": (mth == target_method)}
     else:
-        lines.append(f"- **{_t(settings, lang)}**")
-    lines += ["", f"### {_t(g.get('calibration',{'zh':'','en':''}), lang)}".rstrip()]
-    lines += ["", f"### {L['principle']}",
-              ("1. 固定粉量 Dose(意式18g)\n2. 固定液重 Yield(意式36g=1:2)\n3. 调研磨度使时间到目标范围(意式25-32秒)" if lang == "zh"
-               else "1. Fix dose (espresso 18g)\n2. Fix yield (espresso 36g=1:2)\n3. Tune grind to hit target time (espresso 25-32s)"),
-              "", f"### {L['common']}",
-              (f"- 刻度漂移 -> 定期重新校准零点\n- 清洁后研磨不均 -> 锁紧刀盘螺丝并重新校准\n- 换豆后味道突变 -> 充分 purge 旧粉再调参" if lang == "zh"
-               else f"- dial drift -> recalibrate zero\n- uneven after cleaning -> tighten burr screws & recalibrate\n- flavor jump after bean swap -> purge old grounds then re-tune")]
-    return "\n".join(lines)
+        targeted = _t(settings, lang)
+    fields = {
+        "grinder_model": grinder_model,
+        "name": _t(g["name"], lang),
+        "type": _t(g["type"], lang),
+        "target_method": target_method,
+        "recommended_settings": targeted,
+        "zero_steps": _t(g.get("calibration", {"zh": "", "en": ""}), lang),
+        "principle": ("1. 固定粉量 Dose(意式18g) 2. 固定液重 Yield(意式36g=1:2) 3. 调研磨度使时间到目标范围(意式25-32秒)" if lang == "zh" else "1. Fix dose (espresso 18g) 2. Fix yield (espresso 36g=1:2) 3. Tune grind to hit target time (espresso 25-32s)"),
+        "common_issues": ("- 刻度漂移 -> 定期重新校准零点 - 清洁后研磨不均 -> 锁紧刀盘螺丝并重新校准 - 换豆后味道突变 -> 充分 purge 旧粉再调参" if lang == "zh" else "- dial drift -> recalibrate zero - uneven after cleaning -> tighten burr screws & recalibrate - flavor jump after bean swap -> purge old grounds then re-tune"),
+    }
+    fields["verify"] = ("校准后做一杯测时间与产量，对照目标范围；一次只改一个变量。" if lang == "zh" else "After calibrating brew one shot, check time & yield vs target; change ONE variable at a time.")
+    return json.dumps(fields, ensure_ascii=False, indent=2)
 
 
 @mcp.tool()

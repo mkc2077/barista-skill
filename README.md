@@ -1,7 +1,7 @@
 # Barista 咖啡师教练技能 / Barista Coffee-Coach Skill
 
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Version](https://img.shields.io/badge/version-2.8.0-blue)
+![Version](https://img.shields.io/badge/version-2.9.0-blue)
 ![Methods](https://img.shields.io/badge/brew-14%20methods-success)
 ![Milk drinks](https://img.shields.io/badge/milk%20drinks-11-success)
 ![MCP tools](https://img.shields.io/badge/MCP%20tools-11-blueviolet)

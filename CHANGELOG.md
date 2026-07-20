@@ -4,6 +4,19 @@
 
 ---
 
+## [2.9.0] - 2026-07-21  (API breaking: diagnose_flavor + calibrate_grinder 转 JSON)
+
+### Added
+- 新增 `get_recipe` / `get_milk_drink` / `get_craft_recipe` JSON 已存在于 v2.8 中。
+
+### Breaking Changes
+- **`diagnose_flavor` 返回值切换 JSON**: 不再返 `## 诊断表`，改 `{"problem":...,"symptoms":...,"root_cause":...,"beginner_fix":"...",...}` 各位字段。
+- **`calibrate_grinder` 返回值切换 JSON**: 不再返 `## 校准表`，改 `{"grinder_model":...,"recommended_settings":...,"zero_steps":...,"principle":...,...}` 各位字段。
+- 两者均含 `"verify"` 字段（单变量铁律替换旧尾句）。
+- 版本号 2.8.0 → 2.9.0。
+
+### Changed
+- 测试断言 acc: `calibrate_grinder_all` 检查 `startswith("{")` + `"recommended_settings"` 字段名。pytest 121 passed；self_check ALL PASSED。
 ## [2.8.0] - 2026-07-20  (API breaking: 说人话改写层 / human-voice rewrite layer)
 
 ### Added

@@ -200,8 +200,8 @@ def test_cupping_score_out_of_range_warns():
 @pytest.mark.parametrize("lang", ["zh", "en"])
 def test_calibrate_grinder_all(grinder, lang):
     out = b.calibrate_grinder(grinder, "espresso", lang)
-    assert out.startswith("## ")  # markdown still returned by this tool
-    assert ("校准" if lang == "zh" else "calibration") in out.lower()
+    assert out.startswith("{")  # JSON-object return
+    assert '"recommended_settings"' in out  # JSON field name stable across languages
 
 
 def test_calibrate_grinder_unknown():
