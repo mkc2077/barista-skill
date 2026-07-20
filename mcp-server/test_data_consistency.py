@@ -106,7 +106,7 @@ def test_en_refs_mirror_structure():
     missing_en = cn_files - en_files - {"README.md"}  # README.md is the en/README.md, not a mirror
     # Some files are intentionally mono-lingual (eval-cases, example-dialogues,
     # glossary, search-queries). Log them so the test is informational.
-    allowed_mono = {"eval-cases.md", "example-dialogues.md", "glossary.md", "search-queries.md"}
+    allowed_mono = {"eval-cases.md", "example-dialogues.md", "glossary.md", "search-queries.md", "human-voice-rules.md"}
     unexpected_missing = missing_en - allowed_mono
     assert not unexpected_missing, \
         f"references/en/ missing mirrored files (not in allowed_mono): {unexpected_missing}"

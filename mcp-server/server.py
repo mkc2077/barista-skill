@@ -97,37 +97,40 @@ def get_recipe(method: str, roast_level: str = "medium", experience: str = "begi
     recipe = RECIPES.get(method)
     if not recipe:
         avail = ", ".join(RECIPES.keys())
-        return (f"未找到冲煮法 '{method}'。可用方法: {avail}"
-                if lang == "zh"
-                else f"Brew method '{method}' not found. Available: {avail}")
+        err = f"未找到冲煮法 '{method}'。可用方法: {avail}" if lang == "zh" else f"Brew method '{method}' not found. Available: {avail}"
+        return json.dumps({"ok": False, "error": err}, ensure_ascii=False, indent=2)
 
     roast = PARAMETERS_BY_ROAST.get(roast_level, PARAMETERS_BY_ROAST["medium"])
-    L = {"zh": {"dose": "粉量", "yield": "出液/水量", "temp": "水温", "time": "时间", "grind": "研磨度",
-                "roast": "烘焙度调整", "gear": "器材", "steps": "步骤", "adj": "风味调整",
-                "bitter": "太苦", "sour": "太酸", "beginner_mantra": "新手口诀", "adv": "烘焙度参数调整",
-                "sol": "溶解度", "wt": "建议水温", "g": "研磨倾向", "prin": "原理", "gold": "金杯目标"},
-           "en": {"dose": "Dose", "yield": "Yield/Water", "temp": "Temp", "time": "Time", "grind": "Grind",
-                  "roast": "Roast tweak", "gear": "Gear", "steps": "Steps", "adj": "Flavor tweaks",
-                  "bitter": "Too bitter", "sour": "Too sour", "beginner_mantra": "Beginner mantra",
-                  "adv": "Roast parameter tweaks", "sol": "Solubility", "wt": "Suggested temp",
-                  "g": "Grind lean", "prin": "Principle", "gold": "Golden-cup target"}}[lang]
-
-    lines = [f"## {_t(recipe['name'], lang)} {'起步参数' if lang=='zh' else 'starter params'}", "",
-            f"| {L['dose']} | {_t(recipe['dose'], lang)} |", f"| {L['yield']} | {_t(recipe['yield'], lang)} |",
-            f"| {L['temp']} | {_t(recipe['temp'], lang)} |", f"| {L['time']} | {_t(recipe['time'], lang)} |",
-            f"| {L['grind']} | {_t(recipe['grind'], lang)} |", f"| {L['gear']} | {_t(recipe['gear'], lang)} |",
-            f"| {L['roast']} | {_t(roast['mantra'], lang)} |", "", f"### {L['steps']}", _t(recipe['steps'], lang),
-            "", f"### {L['adj']}", f"- {L['bitter']} -> {_t(recipe['adjust_bitter'], lang)}",
-            f"- {L['sour']} -> {_t(recipe['adjust_sour'], lang)}"]
-
+    fields = {
+        "method": method,
+        "name": _t(recipe["name"], lang),
+        "dose": _t(recipe["dose"], lang),
+        "yield": _t(recipe["yield"], lang),
+        "temp": _t(recipe["temp"], lang),
+        "time": _t(recipe["time"], lang),
+        "grind": _t(recipe["grind"], lang),
+        "gear": _t(recipe["gear"], lang),
+        "roast_hint": _t(roast["mantra"], lang),
+        "steps": _t(recipe["steps"], lang),
+        "adjust_bitter": _t(recipe["adjust_bitter"], lang),
+        "adjust_sour": _t(recipe["adjust_sour"], lang),
+        "experience": experience
+    }
     if experience == "beginner":
-        lines += ["", f"### {L['beginner_mantra']}", f"> {_t(MANTRAS['grind'], lang)}", f"> {_t(MANTRAS['rule'], lang)}"]
+        fields["mantra"] = _t(MANTRAS["grind"], lang) + " | " + _t(MANTRAS["rule"], lang)
     elif experience == "advanced":
-        lines += ["", f"### {L['adv']}", f"- {L['sol']}: {_t(roast['solubility'], lang)}",
-                  f"- {L['wt']}: {roast['water_temp']}", f"- {L['g']}: {_t(roast['grind'], lang)}",
-                  f"- {L['prin']}: {_t(roast['principle'], lang)}",
-                  f"- {L['gold']}: {'萃取率 18-22%, TDS 1.15-1.35%' if lang=='zh' else 'extraction 18-22%, TDS 1.15-1.35%'}"]
-    return "\n".join(lines)
+        fields["advanced_notes"] = {
+            "solubility": _t(roast["solubility"], lang),
+            "water_temp": roast["water_temp"],
+            "grind_lean": _t(roast["grind"], lang),
+            "principle": _t(roast["principle"], lang),
+            "golden_cup": "萃取率 18-22%, TDS 1.15-1.35%" if lang == "zh" else "extraction 18-22%, TDS 1.15-1.35%"
+        }
+    h = "参数为通用起步值，具体器具/豆子需微调。单变量铁律: 一次只改一个变量。" if lang == "zh" else "Params are generic start points; adjust for your gear/beans. Iron law: change ONE variable at a time."
+    fields["verify"] = h
+    return json.dumps(fields, ensure_ascii=False, indent=2)
+
+
 
 
 @mcp.tool()
@@ -145,17 +148,19 @@ def get_milk_drink(drink: str, language: str = "zh") -> str:
     d = MILK_DRINKS.get(drink)
     if not d:
         avail = ", ".join(MILK_DRINKS.keys())
-        return (f"未找到奶咖 '{drink}'。可用: {avail}" if lang == "zh" else f"Milk drink '{drink}' not found. Available: {avail}")
-    L = {"zh": {"es": "浓缩", "milk": "奶", "foam": "奶泡/顶", "vol": "总量", "notes": "要点"},
-         "en": {"es": "Espresso", "milk": "Milk", "foam": "Foam/Top", "vol": "Volume", "notes": "Notes"}}[lang]
-    lines = [f"## {_t(d['name'], lang)}", "", f"| {L['es']} | {_t(d['espresso'], lang)} |",
-             f"| {L['milk']} | {_t(d['milk'], lang)} |", f"| {L['foam']} | {_t(d['foam'], lang)} |",
-             f"| {L['vol']} | {d['volume']} |", "", f"### {L['notes']}", _t(d['notes'], lang)]
-    if lang == "zh":
-        lines += ["", "> 比例于 2026-07-15 联网核对 (expertcafe/completehomebarista/coffee-guide.jp)。"]
-    else:
-        lines += ["", "> Ratios cross-checked online 2026-07-15 (expertcafe/completehomebarista/coffee-guide.jp)."]
-    return "\n".join(lines)
+        err = f"未找到奶咖 '{drink}'。可用: {avail}" if lang == "zh" else f"Milk drink '{drink}' not found. Available: {avail}"
+        return json.dumps({"ok": False, "error": err}, ensure_ascii=False, indent=2)
+    fields = {
+        "drink": drink,
+        "name": _t(d["name"], lang),
+        "espresso": _t(d["espresso"], lang),
+        "milk": _t(d["milk"], lang),
+        "foam": _t(d["foam"], lang),
+        "volume": d["volume"],
+        "notes": _t(d["notes"], lang),
+        "source": "比例于 2026-07-15 联网核对 (expertcafe/completehomebarista/coffee-guide.jp)" if lang == "zh" else "Ratios cross-checked online 2026-07-15 (expertcafe/completehomebarista/coffee-guide.jp)"
+    }
+    return json.dumps(fields, ensure_ascii=False, indent=2)
 
 
 @mcp.tool()
@@ -176,33 +181,8 @@ def get_craft_recipe(base: str = "espresso_classic", include_tea: bool = False, 
     BASES = {"espresso_classic", "soe_ristretto", "pour_over", "cold_brew"}
     if base not in BASES:
         avail = ", ".join(sorted(BASES))
-        return (f"未找到基底 '{base}'。可用: {avail}" if lang == "zh"
-                else f"Base '{base}' not found. Available: {avail}")
-
-    L = {"zh": {
-            "title": "特调咖啡 SOP（独立大类）",
-            "base": "咖啡基底",
-            "tea": "茶底",
-            "homemade": "自制辅料",
-            "store": "采购辅料",
-            "cupice": "杯具与冰",
-            "build": "拼装 SOP",
-            "present": "呈现与饮用",
-            "source": "来源",
-            "verify": "具体克数/萃取参数需联网核实门店当下配方，标注来源链接 + 获取日期。详见 references/craft-coffee.md。",
-        },
-         "en": {
-            "title": "Craft coffee SOP (standalone major category)",
-            "base": "Coffee base",
-            "tea": "Tea base",
-            "homemade": "Homemade adjuncts",
-            "store": "Store-bought adjuncts",
-            "cupice": "Glass & ice",
-            "build": "Build SOP",
-            "present": "Presentation & drinking",
-            "source": "Source",
-            "verify": "Specific grams/extraction params need online verification of the shop's current recipe, with source link + retrieval date. See references/craft-coffee.md.",
-        }}[lang]
+        err = f"未找到基底 '{base}'。可用: {avail}" if lang == "zh" else f"Base '{base}' not found. Available: {avail}"
+        return json.dumps({"ok": False, "error": err}, ensure_ascii=False, indent=2)
 
     BASE_INFO = {
         "espresso_classic": {"zh": "A. 中深烘浓缩：豆=中深烘拼配；粉 18g / 出液 36g (1:2) / 92-94C / 9 bar / 25-30s",
@@ -214,20 +194,21 @@ def get_craft_recipe(base: str = "espresso_classic", include_tea: bool = False, 
         "cold_brew":       {"zh": "D. 冷萃基底：粉 1:8-1:12 冷水浸泡 / 冷藏 12-24h / 粗研磨；完成后过滤可稀释到 1:15 饮用",
                              "en": "D. Cold brew base: 1:8-1:12 cold steep / refrigerated 12-24h / coarse grind; filter, dilute to 1:15 to drink"},
     }
-    TEA_INFO = {"zh": "茶类+茶水比+水温+时间（如茉莉 1:50-1:80/80-85C/1.5-2.5min；乌龙 1:40-1:60/90-95C/1.5-3min；红茶 1:40-1:60/92-95C/2-4min；冷泡茶 1:100/4-8h）",
-                "en": "Tea + ratio + temp + time (e.g. jasmine 1:50-1:80/80-85C/1.5-2.5min; oolong 1:40-1:60/90-95C/1.5-3min; black 1:40-1:60/92-95C/2-4min; cold-brew tea 1:100/4-8h)"}
+    tea_raw = "茶类+茶水比+水温+时间（如茉莉 1:50-1:80/80-85C/1.5-2.5min；乌龙 1:40-1:60/90-95C/1.5-3min；红茶 1:40-1:60/92-95C/2-4min；冷泡茶 1:100/4-8h）"
+    TEA_INFO = {"zh": tea_raw, "en": "Tea + ratio + temp + time (e.g. jasmine 1:50-1:80/80-85C/1.5-2.5min; oolong 1:40-1:60/90-95C/1.5-3min; black 1:40-1:60/92-95C/2-4min; cold-brew tea 1:100/4-8h)"}
 
-    lines = [f"## {L['title']}", "",
-             f"1. {L['base']}: {BASE_INFO[base][lang]}",
-             (f"2. {L['tea']}: {TEA_INFO[lang]}" if include_tea else f"2. {L['tea']}: 无 / None"),
-             f"3. {L['homemade']}: {{辅料名 [g] — 做法 SOP}}（如糖浆 1:1/1:2；香草/焦糖/生姜/肉桂变体；果泥/果酱/cascara syrup）",
-             f"4. {L['store']}: {{椰子水/气泡水/鲜榨果汁/奶/枫糖/可可抹茶粉 g}} — 注明品牌取向与甜度校准",
-             f"5. {L['cupice']}: 杯={{玻璃杯/高球/陶瓷拿铁杯 g}}；冰={{无/普通/大方冰/碎冰 g}}",
-             f"6. {L['build']}: 1) {{先入杯}} 2) {{次入}} 3) {{次入}} 4) {{咖啡液顶部缓注}} 5) {{收尾}}；口诀={{...}}",
-             f"7. {L['present']}: 是否搅拌/分几口/分层顺序；饮用窗口=X min；含酒精注明",
-             f"8. {L['source']}: [title](url)，获取于 YYYY-MM-DD",
-             "", f"> {L['verify']}"]
-    return "\n".join(lines)
+    fields = {
+        "base_spec": BASE_INFO[base][lang],
+        "tea_base": TEA_INFO[lang] if include_tea else "无 / None",
+        "homemade": "辅料名 [g] — 做法 SOP（如糖浆 1:1/1:2；香草/焦糖/生姜/肉桂变体；果泥/果酱/cascara syrup）" if lang == "zh" else "Adjunct name [g] — prep SOP (e.g. syrups 1:1/1:2; vanilla/caramel/ginger/cinnamon variants; puree/jam/cascara syrup)",
+        "store_bought": "椰子水/气泡水/鲜榨果汁/奶/枫糖/可可抹茶粉 g — 注明品牌取向与甜度校准" if lang == "zh" else "Coconut water/sparkling/fresh juice/milk/maple/cocoa-matcha g — note brand orientation & sweetness calibration",
+        "cup_ice": "杯=玻璃杯/高球/陶瓷拿铁杯 g；冰=无/普通/大方冰/碎冰 g" if lang == "zh" else "Glass=standard/highball/ceramic-latte g; ice=none/regular/block/crushed g",
+        "build_sop": "1) 先入杯 2) 次入 3) 次入 4) 咖啡液顶部缓注 5) 收尾；口诀={...}" if lang == "zh" else "1) fill glass 2) then 3) then 4) slow-pour coffee on top 5) finish; mantra={...}",
+        "presentation": "是否搅拌/分几口/分层顺序；饮用窗口=X min；含酒精注明" if lang == "zh" else "Stir/no stir/sips/layer order; drinking window=X min; note alcohol",
+        "source_placeholder": "[title](url)，获取于 YYYY-MM-DD" if lang == "zh" else "[title](url), retrieved YYYY-MM-DD",
+        "verify": "具体克数/萃取参数需联网核实门店当下配方，标注来源链接 + 获取日期。详见 references/craft-coffee.md。" if lang == "zh" else "Specific grams/extraction params need online verification of the shop current recipe, with source link + retrieval date. See references/craft-coffee.md.",
+    }
+    return json.dumps(fields, ensure_ascii=False, indent=2)
 
 
 @mcp.tool()

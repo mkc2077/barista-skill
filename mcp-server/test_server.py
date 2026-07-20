@@ -64,9 +64,9 @@ def test_no_dead_imports():
 def test_get_recipe_all_methods_bilingual(method, lang):
     out = b.get_recipe(method, "medium", "beginner", lang)
     assert "未找到" not in out  # zh fallback message is excluded by success
-    assert out.startswith("## ")
+    assert out.startswith("{")  # JSON-object return
     # localized name marker present in table
-    assert ("粉量" if lang == "zh" else "Dose") in out
+    assert '"dose"' in out  # JSON field name stable across languages
 
 
 def test_get_recipe_unknown_zh():
@@ -88,7 +88,7 @@ def test_get_recipe_advanced_golden_cup():
 
 def test_get_recipe_invalid_lang_falls_back_zh():
     out = b.get_recipe("espresso", language="fr")
-    assert "粉量" in out  # falls back to zh
+    assert '"dose"' in out  # JSON field name stable; content falls back to zh
 
 
 # --- get_milk_drink ----------------------------------------------------------
@@ -97,8 +97,8 @@ def test_get_recipe_invalid_lang_falls_back_zh():
 @pytest.mark.parametrize("lang", ["zh", "en"])
 def test_get_milk_drink_all_bilingual(drink, lang):
     out = b.get_milk_drink(drink, lang)
-    assert out.startswith("## ")
-    assert ("浓缩" if lang == "zh" else "Espresso") in out
+    assert out.startswith("{")  # JSON-object return
+    assert '"espresso"' in out  # JSON field name stable across languages
 
 
 def test_get_milk_drink_unknown():
@@ -124,13 +124,13 @@ def test_get_craft_recipe_unknown_base_en():
 
 def test_get_craft_recipe_espresso_classic_zh_sop():
     out = b.get_craft_recipe("espresso_classic")
-    assert "SOP" in out and "咖啡基底" in out and "拼装" in out and "联网核实" in out
+    assert '"base_spec"' in out and '"build_sop"' in out and "联网核实" in out  # JSON fields + verify note
     assert "1:2" in out and "92-94C" in out
 
 
 def test_get_craft_recipe_soe_ristretto_en():
     out = b.get_craft_recipe("soe_ristretto", language="en")
-    assert "SOP" in out and "Coffee base" in out and "1:1-1:1.5" in out and "front-mid cut only" in out
+    assert '"base_spec"' in out and "1:1-1:1.5" in out and "front-mid cut only" in out
 
 
 def test_get_craft_recipe_tea_toggle():
@@ -200,7 +200,7 @@ def test_cupping_score_out_of_range_warns():
 @pytest.mark.parametrize("lang", ["zh", "en"])
 def test_calibrate_grinder_all(grinder, lang):
     out = b.calibrate_grinder(grinder, "espresso", lang)
-    assert out.startswith("## ")
+    assert out.startswith("## ")  # markdown still returned by this tool
     assert ("校准" if lang == "zh" else "calibration") in out.lower()
 
 
@@ -270,7 +270,7 @@ def test_flavor_wheel_unknown_category():
 @pytest.mark.parametrize("lang", ["zh", "en"])
 def test_sensory_training_all(ttype, lang):
     out = b.get_sensory_training(ttype, lang)
-    assert out.startswith("## ")
+    assert out.startswith("## ")  # markdown still returned by this tool
     assert len(out) > 80
 
 
@@ -296,7 +296,7 @@ def test_learning_resources_all(level, lang):
 
 def test_search_references_returns_top_k():
     out = b.search_references("espresso", "en", 2)
-    assert out.startswith("## ")
+    assert out.startswith("## ")  # markdown still returned by this tool
     # Should contain at least 1 result section header
     ranked = len(re.findall(r"^### \d+\.", out, re.MULTILINE))
     assert ranked == 2, f"expected 2 ranked sections, got {ranked}"

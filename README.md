@@ -1,13 +1,16 @@
 # Barista 咖啡师教练技能 / Barista Coffee-Coach Skill
 
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Version](https://img.shields.io/badge/version-2.7.0-blue)
+![Version](https://img.shields.io/badge/version-2.8.0-blue)
 ![Methods](https://img.shields.io/badge/brew-14%20methods-success)
 ![Milk drinks](https://img.shields.io/badge/milk%20drinks-11-success)
 ![MCP tools](https://img.shields.io/badge/MCP%20tools-11-blueviolet)
 ![References](https://img.shields.io/badge/references-17%20files-informational)
 
 一个通用 AI Agent **专属咖啡顾问 Skill**（非被动问答机器）——顾问**主导对话节奏**，通过连续穿透式追问帮你摸清现状、拆解问题、找到影响口感的关键变量。A general-purpose AI-agent coffee-consultant Skill (not a Q&A bot) — the consultant **drives the conversation** with penetrating follow-up questions to map your situation, break down the problem, and find the ONE variable that will make your coffee better. **中文 / English 双语**（MCP 工具全部支持 `language="zh"/"en"`）。兼容 WorkBuddy / QoderWork / Claude Code / Cursor / 通用 Agent 平台。
+
+
+> **v2.8 新增说人话改写层**：`get_recipe` / `get_milk_drink` / `get_craft_recipe` 改返 JSON 字段，必须走 [references/human-voice-rules.md](references/human-voice-rules.md) 的 7 条铁律改写 + 末尾预判问题。输出读起来像咖啡搭子在聊天，而不是 AI 报告。另见 [AGENTS.md](AGENTS.md) subagent 契约。
 
 > **30 秒预览 / 30-second preview**：用户「我做的手冲好苦怎么办？」"My pour-over is too bitter." → 顾问：「哪种苦——焦苦还是尾段涩？最近有没有换豆子或调了研磨度？」→ 追问锁定了变量后：「大概率是研磨太细 + 深烘豆。只改研磨度：往粗的方向转 1–2 格，其他全不变。做完喝一口，关注苦感是否从焦苦变成柔和的微苦。」**顾问主导, 穿透追问, 一次只改一个变量。** Consultant-led, penetrating follow-ups, one variable at a time.
 

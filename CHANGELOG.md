@@ -4,6 +4,26 @@
 
 ---
 
+## [2.8.0] - 2026-07-20  (API breaking: 说人话改写层 / human-voice rewrite layer)
+
+### Added
+- **`references/human-voice-rules.md`**：7 条说人话改写铁律、档位分级口语化、内部 5 列事实表（工作草稿，不外显）、末尾预判问题 3-5 个、3 个对比示例。
+- **`AGENTS.md`**：subagent 契约定义 3b (改写) 和 3c (预判问题) 两步可由 luna subagent 并行、含任务卡模板。
+- **SKILL.md 步骤 3.5**：3a 抽事实 / 3b 人话改写 / 3c 末尾预判问题 三管线。
+- **`references/example-dialogues.md`** 8 段范例每段末尾补 3 个预判问题。
+- `references/craft-coffee.md` 吉米条目扩至 Q-Grader / 视频形式 / 星运舍咖啡 / 分身账号（2026-07 核实）。
+
+### Breaking Changes
+- **`get_recipe` / `get_milk_drink` / `get_craft_recipe` 返回值从 markdown 表格切换为 JSON 对象**。下游脚本需 `json.loads()` 适配。其余 8 个工具返回不变。
+- 版本号 bump 2.7.0 → 2.8.0（5 源同步）。
+
+### Changed
+- 三工具 JSON 含 "verify" 字段（替代旧联网核实尾句），"mantra" 字段嵌入单词不单列块。
+- 测试断言从 check ## 表格 → check JSON 字段名（dose / espresso / base_spec）。pytest 137 passed；self_check ALL PASSED。
+
+### Fixed
+- self_check.py + test_data_consistency.py ALLOWED_MONO 追加 human-voice-rules.md。
+
 ## [2.7.0] - 2026-07-17  (P1 ???????? + ???? + search_references ??)
 
 ### ?? / Added
