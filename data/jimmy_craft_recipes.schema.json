@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/mkc2077/barista-skill/data/jimmy_craft_recipes.schema.json",
+  "title": "Jimmy (吉米-咖啡届直男) craft-coffee recipe dataset",
+  "description": "结构化数据格式：用于存放小红书博主「吉米-咖啡届直男」(Jim950707) 的咖啡特调配方。视频-only 来源，需经已核实提取后灌入；本仓库不内置未核实配方。",
+  "type": "object",
+  "required": ["_meta", "recipes"],
+  "additionalProperties": false,
+  "properties": {
+    "_meta": {
+      "type": "object",
+      "required": ["source_blogger", "xhs_id", "source_type", "provenance", "sync_mechanism_version"],
+      "additionalProperties": false,
+      "properties": {
+        "source_blogger": { "type": "string", "description": "博主名" },
+        "xhs_id": { "type": "string", "description": "小红书号" },
+        "source_type": { "type": "string", "enum": ["xiaohongshu_video"], "description": "内容来源形态" },
+        "provenance": {
+          "type": "string",
+          "enum": ["EMPTY_PENDING_VERIFIED_IMPORT", "VERIFIED_USER_IMPORT", "VERIFIED_BACKEND", "MACHINE_TRANSCRIBED"],
+          "description": "数据来源可信度标记。EMPTY 表示尚未灌入任何已核实数据；MACHINE_TRANSCRIBED 表示由 ASR(Whisper) 机转 + 启发式解析、未经人工核实，需以 verbatim_transcript 为准并人工校验。"
+        },
+        "description": { "type": "string" },
+        "last_sync": { "type": ["string", "null"], "description": "ISO8601 时间戳" },
+        "last_sync_status": { "type": "string", "description": "ok | partial | failed | pending" },
+        "sync_mechanism_version": { "type": "string" },
+        "total_notes_transcribed": { "type": "integer", "description": "本次已转写的笔记总数（含非配方类）" },
+        "recipe_count_in_dataset": { "type": "integer", "description": "经判定纳入 craft 配方数据集的条目数" },
+        "attribution": { "type": "string", "description": "版权与归因声明" }
+      }
+    },
+    "recipes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/recipe" }
+    }
+  },
+  "$defs": {
+    "recipe": {
+      "type": "object",
+      "required": ["recipe_id", "drink_name", "source_video", "ingredients", "steps", "provenance"],
+      "additionalProperties": false,
+      "properties": {
+        "recipe_id": {
+          "type": "string",
+          "description": "唯一 ID，建议格式 jimmy-<note_id>-<slug>；缺失时由脚本推导"
+        },
+        "drink_name": {
+          "type": "object",
+          "required": ["zh", "en"],
+          "additionalProperties": false,
+          "properties": {
+            "zh": { "type": "string", "description": "中文名（与视频一致）" },
+            "en": { "type": "string", "description": "英文/拼音名" }
+          }
+        },
+        "source_video": {
+          "type": "object",
+          "required": ["note_id"],
+          "additionalProperties": false,
+          "properties": {
+            "note_id": { "type": "string", "description": "小红书笔记 ID" },
+            "url": { "type": "string", "description": "视频/笔记链接" },
+            "published": { "type": "string", "description": "发布日期 ISO8601" },
+            "title": { "type": "string" }
+          }
+        },
+        "ingredients": {
+          "type": "array",
+          "description": "原料清单（名称 + 用量 + 备注）",
+          "items": {
+            "type": "object",
+            "required": ["name", "amount"],
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "object",
+                "required": ["zh", "en"],
+                "additionalProperties": false,
+                "properties": {
+                  "zh": { "type": "string" },
+                  "en": { "type": "string" }
+                }
+              },
+              "amount": { "type": "string", "description": "用量，如 30ml / 50g / 适量" },
+              "note": { "type": "string", "description": "品牌取向 / 甜度校准 / 替代方案" }
+            }
+          }
+        },
+        "ratio": { "type": "string", "description": "核心粉水比或配方比例，如 1:10 / 浓缩:椰乳:气泡 = 1:3:2" },
+        "tools": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "器具清单：雪克壶/量杯/捣棒/冰/杯型等"
+        },
+        "steps": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "制作步骤（有序），一句话一步"
+        },
+        "sop": {
+          "type": "object",
+          "description": "标准操作流程（SOP）拆分",
+          "additionalProperties": false,
+          "properties": {
+            "prep": { "type": "array", "items": { "type": "string" }, "description": "备料" },
+            "assembly_order": { "type": "array", "items": { "type": "string" }, "description": "入杯/拼装顺序（口诀）" },
+            "serve": { "type": "string", "description": "呈现与饮用提示" },
+            "tips": { "type": "array", "items": { "type": "string" }, "description": "成败关键点" }
+          }
+        },
+        "base_extraction": {
+          "type": "object",
+          "description": "咖啡基底萃取方案",
+          "additionalProperties": false,
+          "properties": {
+            "type": { "type": "string", "enum": ["espresso", "ristretto", "pour_over", "cold_brew", "flash_brew", "other"] },
+            "params": { "type": "object", "description": "粉量/比例/水温/时间等" }
+          }
+        },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "provenance": {
+          "type": "string",
+          "enum": ["VERIFIED_USER_IMPORT", "VERIFIED_BACKEND", "EXAMPLE", "MACHINE_TRANSCRIBED"],
+          "description": "EXAMPLE 仅用于演示格式，不得视为真实配方；MACHINE_TRANSCRIBED 表示 ASR 机转 + 启发式解析、未经人工核实，需以 verbatim_transcript 为准。"
+        },
+        "verified_at": { "type": "string", "description": "核实日期 ISO8601（MACHINE_TRANSCRIBED 可留空）" },
+        "verbatim_transcript": {
+          "type": "string",
+          "description": "Whisper ASR 逐字转写原文，作为事实来源；结构化字段(ingredients/steps)由其启发式解析，可能存在误差。"
+        },
+        "transcript_meta": {
+          "type": "object",
+          "description": "转写元数据",
+          "additionalProperties": false,
+          "properties": {
+            "asr_engine": { "type": "string", "description": "如 faster-whisper base int8" },
+            "language": { "type": "string", "description": "检测到的语言" },
+            "language_probability": { "type": "number" },
+            "audio_source": { "type": "string", "description": "如 xhs_video_master_mp4" }
+          }
+        },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}
