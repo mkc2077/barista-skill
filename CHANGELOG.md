@@ -4,6 +4,28 @@
 
 ---
 
+## [2.9.0] - 2026-07-20  (博主特调 ASR 数据集 / Blogger craft-coffee ASR dataset)
+
+### Added
+- **`data/jimmy_craft_recipes.json`** — 25 条判为 craft 配方的结构化数据。`recipe_id` / `drink_name` / `source_video`（含**出处链接**）/ `ingredients` / `steps` / `ratio`。`ingredients` 由 Whisper 转写稿启发式抽取（真实出现的 数字+单位+名词），**未人工核实**，`provenance = MACHINE_TRANSCRIBED`。
+- **`data/jimmy_transcripts.json`** — 42 条视频的 Whisper **逐字转写**（含 `listUrl` 出处链接），作为权威来源；结构化字段与之冲突时以 verbatim 为准。
+- **`data/jimmy_craft_recipes.schema.json`** — 数据集 JSON Schema（`additionalProperties: false`），新增诚实出处标记 `MACHINE_TRANSCRIBED` 与 `verbatim_transcript` / `transcript_meta` 字段。
+- **`data/jimmy_craft_recipes.example_import.json`** — 已核实导入示例（演示 `VERIFIED_USER_IMPORT` 用法）。
+- **`data/jimmy_sync_config.example.json`** — 同步配置示例。
+- **`scripts/sync_jimmy_recipes.py`** — 同步框架脚本（**明确拒绝编造配方**，仅接受已核实导入 / 示例）。
+- **`.github/workflows/sync-jimmy-recipes.yml`** — 定时拉取骨架（需用户配置登录态/API 凭据后启用）。
+- **README / CHANGELOG** — 新增「博主特调数据集（ASR 转写）」专章，版本徽章 2.8.0 → 2.9.0。
+
+### Changed
+- `data/` 数据文件 13 → 18 个（新增吉米数据集 5 个文件）。
+
+### 数据来源与声明 / Provenance & disclaimer
+- 来源博主：小红书「吉米-咖啡届直男」(Jim950707)。其特调**只在视频里、不写文字配方**（见 `references/craft-coffee.md` 第 149 行），本数据集以 Whisper ASR 补此缺口。
+- 数据集为**机转、未人工核实**，可能存在 ASR 误差（原料名/用量识别偏差）。**使用前务必人工校验**；`verbatim_transcript` 为权威来源。
+- 所有配方版权归原作者吉米所有，本仓库仅作学习索引与归因。引用时请注明出处并支持原博主。
+
+---
+
 ## [2.8.0] - 2026-07-20  (API breaking: 说人话改写层 / human-voice rewrite layer)
 
 ### Added
