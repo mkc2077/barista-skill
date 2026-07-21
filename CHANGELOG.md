@@ -29,7 +29,8 @@
 - **`data/jimmy_craft_recipes.example_import.json`** — 已核实导入示例（演示 `VERIFIED_USER_IMPORT` 用法）。
 - **`data/jimmy_sync_config.example.json`** — 同步配置示例。
 - **`scripts/sync_jimmy_recipes.py`** — 同步框架脚本（**明确拒绝编造配方**，仅接受已核实导入 / 示例）。
-- **`.github/workflows/sync-jimmy-recipes.yml`** — 定时拉取骨架（需用户配置登录态/API 凭据后启用）。
+- **`.github/workflows/sync-jimmy-recipes.yml`** — 定时拉取骨架（需仓库配置 `XHS_SESSION_COOKIE` / `XHS_USER_ID` Secrets 后启用）。
+- **`docs/jimmy-recipe-sync.md`** — 同步机制说明。
 - **README / CHANGELOG** — 新增「博主特调数据集（ASR 转写）」专章，版本徽章 2.8.0 → 2.9.0。
 
 ### Changed

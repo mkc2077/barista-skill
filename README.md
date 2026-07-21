@@ -100,7 +100,7 @@
 
 **重要声明 / Disclaimer**：本数据集为机转、未人工核实，可能存在 ASR 误差（如原料名/用量识别偏差）。**使用前务必人工校验**；所有配方版权归原作者吉米所有，本仓库仅作学习索引与归因。引用时请注明出处并支持原博主。
 
-> 自动同步机制：`.github/workflows/sync-jimmy-recipes.yml` 提供定时拉取骨架（需用户配置登录态/API 凭据后才启用），当前数据为该机制产出的一次性快照。
+> 自动同步机制：`.github/workflows/sync-jimmy-recipes.yml` 提供定时拉取骨架（需仓库配置 `XHS_SESSION_COOKIE` / `XHS_USER_ID` Secrets 后才启用）；`scripts/sync_jimmy_recipes.py` + `docs/jimmy-recipe-sync.md` 为同步框架（**明确拒绝编造配方**，仅接受已核实导入 / 示例）。当前数据集为一次性快照，待配置凭据后可由定时任务增量更新。
 
 ## 文件结构 / File structure
 
