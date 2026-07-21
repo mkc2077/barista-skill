@@ -4,6 +4,23 @@
 
 ---
 
+## [2.10.0] - 2026-07-21  (特调改为文字版联网标注 / Craft → text-only online index)
+
+### Changed
+- **特调配方改为纯文字版**：废弃吉米视频 ASR 数据集（转录成本高，且原作者仅发视频、不写文字配方）。特调只收录文字 / 图文版——优先门店与知名博主的公开文字配方 / SOP。
+- 新增 `data/online_craft_recipes.json`：12 条来自小红书搜索、出自门店 / 知名博主且带完整配方的**文字 / 图文笔记**标注（`note_id` / `title` / `author` / `type` / `url` / `xsec_token` + `_meta` 来源/原则/归因）。视频类笔记已剔除。
+- README「博主特调数据集（ASR 转写）」专章改写为「博主特调联网标注清单（文字版）」；版本徽章 2.9.0 → 2.10.0；`data/` JSON 计数 18 → 14。
+
+### Removed
+- `data/jimmy_craft_recipes.json` / `jimmy_transcripts.json` / `jimmy_craft_recipes.schema.json` / `jimmy_craft_recipes.example_import.json` / `jimmy_sync_config.example.json`
+- `scripts/sync_jimmy_recipes.py`、`.github/workflows/sync-jimmy-recipes.yml`、`docs/jimmy-recipe-sync.md`
+- 同步框架与 `MACHINE_TRANSCRIBED` 出处标记相关逻辑。
+
+### Notes
+- 本清单仅为公开笔记**链接标注**（非本仓库转录内容），配方以原作者当下发布为准，需联网核实；请在小红书关注并支持原作者。
+
+---
+
 ## [2.9.0] - 2026-07-21  (API breaking: diagnose_flavor + calibrate_grinder 转 JSON)
 
 ### Added

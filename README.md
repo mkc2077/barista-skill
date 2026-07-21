@@ -1,7 +1,7 @@
 # Barista 咖啡师教练技能 / Barista Coffee-Coach Skill
 
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Version](https://img.shields.io/badge/version-2.9.0-blue)
+![Version](https://img.shields.io/badge/version-2.10.0-blue)
 ![Methods](https://img.shields.io/badge/brew-14%20methods-success)
 ![Milk drinks](https://img.shields.io/badge/milk%20drinks-11-success)
 ![MCP tools](https://img.shields.io/badge/MCP%20tools-11-blueviolet)
@@ -12,7 +12,7 @@
 
 > **v2.8 新增说人话改写层**：`get_recipe` / `get_milk_drink` / `get_craft_recipe` 改返 JSON 字段，必须走 [references/human-voice-rules.md](references/human-voice-rules.md) 的 7 条铁律改写 + 末尾预判问题。输出读起来像咖啡搭子在聊天，而不是 AI 报告。另见 [AGENTS.md](AGENTS.md) subagent 契约。
 
-> **v2.9 新增吉米特调 ASR 数据集**：新增 `data/jimmy_craft_recipes.json`（25 条 craft 配方结构化）+ `data/jimmy_transcripts.json`（42 条视频逐字转写），来源博主「吉米-咖啡届直男」(Jim950707)。配方经 Whisper 转写 + 启发式抽取，**标注 `MACHINE_TRANSCRIBED`，未人工核实，`verbatim_transcript` 为权威来源**，使用前请人工校验；版权归原作者，本仓库仅作学习索引与归因。详见 [data/jimmy_craft_recipes.schema.json](data/jimmy_craft_recipes.schema.json) 与同步脚本 [scripts/sync_jimmy_recipes.py](scripts/sync_jimmy_recipes.py)。
+> **v2.10 特调改为文字版联网标注**：废弃原吉米视频 ASR 数据集（转录成本高，且原作者仅发视频、不写文字配方）。特调配方**只收录文字/图文版**——优先门店与知名博主的公开文字配方 / SOP，以一份联网标注清单 `data/online_craft_recipes.json`（12 条）替代。详见下方「博主特调联网标注清单（文字版）」。
 
 > **30 秒预览 / 30-second preview**：用户「我做的手冲好苦怎么办？」"My pour-over is too bitter." → 顾问：「哪种苦——焦苦还是尾段涩？最近有没有换豆子或调了研磨度？」→ 追问锁定了变量后：「大概率是研磨太细 + 深烘豆。只改研磨度：往粗的方向转 1–2 格，其他全不变。做完喝一口，关注苦感是否从焦苦变成柔和的微苦。」**顾问主导, 穿透追问, 一次只改一个变量。** Consultant-led, penetrating follow-ups, one variable at a time.
 
@@ -89,18 +89,15 @@
 - ❌ 咖啡因摄入与健康 → 建议咨询医生
 - ❌ 咖啡历史/文化/品牌 → 不在范围
 
-## 博主特调数据集（ASR 转写）/ Blogger craft-coffee dataset (ASR transcript)
+## 博主特调联网标注清单（文字版）/ Blogger & store craft-coffee index (text-only)
 
-小红书博主「吉米-咖啡届直男」(Jim950707) 的咖啡特调**只在视频里、不写文字配方**（见 [references/craft-coffee.md](references/craft-coffee.md) 第 149 行）。为补这个缺口，v2.9 用 Whisper 把其视频口播转写为结构化配方索引：
+特调配方**只收录文字 / 图文版**——优先门店与知名博主的公开文字配方或 SOP，不依赖视频转录。v2.10 起用一份联网标注清单替代原吉米视频 ASR 数据集：
 
-- **`data/jimmy_craft_recipes.json`** — 25 条判为 craft 配方的结构化数据（`recipe_id` / `drink_name` / `source_video` 带**出处链接** / `ingredients` / `steps` / `ratio`）。`ingredients` 由转写稿启发式抽取（数字+单位+相邻名词），**未人工核实**，`provenance = MACHINE_TRANSCRIBED`。
-- **`data/jimmy_transcripts.json`** — 42 条视频的 Whisper **逐字转写**（含 `listUrl` 出处链接），作为权威来源，结构化字段与之冲突时以 verbatim 为准。
-- **`data/jimmy_craft_recipes.schema.json`** — 数据集 JSON Schema（`additionalProperties: false`，含 `MACHINE_TRANSCRIBED` 诚实出处标记）。
-- **`scripts/sync_jimmy_recipes.py`** — 同步框架脚本（**明确拒绝编造配方**，仅接受已核实导入 / 示例）。
+- **`data/online_craft_recipes.json`** — 12 条来自小红书搜索、出自门店 / 知名博主且带完整配方的**文字 / 图文笔记**标注（`note_id` / `title` / `author` / `type` / `url` / `xsec_token`），含 `_meta` 说明来源、原则（在精不在多）与归因声明。视频类笔记已剔除。
 
-**重要声明 / Disclaimer**：本数据集为机转、未人工核实，可能存在 ASR 误差（如原料名/用量识别偏差）。**使用前务必人工校验**；所有配方版权归原作者吉米所有，本仓库仅作学习索引与归因。引用时请注明出处并支持原博主。
+**重要声明 / Disclaimer**：本清单仅为公开笔记的**链接标注**（非本仓库转录内容），配方以原作者当下发布为准；请在小红书关注并支持原作者。具体配方数字仍需联网核实，不可凭标题推测。
 
-> 自动同步机制：`.github/workflows/sync-jimmy-recipes.yml` 提供定时拉取骨架（需仓库配置 `XHS_SESSION_COOKIE` / `XHS_USER_ID` Secrets 后才启用）；`scripts/sync_jimmy_recipes.py` + `docs/jimmy-recipe-sync.md` 为同步框架（**明确拒绝编造配方**，仅接受已核实导入 / 示例）。当前数据集为一次性快照，待配置凭据后可由定时任务增量更新。
+> 检索出口：门店 / 博主索引见 [references/craft-coffee.md](references/craft-coffee.md)（吉米"咖啡届直男"、JPG coffee、GABEE.、Onyx、SEY、Blue Bottle、% Arabica、Coffee Collective）。其特调仅以视频 / 门店菜单发布、不写文字配方者已明确标注，需照做时请联网核实。
 
 ## 文件结构 / File structure
 
@@ -114,14 +111,9 @@ barista-skill/
 ├── mcp-server/               # MCP 服务 (11 bilingual tools)
 │   ├── server.py / test_server.py
 │   ├── pyproject.toml / README.md
-├── data/                      # 18 个 JSON 数据文件 = 单一数据源 (recipes/milk/cupping/...)
-│   ├── jimmy_craft_recipes.json        # [v2.9] 吉米特调 25 条结构化配方 (MACHINE_TRANSCRIBED)
-│   ├── jimmy_transcripts.json          # [v2.9] 42 条视频 Whisper 逐字转写 (带出处链接)
-│   ├── jimmy_craft_recipes.schema.json # [v2.9] 数据集 JSON Schema
-│   ├── jimmy_craft_recipes.example_import.json  # 已核实导入示例
-│   └── jimmy_sync_config.example.json  # 同步配置示例
+├── data/                      # 14 个 JSON 数据文件 = 单一数据源 (recipes/milk/cupping/...)
+│   ├── online_craft_recipes.json     # [v2.10] 门店/博主特调联网文字标注清单 (12 条, 文字/图文)
 ├── scripts/                   # self_check.py — 一致性自检 (33 项 PASS/FAIL)
-│   └── sync_jimmy_recipes.py   # [v2.9] 吉米配方同步框架 (拒绝编造)
 └── references/report_templates/  # 4 个顾问输出模板 + README
 └── references/               # 17 个参考文件 (中文原版 = 真相源)
     ├── en/                   # English mirrors (13/17: 高/中价值文件全部完成)
