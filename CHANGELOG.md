@@ -4,6 +4,20 @@
 
 ---
 
+## [2.10.1] - 2026-07-22  (hotfix: 恢复 SKILL.md 正确 UTF-8 + 指向文字版特调清单)
+
+### Fixed
+- **修复 SKILL.md 全文乱码**：v2.10.0 的版本同步提交误将 SKILL.md 整体以 GBK 解码再以 UTF-8 重编码，导致全文中文变为 mojibake（并混入 BOM）。本次从 v2.10.0 前的干净版本恢复，行尾维持 CRLF、无 BOM，与仓库其他文档保持一致；版本号同步更新到 2.10.1。
+
+### Added
+- **SKILL.md 指向文字版特调清单**：特调「门店/博主索引」一节新增 `data/online_craft_recipes.json` 检索入口（小红书图文/文字版特调笔记，链接标注，非本仓库转录）。
+- `data/online_craft_recipes.json` 顶部新增 `xsec_expiry` 说明：小红书 `xsec_token` 有时效，链接过期可用 `note_id` 在小红书搜索栏直接查找。
+
+### Changed
+- `references/craft-coffee.md` 吉米条目补充：自 v2.10 起本仓库不再收录吉米视频的字幕 ASR 转录配方（转录成本高且非作者原意）；文字版特调请见 `data/online_craft_recipes.json`。
+
+---
+
 ## [2.10.0] - 2026-07-21  (特调改为文字版联网标注 / Craft → text-only online index)
 
 ### Changed
