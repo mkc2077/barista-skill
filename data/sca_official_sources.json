@@ -1,0 +1,29 @@
+{
+  "_meta": {
+    "title": "SCA / CQI / WCR 官方来源索引",
+    "verified_at": "2026-07-26",
+    "principle": "官方为主 + 精选社区入口；逐一核实链接可达"
+  },
+  "official": [
+    {"id": "sca_main", "name": "SCA 主站", "url": "https://sca.coffee", "category": "association", "scope": {"zh": "SCA 协会主站", "en": "SCA main site"}},
+    {"id": "sca_education", "name": "SCA Education (CSP)", "url": "https://sca.coffee/education", "category": "certification", "scope": {"zh": "Coffee Skills Program 六模块课程", "en": "CSP 6-module courses"}},
+    {"id": "sca_cva", "name": "SCA CVA", "url": "https://sca.coffee/value-assessment", "category": "assessment", "scope": {"zh": "CVA 四表（SCA-102~105）", "en": "CVA four protocols (SCA-102~105)"}},
+    {"id": "sca_qgrader", "name": "SCA Q-Grader", "url": "https://sca.coffee/q-grader", "category": "certification", "scope": {"zh": "Evolved Q Grader 认证（2025 起）", "en": "Evolved Q Grader (since 2025)"}},
+    {"id": "sca_store_defect", "name": "SCA Green Coffee Defect Handbook", "url": "https://sca.coffee/store", "category": "reference", "scope": {"zh": "生豆瑕疵官方手册", "en": "Official defect handbook"}},
+    {"id": "wcr_lexicon", "name": "WCR Sensory Lexicon", "url": "https://worldcoffeeresearch.org/resources/sensory-lexicon", "category": "reference", "scope": {"zh": "110 风味属性标准参照", "en": "110 sensory attribute references"}},
+    {"id": "wcr_wheel", "name": "SCA/WCR Flavor Wheel", "url": "https://sca.coffee/store", "category": "reference", "scope": {"zh": "风味轮海报", "en": "Flavor wheel poster"}},
+    {"id": "cqi_archive", "name": "CQI (archived)", "url": "https://coffeeinstitute.org", "category": "association", "scope": {"zh": "原 CQI，2025 并入 SCA", "en": "Legacy CQI, merged into SCA 2025"}}
+  ],
+  "community_curated": [
+    {"id": "barista_hustle", "name": "Barista Hustle", "url": "https://baristahustle.com", "category": "research", "scope": {"zh": "萃取理论深度研究", "en": "Extraction theory research"}, "trust": "high"},
+    {"id": "perfect_daily_grind", "name": "Perfect Daily Grind", "url": "https://perfectdailygrind.com", "category": "media", "scope": {"zh": "全维度专业媒体", "en": "Full-dimension pro media"}, "trust": "medium-high"},
+    {"id": "gafei", "name": "中国咖啡网", "url": "https://gafei.com", "category": "cn_community", "scope": {"zh": "中文资讯入口", "en": "CN info index"}, "trust": "medium"},
+    {"id": "torch_coffee", "name": "Torch Coffee", "url": "https://www.torchcoffee.asia", "category": "education", "scope": {"zh": "Q-Grader 备考资料", "en": "Q-Grader prep"}, "trust": "medium"},
+    {"id": "expertcafe", "name": "Expertcafe", "url": "https://www.expertcafe.be", "category": "cn_community", "scope": {"zh": "Q-Grader 考试口径来源", "en": "Q-Grader exam count source"}, "trust": "medium"}
+  ],
+  "verification_policy": {
+    "official_required_for": ["CVA protocols", "CSP module structure", "Q-Grader certification rules", "Defect table"],
+    "community_acceptable_for": ["Study tips", "Exam experience", "Practice regimens"],
+    "retrieval_date_required": true
+  }
+}

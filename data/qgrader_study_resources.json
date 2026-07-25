@@ -1,0 +1,70 @@
+{
+  "_meta": {
+    "title": "Q-Grader 分项备考资料索引",
+    "verified_at": "2026-07-26",
+    "principle": "官方为主 + 精选社区入口；社区来源只收录可核实的少量精选条目 + 入口级索引"
+  },
+  "by_exam_category": {
+    "written_general_knowledge": {
+      "official": [
+        {"name": "SCA Coffee Skills Program - Introduction to Coffee", "url": "https://sca.coffee/education", "type": {"zh": "官方课程", "en": "Official course"}, "desc": {"zh": "CSP 入门模块覆盖笔试基础知识", "en": "CSP Intro module covers written basics"}}
+      ],
+      "community_curated": [
+        {"name": "中国咖啡网 Q-Grader 专栏", "url": "https://gafei.com", "type": {"zh": "社区入口", "en": "Community index"}, "desc": {"zh": "中文 Q-Grader 备考经验集合", "en": "CN Q-Grader prep stories"}}
+      ]
+    },
+    "sensory_skill_gustation": {
+      "official": [
+        {"name": "SCA Sensory Skills Foundation/Intermediate/Professional", "url": "https://sca.coffee/education", "type": {"zh": "CSP 模块", "en": "CSP module"}, "desc": {"zh": "味觉训练含在 Sensory Skills 全级", "en": "Gustation in Sensory Skills full"}}
+      ],
+      "tool": [
+        {"name": "五味标准溶液配方（自配）", "url": "references/sensory.md", "type": {"zh": "训练工具", "en": "Training tool"}, "desc": {"zh": "甜 24g 蔗糖 / 酸 1.2g 柠檬酸 / 咸 4g NaCl / 苦 0.54g 咖啡因 / 鲜 2g 味精 per 1L", "en": "Sweet 24g sugar / Sour 1.2g citric / Salty 4g NaCl / Bitter 0.54g caffeine / Umami 2g MSG per 1L"}}
+      ]
+    },
+    "olfactory_Le_Nez": {
+      "official": [
+        {"name": "Le Nez du Cafe 36", "url": "https://www.lenezducafe.com", "type": {"zh": "训练工具", "en": "Training tool"}, "desc": {"zh": "Jean Lenoir 36 味闻香瓶，Q-Grader 必考", "en": "Jean Lenoir 36-aroma kit, Q-Grader required"}}
+      ],
+      "alternative": [
+        {"name": "Scentone T100 风味地图", "url": "https://scentone.com", "type": {"zh": "训练工具", "en": "Training tool"}, "desc": {"zh": "韩国 100 味扩展系统，SCAA 认可", "en": "KR 100-aroma, SCAA-recognized"}}
+      ]
+    },
+    "cupping_scoring": {
+      "official": [
+        {"name": "SCA Cupping Protocol (SCA-102)", "url": "https://sca.coffee/cva", "type": {"zh": "官方协议", "en": "Official protocol"}, "desc": {"zh": "样品准备与杯测机制", "en": "Sample prep & tasting mechanics"}},
+        {"name": "SCA Affective Assessment (SCA-104)", "url": "https://sca.coffee/cva", "type": {"zh": "CVA 评估", "en": "CVA assessment"}, "desc": {"zh": "1-9 分制情感评估", "en": "1-9 affective scoring"}}
+      ],
+      "practice": [
+        {"name": "杯测练习集（自组）", "url": "references/cupping.md", "type": {"zh": "练习", "en": "Practice"}, "desc": {"zh": "对照本仓库 cupping.md 流程自组杯测", "en": "Self-host cupping per repo cupping.md"}}
+      ]
+    },
+    "triangulation": {
+      "official": [
+        {"name": "SCA Triangulation Protocol", "url": "https://sca.coffee/cva", "type": {"zh": "官方协议", "en": "Official protocol"}, "desc": {"zh": "三杯两同找不同", "en": "3-cup find-odd"}}
+      ],
+      "see_also": "references/triangle-test-protocol.md"
+    },
+    "organic_acid_matching": {
+      "official": [
+        {"name": "SCA Organic Acids Reference", "url": "https://sca.coffee/education", "type": {"zh": "官方资料", "en": "Official ref"}, "desc": {"zh": "4 种有机酸参照", "en": "4 organic acids ref"}}
+      ],
+      "tool": [
+        {"name": "自配酸溶液", "url": "references/sensory.md", "type": {"zh": "训练工具", "en": "Tool"}, "desc": {"zh": "柠檬酸/苹果酸/酒石酸/醋酸配对训练", "en": "Citric/malic/tartaric/acetic matching"}}
+      ]
+    },
+    "green_coffee_grading": {
+      "official": [
+        {"name": "SCA Green Coffee Defect Handbook", "url": "https://sca.coffee/store", "type": {"zh": "官方手册", "en": "Official handbook"}, "desc": {"zh": "一级/二级瑕疵表与扣分", "en": "Primary/secondary defect table"}}
+      ],
+      "see_also": ["green_coffee_grading.json", "defect_beans.json"]
+    },
+    "roasted_coffee_identification": {
+      "official": [
+        {"name": "SCA Roasting Foundation/Intermediate/Professional", "url": "https://sca.coffee/education", "type": {"zh": "CSP 模块", "en": "CSP module"}, "desc": {"zh": "烘焙曲线与样品烘焙辨认", "en": "Roast curves & sample-roast ID"}}
+      ],
+      "tool": [
+        {"name": "Agtron 色值卡", "url": "https://sca.coffee/store", "type": {"zh": "训练工具", "en": "Tool"}, "desc": {"zh": "烘焙度客观标定", "en": "Objective roast-degree reference"}}
+      ]
+    }
+  }
+}

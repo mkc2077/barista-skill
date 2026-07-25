@@ -26,6 +26,15 @@ KNOWN_DATA_FILES = {
     "learning_resources.json":  "learning resources",
     "mantras.json":             "consultant mantras",
     "sensory.json":             "sensory training modules",
+    "online_craft_recipes.json":  "online craft recipes (text-only index)",
+    "sca_certification.json":     "SCA CSP modules + Q-Grader cert",
+    "sca_cva.json":               "SCA CVA four protocols (SCA-102~105)",
+    "qgrader_exams.json":         "Q-Grader 8 exam categories",
+    "qgrader_study_resources.json": "Q-Grader study resources by category",
+    "green_coffee_grading.json":  "SCA green coffee grading table",
+    "defect_beans.json":          "SCA defect beans (primary + secondary)",
+    "coffee_chemistry_sensory.json": "coffee chemistry & sensory mapping",
+    "sca_official_sources.json":  "verified SCA/CQI/WCR source index",
 }
 
 EXPECTED_CARDINALITY = {
@@ -106,18 +115,19 @@ def test_en_refs_mirror_structure():
     missing_en = cn_files - en_files - {"README.md"}  # README.md is the en/README.md, not a mirror
     # Some files are intentionally mono-lingual (eval-cases, example-dialogues,
     # glossary, search-queries). Log them so the test is informational.
-    allowed_mono = {"eval-cases.md", "example-dialogues.md", "glossary.md", "search-queries.md", "human-voice-rules.md"}
+    allowed_mono = {"eval-cases.md", "example-dialogues.md", "glossary.md", "search-queries.md", "human-voice-rules.md",
+                    "sca-certification.md", "qgrader-complete-guide.md", "green-coffee-evaluation.md",
+                    "triangle-test-protocol.md", "coffee-sensory-chemistry.md", "sca-new-cva-guide.md"}
     unexpected_missing = missing_en - allowed_mono
     assert not unexpected_missing, \
         f"references/en/ missing mirrored files (not in allowed_mono): {unexpected_missing}"
 
 
 def test_server_tool_count_matches_skill_md():
-    "SKILL.md lists 11 MCP tools; verify server.py has exactly 11 @mcp.tool()."
+    "SKILL.md lists 20 MCP tools; verify server.py has exactly 20 @mcp.tool()."
     server = (ROOT / "mcp-server" / "server.py").read_text("utf-8")
     actual = len(re.findall(r"@mcp\.tool\(\)", server))
-    # SKILL.md says "10 ????? / 10 bilingual tools"
-    assert actual == 11, f"server.py has {actual} @mcp.tool(), SKILL.md claims 10"
+    assert actual == 20, f"server.py has {actual} @mcp.tool(), expected 20"
 
 
 def test_data_equals_server_import():
@@ -134,6 +144,10 @@ def test_data_equals_server_import():
         "PARAMETERS_BY_ORIGIN": "parameters_origin.json", "PARAMETERS_BY_PROCESS": "parameters_process.json",
         "FLAVOR_WHEEL": "flavor_wheel.json", "LEARNING_RESOURCES": "learning_resources.json",
         "MANTRAS": "mantras.json", "SENSORY": "sensory.json",
+        "SCA_CERTIFICATION": "sca_certification.json", "SCA_CVA": "sca_cva.json",
+        "QGRADER_EXAMS": "qgrader_exams.json", "QGRADER_STUDY": "qgrader_study_resources.json",
+        "GREEN_GRADING": "green_coffee_grading.json", "DEFECT_BEANS": "defect_beans.json",
+        "COFFEE_CHEMISTRY": "coffee_chemistry_sensory.json", "SCA_OFFICIAL_SOURCES": "sca_official_sources.json",
     }
 
     def norm(x):

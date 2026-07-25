@@ -1,0 +1,109 @@
+{
+  "_meta": {
+    "title": "SCA 瑕疵豆分类表（一级 + 二级）",
+    "verified_at": "2026-07-26",
+    "sources": ["sca.coffee/store/green-coffee-defect-handbook"],
+    "note": {"zh": "一级瑕疵 5 个即降级；二级瑕疵 5 个同类 = 1 个一级当量。", "en": "5 primary defects = downgrade; 5 same-class secondary = 1 full defect equivalent."}
+  },
+  "primary_defects": [
+    {
+      "id": "full_black",
+      "name": {"zh": "全黑豆 Full Black", "en": "Full Black"},
+      "appearance": {"zh": "豆体 >50% 黑色，受热过度或真菌感染", "en": ">50% black; overheated or fungal"},
+      "cause": {"zh": "采摘后发酵过度 / 烘焙前受热 / 真菌", "en": "Post-harvest over-ferment / pre-roast heat / fungi"},
+      "equivalent_count": 1
+    },
+    {
+      "id": "full_sour",
+      "name": {"zh": "全酸臭豆 Full Sour", "en": "Full Sour"},
+      "appearance": {"zh": "豆体 >50% 黄褐色酸臭", "en": ">50% yellow-brown sour"},
+      "cause": {"zh": "发酵过度（湿处理）", "en": "Over-fermentation (wet process)"},
+      "equivalent_count": 1
+    },
+    {
+      "id": "pod_cherry",
+      "name": {"zh": "果壳/干果 Pod / Cherry", "en": "Pod / Cherry"},
+      "appearance": {"zh": "未脱壳干果", "en": "Unhulled dried cherry"},
+      "cause": {"zh": "脱壳机调校不当", "en": "Improper hulling"},
+      "equivalent_count": 1
+    },
+    {
+      "id": "insect_severe",
+      "name": {"zh": "严重虫蛀 Insect (severe)", "en": "Insect (severe)"},
+      "appearance": {"zh": ">=3 个虫孔", "en": ">=3 insect holes"},
+      "cause": {"zh": "仓储虫害", "en": "Storage pest"},
+      "equivalent_count": 1
+    },
+    {
+      "id": "fungus_damage",
+      "name": {"zh": "真菌感染 Fungus Damage", "en": "Fungus Damage"},
+      "appearance": {"zh": "白色/黄色霉斑", "en": "White/yellow mold patches"},
+      "cause": {"zh": "高湿储存", "en": "High-moisture storage"},
+      "equivalent_count": 1
+    },
+    {
+      "id": "foreign_matter_large",
+      "name": {"zh": "大块异物 Foreign Matter (large)", "en": "Foreign Matter (large)"},
+      "appearance": {"zh": "石块/树枝/金属 >=1 颗豆当量", "en": "Stone/stick/metal >=1-bean equivalent"},
+      "cause": {"zh": "采摘/加工环节混入", "en": "Contamination during harvest/processing"},
+      "equivalent_count": 1
+    }
+  ],
+  "secondary_defects": [
+    {
+      "id": "partial_black",
+      "name": {"zh": "局部黑豆 Partial Black", "en": "Partial Black"},
+      "appearance": {"zh": "豆体 <50% 黑色", "en": "<50% black"},
+      "equivalent_count_full": 5,
+      "notes": {"zh": "5 颗局部黑 = 1 个一级瑕疵当量", "en": "5 partial = 1 full equivalent"}
+    },
+    {
+      "id": "partial_sour",
+      "name": {"zh": "局部酸臭 Partial Sour", "en": "Partial Sour"},
+      "appearance": {"zh": "<50% 黄褐色", "en": "<50% yellow-brown"},
+      "equivalent_count_full": 5
+    },
+    {
+      "id": "shell",
+      "name": {"zh": "贝壳豆 Shell", "en": "Shell"},
+      "appearance": {"zh": "船型空壳", "en": "Boat-shaped shell"},
+      "equivalent_count_full": 5
+    },
+    {
+      "id": "broken_chipped",
+      "name": {"zh": "破碎/缺角 Broken / Chipped", "en": "Broken / Chipped"},
+      "appearance": {"zh": "豆体破裂或缺角", "en": "Split or chipped"},
+      "equivalent_count_full": 5
+    },
+    {
+      "id": "hull_husk",
+      "name": {"zh": "残留壳皮 Hull / Husk", "en": "Hull / Husk"},
+      "appearance": {"zh": "脱壳不净残片", "en": "Inadequately hulled fragment"},
+      "equivalent_count_full": 5
+    },
+    {
+      "id": "parchment",
+      "name": {"zh": "羊皮层 Parchment", "en": "Parchment"},
+      "appearance": {"zh": "残留羊皮层", "en": "Parchment remnant"},
+      "equivalent_count_full": 5
+    },
+    {
+      "id": "insect_slight",
+      "name": {"zh": "轻微虫蛀 Insect (slight)", "en": "Insect (slight)"},
+      "appearance": {"zh": "1-2 个虫孔", "en": "1-2 insect holes"},
+      "equivalent_count_full": 5
+    },
+    {
+      "id": "floater",
+      "name": {"zh": "浮豆 Floater", "en": "Floater"},
+      "appearance": {"zh": "苍白低密度", "en": "Pale low-density"},
+      "cause": {"zh": "未熟或发育不良", "en": "Unripe or underdeveloped"},
+      "equivalent_count_full": 5
+    }
+  ],
+  "grading_rule": {
+    "primary_threshold": {"zh": "1 颗一级瑕疵 = 1 个完整缺陷当量；累计 5 个即降级", "en": "1 primary = 1 full defect; 5 triggers downgrade"},
+    "secondary_threshold": {"zh": "5 颗同类二级瑕疵 = 1 个完整缺陷当量", "en": "5 same-class secondary = 1 full defect"},
+    "specialty_total_max": 5
+  }
+}

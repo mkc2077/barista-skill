@@ -1,11 +1,11 @@
 # Barista 咖啡师教练技能 / Barista Coffee-Coach Skill
 
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Version](https://img.shields.io/badge/version-2.10.1-blue)
+![Version](https://img.shields.io/badge/version-3.0.0-blue)
 ![Methods](https://img.shields.io/badge/brew-14%20methods-success)
 ![Milk drinks](https://img.shields.io/badge/milk%20drinks-11-success)
-![MCP tools](https://img.shields.io/badge/MCP%20tools-11-blueviolet)
-![References](https://img.shields.io/badge/references-17%20files-informational)
+![MCP tools](https://img.shields.io/badge/MCP%20tools-20-blueviolet)
+![References](https://img.shields.io/badge/references-24%20files-informational)
 
 一个通用 AI Agent **专属咖啡顾问 Skill**（非被动问答机器）——顾问**主导对话节奏**，通过连续穿透式追问帮你摸清现状、拆解问题、找到影响口感的关键变量。A general-purpose AI-agent coffee-consultant Skill (not a Q&A bot) — the consultant **drives the conversation** with penetrating follow-up questions to map your situation, break down the problem, and find the ONE variable that will make your coffee better. **中文 / English 双语**（MCP 工具全部支持 `language="zh"/"en"`）。兼容 WorkBuddy / QoderWork / Claude Code / Cursor / 通用 Agent 平台。
 
@@ -41,8 +41,9 @@
 - **冠军冲煮方案 / Champion brewing** —— 粕谷哲 4:6、王策 VWI、杜嘉宁、吴则霖三温暖、Carlos Medina（2023 冠军）、彭近洋（2025 冠军）等检索起点；含**滤杯/滤纸冲煮方案**（V60 / V60 Kasuya Model / Origami 一杯两用 / Kalita Wave / Chemex / 聪明杯 / 金属滤网）+ 滤纸形态对风味影响实测 + 名家滤杯使用索引；具体配方联网核实
 - **特调咖啡（独立大类）/ Craft coffee (standalone category)** —— 8 项必填 SOP 框架：咖啡基底萃取方案（中深烘浓缩 / SOE ristretto / 手冲 / 冷萃）、茶底、自制糖浆 SOP、采购辅料、杯具冰、拼装顺序（带口诀）、呈现提示、来源；门店/博主索引（吉米"咖啡届直男"、JPG coffee、GABEE.、Onyx、SEY、Blue Bottle、% Arabica、Coffee Collective）
 - **学习资源 / Learning resources** —— 入门/进阶/专业三级 + SCA 认证 + 咖啡师名录
+- **SCA 认证 & Q-Grader 考试 / SCA Certification & Q-Grader** —— SCA 六大模块课程树（Foundation/Intermediate/Professional）、CVA 新评分体系（SCA-102/103/104/105）、Q-Grader 20-22 项考试、生豆分级、瑕疵豆、三角杯测、咖啡化学与感官映射
 
-> English coverage: 14 brew methods, 11 classic milk drinks, beans, water quality, pressure profiling, sensory training, SCA cupping, grinder calibration, golden-cup parameter matrices (incl. dripper/filter paper as the pour-over zero-th variable), troubleshooting, curated learning resources, a champion brewing recipes index (Kasuya 4:6, Du Jianing, Berg Wu, Carlos Medina, Peng, etc. with dripper/filter-paper map), and craft coffee as a standalone major category (base extraction specs / tea base / homemade syrup SOP / store-bought / full build SOP). 13/17 reference files mirrored in English under `references/en/`.
+> English coverage: 14 brew methods, 11 classic milk drinks, beans, water quality, pressure profiling, sensory training, SCA cupping, grinder calibration, golden-cup parameter matrices (incl. dripper/filter paper as the pour-over zero-th variable), troubleshooting, curated learning resources, a champion brewing recipes index (Kasuya 4:6, Du Jianing, Berg Wu, Carlos Medina, Peng, etc. with dripper/filter-paper map), and craft coffee as a standalone major category (base extraction specs / tea base / homemade syrup SOP / store-bought / full build SOP). 14/24 reference files mirrored in English under `references/en/`.
 
 ## 核心机制：顾问主导穿透提问 / Core: consultant-led penetrating questioning
 
@@ -58,11 +59,11 @@
 
 **给建议前必须锁定 / Always lock in before advising**：经验档位（经追问链判定）、器具画像 / equipment（咖啡机/磨豆机型号、粉碗容量）、豆卡 / bean card（烘焙度·处理法·产区·豆种）。特调与冰手冲先给配方与器材清单再动手。
 
-## MCP Server（11 个双语工具）/ MCP server (11 bilingual tools)
+## MCP Server（20 个双语工具）/ MCP server (20 bilingual tools)
 
 把技能封装为标准 MCP 服务，任何 MCP 客户端可直接调用；每个工具带 `language` 参数。Packaged as a standard MCP service; every tool is bilingual. 见 / See [`mcp-server/README.md`](mcp-server/README.md)。
 
-`get_recipe` · `get_milk_drink` · `get_craft_recipe` · `diagnose_flavor` · `calculate_cupping_score` · `calibrate_grinder` · `get_parameters_guide` · `get_flavor_wheel` · `get_sensory_training` · `get_learning_resources` · `search_references`
+`get_recipe` · `get_milk_drink` · `get_craft_recipe` · `diagnose_flavor` · `calculate_cupping_score` · `calibrate_grinder` · `get_parameters_guide` · `get_flavor_wheel` · `get_sensory_training` · `get_learning_resources` · `search_references` · `get_sca_path` · `get_sca_course` · `get_qgrader_exam` · `get_qgrader_study_plan` · `get_green_grade` · `get_defect_bean` · `calculate_cva_score` · `get_triangle_protocol` · `search_sca_sources`
 
 ## 报告模板 / Report templates
 
@@ -108,15 +109,23 @@ barista-skill/
 ├── README.md                 # 本文件
 ├── LICENSE                   # MIT
 ├── .gitignore
-├── mcp-server/               # MCP 服务 (11 bilingual tools)
+├── mcp-server/               # MCP 服务 (20 bilingual tools)
 │   ├── server.py / test_server.py
 │   ├── pyproject.toml / README.md
-├── data/                      # 14 个 JSON 数据文件 = 单一数据源 (recipes/milk/cupping/...)
+├── data/                      # 22 个 JSON 数据文件 = 单一数据源 (recipes/milk/cupping/sca/qgrader/green/...)
 │   ├── online_craft_recipes.json     # [v2.10] 门店/博主特调联网文字标注清单 (12 条, 文字/图文)
+│   ├── sca_certification.json        # [v3.0] SCA 六模块课程树 + Q-Grader 认证
+│   ├── sca_cva.json                  # [v3.0] CVA 新评分体系 (SCA-102/103/104/105)
+│   ├── qgrader_exams.json           # [v3.0] Q-Grader 考试逐单元 (8 大类)
+│   ├── qgrader_study_resources.json # [v3.0] Q-Grader 备考资料索引
+│   ├── green_coffee_grading.json    # [v3.0] 生豆分级标准
+│   ├── defect_beans.json            # [v3.0] 瑕疵豆分类与扣分
+│   ├── coffee_chemistry_sensory.json# [v3.0] 咖啡化学与感官映射
+│   ├── sca_official_sources.json    # [v3.0] 已验证来源索引
 ├── scripts/                   # self_check.py — 一致性自检 (33 项 PASS/FAIL)
 └── references/report_templates/  # 4 个顾问输出模板 + README
-└── references/               # 17 个参考文件 (中文原版 = 真相源)
-    ├── en/                   # English mirrors (13/17: 高/中价值文件全部完成)
+└── references/               # 24 个参考文件 (中文原版 = 真相源)
+    ├── en/                   # English mirrors (14/24: 高/中价值文件全部完成)
     │   ├── recipes-baseline / troubleshooting / parameters-guide / cupping / sensory
     │   ├── beans / grind-calibration / water-quality / equipment-profiles / pressure-profiles
     │   ├── champion-brewing / craft-coffee / learning-resources / README.md (coverage table)
@@ -128,6 +137,12 @@ barista-skill/
     ├── parameters-guide.md / learning-resources.md
     ├── champion-brewing.md   # 冠军冲煮方案索引 + 滤杯滤纸冲煮方案 (v2.2/v2.3)
     └── craft-coffee.md       # 特调咖啡独立大类 + 8 项 SOP (v2.3)
+    ├── sca-certification.md       # [v3.0] SCA 认证全体系详解 (学习路径/费用/策略)
+    ├── qgrader-complete-guide.md  # [v3.0] Q-Grader 从零到认证全指南
+    ├── sca-new-cva-guide.md       # [v3.0] 新 CVA 评分体系实操指南
+    ├── green-coffee-evaluation.md # [v3.0] 生豆评价 (SCA/SPE/瑕疵/水分)
+    ├── triangle-test-protocol.md  # [v3.0] 三角杯测专项协议
+    └── coffee-sensory-chemistry.md# [v3.0] 感官背后的化学
 ```
 
 ## 安装 / Install

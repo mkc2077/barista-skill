@@ -1,0 +1,88 @@
+{
+  "_meta": {
+    "title": "SCA 认证体系全景",
+    "verified_at": "2026-07-26",
+    "sources": ["sca.coffee/education", "sca.coffee/certification", "coffeeinstitute.org"],
+    "note": "CSP 六大模块课程树 + Q-Grader 独立认证（原 CQI，2025 起 SCA 接管为 Evolved Q Grader，基于 CVA）。Q-Grader 不属于 CSP 模块。"
+  },
+  "csp_modules": {
+    "_intro": {
+      "zh": "SCA Coffee Skills Program (CSP) 包含六大模块，每个模块分 Foundation / Intermediate / Professional 三级（Introduction to Coffee 仅有 Foundation）。",
+      "en": "SCA Coffee Skills Program (CSP) has six modules; each module has Foundation / Intermediate / Professional levels (Introduction to Coffee has only Foundation)."
+    },
+    "modules": [
+      {
+        "id": "introduction_to_coffee",
+        "name": {"zh": "咖啡入门 Introduction to Coffee", "en": "Introduction to Coffee"},
+        "levels": ["foundation"],
+        "duration_hours": 6,
+        "desc": {"zh": "咖啡产业链全景：从种子到杯。CSP 体系唯一的单级模块，是其余五个模块的推荐前置。", "en": "Full coffee value chain seed-to-cup. The only single-level module in CSP; recommended prerequisite for the other five."},
+        "prerequisite": null,
+        "for_whom": {"zh": "所有咖啡爱好者与从业者入门", "en": "All enthusiasts and professionals as entry"}
+      },
+      {
+        "id": "barista_skills",
+        "name": {"zh": "咖啡师技能 Barista Skills", "en": "Barista Skills"},
+        "levels": ["foundation", "intermediate", "professional"],
+        "duration_hours": {"foundation": 6, "intermediate": 14, "professional": 21},
+        "desc": {"zh": "意式萃取、奶咖制作、拉花、吧台管理、卫生与工作流。", "en": "Espresso, milk drinks, latte art, bar management, hygiene & workflow."},
+        "prerequisite": {"intermediate": "introduction_to_coffee", "professional": "barista_skills.intermediate"},
+        "for_whom": {"zh": "吧台操作从业者", "en": "Bar floor staff"}
+      },
+      {
+        "id": "brewing",
+        "name": {"zh": "冲煮 Brewing", "en": "Brewing"},
+        "levels": ["foundation", "intermediate", "professional"],
+        "duration_hours": {"foundation": 6, "intermediate": 14, "professional": 21},
+        "desc": {"zh": "手冲、金杯理论、萃取科学、多器具适配、研磨与水质。", "en": "Pour-over, golden cup, extraction science, multi-brewer, grind & water."},
+        "prerequisite": {"intermediate": "introduction_to_coffee", "professional": "brewing.intermediate"},
+        "for_whom": {"zh": "想深入冲煮的爱好者", "en": "Brewing enthusiasts"}
+      },
+      {
+        "id": "sensory_skills",
+        "name": {"zh": "感官品鉴 Sensory Skills", "en": "Sensory Skills"},
+        "levels": ["foundation", "intermediate", "professional"],
+        "duration_hours": {"foundation": 6, "intermediate": 14, "professional": 21},
+        "desc": {"zh": "杯测、风味轮、感官训练、CVA 评估（含 SCA-102~105）。Q-Grader 的推荐前置。", "en": "Cupping, flavor wheel, sensory training, CVA (SCA-102~105). Recommended prerequisite for Q-Grader."},
+        "prerequisite": {"intermediate": "introduction_to_coffee", "professional": "sensory_skills.intermediate"},
+        "for_whom": {"zh": "想提升品鉴能力者", "en": "Anyone improving palate"}
+      },
+      {
+        "id": "roasting",
+        "name": {"zh": "咖啡烘焙 Roasting", "en": "Roasting"},
+        "levels": ["foundation", "intermediate", "professional"],
+        "duration_hours": {"foundation": 6, "intermediate": 14, "professional": 21},
+        "desc": {"zh": "烘焙原理、曲线控制、缺陷识别、拼配、样品烘焙。", "en": "Roast principles, curve control, defect ID, blending, sample roasting."},
+        "prerequisite": {"intermediate": "introduction_to_coffee", "professional": "roasting.intermediate"},
+        "for_whom": {"zh": "想自己烘豆的进阶玩家", "en": "Advanced home & pro roasters"}
+      },
+      {
+        "id": "green_coffee",
+        "name": {"zh": "咖啡生豆 Green Coffee", "en": "Green Coffee"},
+        "levels": ["foundation", "intermediate", "professional"],
+        "duration_hours": {"foundation": 6, "intermediate": 14, "professional": 21},
+        "desc": {"zh": "供应链管理、生豆分级、合约与采购、产区认知。", "en": "Supply chain, green grading, contracts, sourcing, origin knowledge."},
+        "prerequisite": {"intermediate": "introduction_to_coffee", "professional": "green_coffee.intermediate"},
+        "for_whom": {"zh": "采购与品控", "en": "Buyers & QC"}
+      }
+    ]
+  },
+  "qgrader": {
+    "_intro": {
+      "zh": "Q-Grader 是独立于 CSP 的咖啡品质鉴定师认证。原由 CQI 颁发，2025 年起 SCA 接管为 Evolved Q Grader，基于新 CVA 体系。详见 qgrader_exams.json。",
+      "en": "Q-Grader is a standalone certification independent of CSP. Originally from CQI; since 2025 SCA runs it as Evolved Q Grader, based on the new CVA system. See qgrader_exams.json."
+    },
+    "current": {
+      "name": {"zh": "Evolved Q Grader（2025 起）", "en": "Evolved Q Grader (since 2025)"},
+      "issuer": {"zh": "SCA（原 CQI）", "en": "SCA (formerly CQI)"},
+      "validity_years": 3,
+      "based_on": "CVA (SCA-102~105)",
+      "recertification": {"zh": "3 年内重新认证，含 CVA 更新模块", "en": "Re-cert within 3 years incl. CVA updates"}
+    },
+    "legacy": {
+      "name": {"zh": "原 CQI Q Grader（2024 及以前）", "en": "Original CQI Q Grader (through 2024)"},
+      "based_on": "SCAA 100-point cupping",
+      "note": {"zh": "老版基于 100 分杯测体系；2025 后过渡到 CVA。", "en": "Legacy based on 100-pt cupping; transitioned to CVA in 2025."}
+    }
+  }
+}

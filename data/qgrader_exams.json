@@ -1,0 +1,94 @@
+{
+  "_meta": {
+    "title": "Q-Grader 考试 8 大类",
+    "verified_at": "2026-07-26",
+    "sources": ["sca.coffee/qgrader", "coffeeinstitute.org (archived)", "torchcoffee.asia/q-arabica-grader-tests-chinese", "expertcafe.be/en/guides/q-grader-certification-guide", "gafei.com/kafeibiji-44162"],
+    "calibration_note": "口径差异：中国咖啡网/Expertcafe 称 22 门，Torch 称 20 项，差异来自杯测/三角杯测的轮数计数与科目拆分方式。本数据集按 8 大类组织，逐考试单元收录，标注口径差异。"
+  },
+  "exam_categories": [
+    {
+      "id": "written_general_knowledge",
+      "name": {"zh": "综合知识笔试", "en": "General Knowledge Written"},
+      "unit_count": 1,
+      "format": {"zh": "100 道选择题，覆盖种植/采摘/初加工/杯测/分级/烘焙/冲泡，限时 60 分钟", "en": "100 multiple-choice on growing/processing/cupping/grading/roasting/brewing, 60 min"},
+      "pass_threshold": {"zh": "75% 正确率", "en": "75% correct"},
+      "calibration": {"zh": "无争议，1 个单元", "en": "Unambiguous, 1 unit"}
+    },
+    {
+      "id": "sensory_skill_gustation",
+      "name": {"zh": "感官技巧-味觉", "en": "Sensory Skill - Gustation"},
+      "unit_count": 3,
+      "sub_units": [
+        {"id": "reference_sweet_salt", "label": {"zh": "参照组（甜/咸基准识别）", "en": "Reference (sweet/salt baseline)"}},
+        {"id": "blind_set", "label": {"zh": "盲组（识别甜/酸/咸及浓度等级）", "en": "Blind set (identify sweet/sour/salt + intensity)"}},
+        {"id": "mixed_set", "label": {"zh": "混合组（识别组合味道与强度）", "en": "Mixed set (combination + intensity)"}}
+      ],
+      "format": {"zh": "分辨不同强度的咸味、酸味、甜味", "en": "Distinguish different intensities of salty, sour, sweet"},
+      "pass_threshold": {"zh": "参照组 100%，盲组 80%，混合组 70%", "en": "Reference 100%, Blind 80%, Mixed 70%"}
+    },
+    {
+      "id": "olfactory_Le_Nez",
+      "name": {"zh": "嗅觉-闻香瓶 36 味", "en": "Olfactory - Le Nez 36 aromas"},
+      "unit_count": 4,
+      "sub_units": [
+        {"id": "enzymatic", "label": {"zh": "酶催化组（浅烘，9 味）", "en": "Enzymatic (light roast, 9 aromas)"}},
+        {"id": "sugar_browning", "label": {"zh": "焦糖化组（中烘，9 味）", "en": "Sugar browning (medium roast, 9)"}},
+        {"id": "dry_distillation", "label": {"zh": "干馏组（深烘，9 味）", "en": "Dry distillation (dark roast, 9)"}},
+        {"id": "taints", "label": {"zh": "瑕疵组（9 味）", "en": "Taints (9)"}}
+      ],
+      "format": {"zh": "Le Nez du Cafe 36 味闻香瓶，参照组 9 瓶 + 盲组 6 瓶配对 + 指定 3 瓶命名，红光教室", "en": "Le Nez du Cafe 36 aromas, 9 reference + 6 blind matching + 3 naming, red-light room"},
+      "pass_threshold": {"zh": "每组 75%（9 对中匹配 6 对）", "en": "75% per group (match 6 of 9)"}
+    },
+    {
+      "id": "cupping_scoring",
+      "name": {"zh": "杯测打分", "en": "Cupping Scoring"},
+      "unit_count_range": "4-5",
+      "calibration": {"zh": "口径差异来源：杯测轮数在不同版本为 4 或 5 轮（中美洲/东非/亚洲/日晒等）", "en": "Calibration source: cupping rounds vary 4 or 5 across versions (CentAm/E.Africa/Asia/Natural etc.)"},
+      "format": {"zh": "对多款样品按 SCA 100 分（旧）/ CVA（新）打分，评估准确性与一致性", "en": "Score multiple samples using SCA 100-pt (legacy) / CVA (new), assess accuracy & consistency"},
+      "pass_threshold": {"zh": "评分与考官一致性偏差 <= 1 分", "en": "Deviation from proctor <= 1 pt"}
+    },
+    {
+      "id": "triangulation",
+      "name": {"zh": "三角杯测", "en": "Triangulation"},
+      "unit_count_range": "4-6",
+      "calibration": {"zh": "口径差异来源：三角杯测轮数 4-6 轮", "en": "Calibration source: triangulation rounds 4-6"},
+      "format": {"zh": "每组 3 杯（2 同 1 异），找出不一致杯，红光教室排除视觉差异", "en": "3 cups per set (2 same 1 odd), find odd cup, red-light room to exclude visual differences"},
+      "pass_threshold": {"zh": "83% 正确率", "en": "83% correct"}
+    },
+    {
+      "id": "organic_acid_matching",
+      "name": {"zh": "有机酸配对", "en": "Organic Acid Matching"},
+      "unit_count": 1,
+      "acids": ["citric", "malic", "tartaric", "acetic"],
+      "format": {"zh": "8 组咖啡，每组 4 杯，找出加酸的 2 杯并命名酸种", "en": "8 sets, 4 cups each, find 2 spiked cups and name the acid"},
+      "pass_threshold": {"zh": "配对正确率达标", "en": "Matching accuracy meets threshold"}
+    },
+    {
+      "id": "green_coffee_grading",
+      "name": {"zh": "生豆分级", "en": "Green Coffee Grading"},
+      "unit_count": 1,
+      "format": {"zh": "350g 样品按 SCA 瑕疵表分级，挑出一/二级瑕疵并计算等级", "en": "350g sample per SCA defect table, pick primary/secondary defects and calculate grade"},
+      "pass_threshold": {"zh": "与考官判定一致", "en": "Consistent with proctor"},
+      "see_also": "green_coffee_grading.json"
+    },
+    {
+      "id": "roasted_coffee_identification",
+      "name": {"zh": "熟豆/样品烘焙辨认", "en": "Roasted / Sample Roast Identification"},
+      "unit_count_range": "1-2",
+      "calibration": {"zh": "口径差异来源：部分版本单独含样品烘焙辨认（Agtron 色值判断）", "en": "Calibration source: some versions include separate sample-roast ID (Agtron color)"},
+      "format": {"zh": "辨认样品烘焙度是否符合 SCA 标准 / 挑选 Quaker 豆", "en": "Identify if roast degree meets SCA standard / pick Quaker beans"},
+      "pass_threshold": {"zh": "与考官判定一致", "en": "Consistent with proctor"}
+    }
+  ],
+  "total_units_summary": {
+    "min": 20,
+    "max": 22,
+    "note": {"zh": "8 大类单元合计 20-22，差异来自杯测/三角/熟豆辨认的轮数。旧'22 门'与'20 项'说法均指此范围。", "en": "8 categories sum to 20-22; variance from cupping/triangulation/roast-ID rounds. Both '22 exams' and '20 tests' refer to this range."}
+  },
+  "evolved_q_2025_changes": {
+    "cupping_to_cva": {"zh": "杯测打分从旧 100 分制改为 CVA 1-9 分制", "en": "Cupping scoring: legacy 100-pt -> CVA 1-9"},
+    "olfactory_unchanged": {"zh": "闻香瓶 36 味保持不变", "en": "Le Nez 36 aromas unchanged"},
+    "recert_cycle": {"zh": "3 年重新认证", "en": "3-year recertification"},
+    "based_on_cva": {"zh": "基于 CVA SCA-102~105 四表", "en": "Based on CVA SCA-102~105 four protocols"}
+  }
+}

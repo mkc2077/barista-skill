@@ -1,0 +1,109 @@
+{
+  "_meta": {
+    "title": "咖啡化学与感官映射",
+    "verified_at": "2026-07-26",
+    "sources": ["sca.coffee/research", "worldcoffeeresearch.org", "baristahustle.com"]
+  },
+  "compounds": [
+    {
+      "id": "citric_acid",
+      "name": {"zh": "柠檬酸 Citric Acid", "en": "Citric Acid"},
+      "category": "acid",
+      "taste": {"zh": "明亮柑橘酸", "en": "Bright citrus acidity"},
+      "origin": {"zh": "生豆自带 / 烘焙保留", "en": "Native to green bean / retained in roast"},
+      "roast_change": {"zh": "中深烘后部分分解为奎宁酸", "en": "Mid-dark roast partially breaks into quinic"}
+    },
+    {
+      "id": "malic_acid",
+      "name": {"zh": "苹果酸 Malic Acid", "en": "Malic Acid"},
+      "category": "acid",
+      "taste": {"zh": "青苹果酸", "en": "Green-apple acidity"},
+      "origin": {"zh": "生豆自带", "en": "Native to green bean"}
+    },
+    {
+      "id": "tartaric_acid",
+      "name": {"zh": "酒石酸 Tartaric Acid", "en": "Tartaric Acid"},
+      "category": "acid",
+      "taste": {"zh": "葡萄型酸", "en": "Grape-like acidity"}
+    },
+    {
+      "id": "acetic_acid",
+      "name": {"zh": "醋酸 Acetic Acid", "en": "Acetic Acid"},
+      "category": "acid",
+      "taste": {"zh": "醋酸，过量 = 发酵瑕疵", "en": "Acetic; excess = fermentation defect"},
+      "origin": {"zh": "发酵过程产生", "en": "Produced in fermentation"}
+    },
+    {
+      "id": "quinic_acid",
+      "name": {"zh": "奎宁酸 Quinic Acid", "en": "Quinic Acid"},
+      "category": "acid",
+      "taste": {"zh": "深烘苦涩感来源", "en": "Dark-roast bitter-astringent source"},
+      "origin": {"zh": "绿原酸分解产物", "en": "Chlorogenic acid breakdown product"}
+    },
+    {
+      "id": "chlorogenic_acid",
+      "name": {"zh": "绿原酸 Chlorogenic Acid", "en": "Chlorogenic Acid"},
+      "category": "acid",
+      "taste": {"zh": "涩感来源；浅烘保留", "en": "Astringency source; retained in light roast"},
+      "roast_change": {"zh": "烘焙中分解为奎宁酸 + 咖啡酸", "en": "Roast breaks into quinic + caffeic acids"}
+    },
+    {
+      "id": "caffeine",
+      "name": {"zh": "咖啡因 Caffeine", "en": "Caffeine"},
+      "category": "alkaloid",
+      "taste": {"zh": "苦", "en": "Bitter"},
+      "roast_change": {"zh": "烘焙度对咖啡因影响极小", "en": "Roast level barely affects caffeine"}
+    },
+    {
+      "id": "trigonelline",
+      "name": {"zh": "葫芦巴碱 Trigonelline", "en": "Trigonelline"},
+      "category": "alkaloid",
+      "taste": {"zh": "中烘分解为吡啶（焦糖香）", "en": "Mid-roast breaks to pyridines (caramel aroma)"}
+    },
+    {
+      "id": "lipids",
+      "name": {"zh": "脂类 Lipids", "en": "Lipids"},
+      "category": "lipid",
+      "taste": {"zh": "醇厚度贡献", "en": "Body contributor"}
+    },
+    {
+      "id": "melanoidins",
+      "name": {"zh": "类黑素 Melanoidins", "en": "Melanoidins"},
+      "category": "carbohydrate",
+      "taste": {"zh": "深烘苦甜 + 醇厚", "en": "Dark roast bitter-sweet + body"},
+      "origin": {"zh": "美拉德反应产物", "en": "Maillard reaction product"}
+    },
+    {
+      "id": "furans",
+      "name": {"zh": "呋喃类 Furans", "en": "Furans"},
+      "category": "aroma",
+      "taste": {"zh": "焦糖/坚果香", "en": "Caramel/nut aroma"},
+      "origin": {"zh": "糖类焦糖化", "en": "Sugar caramelization"}
+    },
+    {
+      "id": "pyrazines",
+      "name": {"zh": "吡嗪类 Pyrazines", "en": "Pyrazines"},
+      "category": "aroma",
+      "taste": {"zh": "烘焙坚果香", "en": "Roasted nut aroma"},
+      "origin": {"zh": "美拉德反应", "en": "Maillard reaction"}
+    }
+  ],
+  "extraction_order": {
+    "_doc": {"zh": "化合物溶出顺序（决定萃取阶段）", "en": "Compound dissolution order (determines extraction stages)"},
+    "stages": [
+      {"stage": 1, "compounds": ["acids"], "taste": {"zh": "果酸", "en": "fruit acids"}, "timing": {"zh": "先", "en": "first"}},
+      {"stage": 2, "compounds": ["lipids"], "taste": {"zh": "脂类", "en": "lipids"}, "timing": {"zh": "次", "en": "second"}},
+      {"stage": 3, "compounds": ["sugars", "melanoidins"], "taste": {"zh": "甜感", "en": "sweetness"}, "timing": {"zh": "中", "en": "mid"}},
+      {"stage": 4, "compounds": ["carbs", "tannins"], "taste": {"zh": "苦/涩", "en": "bitter/astringent"}, "timing": {"zh": "后", "en": "last"}}
+    ],
+    "golden_cup": {"extraction_yield_pct": "18-22", "tds_pct": "1.15-1.35"}
+  },
+  "maillard_window": {
+    "temp_range_c": "140-170",
+    "note": {"zh": "烘焙中美拉德反应窗口，生成吡嗪/呋喃/类黑素", "en": "Roast Maillard window; produces pyrazines/furans/melanoidins"}
+  },
+  "flavor_adjust_chemistry": {
+    "too_sour": {"zh": "酸 = 萃取不足（酸先溶出）-> 调细 / 升温 / 延长", "en": "Sour = under-extraction (acids first) -> finer / hotter / longer"},
+    "too_bitter": {"zh": "苦 = 萃取过度（碳水后溶出）-> 调粗 / 降温 / 缩短", "en": "Bitter = over-extraction (carbs last) -> coarser / cooler / shorter"}
+  }
+}

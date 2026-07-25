@@ -4,6 +4,36 @@
 
 ---
 
+## [3.0.0] - 2026-07-26  (SCA / Q-Grader 深度扩展 — 认证体系 + 考试体系作为一级模块)
+
+### Added
+- **SCA / Q-Grader 一级模块**：把 SCA 认证体系与 Q-Grader 考试体系深度嵌入，新增 8 个 data JSON + 6 篇 references + 9 个 MCP 工具（工具数 11 → 20）。
+- 8 个数据文件：
+  - `data/sca_certification.json` — SCA Coffee Skills Program 六大模块（Introduction / Barista / Brewing / Green Coffee / Roasting / Sensory，各分 Foundation / Intermediate / Professional 三级）课程树；Q-Grader 认证作为独立并列块（非 CSP 模块）。
+  - `data/sca_cva.json` — SCA 新 CVA 评分体系四表（SCA-102 Sample Preparation / 103 Descriptive / 104 Affective 1-9 分制 / 105 Extrinsic）+ 1-9 → 旧 100 分制换算。
+  - `data/qgrader_exams.json` — Q-Grader 8 大类（综合知识 / 感官味觉 / 嗅觉闻香瓶 / 杯测 / 三角杯测 / 有机酸配对 / 生豆分级 / 熟豆辨认）逐单元考试，标注 20-22 项口径差异 + Evolved Q 变化。
+  - `data/qgrader_study_resources.json` — 分项备考资料索引（官方 + 社区入口级）。
+  - `data/green_coffee_grading.json` — 生豆分级（SCA 筛网 + SPE 物理分级 + 粒径 + 含水率）。
+  - `data/defect_beans.json` — 瑕疵豆一级 / 二级分类 + SCA 扣分体系。
+  - `data/coffee_chemistry_sensory.json` — 咖啡化学与感官映射（酸类 / 糖类 / 酚类 / 烘焙反应）。
+  - `data/sca_official_sources.json` — 已验证官方 / 社区来源索引。
+- 6 篇参考文档（先中文，登记 en 镜像豁免）：`references/sca-certification.md` / `qgrader-complete-guide.md` / `sca-new-cva-guide.md` / `green-coffee-evaluation.md` / `triangle-test-protocol.md` / `coffee-sensory-chemistry.md`。
+- 9 个 MCP 工具：`get_sca_path` / `get_sca_course` / `get_qgrader_exam` / `get_qgrader_study_plan` / `get_green_grade` / `get_defect_bean` / `calculate_cva_score` / `get_triangle_protocol` / `search_sca_sources`。
+
+### Changed
+- `SKILL.md` 触发关键词已含 SCA / Q-Grader / 认证 / 考试 / 杯测 / 生豆分级 / CVA / 瑕疵豆 / 三角杯测，新增考试顾问模式指引；参考资料清单 +6。
+- `data/learning_resources.json` 扩展 professional 级别；`references/learning-resources.md` 专业级章节重写。
+- `mcp-server/README.md` 与 `README.md` 工具表 / 徽章同步到 20 工具 / 23 篇 references。
+
+### Fixed
+- 修复 4 处现存不一致：SKILL.md version 漂移（2.9.0 → 3.0.0）、`data/online_craft_recipes.json` 未注册进 KNOWN_DATA_FILES、工具计数文案滞后（10 / 11 工具）、CHANGELOG 重复 [2.9.0] → [2.8.1]。
+
+### Notes
+- 版本号与来源采集事实均按 SCA / CQI 官方核实修正（CVA 四表官方译名、1-9 分制而非 1-100、Q-Grader 非 CSP 模块、考试 8 大类口径差异）。
+- 6 篇新 reference 先发布中文版，英文镜像（en/）于后续版本补齐并解除豁免。
+
+---
+
 ## [2.10.1] - 2026-07-22  (hotfix: 恢复 SKILL.md 正确 UTF-8 + 指向文字版特调清单)
 
 ### Fixed

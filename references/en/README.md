@@ -7,7 +7,7 @@ grinder steps, flavor wheel groups, sensory-solution recipes, water TDS, etc.).
 > The Chinese originals remain the full source of truth under `references/` (one
 > level up). The English mirrors are a convenience for international agents/users.
 
-## Currently translated (13 / 17)
+## Currently translated (13 / 23)
 
 | File | Topic | Intl. value |
 |------|-------|------|

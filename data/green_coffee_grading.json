@@ -1,0 +1,38 @@
+{
+  "_meta": {
+    "title": "SCA 生豆分级标准",
+    "verified_at": "2026-07-26",
+    "sources": ["sca.coffee/store/green-coffee-defect-handbook", "sca.coffee/education"]
+  },
+  "sample": {
+    "weight_g": 350,
+    "note": {"zh": "每份 350g 样品评估", "en": "Per 350g sample"}
+  },
+  "screen_sizes": [
+    {"size": 20, "label": {"zh": "20 目以上（特大豆）", "en": "Above screen 20 (extra large)"}, "mm": 8.0},
+    {"size": 19, "label": {"zh": "19 目", "en": "Screen 19"}, "mm": 7.55},
+    {"size": 18, "label": {"zh": "18 目（精品级常用下限）", "en": "Screen 18 (specialty common lower)"}, "mm": 7.10},
+    {"size": 17, "label": {"zh": "17 目", "en": "Screen 17"}, "mm": 6.65},
+    {"size": 16, "label": {"zh": "16 目", "en": "Screen 16"}, "mm": 6.20},
+    {"size": 15, "label": {"zh": "15 目（部分产区接受）", "en": "Screen 15 (some origins)"}, "mm": 5.75},
+    {"size": 14, "label": {"zh": "14 目以下（过小）", "en": "Below screen 14 (too small)"}, "mm": 5.30}
+  ],
+  "moisture": {
+    "range_pct": "10-12",
+    "ideal_pct": "10.5-11.5",
+    "method": {"zh": "烘箱法或电容式水分仪", "en": "Oven or capacitive meter"},
+    "water_activity_aw": {"max": 0.7, "note": {"zh": "水分活度 <= 0.7 防微生物", "en": "Water activity <= 0.7 to prevent microbes"}}
+  },
+  "specialty_threshold": {
+    "primary_defects_max": 0,
+    "secondary_defects_max": 5,
+    "note": {"zh": "精品级 = 一级瑕疵 0 且二级瑕疵 <= 5（350g 样品）", "en": "Specialty = primary 0 & secondary <= 5 (per 350g)"}
+  },
+  "grade_table": [
+    {"grade": "specialty", "label": {"zh": "精品级 Specialty", "en": "Specialty"}, "primary_max": 0, "secondary_max": 5},
+    {"grade": "premium",   "label": {"zh": "高级 Premium",   "en": "Premium"},   "primary_max": 0, "secondary_max": 8},
+    {"grade": "exchange",  "label": {"zh": "交易所级 Exchange", "en": "Exchange"}, "primary_max": 1, "secondary_max": 12},
+    {"grade": "below_standard", "label": {"zh": "低于标准 Below Standard", "en": "Below Standard"}, "primary_max": 1, "secondary_max": 30},
+    {"grade": "off_grade", "label": {"zh": "等外 Off Grade", "en": "Off Grade"}, "primary_max": -1, "secondary_max": -1, "note": {"zh": "一级瑕疵 >1 或二级当量 >30", "en": "primary >1 or secondary equivalent >30"}}
+  ]
+}

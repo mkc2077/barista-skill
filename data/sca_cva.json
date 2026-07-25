@@ -1,0 +1,76 @@
+{
+  "_meta": {
+    "title": "SCA Coffee Value Assessment (CVA) 四表",
+    "verified_at": "2026-07-26",
+    "sources": ["sca.coffee/sca-news/sca-new-cva-cupping-standards-7ga28", "sca.coffee/cva"],
+    "note": "SCA 于 2024-11 正式采纳 CVA。SCA-102 样品准备与杯测机制；SCA-103 描述性评估；SCA-104 情感/感受性评估（1-9 分制）；SCA-105 外在属性评估。Affective 1-9 分制替代旧 6-10 分十维度评分。"
+  },
+  "protocols": [
+    {
+      "id": "SCA-102",
+      "name": {"zh": "样品准备与杯测机制 Sample Preparation and Tasting Mechanics", "en": "Sample Preparation and Tasting Mechanics"},
+      "purpose": {"zh": "规范样品烘焙、研磨、注水、破渣、啜吸等所有变量，确保评估的公平与可重复。", "en": "Standardize sample roasting, grinding, pouring, breaking, slurping so evaluations are fair and reproducible."},
+      "key_params": {
+        "ratio": "8.25g : 150ml (1:18.18)",
+        "water_temp_c": 93,
+        "water_tds_ppm": "125-175",
+        "rest_hours_after_roast": "8-24",
+        "roast_agtron_bean": 58,
+        "grind_pass_us20": "70-75%"
+      },
+      "relation_to_old": {"zh": "替代旧 SCAA 杯测协议（保持 6-10 分制描述性评分的延续性）。", "en": "Replaces legacy SCAA cupping protocol; preserves 6-10 descriptive scoring lineage."}
+    },
+    {
+      "id": "SCA-103",
+      "name": {"zh": "描述性评估 Descriptive Assessment", "en": "Descriptive Assessment"},
+      "purpose": {"zh": "用 WCR Lexicon / 风味轮对样品做客观风味属性描述，不评分。", "en": "Objective attribute description using WCR Lexicon / flavor wheel; no quality scoring."},
+      "output": {"zh": "风味属性清单 + 强度（1-15 参照刻度）", "en": "Attribute list + intensity (1-15 reference scale)"},
+      "relation_to_old": {"zh": "对应旧 100 分体系中 flavor / aftertaste / acidity / body 等维度的'描述'部分，剥离出来。", "en": "Carves the 'description' part of legacy flavor/aftertaste/acidity/body dimensions out."}
+    },
+    {
+      "id": "SCA-104",
+      "name": {"zh": "情感/感受性评估 Affective Assessment", "en": "Affective Assessment"},
+      "purpose": {"zh": "评估者对样品的整体喜好度，1-9 分制（1-3 差 / 4-6 一般 / 7-9 优秀）。", "en": "Assessor's overall liking of the sample, 1-9 scale (1-3 bad / 4-6 average / 7-9 excellent)."},
+      "scale": {"min": 1, "max": 9, "anchored_at": [1, 3, 6, 9]},
+      "score_bands": [
+        {"range": "1-3", "label": {"zh": "差", "en": "Bad"}},
+        {"range": "4-6", "label": {"zh": "一般", "en": "Average"}},
+        {"range": "7-9", "label": {"zh": "优秀", "en": "Excellent"}}
+      ],
+      "relation_to_old": {"zh": "替代旧 100 分制的'质量评分'部分（6-10 分十维度）。", "en": "Replaces the 'quality scoring' part of legacy 100-pt system (6-10 ten dimensions)."}
+    },
+    {
+      "id": "SCA-105",
+      "name": {"zh": "外在属性评估 Extrinsic Assessment", "en": "Extrinsic Assessment"},
+      "purpose": {"zh": "评估样品的非感官属性：产地故事、可持续认证、价格、包装、可得性等。", "en": "Assesses non-sensory attributes: origin story, sustainability certs, price, packaging, availability."},
+      "dimensions": [
+        {"id": "story", "label": {"zh": "故事与背景", "en": "Story & background"}},
+        {"id": "sustainability", "label": {"zh": "可持续认证", "en": "Sustainability certs"}},
+        {"id": "price_value", "label": {"zh": "价格与价值", "en": "Price & value"}},
+        {"id": "packaging", "label": {"zh": "包装与呈现", "en": "Packaging & presentation"}},
+        {"id": "availability", "label": {"zh": "可得性", "en": "Availability"}}
+      ],
+      "scale_note": {"zh": "各维度可评分或定级（具体方法仍在演化）。", "en": "Each dimension may be scored or graded (method still evolving)."}
+    }
+  ],
+  "affective_to_legacy_100": {
+    "_doc": {"zh": "SCA 官方 Affective Score Calculator 的 1-9 到旧 100 分制换算桥梁。线性映射，边界对齐。", "en": "SCA official Affective Score Calculator: linear 1-9 to legacy 100-pt bridge, edge-aligned."},
+    "formula": "100_pt = (affective_9 - 1) / 8 * 100",
+    "lookup_table": [
+      {"affective_9": 1, "legacy_100": 0.0,  "band": {"zh": "差", "en": "Bad"}},
+      {"affective_9": 2, "legacy_100": 12.5, "band": {"zh": "差", "en": "Bad"}},
+      {"affective_9": 3, "legacy_100": 25.0, "band": {"zh": "差", "en": "Bad"}},
+      {"affective_9": 4, "legacy_100": 37.5, "band": {"zh": "一般", "en": "Average"}},
+      {"affective_9": 5, "legacy_100": 50.0, "band": {"zh": "一般", "en": "Average"}},
+      {"affective_9": 6, "legacy_100": 62.5, "band": {"zh": "一般", "en": "Average"}},
+      {"affective_9": 7, "legacy_100": 75.0, "band": {"zh": "优秀", "en": "Excellent"}},
+      {"affective_9": 8, "legacy_100": 87.5, "band": {"zh": "优秀", "en": "Excellent"}},
+      {"affective_9": 9, "legacy_100": 100.0,"band": {"zh": "优秀", "en": "Excellent"}}
+    ],
+    "specialty_threshold": {
+      "affective_9": 7,
+      "legacy_100_approx": 75.0,
+      "note": {"zh": "CVA 体系下精品级门槛约为 Affective 7 分（对应旧 100 分制约 75）。", "en": "CVA specialty threshold ~ Affective 7 (legacy ~75)."}
+    }
+  }
+}

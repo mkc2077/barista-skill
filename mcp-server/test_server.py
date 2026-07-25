@@ -39,13 +39,16 @@ def test_main_entrypoint_exists():
     assert callable(b.main)
 
 
-def test_tool_count_is_eleven():
+def test_tool_count_is_twenty():
     tools = sorted(b.mcp._tool_manager._tools)
     assert tools == [
-        "calculate_cupping_score", "calibrate_grinder", "diagnose_flavor",
-        "get_craft_recipe", "get_flavor_wheel", "get_learning_resources",
-        "get_milk_drink", "get_parameters_guide", "get_recipe",
-        "get_sensory_training", "search_references",
+        "calculate_cupping_score", "calculate_cva_score", "calibrate_grinder",
+        "diagnose_flavor", "get_craft_recipe", "get_defect_bean",
+        "get_flavor_wheel", "get_green_grade", "get_learning_resources",
+        "get_milk_drink", "get_parameters_guide", "get_qgrader_exam",
+        "get_qgrader_study_plan", "get_recipe", "get_sca_course",
+        "get_sca_path", "get_sensory_training", "get_triangle_protocol",
+        "search_references", "search_sca_sources",
     ]
 
 
@@ -320,9 +323,133 @@ def test_search_references_is_bilingual_tool():
 
 
 def test_search_references_is_in_skill_md_tool_list():
-    "SKILL.md should list search_references alongside the other 10 tools"
+    "SKILL.md should list search_references alongside the other tools"
     skill_md = (HERE.parent.parent / "SKILL.md").read_text("utf-8")
     assert "search_references" in skill_md, "SKILL.md missing search_references in tool list"
+
+
+# --- v3.0 SCA / Q-Grader / CVA tools ----------------------------------------
+
+def test_sca_path_zh():
+    out = b.get_sca_path("zh")
+    assert out.startswith("## ")
+    assert "CSP" in out or "Coffee Skills Program" in out or "模块" in out
+
+
+def test_sca_path_en():
+    out = b.get_sca_path("en")
+    assert "Q-Grader" in out
+
+
+def test_sca_course_known():
+    out = b.get_sca_course("brewing", "foundation", "en")
+    assert out.startswith("{")
+    assert '"brewing"' in out
+
+
+def test_sca_course_unknown_module():
+    out = b.get_sca_course("nope", "foundation")
+    assert "未找到" in out
+    assert "brewing" in out  # lists available
+
+
+def test_sca_course_invalid_level():
+    out = b.get_sca_course("introduction_to_coffee", "professional")
+    assert "不含级别" in out or "no level" in out.lower()
+
+
+def test_qgrader_exam_all():
+    out = b.get_qgrader_exam("all", "en")
+    assert out.startswith("{")
+    assert '"categories"' in out
+
+
+def test_qgrader_exam_specific():
+    out = b.get_qgrader_exam("olfactory_Le_Nez", "zh")
+    assert '"olfactory_Le_Nez"' in out
+    assert "闻香瓶" in out or "Le Nez" in out
+
+
+def test_qgrader_exam_unknown():
+    out = b.get_qgrader_exam("nope")
+    assert "未找到" in out
+
+
+def test_qgrader_study_plan_default():
+    out = b.get_qgrader_study_plan(30, "all", "zh")
+    assert out.startswith("## ")
+    assert "30" in out
+
+
+def test_qgrader_study_plan_out_of_range():
+    out = b.get_qgrader_study_plan(5, "all")
+    assert "14-180" in out
+
+
+def test_green_grade_specialty():
+    out = b.get_green_grade(0, 5, 18, 11.0, "en")
+    assert out.startswith("{")
+    assert '"specialty"' in out
+
+
+def test_green_grade_moisture_warning():
+    out = b.get_green_grade(0, 0, 18, 9.0, "zh")
+    assert "10-12" in out  # warning mentions range
+
+
+def test_defect_bean_by_id():
+    out = b.get_defect_bean("full_black", "all", "en")
+    assert out.startswith("{")
+    assert '"full_black"' in out
+
+
+def test_defect_bean_list_primary():
+    out = b.get_defect_bean("", "primary", "zh")
+    assert '"defects"' in out
+
+
+def test_defect_bean_unknown():
+    out = b.get_defect_bean("nope")
+    assert "未找到" in out
+
+
+def test_cva_score_specialty_threshold():
+    out = b.calculate_cva_score(7.0, language="en")
+    assert "75.00" in out  # (7-1)/8*100 = 75
+    assert "yes" in out.lower()  # specialty = yes
+
+
+def test_cva_score_below_specialty():
+    out = b.calculate_cva_score(5.0, language="zh")
+    assert "50.00" in out  # (5-1)/8*100 = 50
+
+
+def test_cva_score_out_of_range():
+    out = b.calculate_cva_score(11, language="en")
+    assert "out of" in out.lower() or "1-9" in out
+
+
+def test_triangle_protocol_default():
+    out = b.get_triangle_protocol(4, "origin", "en")
+    assert out.startswith("{")
+    assert '"rounds": 4' in out
+
+
+def test_triangle_protocol_unknown_difficulty():
+    out = b.get_triangle_protocol(4, "nope")
+    assert "未知难度" in out
+
+
+def test_search_sca_sources_match():
+    out = b.search_sca_sources("CVA", "all", "en")
+    assert out.startswith("## ")
+    assert "sca.coffee" in out.lower() or "value-assessment" in out.lower()
+
+
+def test_search_sca_sources_no_match():
+    out = b.search_sca_sources("zzznothingzzz", "all", "en")
+    assert "no" in out.lower() or "未找到" in out
+
 
 if __name__ == "__main__":
     raise SystemExit(pytest.main([__file__, "-v"]))

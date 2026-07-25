@@ -4,7 +4,7 @@
 Run:  python scripts/self_check.py
 Prints a PASS/FAIL report of every consistency invariant the skill depends on:
 
-1. 10 MCP tools: SKILL.md declared names == server.py actual @mcp.tool names
+1. 20 MCP tools: SKILL.md declared names == server.py actual @mcp.tool names
 2. data/*.json: cardinality vs SKILL.md claims (14 brew / 11 milk / ...)
 3. references: bilingual mirror status (which md files are allowed mono-lingual)
 4. version: data/version.json (single source) syncs across 4 other sources
@@ -51,7 +51,7 @@ def run_checks() -> int:
     # [1.1] MCP tool name alignment
     print("[1.1] MCP tool names: SKILL.md declared == server.py actual")
     skill_text = SKILL.read_text("utf-8")
-    lst = re.search(r"`get_recipe.*?search_references`", skill_text, re.DOTALL)
+    lst = re.search(r"`get_recipe.*?search_sca_sources`", skill_text, re.DOTALL)
     if not lst:
         fail("SKILL.md tool list not found", "looking for `get_recipe ... get_learning_resources` block")
         fails += 1
@@ -74,7 +74,7 @@ def run_checks() -> int:
     missing_in_server = declared - actual_set
     missing_in_skill = actual_set - declared
     if not missing_in_server and not missing_in_skill:
-        ok("10 tools aligned",
+        ok("20 tools aligned",
            "declared == actual == " + ", ".join(sorted(declared)) +
            " (count=" + str(len(actual_set)) + ")")
     else:
@@ -164,7 +164,9 @@ def run_checks() -> int:
     en_dir = REFS / "en"
     en = {p.name for p in en_dir.glob("*.md")} if en_dir.exists() else set()
 
-    ALLOWED_MONO = {"eval-cases.md", "example-dialogues.md", "glossary.md", "search-queries.md", "human-voice-rules.md"}
+    ALLOWED_MONO = {"eval-cases.md", "example-dialogues.md", "glossary.md", "search-queries.md", "human-voice-rules.md",
+                    "sca-certification.md", "qgrader-complete-guide.md", "green-coffee-evaluation.md",
+                    "triangle-test-protocol.md", "coffee-sensory-chemistry.md", "sca-new-cva-guide.md"}
     missing_en = (cn - en) - ALLOWED_MONO
     allowed_missing = (cn - en) & ALLOWED_MONO
 
