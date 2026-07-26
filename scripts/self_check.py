@@ -4,7 +4,7 @@
 Run:  python scripts/self_check.py
 Prints a PASS/FAIL report of every consistency invariant the skill depends on:
 
-1. 20 MCP tools: SKILL.md declared names == server.py actual @mcp.tool names
+1. 24 MCP tools: SKILL.md declared names == server.py actual @mcp.tool names
 2. data/*.json: cardinality vs SKILL.md claims (14 brew / 11 milk / ...)
 3. references: bilingual mirror status (which md files are allowed mono-lingual)
 4. version: data/version.json (single source) syncs across 4 other sources
@@ -57,7 +57,7 @@ def run_checks() -> int:
         fails += 1
         declared = set()
     else:
-        declared = {n for n in re.findall(r"\b(get_\w+|diagnose_\w+|calculate_\w+|calibrate_\w+|search_\w+)\b", lst.group(0))}
+        declared = {n for n in re.findall(r"\b(get_\w+|diagnose_\w+|calculate_\w+|calibrate_\w+|search_\w+|identify_\w+|start_\w+|log_\w+|next_\w+)\b", lst.group(0))}
 
     sv_text = SERVER.read_text("utf-8")
     actual = []
@@ -74,7 +74,7 @@ def run_checks() -> int:
     missing_in_server = declared - actual_set
     missing_in_skill = actual_set - declared
     if not missing_in_server and not missing_in_skill:
-        ok("20 tools aligned",
+        ok("%d tools aligned" % len(actual_set),
            "declared == actual == " + ", ".join(sorted(declared)) +
            " (count=" + str(len(actual_set)) + ")")
     else:
@@ -89,12 +89,12 @@ def run_checks() -> int:
     EXPECTED = {
         "recipes.json":            (14, "14 brew methods"),
         "milk_drinks.json":        (11, "11 classic milk drinks"),
-        "flavor_diagnosis.json":  (8,  "flavor diagnosis categories"),
+        "flavor_diagnosis.json":  (12, "flavor diagnosis categories (8 + 4 new)"),
         "cupping.json":           (10, "SCA cupping 10 dimensions"),
         "grinder.json":            (6, "grinder models"),
         "parameters_roast.json":   (3, "roast levels (light/med/dark)"),
-        "parameters_origin.json":  (6, "origins"),
-        "parameters_process.json": (4, "processes"),
+        "parameters_origin.json":  (12, "origins (6 + 6 new)"),
+        "parameters_process.json": (6, "processes (4 + 2 new)"),
         "flavor_wheel.json":        (9, "flavor wheel categories"),
         "learning_resources.json":  (3, "learning levels"),
         "mantras.json":             (4, "consultant mantras"),
@@ -166,7 +166,8 @@ def run_checks() -> int:
 
     ALLOWED_MONO = {"eval-cases.md", "example-dialogues.md", "glossary.md", "search-queries.md", "human-voice-rules.md",
                     "sca-certification.md", "qgrader-complete-guide.md", "green-coffee-evaluation.md",
-                    "triangle-test-protocol.md", "coffee-sensory-chemistry.md", "sca-new-cva-guide.md"}
+                    "triangle-test-protocol.md", "coffee-sensory-chemistry.md", "sca-new-cva-guide.md",
+                    "brewing-coach-protocol.md"}
     missing_en = (cn - en) - ALLOWED_MONO
     allowed_missing = (cn - en) & ALLOWED_MONO
 

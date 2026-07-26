@@ -188,3 +188,49 @@ Fill every item of the section-6 SOP template, then append:
 - Don't fabricate grams/ratios from a name — every number must come from online verification with source.
 - Don't blur seasonal vs permanent — many signatures are seasonal; label "as of (date) menu."
 - Do copy the framework (base + adjunct categories + tea) first, then tune ratios and SOP to your palate.
+
+## 11. Chain-shop signature frameworks (search starting points + generic frameworks)
+
+> This skill **does not fabricate chain-specific recipes**. Below are generic base frameworks and search pointers; actual recipes defer to the shop's official mini-program / current menu. Structured data in [../data/craft_chains_and_caffeine_free.json](data/craft_chains_and_caffeine_free.json). Same iron rule as sections 1–10: verify every gram/ratio online with a source; never fabricate links.
+
+### Luckin Coffee
+- Lines: coconut latte, velvet latte, sauce-flavored latte (collab limited), Orange C americano, jasmine latte, cold brew series.
+- Framework: mid-dark espresso 18g/36g (1:2) + flavored base (coconut cream / oat milk / syrup, see section 2 base A) + milk/ice build; ratios vary by season/collab.
+- Search: Luckin mini-program menu / `Luckin signature menu`.
+
+### Cotti Coffee
+- Lines: Pampas latte, rice-milk latte, coconut latte, tea-coffee series.
+- Framework: mid-dark espresso + plant milk (rice/coconut) or tea-coffee dual base; build order per section 6 SOP.
+- Search: Cotti mini-program menu.
+
+### Manner Coffee
+- Lines: fresh-coconut latte, osmanthus latte, flat white, single-origin pour-over.
+- Framework: prefers fresh coconut and buffalo milk; SOE flat white uses light-roast ristretto (1:1–1:1.5). Specialty line includes single-origin pour-over.
+- Search: Manner mini-program menu.
+
+### Starbucks
+- Lines: oat latte, Frappuccino, caramel macchiato, cold brew, nitrogen cold brew.
+- Framework: espresso + oat milk / caramel syrup; Frappuccino = blender ice base + espresso; cold brew = 1:8–1:12 steep 12–24h (base D).
+- Search: Starbucks menu / `Starbucks menu`.
+
+## 12. Caffeine-free drink frameworks (beyond coffee)
+
+> Four caffeine-free frameworks (data also in [../data/craft_chains_and_caffeine_free.json](data/craft_chains_and_caffeine_free.json)). None contain coffee (sparkling / herbal also tea-free). For a coffee version, return to section 2 bases.
+
+### Fruit tea
+- Base: tea base (green/oolong/black, section 3) + fresh fruit (lemon/passionfruit/strawberry) + 1:1 syrup + ice.
+- Notes: separate tea and fruit SOPs, assemble last; hot = warm tea base, iced = cold brew; cut fruit fresh, don't over-steep (bitter).
+
+### Milk tea
+- Base: black/oolong 1:40–1:60 / 92–95C / 2–4min -> milk (whole/oat) + syrup -> iced/hot; pearls/toppings separate SOP.
+- Notes: tea:milk ~2:1; sweetness via 1:1 syrup calibration.
+
+### Herbal / grain drink
+- Base: chamomile/rose/mint herbal tea + honey; or grain drink (toasted oat/brown rice simmered); hot cocoa (caffeine-free cocoa + milk). No coffee.
+- Notes: herbal tea 80–85C to avoid bitterness; grains need toasting for sweetness.
+
+### Caffeine-free sparkling
+- Base: high-carbonation sparkling water + fresh juice (orange/grapefruit/passionfruit) or herbal infusion + ice; mint/rosemary optional. No coffee, no tea.
+- Notes: add sparkling last to keep gas; fresh juice best.
+
+> Note: caffeine-free drinks are not part of the "craft coffee (coffee-base)" major category; listed here only for search/framework completeness. Verify against the brand's current public version; no fabricated links.

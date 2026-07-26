@@ -172,5 +172,89 @@
       "zh": "萃取不足或豆子不新鲜",
       "en": "Under-extraction or stale beans"
     }
+  },
+  "woody": {
+    "symptoms": [
+      "木头味",
+      "木质",
+      "纸板味",
+      "woody",
+      "cardboard"
+    ],
+    "beginner": {
+      "zh": "换新鲜烘焙的豆,注意烘焙日期",
+      "en": "Use fresh-roasted beans; check roast date"
+    },
+    "advanced": {
+      "zh": "确认烘焙日期与仓储;换新鲜豆批次,排查油脂氧化",
+      "en": "Confirm roast date & storage; fresh batch, check lipid oxidation"
+    },
+    "root_cause": {
+      "zh": "豆子老化、陈豆或仓储不当(油脂氧化)",
+      "en": "Aged/stale beans or poor storage (lipid oxidation)"
+    }
+  },
+  "rubber": {
+    "symptoms": [
+      "橡胶",
+      "轮胎味",
+      "rubber",
+      "tire"
+    ],
+    "beginner": {
+      "zh": "换豆或降低烘焙度",
+      "en": "Swap beans or lower roast"
+    },
+    "advanced": {
+      "zh": "排查瑕疵豆/奎克豆与烘焙曲线发展段,深烘留意过火",
+      "en": "Remove defects/quakers; check roast development; mind scorched dark roast"
+    },
+    "root_cause": {
+      "zh": "深烘过火、豆疵(奎克豆)或橡胶类瑕疵豆",
+      "en": "Scorched dark roast, quakers, or rubbery defect beans"
+    }
+  },
+  "over_fermented": {
+    "symptoms": [
+      "发酵过度",
+      "酒味太重",
+      "醋味",
+      "over fermented",
+      "boozy",
+      "vinegary"
+    ],
+    "beginner": {
+      "zh": "换处理法更温和的豆;降水温 2-3C",
+      "en": "Switch to gentler process; drop temp 2-3C"
+    },
+    "advanced": {
+      "zh": "降水温(88-90C)避免拉出发酵味;换处理法或查豆源新鲜度",
+      "en": "Lower temp (88-90C) to avoid funk; change process or check freshness"
+    },
+    "root_cause": {
+      "zh": "厌氧/发酵处理过度或豆子不新鲜",
+      "en": "Over anaerobic/fermentation or stale beans"
+    }
+  },
+  "medicinal": {
+    "symptoms": [
+      "药味",
+      "消毒水",
+      "药感",
+      "medicinal",
+      "band-aid"
+    ],
+    "beginner": {
+      "zh": "换豆;确认新鲜与烘焙度",
+      "en": "Swap beans; confirm freshness & roast"
+    },
+    "advanced": {
+      "zh": "排查烘焙发展段与银皮;换干净批次",
+      "en": "Check roast development & silverskin; clean batch"
+    },
+    "root_cause": {
+      "zh": "银皮过多、烘焙发展不足或特定瑕疵",
+      "en": "Excess silverskin, under-development, or defect"
+    }
   }
 }

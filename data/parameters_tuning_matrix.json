@@ -1,0 +1,25 @@
+{
+  "_meta": {
+    "title": "调参矩阵扩展（覆盖度——A 支撑）",
+    "purpose": "把常见问题/目标映射到可执行的调参维度,补充 get_parameters_guide 的 taste_map 与 diagnose_flavor 的调整建议。维度: grind(研磨) / temp(水温) / time(时间) / ratio(粉水比) / dose(粉量)。+ 表示增, - 表示减。",
+    "version": "4.0.0"
+  },
+  "by_problem": {
+    "太酸": {"grind": "+细", "temp": "+升", "time": "+延", "ratio": "+降", "dose": "+增"},
+    "太苦": {"grind": "-粗", "temp": "-降", "time": "-缩", "ratio": "-降", "dose": "-减"},
+    "太淡": {"grind": "+细", "ratio": "-降", "dose": "+增"},
+    "太浓": {"grind": "-粗", "ratio": "+升", "dose": "-减"},
+    "水流快": {"grind": "+细", "dose": "+增"},
+    "水流慢": {"grind": "-粗", "dose": "-减"},
+    "涩口": {"grind": "-粗", "temp": "-降", "time": "-缩"},
+    "不甜": {"grind": "+细", "ratio": "-降", "time": "+延"},
+    "没body": {"dose": "+增", "grind": "-粗", "ratio": "-降"}
+  },
+  "by_goal": {
+    "更明亮酸": {"grind": "-粗", "temp": "+升", "ratio": "+升", "process": "washed/double_washed"},
+    "更甜": {"ratio": "-降", "time": "+延", "avoid": "过萃"},
+    "更醇厚": {"dose": "+增", "grind": "-粗", "method": "法压/浸泡类"},
+    "更干净": {"grind": "-粗", "temp": "+升", "process": "washed", "avoid": "过萃"},
+    "更柔和苦": {"temp": "-降", "time": "-缩", "grind": "-粗"}
+  }
+}

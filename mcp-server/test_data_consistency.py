@@ -35,17 +35,23 @@ KNOWN_DATA_FILES = {
     "defect_beans.json":          "SCA defect beans (primary + secondary)",
     "coffee_chemistry_sensory.json": "coffee chemistry & sensory mapping",
     "sca_official_sources.json":  "verified SCA/CQI/WCR source index",
+    "flavor_identification_tree.json":  "flavor identification decision tree (families/leaves)",
+    "equipment_profiles.json":          "equipment profiles (kettle/french_press/aeropress/moka)",
+    "parameters_tuning_matrix.json":    "tuning matrix (by_problem/by_goal)",
+    "craft_chains_and_caffeine_free.json": "craft-chain signatures + caffeine-free frameworks",
+    "user_profile_schema.json":         "user profile schema contract (not server-loaded)",
+    "brew_session_schema.json":         "brew session schema contract (not server-loaded)",
 }
 
 EXPECTED_CARDINALITY = {
     "recipes.json":             14,   # SKILL.md: "14 ???"
     "milk_drinks.json":         11,   # SKILL.md: "11 ?????"
-    "flavor_diagnosis.json":     8,   # flavor problem categories (diagnose keys)
+    "flavor_diagnosis.json":     12,  # flavor problem categories (8 + 4 new: woody/rubber/over_fermented/medicinal)
     "cupping.json":             10,   # SCA 10-point scale dimensions
     "grinder.json":              6,   # grinder models
     "parameters_roast.json":     3,   # light/medium/dark
-    "parameters_origin.json":    6,   # origin regions
-    "parameters_process.json":   4,   # wash/natural/honey/anaerobic
+    "parameters_origin.json":    12,  # origin regions (6 + 6 new)
+    "parameters_process.json":   6,   # wash/natural/honey/anaerobic (+2 new: carbonic_maceration/double_washed)
     "flavor_wheel.json":         9,   # flavor wheel categories
     "learning_resources.json":   3,   # beginner/intermediate/advanced
     "mantras.json":              4,   # consultant mantras
@@ -117,17 +123,18 @@ def test_en_refs_mirror_structure():
     # glossary, search-queries). Log them so the test is informational.
     allowed_mono = {"eval-cases.md", "example-dialogues.md", "glossary.md", "search-queries.md", "human-voice-rules.md",
                     "sca-certification.md", "qgrader-complete-guide.md", "green-coffee-evaluation.md",
-                    "triangle-test-protocol.md", "coffee-sensory-chemistry.md", "sca-new-cva-guide.md"}
+                    "triangle-test-protocol.md", "coffee-sensory-chemistry.md", "sca-new-cva-guide.md",
+                    "brewing-coach-protocol.md"}
     unexpected_missing = missing_en - allowed_mono
     assert not unexpected_missing, \
         f"references/en/ missing mirrored files (not in allowed_mono): {unexpected_missing}"
 
 
 def test_server_tool_count_matches_skill_md():
-    "SKILL.md lists 20 MCP tools; verify server.py has exactly 20 @mcp.tool()."
+    "SKILL.md lists 24 MCP tools; verify server.py has exactly 24 @mcp.tool()."
     server = (ROOT / "mcp-server" / "server.py").read_text("utf-8")
     actual = len(re.findall(r"@mcp\.tool\(\)", server))
-    assert actual == 20, f"server.py has {actual} @mcp.tool(), expected 20"
+    assert actual == 24, f"server.py has {actual} @mcp.tool(), expected 24"
 
 
 def test_data_equals_server_import():
@@ -148,6 +155,10 @@ def test_data_equals_server_import():
         "QGRADER_EXAMS": "qgrader_exams.json", "QGRADER_STUDY": "qgrader_study_resources.json",
         "GREEN_GRADING": "green_coffee_grading.json", "DEFECT_BEANS": "defect_beans.json",
         "COFFEE_CHEMISTRY": "coffee_chemistry_sensory.json", "SCA_OFFICIAL_SOURCES": "sca_official_sources.json",
+        "FLAVOR_IDENTIFICATION_TREE": "flavor_identification_tree.json",
+        "EQUIPMENT_PROFILES": "equipment_profiles.json",
+        "TUNING_MATRIX": "parameters_tuning_matrix.json",
+        "CRAFT_CHAINS": "craft_chains_and_caffeine_free.json",
     }
 
     def norm(x):

@@ -1,0 +1,35 @@
+{
+  "_meta": {
+    "title": "user_profile 契约 schema（宿主 agent 持有，skill 不持久化）",
+    "purpose": "定义宿主在调用 barista-skill 工具时可传入的 user_context 结构。skill 自身不存储任何状态，由宿主持有并在每次调用时传参；工具据此做个性化输出。",
+    "consumed_by": ["get_recipe", "get_parameters_guide", "diagnose_flavor", "identify_flavor"],
+    "version": "4.0.0",
+    "design": "混合架构：skill 定义 schema + 会话协议，宿主持有状态，工具消费上下文。"
+  },
+  "fields": {
+    "gear": {
+      "grinder": "string | 磨豆机型号（对应 grinder.json 的 key），如 comandante_c40 / 1zpresso_jx_pro / timemore_c3；未知可留空字符串",
+      "brewer": "string | 冲煮器具 key，如 v60 / kalita / french_press / aeropress / moka_pot / espresso",
+      "kettle": "string | 手冲壶流速特征，如 gooseneck_standard / gooseneck_slow / none；用于 equipment_profiles 个性化",
+      "scale": "bool | 是否有称重秤（影响 dose/yield 精确度建议）"
+    },
+    "water": {
+      "tds": "number | 水质 TDS（ppm），如 50 / 120 / 300；用于建议是否考虑硬水过萃",
+      "source": "string | 自来水 / 过滤水 / 瓶装水"
+    },
+    "taste": {
+      "preference": "string | acidity / sweetness / less_bitter / body / clarity",
+      "dislikes": "array<string> | 不喜欢的味道，如 焦苦 / 涩 / 药感"
+    },
+    "skill": {
+      "level": "string | beginner / intermediate / advanced",
+      "beans_usually": "array<string> | 常喝豆类型（origin / process keys）"
+    }
+  },
+  "example": {
+    "gear": {"grinder": "comandante_c40", "brewer": "v60", "kettle": "gooseneck_standard", "scale": true},
+    "water": {"tds": 120, "source": "过滤水"},
+    "taste": {"preference": "acidity", "dislikes": ["焦苦"]},
+    "skill": {"level": "beginner", "beans_usually": ["ethiopia", "kenya"]}
+  }
+}

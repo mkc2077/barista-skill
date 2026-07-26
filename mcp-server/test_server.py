@@ -39,7 +39,7 @@ def test_main_entrypoint_exists():
     assert callable(b.main)
 
 
-def test_tool_count_is_twenty():
+def test_tool_count_is_twenty_four():
     tools = sorted(b.mcp._tool_manager._tools)
     assert tools == [
         "calculate_cupping_score", "calculate_cva_score", "calibrate_grinder",
@@ -48,7 +48,8 @@ def test_tool_count_is_twenty():
         "get_milk_drink", "get_parameters_guide", "get_qgrader_exam",
         "get_qgrader_study_plan", "get_recipe", "get_sca_course",
         "get_sca_path", "get_sensory_training", "get_triangle_protocol",
-        "search_references", "search_sca_sources",
+        "identify_flavor", "log_brew_result", "next_step",
+        "search_references", "search_sca_sources", "start_brew_session",
     ]
 
 
@@ -166,6 +167,95 @@ def test_diagnose_unknown():
 def test_diagnose_matches_english_symptoms(key, sym):
     out = b.diagnose_flavor(sym, "advanced", "", "en")
     assert key.split("_")[0] in out.lower() or sym in out.lower()
+
+
+# --- identify_flavor (v4.0 new) --------------------------------------------
+
+def test_identify_flavor_sour_zh():
+    out = b.identify_flavor("尖酸刺舌", "beginner", "zh")
+    assert out.startswith("{")            # JSON return
+    assert "欠萃" in out or "未萃取" in out or "under-extraction" in out
+    assert "beginner_fix" in out          # beginner tier gets beginner_fix + mantra
+    assert "mantra" in out
+
+
+def test_identify_flavor_woody_en():
+    out = b.identify_flavor("woody cardboard", "advanced", "en")
+    assert out.startswith("{")
+    assert "advanced_fix" in out           # advanced tier gets advanced_fix + science
+    assert "science" in out
+    assert "stale" in out.lower() or "woody" in out.lower()
+
+
+def test_identify_flavor_unknown():
+    out = b.identify_flavor("zzztotallyfine", "beginner", "zh")
+    assert "未能识别" in out
+    assert "Could not recognize" in b.identify_flavor("zzz", "beginner", "en")
+
+
+# --- start_brew_session (v4.0 new) ------------------------------------------
+
+def test_start_brew_session_default_zh():
+    out = b.start_brew_session("", "", "zh")
+    assert out.startswith("{")
+    assert '"session_id"' in out
+    assert '"next_action"' in out
+    assert '"history"' in out
+
+
+def test_start_brew_session_with_bean_method_en():
+    out = b.start_brew_session("ethiopia natural light", "pour_over", "en")
+    assert out.startswith("{")
+    assert "pour_over" in out
+    assert "ethiopia natural light" in out
+
+
+# --- log_brew_result (v4.0 new) ---------------------------------------------
+
+def test_log_brew_result_tune_flag():
+    params = '{"dose_g":15,"yield_g":240,"temp_c":92,"grind":"中细","time_s":150}'
+    score = '{"aroma":4,"acid":3,"sweet":3,"body":3,"aftertaste":3}'
+    out = b.log_brew_result("S1", "pour_over", params, score, "balanced", "zh")
+    assert '"next_flag": "tune"' in out
+    assert '"round_record"' in out
+    assert '"append_to": "history"' in out
+
+
+def test_log_brew_result_diagnose_flag():
+    params = '{"dose_g":15}'
+    score = '{"aroma":4,"acid":2,"sweet":3,"body":3,"aftertaste":3}'
+    out = b.log_brew_result("S1", "pour_over", params, score, "", "zh")
+    assert '"next_flag": "diagnose"' in out
+
+
+def test_log_brew_result_bad_json_recovers():
+    out = b.log_brew_result("S1", "pour_over", "not-json", "", "", "zh")
+    assert out.startswith("{")
+    assert '"round_record"' in out           # must not crash on malformed JSON
+
+
+# --- next_step (v4.0 new) ---------------------------------------------------
+
+def test_next_step_by_problem_zh():
+    out = b.next_step("", "太酸", "", "", "zh")
+    assert out.startswith("{")
+    assert '"matched": "by_problem:太酸"' in out
+    assert "研磨" in out                       # 太酸 -> finer grind suggested
+    assert '"iron_rule"' in out
+
+
+def test_next_step_by_goal_en():
+    out = b.next_step("", "", "sweeter", "", "en")
+    assert out.startswith("{")
+    assert '"matched": "by_goal:更甜"' in out
+    assert '"adjustments"' in out
+    assert '"iron_rule"' in out
+
+
+def test_next_step_unknown():
+    out = b.next_step("", "zzz", "", "", "zh")
+    assert "未能识别" in out
+    assert "Could not recognize" in b.next_step("", "zzz", "", "", "en")
 
 
 # --- calculate_cupping_score ------------------------------------------------

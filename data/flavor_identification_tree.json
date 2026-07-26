@@ -1,0 +1,89 @@
+{
+  "_meta": {
+    "title": "风味辨识引导树（识别引导——B 最痛）",
+    "purpose": "把模糊的风味抱怨一步步引导到具体子类，再关联到根因与调整。identify_flavor 工具消费本文件：先按症状命中 family，再用 discriminators 提问，最终定位 leaf 给出 root_cause + 调整。",
+    "version": "4.0.0",
+    "coverage": "6 大家族 / 19 个叶子子类（>=12 类高频风味抱怨均有判别路径）"
+  },
+  "families": {
+    "酸": {
+      "symptoms": ["太酸", "尖酸", "刺舌", "青涩", "sour", "tart", "sharp", "酸"],
+      "discriminator": {
+        "question_zh": "是哪种酸？选最贴近的一项。",
+        "question_en": "What kind of sour? Pick the closest.",
+        "options": ["未萃取尖酸（像未熟水果刺舌）", "醋酸/发酵酸（像醋或酒味）", "整体偏酸但不刺（萃取不足）"]
+      },
+      "leaves": [
+        {"id": "sour_under_extracted", "label_zh": "未萃取尖酸（像未熟水果刺舌）", "label_en": "under-extracted sharp sour", "symptoms": ["尖酸", "刺舌", "青涩"], "root_cause": {"zh": "果酸类先溶出但糖类未充分萃取（欠萃）", "en": "Acids extracted but sugars not yet (under-extraction)"}, "beginner_fix": {"zh": "粉磨细一点；延长时间。口诀:酸调细", "en": "Grind finer; extend time. sour->finer"}, "advanced_fix": {"zh": "调细研磨/升水温/延长时间/提粉量比", "en": "Finer / raise temp / longer / raise ratio"}, "diag_key": "sour"},
+        {"id": "sour_acetiс_or_fermented", "label_zh": "醋酸/发酵酸（像醋或酒味）", "label_en": "vinegary / fermented sour", "symptoms": ["醋酸", "酒味", "发酵酸"], "root_cause": {"zh": "豆子发酵过度、不新鲜或冲煮水温过高萃取出发酵味", "en": "Over-fermented beans, stale, or too-high temp pulled ferment notes"}, "beginner_fix": {"zh": "换更新鲜的豆；降低水温 2-3C", "en": "Swap fresher beans; drop temp 2-3C"}, "advanced_fix": {"zh": "排查豆源发酵处理/烘焙发展；降水温、缩短浸泡", "en": "Check ferment process/roast dev; lower temp, shorter steep"}, "diag_key": "over_fermented"},
+        {"id": "sour_general", "label_zh": "整体偏酸但不刺（萃取不足）", "label_en": "generally sour, not prickly (under-extraction)", "symptoms": ["偏酸", "不够甜"], "root_cause": {"zh": "整体萃取不足，酸甜未平衡", "en": "Overall under-extraction, sweet-acid not balanced"}, "beginner_fix": {"zh": "粉磨细一点，或多放粉少放水", "en": "Grind finer, or more grounds less water"}, "advanced_fix": {"zh": "提高粉量、调细研磨、降低粉水比（1:15->1:14）", "en": "Raise dose, finer, lower ratio (1:15->1:14)"}, "diag_key": "weak"}
+      ]
+    },
+    "苦": {
+      "symptoms": ["太苦", "焦苦", "中药味", "焦味", "bitter", "burnt", "ashy"],
+      "discriminator": {
+        "question_zh": "是哪种苦？选最贴近的一项。",
+        "question_en": "What kind of bitter? Pick the closest.",
+        "options": ["焦苦/中药味（过萃）", "涩口带苦（瑕疵或豆疵）", "硬水/水质导致的苦", "深烘本味苦（需确认是否过）"]
+      },
+      "leaves": [
+        {"id": "bitter_over_extracted", "label_zh": "焦苦/中药味（过萃）", "label_en": "burnt / ashy bitter (over-extraction)", "symptoms": ["焦苦", "中药味", "焦味"], "root_cause": {"zh": "碳水化合物过度溶出（过萃）", "en": "Carbohydrates over-extracted (over-extraction)"}, "beginner_fix": {"zh": "粉磨粗一点；缩短时间。口诀:苦调粗", "en": "Grind coarser; shorten time. bitter->coarser"}, "advanced_fix": {"zh": "调粗研磨/降水温1-2C/缩短时间/降粉量比", "en": "Coarser / drop temp 1-2C / shorter / lower ratio"}, "diag_key": "bitter"},
+        {"id": "bitter_defect", "label_zh": "涩口带苦（瑕疵或豆疵）", "label_en": "astringent bitter (defect / quaker)", "symptoms": ["涩口", "橡胶苦", "干巴巴"], "root_cause": {"zh": "豆疵（奎克豆）/瑕疵豆或烘焙发展异常", "en": "Defect beans (quakers) or abnormal roast development"}, "beginner_fix": {"zh": "换一批干净豆；确认烘焙度", "en": "Swap clean beans; confirm roast"}, "advanced_fix": {"zh": "挑除瑕疵豆/奎克豆；复核烘焙曲线发展段", "en": "Remove defects/quakers; recheck roast development"}, "diag_key": "rubber"},
+        {"id": "bitter_hard_water", "label_zh": "硬水/水质导致的苦", "label_en": "hard-water bitter", "symptoms": ["苦", "水硬"], "root_cause": {"zh": "水质 TDS/硬度过高放大苦感并促过萃", "en": "High TDS/hardness amplifies bitter and drives over-extraction"}, "beginner_fix": {"zh": "改用过滤水或低矿化瓶装水", "en": "Use filtered or low-mineral bottled water"}, "advanced_fix": {"zh": "控 TDS 80-150ppm；相应调粗/降水温", "en": "Control TDS 80-150ppm; coarser / lower temp accordingly"}, "diag_key": "bitter"},
+        {"id": "bitter_dark_normal", "label_zh": "深烘本味苦（需确认是否过）", "label_en": "dark-roast inherent bitter (confirm not over)", "symptoms": ["苦", "深烘"], "root_cause": {"zh": "深烘豆本身可可/焦香偏苦属正常，需确认是否叠加过萃", "en": "Dark roast's cocoa/roasty bitter is normal; confirm no over-extraction on top"}, "beginner_fix": {"zh": "若还能接受则保持；若太苦就调粗一点", "en": "Keep if acceptable; if too bitter, grind a touch coarser"}, "advanced_fix": {"zh": "区分本味苦与过萃苦：看尾段是否收口；调粗并降 time", "en": "Separate inherent vs over-extracted: check finish; coarser + shorter"}, "diag_key": "bitter"}
+      ]
+    },
+    "涩": {
+      "symptoms": ["涩口", "干巴巴", "刮舌头", "astringent", "dry", "puckering"],
+      "discriminator": {
+        "question_zh": "涩发生在什么时候？",
+        "question_en": "When does the astringency happen?",
+        "options": ["整体涩（过萃）", "局部刮舌（通道效应）", "生青涩（未熟/豆源）"]
+      },
+      "leaves": [
+        {"id": "astringent_over", "label_zh": "整体涩（过萃）", "label_en": "overall astringency (over-extraction)", "symptoms": ["涩口", "干巴巴"], "root_cause": {"zh": "过萃致高分子多酚/蛋白质过度提取", "en": "Over-extraction pulls heavy polyphenols/proteins"}, "beginner_fix": {"zh": "粉磨粗一点，水别太烫", "en": "Grind coarser, lower the temp"}, "advanced_fix": {"zh": "调粗研磨、降水温、排查过萃", "en": "Coarser, lower temp, check over-extraction"}, "diag_key": "astringent"},
+        {"id": "astringent_channel", "label_zh": "局部刮舌（通道效应）", "label_en": "local puckering (channeling)", "symptoms": ["刮舌头", "局部涩"], "root_cause": {"zh": "布粉不均/通道效应致局部过萃", "en": "Uneven distribution / channeling causes local over-extraction"}, "beginner_fix": {"zh": "粉磨粗一点；注意布粉均匀", "en": "Grind coarser; distribute evenly"}, "advanced_fix": {"zh": "调粗研磨、减粉量、优化布粉/WDT", "en": "Coarser, less dose, better distribution/WDT"}, "diag_key": "astringent"},
+        {"id": "astringent_raw", "label_zh": "生青涩（未熟/豆源）", "label_en": "green astringency (raw / bean source)", "symptoms": ["青涩", "生"], "root_cause": {"zh": "豆子未熟/陈豆或极浅烘发展不足", "en": "Underdeveloped beans / very light roast"}, "beginner_fix": {"zh": "换烘焙度稍深一点的豆", "en": "Use a slightly darker roast"}, "advanced_fix": {"zh": "确认烘焙发展；提水温/延长时间补足发展", "en": "Confirm roast dev; raise temp / longer to develop"}, "diag_key": "astringent"}
+      ]
+    },
+    "甜缺失": {
+      "symptoms": ["不甜", "寡淡", "没甜感", "not sweet", "flat"],
+      "discriminator": {
+        "question_zh": "是不甜还是整体淡？",
+        "question_en": "Is it lack-of-sweet or overall weak?",
+        "options": ["萃取不足导致不甜", "豆子本身风味单薄"]
+      },
+      "leaves": [
+        {"id": "sweet_under", "label_zh": "萃取不足导致不甜", "label_en": "under-extraction kills sweetness", "symptoms": ["不甜", "寡淡"], "root_cause": {"zh": "糖类未充分萃取，甜感区未到", "en": "Sugars not extracted, sweet zone missed"}, "beginner_fix": {"zh": "粉磨细一点，或多放粉少放水", "en": "Grind finer, or more grounds less water"}, "advanced_fix": {"zh": "提高粉量、调细研磨、降低粉水比（1:15->1:14）", "en": "Raise dose, finer, lower ratio (1:15->1:14)"}, "diag_key": "weak"},
+        {"id": "sweet_low_origin", "label_zh": "豆子本身风味单薄", "label_en": "bean itself low-sweet", "symptoms": ["不甜", "平"], "root_cause": {"zh": "豆源/处理法本身甜感低或已失鲜", "en": "Origin/process naturally low sweet or stale"}, "beginner_fix": {"zh": "换风味更明显的豆（如日晒/蜜处理）", "en": "Switch to more expressive beans (natural/honey)"}, "advanced_fix": {"zh": "换高甜感产区/处理；确认新鲜度与养豆", "en": "Switch high-sweet origin/process; check freshness & rest"}, "diag_key": "weak"}
+      ]
+    },
+    "醇厚不足": {
+      "symptoms": ["寡淡", "水感", "没 body", "thin", "watery", "hollow"],
+      "discriminator": {
+        "question_zh": "是浓度低还是本身轻体？",
+        "question_en": "Low concentration or naturally light?",
+        "options": ["粉量/浓度不足", "浸泡不足（法压/爱乐压）", "中浅烘本就轻体"]
+      },
+      "leaves": [
+        {"id": "body_low_dose", "label_zh": "粉量/浓度不足", "label_en": "low dose / concentration", "symptoms": ["水感", "寡淡"], "root_cause": {"zh": "粉量偏低或粉水比过高致 TDS 低", "en": "Low dose or high ratio -> low TDS"}, "beginner_fix": {"zh": "多放点粉，或少放水", "en": "More grounds, or less water"}, "advanced_fix": {"zh": "提粉量、调粗研磨、降粉水比（1:16->1:15）", "en": "Raise dose, coarser, lower ratio (1:16->1:15)"}, "diag_key": "too_strong"},
+        {"id": "body_low_immersion", "label_zh": "浸泡不足（法压/爱乐压）", "label_en": "insufficient immersion (French press / AeroPress)", "symptoms": ["薄", "没 body"], "root_cause": {"zh": "浸泡时间/粉水比不足，萃取率低", "en": "Short steep / low ratio -> low extraction"}, "beginner_fix": {"zh": "延长浸泡时间，粉水比调高", "en": "Longer steep, higher ratio"}, "advanced_fix": {"zh": "法压 4min+1:15；爱乐压延长浸润；提粉量", "en": "FP 4min @1:15; AP longer bloom; raise dose"}, "diag_key": "too_strong"},
+        {"id": "body_light_origin", "label_zh": "中浅烘本就轻体", "label_en": "light roast naturally light body", "symptoms": ["轻", "茶感"], "root_cause": {"zh": "中浅烘/特定产区本身 body 较轻，属正常", "en": "Light roast / certain origins are naturally lighter body"}, "beginner_fix": {"zh": "若喜欢厚 body 换中深烘豆", "en": "If you want body, switch to medium-dark"}, "advanced_fix": {"zh": "按豆性接受轻体；或用 fuller body 产区/深烘", "en": "Accept per bean; or use fuller-body origin/dark"}, "diag_key": "too_strong"}
+      ]
+    },
+    "异味": {
+      "symptoms": ["木头味", "橡胶", "轮胎", "药味", "消毒水", "木质", "woody", "rubber", "medicinal", "band-aid"],
+      "discriminator": {
+        "question_zh": "是哪种异味？",
+        "question_en": "Which off-flavor?",
+        "options": ["木头/纸板味（陈豆）", "橡胶/轮胎味（瑕疵过火）", "发酵过度（酒味重）", "药味/消毒水（银皮/发展不足）"]
+      },
+      "leaves": [
+        {"id": "off_woody", "label_zh": "木头/纸板味（陈豆）", "label_en": "woody / cardboard (stale beans)", "symptoms": ["木头味", "木质", "woody"], "root_cause": {"zh": "豆子老化、陈豆或仓储不当（油脂氧化）", "en": "Aged/stale beans or poor storage (lipid oxidation)"}, "beginner_fix": {"zh": "换新鲜烘焙的豆，注意烘焙日期", "en": "Use fresh-roasted beans; check roast date"}, "advanced_fix": {"zh": "确认烘焙日期与仓储；换新鲜豆批次", "en": "Confirm roast date & storage; fresh batch"}, "diag_key": "woody"},
+        {"id": "off_rubber", "label_zh": "橡胶/轮胎味（瑕疵过火）", "label_en": "rubbery / tire (defect or scorched)", "symptoms": ["橡胶", "轮胎", "rubber"], "root_cause": {"zh": "深烘过火、豆疵（奎克豆）或橡胶类瑕疵豆", "en": "Scorched dark roast, quakers, or rubbery defect beans"}, "beginner_fix": {"zh": "换豆或降低烘焙度", "en": "Swap beans or lower roast"}, "advanced_fix": {"zh": "排查瑕疵豆/奎克豆与烘焙曲线发展段", "en": "Remove defects/quakers; check roast development"}, "diag_key": "rubber"},
+        {"id": "off_over_fermented", "label_zh": "发酵过度（酒味重）", "label_en": "over-fermented (boozy)", "symptoms": ["发酵过度", "酒味", "over fermented"], "root_cause": {"zh": "厌氧/发酵处理过度或豆子不新鲜", "en": "Over anaerobic/fermentation or stale beans"}, "beginner_fix": {"zh": "换处理法更温和的豆；降水温", "en": "Switch to gentler process; lower temp"}, "advanced_fix": {"zh": "降水温（88-90C）避免拉出发酵味；换处理法", "en": "Lower temp (88-90C) to avoid funk; change process"}, "diag_key": "over_fermented"},
+        {"id": "off_medicinal", "label_zh": "药味/消毒水（银皮/发展不足）", "label_en": "medicinal / band-aid (silverskin / under-dev)", "symptoms": ["药味", "消毒水", "medicinal", "band-aid"], "root_cause": {"zh": "银皮过多、烘焙发展不足或特定瑕疵", "en": "Excess silverskin, under-development, or defect"}, "beginner_fix": {"zh": "换豆；确认新鲜与烘焙度", "en": "Swap beans; confirm freshness & roast"}, "advanced_fix": {"zh": "排查烘焙发展段与银皮；换干净批次", "en": "Check roast development & silverskin; clean batch"}, "diag_key": "medicinal"}
+      ]
+    }
+  }
+}

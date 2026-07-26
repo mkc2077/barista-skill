@@ -1,0 +1,59 @@
+{
+  "_meta": {
+    "title": "器具画像扩展（覆盖度——A 支撑）",
+    "purpose": "补充 get_parameters_guide / get_recipe 的器具维度：手冲壶流速特征、法压/爱乐压变体、摩卡壶。供 user_context.gear.kettle 个性化与工具直接查询。",
+    "version": "4.0.0"
+  },
+  "gooseneck_kettles": {
+    "standard": {
+      "flow_rate": {"zh": "中速", "en": "medium"},
+      "use": {"zh": "V60/手冲通用", "en": "V60 / general pour-over"},
+      "tip": {"zh": "匀速画圈,中心向外", "en": "steady spiral, center outward"}
+    },
+    "slow_precise": {
+      "flow_rate": {"zh": "慢速", "en": "slow"},
+      "use": {"zh": "极细研磨/浅烘控流", "en": "very fine grind / light roast flow control"},
+      "tip": {"zh": "分段小水量,避免冲刷粉墙", "en": "segmented small pours, avoid wall erosion"}
+    },
+    "fast": {
+      "flow_rate": {"zh": "快速", "en": "fast"},
+      "use": {"zh": "粗研磨/浸泡类快速注水", "en": "coarse grind / immersion quick fill"},
+      "tip": {"zh": "注意粉水比,快注易偏淡", "en": "watch ratio; fast fill tends dilute"}
+    }
+  },
+  "french_press": {
+    "standard": {
+      "ratio": "1:15-1:17",
+      "steep": "4 min",
+      "grind": {"zh": "粗", "en": "coarse"},
+      "tip": {"zh": "先闷蒸30s再注满,压杆缓慢", "en": "bloom 30s then fill, press slowly"}
+    },
+    "cold": {
+      "ratio": "1:12-1:15",
+      "steep": "冷藏 12-24h",
+      "grind": {"zh": "粗", "en": "coarse"},
+      "tip": {"zh": "冷萃更顺滑低酸", "en": "cold brew smoother, lower acid"}
+    }
+  },
+  "aeropress": {
+    "standard": {
+      "ratio": "1:13-1:15",
+      "steep": "1-1.5 min",
+      "grind": {"zh": "中细", "en": "medium-fine"},
+      "tip": {"zh": "正压法:粉水1:13,80C,1min,缓压", "en": "standard press: 1:13, 80C, 1min, slow press"}
+    },
+    "inverted": {
+      "ratio": "1:14-1:16",
+      "steep": "2 min",
+      "grind": {"zh": "中细", "en": "medium-fine"},
+      "tip": {"zh": "倒置法浸泡更久,风味更浓", "en": "inverted soaks longer, bolder"}
+    }
+  },
+  "moka_pot": {
+    "standard": {
+      "ratio": "1:10",
+      "heat": {"zh": "中小火", "en": "medium-low"},
+      "tip": {"zh": "下壶水到安全阀下;中细研磨;出咖啡声变密即离火", "en": "water below valve; medium-fine; off heat when sputter starts"}
+    }
+  }
+}

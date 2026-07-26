@@ -70,5 +70,77 @@
       "zh": "平衡、红糖、坚果",
       "en": "balanced, brown sugar, nut"
     }
+  },
+  "guatemala": {
+    "water_temp": "90-93C",
+    "ratio": "1:15-1:16",
+    "grind": {
+      "zh": "中等",
+      "en": "medium"
+    },
+    "flavor": {
+      "zh": "平衡、巧克力、香料、烟熏",
+      "en": "balanced, chocolate, spice, smoky"
+    }
+  },
+  "costa_rica": {
+    "water_temp": "90-93C",
+    "ratio": "1:15-1:16",
+    "grind": {
+      "zh": "中等",
+      "en": "medium"
+    },
+    "flavor": {
+      "zh": "明亮、干净、蜜处理甜、柑橘",
+      "en": "bright, clean, honey-sweet, citrus"
+    }
+  },
+  "indonesia_sumatra": {
+    "water_temp": "88-91C",
+    "ratio": "1:14-1:15",
+    "grind": {
+      "zh": "中粗",
+      "en": "medium-coarse"
+    },
+    "flavor": {
+      "zh": "草本、土壤、醇厚、低酸",
+      "en": "herbal, earthy, full body, low acid"
+    }
+  },
+  "rwanda": {
+    "water_temp": "92-94C",
+    "ratio": "1:16-1:17",
+    "grind": {
+      "zh": "中细",
+      "en": "medium-fine"
+    },
+    "flavor": {
+      "zh": "花香、柑橘、茶感、干净",
+      "en": "floral, citrus, tea-like, clean"
+    }
+  },
+  "honduras": {
+    "water_temp": "90-93C",
+    "ratio": "1:15-1:16",
+    "grind": {
+      "zh": "中等",
+      "en": "medium"
+    },
+    "flavor": {
+      "zh": "焦糖、红色果、平衡",
+      "en": "caramel, red fruit, balanced"
+    }
+  },
+  "mexico": {
+    "water_temp": "89-92C",
+    "ratio": "1:14-1:15",
+    "grind": {
+      "zh": "中粗",
+      "en": "medium-coarse"
+    },
+    "flavor": {
+      "zh": "坚果、温和、巧克力、低酸",
+      "en": "nutty, mild, chocolate, low acid"
+    }
   }
 }

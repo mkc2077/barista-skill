@@ -4,7 +4,7 @@
 
 Wraps the [barista-skill](../) coffee-coach skill as a Model Context Protocol service, callable from any MCP-compatible client. **Every tool takes a `language="zh"`/`"en"` argument and returns localized output.**
 
-## 提供的工具 (20) / Tools (20)
+## 提供的工具 (24) / Tools (24)
 
 | 工具 / Tool | 功能 / What | 示例 / Example |
 |------|------|------|
@@ -28,6 +28,10 @@ Wraps the [barista-skill](../) coffee-coach skill as a Model Context Protocol se
 | `calculate_cva_score` | CVA 1-9 分 + 旧 100 分换算 / CVA score | "Affective 7" / "affective 7" |
 | `get_triangle_protocol` | 三角杯测协议 / triangle test protocol | "三角杯测 4 轮" / "triangle 4 rounds" |
 | `search_sca_sources` | SCA/CQI/WCR 来源检索 / source search | "CVA 来源" / "CVA sources" |
+| `identify_flavor` | 风味辨识引导（模糊抱怨→子类+根因）/ flavor identification tree | "尖酸刺舌" / "woody cardboard" |
+| `start_brew_session` | 开冲煮练习会话骨架 / open brew-session scaffold | "开始一轮" / "start a session" |
+| `log_brew_result` | 记录一轮冲煮结果 / log one brew round | "记这一杯" / "log this cup" |
+| `next_step` | 下一步调参建议 / next tuning step | "太酸怎么调" / "too sour next" |
 
 所有工具签名：最后一个可选参数 `language: str = "zh"`，传 `"en"` 即得到英文输出。
 All tools accept an optional trailing `language` arg; pass `"en"` for English.
@@ -100,12 +104,12 @@ pip install -e .            # 之后可直接用 `barista-mcp` 启动
 
 ```
 mcp-server/
-├── server.py          # MCP server, 20 tools (bilingual)
+├── server.py          # MCP server, 24 tools (bilingual)
 ├── pyproject.toml     # packaging (entry point: barista-mcp -> server:main)
 └── README.md          # this file
 ```
 
-知识来源 / Knowledge source: `../references/` (23 Markdown files). 工具返回的结构化数据来自 `../data/` (22 JSON files) + `server.py` 内置. The structured data returned by tools comes from `../data/` JSON files + built-in `server.py` constants.
+知识来源 / Knowledge source: `../references/` (25 Markdown files). 工具返回的结构化数据来自 `../data/` (28 JSON files) + `server.py` 内置. The structured data returned by tools comes from `../data/` JSON files + built-in `server.py` constants.
 
 ## 传输协议 / Transport
 

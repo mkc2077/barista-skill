@@ -1,0 +1,85 @@
+{
+  "_meta": {
+    "title": "连锁门店招牌 + 无咖啡因饮品框架（用户专项——v4.0）",
+    "principle": "精选知识框架，不编造链接。连锁与无咖啡因条目为通用做法归纳与基底框架，具体配方以门店当下公开菜单为准；无核实源一律不附 note_id/url（绝不伪造）。",
+    "attribution": "门店配方归原品牌所有；本仓库仅提供通用基底框架与检索思路，并非原配方转录。引用请支持原品牌官方渠道。",
+    "version": "4.0.0",
+    "covers": "4 家连锁招牌框架 + 4 类无咖啡因饮品框架"
+  },
+  "chain_signatures": {
+    "luckin": {
+      "name_zh": "瑞幸咖啡",
+      "name_en": "Luckin Coffee",
+      "known_lines": ["生椰拿铁", "丝绒拿铁", "酱香拿铁(联名限定)", "橙C美式", "茉莉花香拿铁", "冰萃系列"],
+      "base": "espresso_classic + 椰浆/厚乳/风味糖浆（见 craft-coffee.md 基底 A）",
+      "framework_zh": "中深烘浓缩 18g/36g (1:2) + 风味基底(椰浆/厚乳/风味糖浆) + 奶/冰拼装；具体比例随季节与联名变动。",
+      "framework_en": "Mid-dark espresso 18g/36g (1:2) + flavored base (coconut cream / oat milk / syrup) + milk/ice build; ratios vary by season/collab.",
+      "verify_note": "配方以官方小程序当下菜单为准；本文件不编造具体克数。"
+    },
+    "cotti": {
+      "name_zh": "库迪咖啡",
+      "name_en": "Cotti Coffee",
+      "known_lines": ["潘帕斯拿铁", "米乳拿铁", "生椰拿铁", "茶咖系列"],
+      "base": "espresso_classic + 米乳/椰乳/茶汤",
+      "framework_zh": "中深烘浓缩 + 植物乳(米乳/椰乳) 或茶咖双基底；拼装顺序同 craft-coffee.md 第六节 SOP。",
+      "framework_en": "Mid-dark espresso + plant milk (rice/coconut) or tea-coffee dual base; build order per craft-coffee.md section 6 SOP.",
+      "verify_note": "以官方门店当下菜单为准。"
+    },
+    "manner": {
+      "name_zh": "Manner Coffee",
+      "name_en": "Manner Coffee",
+      "known_lines": ["鲜椰拿铁", "桂花拿铁", "澳白", "手冲单品"],
+      "base": "espresso_classic / SOE ristretto + 鲜椰/桂花糖浆",
+      "framework_zh": "偏好鲜椰与水牛乳；SOE 澳白用浅烘 ristretto (1:1-1:1.5)。精品线含单品手冲。",
+      "framework_en": "Prefers fresh coconut and buffalo milk; SOE flat white uses light roast ristretto (1:1-1:1.5). Specialty line includes single-origin pour-over.",
+      "verify_note": "以官方小程序当下菜单为准。"
+    },
+    "starbucks": {
+      "name_zh": "星巴克",
+      "name_en": "Starbucks",
+      "known_lines": ["燕麦拿铁", "星冰乐", "焦糖玛奇朵", "冷萃", "气致冷萃"],
+      "base": "espresso_classic + 燕麦奶/焦糖糖浆 / 冷萃基底（见 craft-coffee.md 基底 A / D）",
+      "framework_zh": "浓缩 + 燕麦奶或焦糖糖浆；星冰乐为冰沙基底 + 浓缩；冷萃为 1:8-1:12 冷浸 12-24h（基底 D）。",
+      "framework_en": "Espresso + oat milk or caramel syrup; Frappuccino = blender ice base + espresso; cold brew = 1:8-1:12 steep 12-24h (base D).",
+      "verify_note": "以官方菜单为准；冷萃/星冰乐为门店专属基底，家庭复刻需自行补全参数。"
+    }
+  },
+  "caffeine_free": {
+    "fruit_tea": {
+      "name_zh": "水果茶",
+      "name_en": "Fruit tea",
+      "base": "茶底 + 现切水果 + 糖浆 + 冰",
+      "framework_zh": "茶底(绿/乌龙/红, 见 craft-coffee.md 第三节) + 现切水果(柠檬/百香果/草莓) + 糖浆 1:1 + 冰；茶与水果分两套 SOP，最后拼装。",
+      "framework_en": "Tea base (green/oolong/black, per craft-coffee.md section 3) + fresh fruit (lemon/passionfruit/strawberry) + 1:1 syrup + ice; separate SOPs then assemble.",
+      "tips_zh": "热饮温茶底、冰饮冷泡；水果现切避免久泡发苦。",
+      "tips_en": "Hot=warm tea base; iced=cold brew tea; cut fruit fresh, don't over-steep (bitter)."
+    },
+    "milk_tea": {
+      "name_zh": "奶茶",
+      "name_en": "Milk tea",
+      "base": "红茶/乌龙茶底 + 奶 + 糖浆",
+      "framework_zh": "红茶/乌龙 1:40-1:60 / 92-95C / 2-4min 萃茶 → 加奶(全脂/燕麦) + 糖浆 → 冰/热。珍珠等小料另算 SOP。",
+      "framework_en": "Black/oolong 1:40-1:60 / 92-95C / 2-4min -> milk (whole/oat) + syrup -> iced/hot. Toppings (pearls) separate SOP.",
+      "tips_zh": "茶奶比约 2:1；甜度按糖浆 1:1 校准。",
+      "tips_en": "Tea:milk ~2:1; sweetness via 1:1 syrup calibration."
+    },
+    "herbal": {
+      "name_zh": "花草/谷物饮",
+      "name_en": "Herbal / grain drink",
+      "base": "花草茶 / 谷物 / 可可",
+      "framework_zh": "洋甘菊/玫瑰/薄荷等花草茶 + 蜂蜜；或谷物饮(燕麦/糙米焙香煮制)；热可可(无咖啡因可可粉 + 奶)。均不含咖啡。",
+      "framework_en": "Chamomile/rose/mint herbal tea + honey; or grain drink (toasted oat/brown rice simmered); hot cocoa (caffeine-free cocoa + milk). No coffee.",
+      "tips_zh": "花草茶水温 80-85C 避免苦涩；谷物需焙香再煮出甜。",
+      "tips_en": "Herbal tea 80-85C to avoid bitterness; grains need toasting for sweetness."
+    },
+    "sparkling": {
+      "name_zh": "无咖啡因气泡饮",
+      "name_en": "Caffeine-free sparkling",
+      "base": "气泡水 + 果汁/花草/水果",
+      "framework_zh": "高碳酸气泡水 + 现榨果汁(橙/西柚/百香果) 或花草浸渍 + 冰；可加薄荷/迷迭香。无咖啡、无茶。",
+      "framework_en": "High-carbonation sparkling water + fresh juice (orange/grapefruit/passionfruit) or herbal infusion + ice; mint/rosemary optional. No coffee, no tea.",
+      "tips_zh": "气泡水临喝前再倒防失气；果汁现榨最佳。",
+      "tips_en": "Add sparkling last to keep gas; fresh juice best."
+    }
+  }
+}

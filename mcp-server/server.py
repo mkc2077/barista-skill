@@ -2,10 +2,12 @@
 """Barista Skill MCP Server (bilingual zh/en).
 
 Wraps the barista coffee-coach skill as a Model Context Protocol (MCP) service.
-20 tools cover coffee brewing, reference search, flavor diagnosis, SCA cupping scoring, grinder
+24 tools cover coffee brewing, reference search, flavor diagnosis, SCA cupping scoring, grinder
 calibration, parameter tuning, the flavor wheel, sensory training, classic milk
 drinks, learning resources, SCA certification paths, CVA scoring, Q-Grader exams & study plans,
-green coffee grading, defect beans, triangle test protocols, and SCA source search. Every tool
+green coffee grading, defect beans, triangle test protocols, and SCA source search — plus a
+closed-loop brewing coach (start_brew_session / log_brew_result / next_step), flavor identification
+(identify_flavor), and craft-chain / caffeine-free frameworks. Every tool
 takes a `language` argument ("zh" or "en") and returns localized output; data falls back to Chinese.
 
 Compatible with any MCP client (Claude Desktop / TRAE / Cursor / VS Code ...).
@@ -22,6 +24,41 @@ def _t(field, lang):
     if isinstance(field, dict):
         return field.get(lang, field.get("zh", ""))
     return field
+
+
+# Gear/builder keyword -> EQUIPMENT_PROFILES top-level key, for user_context personalization.
+EQUIP_HINTS = {
+    "v60": "gooseneck_kettles", "手冲": "gooseneck_kettles", "pour_over": "gooseneck_kettles",
+    "kalita": "gooseneck_kettles", "origami": "gooseneck_kettles",
+    "法压": "french_press", "french_press": "french_press",
+    "爱乐压": "aeropress", "aeropress": "aeropress",
+    "摩卡": "moka_pot", "moka_pot": "moka_pot",
+}
+
+
+def _personalize(user_context, lang):
+    """Best-effort personalization note from a user_context string (JSON or free text).
+
+    Scans for gear/builder keywords and maps them to EQUIPMENT_PROFILES tips. Returns a
+    dict to merge into tool output, or None when no signal is found.
+    """
+    if not user_context:
+        return None
+    text = user_context.lower()
+    note = {}
+    for hint, key in EQUIP_HINTS.items():
+        if hint in text:
+            prof = EQUIPMENT_PROFILES.get(key)
+            if prof:
+                first = next(iter(prof.values()))
+                note["equipment_tip"] = _t(first.get("tip", {}), lang)
+                break
+    if "怕苦" in user_context or "less_bitter" in text:
+        note["taste_note"] = ("偏苦类饮品可调粗/降水温" if lang == "zh"
+                              else "bitter-averse: try coarser / lower temp")
+    if note:
+        note["personalized"] = True
+    return note or None
 
 
 REFERENCES_DIR = Path(__file__).resolve().parent.parent / "references"
@@ -84,12 +121,18 @@ DEFECT_BEANS = _load_data("defect_beans.json")
 COFFEE_CHEMISTRY = _load_data("coffee_chemistry_sensory.json")
 SCA_OFFICIAL_SOURCES = _load_data("sca_official_sources.json")
 
+# v4.0 closed-loop coach + coverage + craft-chain data
+FLAVOR_IDENTIFICATION_TREE = _load_data("flavor_identification_tree.json")
+EQUIPMENT_PROFILES = _load_data("equipment_profiles.json")
+TUNING_MATRIX = _load_data("parameters_tuning_matrix.json")
+CRAFT_CHAINS = _load_data("craft_chains_and_caffeine_free.json")
+
 
 mcp = FastMCP("barista")
 
 
 @mcp.tool()
-def get_recipe(method: str, roast_level: str = "medium", experience: str = "beginner", language: str = "zh") -> str:
+def get_recipe(method: str, roast_level: str = "medium", experience: str = "beginner", language: str = "zh", user_context: str = "") -> str:
     """获取指定冲煮法的稳妥起步参数 / Get stable starter params for a brew method.
 
     Args:
@@ -137,6 +180,9 @@ def get_recipe(method: str, roast_level: str = "medium", experience: str = "begi
         }
     h = "参数为通用起步值，具体器具/豆子需微调。单变量铁律: 一次只改一个变量。" if lang == "zh" else "Params are generic start points; adjust for your gear/beans. Iron law: change ONE variable at a time."
     fields["verify"] = h
+    pnote = _personalize(user_context, lang)
+    if pnote:
+        fields["user_context"] = pnote
     return json.dumps(fields, ensure_ascii=False, indent=2)
 
 
@@ -173,7 +219,7 @@ def get_milk_drink(drink: str, language: str = "zh") -> str:
 
 
 @mcp.tool()
-def get_craft_recipe(base: str = "espresso_classic", include_tea: bool = False, language: str = "zh") -> str:
+def get_craft_recipe(base: str = "espresso_classic", include_tea: bool = False, chain: str = "", language: str = "zh") -> str:
     """特调咖啡 SOP 模板（独立大类）/ Craft coffee SOP template (standalone major category).
 
     Args:
@@ -217,11 +263,32 @@ def get_craft_recipe(base: str = "espresso_classic", include_tea: bool = False, 
         "source_placeholder": "[title](url)，获取于 YYYY-MM-DD" if lang == "zh" else "[title](url), retrieved YYYY-MM-DD",
         "verify": "具体克数/萃取参数需联网核实门店当下配方，标注来源链接 + 获取日期。详见 references/craft-coffee.md。" if lang == "zh" else "Specific grams/extraction params need online verification of the shop current recipe, with source link + retrieval date. See references/craft-coffee.md.",
     }
+    if chain:
+        chains = CRAFT_CHAINS.get("chain_signatures", {})
+        caf = CRAFT_CHAINS.get("caffeine_free", {})
+        if chain in chains:
+            c = chains[chain]
+            fields["chain_framework"] = {
+                "name": _t(c["name_zh"], lang),
+                "known_lines": c.get("known_lines", []),
+                "framework": _t(c["framework_zh"], lang),
+                "verify_note": _t(c["verify_note"], lang),
+            }
+        elif chain in caf:
+            c = caf[chain]
+            fields["caffeine_free_framework"] = {
+                "name": _t(c["name_zh"], lang),
+                "framework": _t(c["framework_zh"], lang),
+                "tips": _t(c.get("tips_zh", {}), lang),
+            }
+        else:
+            avail = list(chains.keys()) + list(caf.keys())
+            fields["chain_note"] = ("未找到连锁/无咖啡因框架: " + ", ".join(avail)) if lang == "zh" else ("Chain/caffeine-free not found: " + ", ".join(avail))
     return json.dumps(fields, ensure_ascii=False, indent=2)
 
 
 @mcp.tool()
-def diagnose_flavor(problem: str, experience: str = "beginner", flow_rate: str = "", language: str = "zh") -> str:
+def diagnose_flavor(problem: str, experience: str = "beginner", flow_rate: str = "", language: str = "zh", guided: bool = False) -> str:
     """根据风味问题诊断并给调整建议 / Diagnose a flavor problem and suggest fixes.
 
     Args:
@@ -239,6 +306,8 @@ def diagnose_flavor(problem: str, experience: str = "beginner", flow_rate: str =
             matched = key
             break
     if not matched:
+        if guided:
+            return _guided_questionnaire(lang)
         avail = "; ".join("/".join(d["symptoms"]) for d in FLAVOR_DIAGNOSIS.values())
         err = f"未能识别风味问题 '{problem}'。可识别: {avail}" if lang == "zh" else f"Could not recognize flavor problem '{problem}'. Known: {avail}"
         return json.dumps({"ok": False, "error": err}, ensure_ascii=False, indent=2)
@@ -260,8 +329,44 @@ def diagnose_flavor(problem: str, experience: str = "beginner", flow_rate: str =
     else:
         fields["advanced_fix"] = _t(diag["advanced"], lang)
         fields["science"] = ("化合物溶出顺序: 果酸类(先) -> 脂类 -> 糖类(甜) -> 碳水化合物(苦, 后)；金杯区间: 萃取率 18-22%, TDS 1.15-1.35%" if lang == "zh" else "Dissolution order: acids(first) -> lipids -> sugars(sweet) -> carbs(bitter, last); Golden cup: extraction 18-22%, TDS 1.15-1.35%")
+    if guided:
+        fields["guided_prompt"] = _guided_prompt_for(matched, lang)
     fields["verify"] = ("单变量铁律：一次只改一个变量，喝一口再判断。" if lang == "zh" else "Iron law: change ONE variable at a time, sip before next change.")
     return json.dumps(fields, ensure_ascii=False, indent=2)
+
+
+def _guided_questionnaire(lang):
+    """Guided questionnaire built from the flavor identification tree families."""
+    L = lambda en, zh: en if lang == "en" else zh
+    families = FLAVOR_IDENTIFICATION_TREE.get("families", {})
+    lines = [L("## Flavor identification guide", "## 风味识别引导"),
+             "", L("Pick the family closest to what you taste, then tell me — I'll narrow it down.",
+                   "选最贴近你喝到的味道的家族告诉我，我帮你细分。"),
+             ""]
+    for fam_name, fam in families.items():
+        disc = fam.get("discriminator", {})
+        q = _t(disc.get("question_zh", disc.get("question_en", "")), lang) if isinstance(disc, dict) else ""
+        opts = disc.get("options", []) if isinstance(disc, dict) else []
+        lines.append(f"- **{fam_name}**：{q}")
+        for o in opts:
+            lines.append(f"    - {o}")
+    lines.append("")
+    lines.append(L("> Tip: you can also call identify_flavor(symptom) for a direct leaf match.",
+                   "> 提示：也可直接调用 identify_flavor(symptom) 做叶子级匹配。"))
+    return "\n".join(lines)
+
+
+def _guided_prompt_for(matched, lang):
+    """Return a verification question for a matched diagnose key (best-effort leaf lookup)."""
+    L = lambda en, zh: en if lang == "en" else zh
+    families = FLAVOR_IDENTIFICATION_TREE.get("families", {})
+    for fam_name, fam in families.items():
+        for leaf in fam.get("leaves", []):
+            if leaf.get("diag_key") == matched:
+                return L(f"Confirm: does it taste like '{leaf.get('label_en')}'? If not, tell me the closest leaf in family '{fam_name}'.",
+                         f"确认一下：是「{leaf.get('label_zh')}」这个味道吗？若不是，告诉我「{fam_name}」家族里最贴近的那一项。")
+    return L("Can you describe the taste in one more word (e.g. sharp/sweet/woody)?",
+             "你能再用一个词描述下味道吗（比如 尖/甜/木头味）？")
 
 
 @mcp.tool()
@@ -365,7 +470,7 @@ def calibrate_grinder(grinder_model: str, target_method: str = "espresso", langu
 
 @mcp.tool()
 def get_parameters_guide(roast_level: str = "", origin: str = "", process: str = "",
-                         taste_preference: str = "", language: str = "zh") -> str:
+                         taste_preference: str = "", language: str = "zh", user_context: str = "") -> str:
     """按豆性与口味偏好给参数调整建议 / Parameter-tuning advice by roast/origin/process/taste.
 
     Args:
@@ -415,6 +520,11 @@ def get_parameters_guide(roast_level: str = "", origin: str = "", process: str =
         lines += ["", f"### {L['taste']} ({taste_preference})", _t(taste_map[taste_preference], lang)]
     if not (roast_level or origin or process):
         lines += ["", f"> {L['none']}"]
+    pnote = _personalize(user_context, lang)
+    if pnote:
+        if "equipment_tip" in pnote:
+            lines += ["", ("### 个性化提示" if lang == "zh" else "### Personalized tip"),
+                      ("器具: " if lang == "zh" else "Gear: ") + pnote["equipment_tip"]]
     return "\n".join(lines)
 
 
@@ -991,6 +1101,224 @@ def search_sca_sources(query: str, category: str = "all", language: str = "zh") 
             lines.append(f"- trust: {s.get('trust')}")
         lines.append("")
     return "\n".join(lines)
+
+
+@mcp.tool()
+def identify_flavor(symptom: str, experience: str = "beginner", language: str = "zh") -> str:
+    """按风味辨识引导树把模糊抱怨定位到具体子类 / Map a vague taste complaint to a leaf class.
+
+    消费 data/flavor_identification_tree.json：先按症状命中 family，再用 discriminator 细分到
+    leaf，返回 root_cause + 调整建议。与 diagnose_flavor 互补——本工具回答"这是什么味道"，
+    diagnose_flavor 回答"怎么调好它"。
+
+    Args:
+        symptom: 你喝到的味道描述 / taste description, e.g. "尖酸刺舌","木头味","太淡","橡胶"
+        experience: 经验水平 / beginner/intermediate/advanced (默认 beginner)
+        language: 输出语言 / zh or en (默认 zh)
+    Returns: 命中叶子类的根因 + 新手/进阶调整建议 (JSON).
+    """
+    lang = language if language in ("zh", "en") else "zh"
+    s = symptom.lower()
+    families = FLAVOR_IDENTIFICATION_TREE.get("families", {})
+    best_family = None
+    best_leaf = None
+    best_score = 0
+    for fam_name, fam in families.items():
+        fam_syms = fam.get("symptoms", [])
+        fam_hit = any(k in s or k in symptom for k in fam_syms)
+        for leaf in fam.get("leaves", []):
+            score = sum(1 for k in leaf.get("symptoms", []) if k in s or k in symptom)
+            if score > best_score:
+                best_score = score
+                best_family = fam_name
+                best_leaf = leaf
+        if fam_hit and best_leaf is None:
+            best_family = fam_name
+            best_leaf = fam["leaves"][0]
+    if best_leaf is None:
+        avail = "; ".join(families.keys())
+        err = f"未能识别风味描述 '{symptom}'。可识别的家族: {avail}" if lang == "zh" else f"Could not recognize flavor '{symptom}'. Families: {avail}"
+        return json.dumps({"ok": False, "error": err}, ensure_ascii=False, indent=2)
+    fields = {
+        "symptom": symptom,
+        "family": best_family,
+        "matched": best_leaf["id"],
+        "label": _t(best_leaf["label_zh"], lang),
+        "root_cause": _t(best_leaf["root_cause"], lang),
+        "experience": experience,
+    }
+    if experience == "beginner":
+        fields["beginner_fix"] = _t(best_leaf["beginner_fix"], lang)
+        fields["mantra"] = _t(MANTRAS["grind"], lang) + " | " + _t(MANTRAS["rule"], lang)
+    else:
+        fields["advanced_fix"] = _t(best_leaf["advanced_fix"], lang)
+        fields["science"] = ("化合物溶出顺序: 果酸类(先) -> 脂类 -> 糖类(甜) -> 碳水化合物(苦, 后)；金杯区间: 萃取率 18-22%, TDS 1.15-1.35%" if lang == "zh" else "Dissolution order: acids(first) -> lipids -> sugars(sweet) -> carbs(bitter, last); Golden cup: extraction 18-22%, TDS 1.15-1.35%")
+    fields["verify"] = ("单变量铁律：一次只改一个变量，喝一口再判断。" if lang == "zh" else "Iron law: change ONE variable at a time, sip before next change.")
+    return json.dumps(fields, ensure_ascii=False, indent=2)
+
+
+@mcp.tool()
+def start_brew_session(bean: str = "", method: str = "", language: str = "zh") -> str:
+    """开一个新的冲煮练习会话骨架 / Open a new brew-session scaffold for the closed-loop coach.
+
+    返回一份符合 data/brew_session_schema.json 的会话骨架（session_id 占位、空 history），
+    并给出下一步指针（通常指向 get_recipe）。宿主（Skill/Agent）在后续多轮里维护这份会话、
+    累积 history，并把当轮参数/评分回传给 log_brew_result 与 next_step。
+
+    Args:
+        bean: 豆子描述(可选) / bean description (origin/process/roast), e.g. "埃塞日晒浅烘"
+        method: 冲煮法(可选) / brew method, e.g. "pour_over","espresso"
+        language: 输出语言 / zh or en (默认 zh)
+    Returns: 会话骨架 JSON + next_action 指针.
+    """
+    lang = language if language in ("zh", "en") else "zh"
+    L = lambda en, zh: en if lang == "en" else zh
+    scaffold = {
+        "session_id": "REPLACE_BY_HOST",
+        "bean": {"origin": "", "process": "", "roast": ""},
+        "method": method or "",
+        "params": {},
+        "self_score": {},
+        "feedback": "",
+        "round": 1,
+        "history": [],
+        "next_action": L("get_recipe(method='%s', roast_level='medium')" % (method or "pour_over"),
+                         "get_recipe(method='%s', roast_level='medium')" % (method or "pour_over")),
+    }
+    if bean:
+        scaffold["bean"]["note"] = bean
+    scaffold["_meta"] = L("Scaffold per data/brew_session_schema.json; host holds state and appends history.",
+                          "Scaffold per data/brew_session_schema.json; host holds state and appends history.")
+    return json.dumps(scaffold, ensure_ascii=False, indent=2)
+
+
+@mcp.tool()
+def log_brew_result(session_id: str = "", method: str = "", params: str = "", self_score: str = "", feedback: str = "", language: str = "zh") -> str:
+    """记录一轮冲煮结果到会话 / Log one brew round into the session (closed-loop coach).
+
+    工具本身无状态：接收当轮参数/自评/反馈，返回一份规范化的 round_record（供宿主追加进
+    session.history），并依据 self_score 给出下一步指针（有问题 -> diagnose_flavor / identify_flavor，
+    否则 -> next_step）。
+
+    Args:
+        session_id: 会话 id（宿主维护）/ session id (host-maintained)
+        method: 冲煮法 / brew method
+        params: 当轮参数 JSON 字符串 / round params as JSON string, e.g. '{"dose_g":15,"yield_g":240,"temp_c":92,"grind":"中细","time_s":150}'
+        self_score: 自评 JSON 字符串(1-5) / self-score JSON, e.g. '{"aroma":4,"acid":3,"sweet":3,"body":3,"aftertaste":3}'
+        feedback: 自由反馈 / free-text feedback
+        language: 输出语言 / zh or en (默认 zh)
+    Returns: round_record JSON + next_action 指针.
+    """
+    lang = language if language in ("zh", "en") else "zh"
+    L = lambda en, zh: en if lang == "en" else zh
+    parsed_params = {}
+    parsed_score = {}
+    try:
+        parsed_params = json.loads(params) if params else {}
+    except Exception:
+        parsed_params = {"_raw": params}
+    try:
+        parsed_score = json.loads(self_score) if self_score else {}
+    except Exception:
+        parsed_score = {"_raw": self_score}
+    round_record = {
+        "round": 1,
+        "method": method or "",
+        "params": parsed_params,
+        "self_score": parsed_score,
+        "feedback": feedback or "",
+    }
+    dims = [v for v in parsed_score.values() if isinstance(v, (int, float))]
+    if dims and min(dims) <= 2:
+        next_action = L("diagnose_flavor(problem='<describe the taste>') or identify_flavor(symptom='<taste>')",
+                         "diagnose_flavor(problem='<描述喝到的味道>') 或 identify_flavor(symptom='<味道>')")
+        flag = "diagnose"
+    else:
+        next_action = L("next_step(problem='<this round issue or blank>') to tune next round",
+                        "next_step(problem='<本轮问题或未填>') 调下一轮参数")
+        flag = "tune"
+    return json.dumps({
+        "ok": True,
+        "session_id": session_id or "REPLACE_BY_HOST",
+        "round_record": round_record,
+        "append_to": "history",
+        "next_action": next_action,
+        "next_flag": flag,
+    }, ensure_ascii=False, indent=2)
+
+
+@mcp.tool()
+def next_step(context: str = "", problem: str = "", goal: str = "", equipment: str = "", language: str = "zh") -> str:
+    """给出下一轮调参动作 / Recommend the next tuning step (closed-loop coach, tune phase).
+
+    消费 data/parameters_tuning_matrix.json（by_problem / by_goal）与 data/equipment_profiles.json。
+    给定当前问题（太酸/太苦/太淡/...）或目标（更明亮酸/更甜/更醇厚/...），返回可执行的
+    调参维度（grind/temp/time/ratio/dose 增减）。
+
+    Args:
+        context: 自由描述当前状态(可选) / free-text current state (optional)
+        problem: 当前问题 / problem: 太酸/太苦/太淡/太浓/水流快/水流慢/涩口/不甜/没body
+        goal: 想达成的目标 / goal: 更明亮酸/更甜/更醇厚/更干净/更柔和苦
+        equipment: 器具(可选) / equipment: v60/french_press/aeropress/moka_pot
+        language: 输出语言 / zh or en (默认 zh)
+    Returns: 下一轮调参动作 (JSON).
+    """
+    lang = language if language in ("zh", "en") else "zh"
+    L = lambda en, zh: en if lang == "en" else zh
+    matrix = TUNING_MATRIX
+    p = (problem or "").lower()
+    g = (goal or "").lower()
+    entry = None
+    src = ""
+    if p:
+        by_problem = matrix.get("by_problem", {})
+        for k, v in by_problem.items():
+            if k in p or k.replace("太", "") in p:
+                entry = v; src = "by_problem:" + k; break
+        if entry is None:
+            alias = {"sour": "太酸", "bitter": "太苦", "weak": "太淡", "strong": "太浓",
+                     "fast": "水流快", "slow": "水流慢", "astringent": "涩口",
+                     "not sweet": "不甜", "no body": "没body", "thin": "没body"}
+            for en_w, zh_k in alias.items():
+                if en_w in p and zh_k in by_problem:
+                    entry = by_problem[zh_k]; src = "by_problem:" + zh_k; break
+    if entry is None and g:
+        by_goal = matrix.get("by_goal", {})
+        for k, v in by_goal.items():
+            if k in g or k.replace("更", "") in g:
+                entry = v; src = "by_goal:" + k; break
+        if entry is None:
+            alias_g = {"brighter": "更明亮酸", "sweeter": "更甜", "bodier": "更醇厚",
+                       "cleaner": "更干净", "smoother bitter": "更柔和苦"}
+            for en_w, zh_k in alias_g.items():
+                if en_w in g and zh_k in by_goal:
+                    entry = by_goal[zh_k]; src = "by_goal:" + zh_k; break
+    if entry is None:
+        avail_p = "/".join(matrix.get("by_problem", {}).keys())
+        avail_g = "/".join(matrix.get("by_goal", {}).keys())
+        err = f"未能识别问题/目标。可识别问题: {avail_p}；目标: {avail_g}" if lang == "zh" else f"Could not recognize problem/goal. Problems: {avail_p}; Goals: {avail_g}"
+        return json.dumps({"ok": False, "error": err}, ensure_ascii=False, indent=2)
+    dim_label = {"grind": L("grind", "研磨"), "temp": L("temp", "水温"), "time": L("time", "时间"),
+                 "ratio": L("ratio", "粉水比"), "dose": L("dose", "粉量"),
+                 "process": L("process", "处理法"), "method": L("method", "器具/做法"),
+                 "avoid": L("avoid", "避免")}
+    adj = ["- %s: %s" % (dim_label.get(dim, dim), val) for dim, val in entry.items()]
+    fields = {
+        "matched": src,
+        "adjustments": adj,
+        "iron_rule": L("Change ONE variable at a time; sip before next change.", "一次只改一个变量；改完喝一口再判断。"),
+    }
+    if equipment:
+        for key, label in (("french_press", "french_press"), ("aeropress", "aeropress"),
+                           ("moka_pot", "moka_pot"), ("v60", "gooseneck_kettles"),
+                           ("手冲", "gooseneck_kettles")):
+            if key in equipment.lower():
+                prof = EQUIPMENT_PROFILES.get(label)
+                if prof:
+                    first = next(iter(prof.values()))
+                    fields["equipment_tip"] = _t(first.get("tip", {}), lang)
+                break
+    return json.dumps(fields, ensure_ascii=False, indent=2)
 
 
 def main() -> None:

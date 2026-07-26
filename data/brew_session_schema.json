@@ -1,0 +1,29 @@
+{
+  "_meta": {
+    "title": "brew_session 契约 schema（宿主 agent 持有，闭环用）",
+    "purpose": "定义一次冲煮会话的结构，由 start_brew_session 创建、log_brew_result 增补、next_step 消费。宿主持有并在会话内传递，skill 不持久化。",
+    "consumed_by": ["start_brew_session", "log_brew_result", "next_step"],
+    "version": "4.0.0",
+    "loop": "start → params → brew → eval → diagnose → tune"
+  },
+  "fields": {
+    "session_id": "string | 会话标识（宿主生成，如 sess-2026-0726-a1）",
+    "bean": {"origin": "string (origin key, 如 ethiopia)", "process": "string (process key, 如 washed)", "roast": "string (light/medium/dark)"},
+    "method": "string | 冲煮法 key，如 v60 / espresso",
+    "params": {"dose_g": "number", "yield_g": "number", "temp_c": "number", "grind": "string", "time_s": "number"},
+    "self_score": {"aroma": "1-5", "acid": "1-5", "sweet": "1-5", "body": "1-5", "aftertaste": "1-5"},
+    "feedback": "string | 用户文字反馈，如 太酸 / 苦 / 不错",
+    "round": "int | 第几轮调整（从 1 开始）",
+    "history": ["log_brew_result 之前的结果摘要（宿主维护，供 next_step 消费）"]
+  },
+  "example": {
+    "session_id": "sess-2026-0726-a1",
+    "bean": {"origin": "ethiopia", "process": "washed", "roast": "light"},
+    "method": "v60",
+    "params": {"dose_g": 15, "yield_g": 250, "temp_c": 92, "grind": "中细", "time_s": 150},
+    "self_score": {"aroma": 4, "acid": 3, "sweet": 4, "body": 3, "aftertaste": 4},
+    "feedback": "偏酸",
+    "round": 1,
+    "history": []
+  }
+}

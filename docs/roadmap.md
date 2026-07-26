@@ -1,7 +1,8 @@
 # barista-skill 战略路线图 v3.1 – v3.4
 
 > 战略顾问会话产出 · 2026-07-26
-> 状态：**已校准 · 落地中**（决策：阶段粒度维持 / 架构先行 / 编排层新增工具 / 落成 GitHub Issues+Milestones）
+> 状态：**已校准 · 已落地为 v4.0.0**（决策：阶段粒度维持 / 架构先行 / 编排层新增工具 / 落成 GitHub Issues+Milestones）
+> 落地结果：**已全部并入 v4.0.0 大版本发布**（2026-07-26）：4 个新工具（identify_flavor / start_brew_session / log_brew_result / next_step）+ 风味辨识树 / 覆盖度扩展 / 特调框架 + 协议文档；工具数 20 → 24，references 24 → 25。
 
 ## 一、战略锚点（已与用户确认）
 
@@ -68,7 +69,7 @@ C（感官训练）在"使用频率"排第三，但在"价值链条"是上游—
 **目标**：A→B→C 串成可迭代的私人陪练回路。
 
 交付物：
-1. 新增轻量编排层：`start_brew_session`（建会话）/ `log_brew_result`（记自评分 + 反馈）/ `next_step`（据历史给下一步：再调 / 诊断 / 进阶）— 工具数 20 → 23
+1. 新增轻量编排层 + 识别引导：`identify_flavor`（风味辨识引导树）/ `start_brew_session`（建会话）/ `log_brew_result`（记自评分 + 反馈）/ `next_step`（据历史给下一步：再调 / 诊断 / 进阶）— 工具数 20 → 24
 2. 协议落地：宿主在 start → params → brew → eval → diagnose → tune 各节点传递 `brew_session`
 3. C 衔接：当用户连续 N 次稳定，触发"想系统学感官 / SCA？"进阶入口（调用现有 `get_sca_path` / `get_qgrader_study_plan`）
 
@@ -106,5 +107,5 @@ C（感官训练）在"使用频率"排第三，但在"价值链条"是上游—
 |---|--------|------|
 | 1 | 阶段粒度 | v3.1–v3.4 维持不变 |
 | 2 | 执行起点 | 架构先行（v3.1.0 先动） |
-| 3 | 编排层形态 | 新增 3 个轻量工具（工具数 20 → 23） |
+| 3 | 编排层形态 | 新增 4 个工具（工具数 20 → 24） |
 | 4 | 落地方式 | 落成 GitHub：本文件 + Milestones + Issues 追踪 |

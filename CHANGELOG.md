@@ -4,6 +4,27 @@
 
 ---
 
+## [4.0.0] - 2026-07-26  (闭环教练 + 风味辨识 — 合并原路线图 v3.1→v3.4 为大版本)
+
+### Added
+- **闭环教练（closed-loop coach）**：新增 4 个工具，把 A 给参数 → B 救风味 → 记录 → 再调 串成可迭代私人陪练回路（工具数 20 → 24）：
+  - `identify_flavor` — 风味辨识引导树：模糊抱怨（"尖酸刺舌"/"木头味"）定位到具体子类 + 根因 + 新手/进阶调整建议。
+  - `start_brew_session` — 开会话骨架（符合 `data/brew_session_schema.json`），给出 next_action 指针。
+  - `log_brew_result` — 记录一轮参数/自评/反馈，按自评给出下一步指针（诊断 or 调参）。
+  - `next_step` — 据问题/目标给下一轮调参维度（grind/temp/time/ratio/dose 增减）+ 单变量铁律。
+- **风味辨识引导树**（`data/flavor_identification_tree.json`，6 大家族 / 19 叶子）；`diagnose_flavor` 新增 `guided` 模式做识别引导。
+- **覆盖度扩展**：产区 +6（`data/parameters_origin.json` 6→12）、处理法 +2（`data/parameters_process.json` 4→6）、风味诊断 +4（`data/flavor_diagnosis.json` 8→12，新增 woody/rubber/over_fermented/medicinal）；新增器具画像 `data/equipment_profiles.json`（手冲壶/法压/爱乐压/摩卡壶）。
+- **特调拓展**：连锁门店招牌框架 + 无咖啡因饮品框架（`data/craft_chains_and_caffeine_free.json`，不编造链接）；`references/craft-coffee.md` 新增第十一/十二节。
+- **协议文档**：`references/brewing-coach-protocol.md` 定义闭环各节点调用约定与宿主职责红线（mono-lingual，登记 allowed_mono）。
+
+### Changed
+- `get_recipe` / `get_parameters_guide` 新增可选 `user_context`，按器具/口味个性化输出；`diagnose_flavor` 新增 `guided` 模式。
+- 闭环采用"宿主持有状态、工具消费上下文"混合架构；`data/user_profile_schema.json` / `data/brew_session_schema.json` 为契约文档（server.py 不加载）。
+- `README.md` / `mcp-server/README.md` 工具表与徽章同步到 24 工具。
+
+### Fixed
+- 修复 v4.0 实现中 `user_context`/`guided` 参数插入位置导致既有调用方位置错乱；修正 `next_step` / `log_brew_result` 中英双语标签倒置（L(zh,en) 调用与 L(en,zh) 定义不一致）。
+
 ## [3.0.0] - 2026-07-26  (SCA / Q-Grader 深度扩展 — 认证体系 + 考试体系作为一级模块)
 
 ### Added

@@ -38,5 +38,25 @@
       "zh": "风味独特强烈、发酵感、酒香",
       "en": "intense, funky, wine-like"
     }
+  },
+  "carbonic_maceration": {
+    "adjustment": {
+      "zh": "极低温(86-90C)防过萃发酵感;粉水比略低(1:15-1:16)",
+      "en": "very low temp (86-90C) to avoid over-pulling funk; ratio lower (1:15-1:16)"
+    },
+    "flavor": {
+      "zh": "极浓郁果香、酒香、发酵感强",
+      "en": "intense fruit, wine-like, strong ferment"
+    }
+  },
+  "double_washed": {
+    "adjustment": {
+      "zh": "中高水温(92-94C)提亮酸;粉水比略高(1:16-1:17)",
+      "en": "mid-high temp (92-94C) to brighten acid; ratio a touch higher (1:16-1:17)"
+    },
+    "flavor": {
+      "zh": "极干净、明亮酸、清晰果味(肯尼亚式)",
+      "en": "very clean, bright acid, clear fruit (Kenya-style)"
+    }
   }
 }
