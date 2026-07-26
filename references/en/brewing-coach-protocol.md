@@ -2,7 +2,7 @@
 
 > This file defines the **closed-loop coaching conversation protocol** for barista-skill v4.0: how the host (Skill / Agent) holds state, which MCP tool it calls at each step and with what parameters, and how it rewrites each tool's return value into plain language for the user.
 > Companion state contracts: [data/user_profile_schema.json](data/user_profile_schema.json) (user profile) and [data/brew_session_schema.json](data/brew_session_schema.json) (single brew session).
-> This file is a **protocol document** and is not language-mirrored (mono-lingual); all tool calls are bilingual (zh/en).
+> This file is a **protocol document** (English mirror of `references/brewing-coach-protocol.md`); all tool calls are bilingual (zh/en).
 
 ## 1. Why a protocol is needed
 

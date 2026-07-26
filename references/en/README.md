@@ -32,8 +32,8 @@ grinder steps, flavor wheel groups, sensory-solution recipes, water TDS, etc.).
 | triangle-test-protocol.md | SCA triangle test protocol + difficulty progression + training | medium |
 | coffee-sensory-chemistry.md | coffee chemistry (acids/alkaloids/Maillard) -> sensory mapping | medium |
 
-All 13 high-value core files + 4 medium-value files + 3 indexes/guides
-(champion-brewing, craft-coffee, learning-resources) are now mirrored. The
+All 14 high-value core files + 6 medium-value files
+are now mirrored. The
 remaining 5 are CN-specific and translate to little for an English reader; deferred.
 
 ## Not yet translated (5) -- see references/ (Chinese) originals

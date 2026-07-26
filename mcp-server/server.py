@@ -61,8 +61,6 @@ def _personalize(user_context, lang):
     return note or None
 
 
-REFERENCES_DIR = Path(__file__).resolve().parent.parent / "references"
-
 def _load_data(filename):
     """Load data from data/<filename>.json with graceful degradation.
 
@@ -71,7 +69,7 @@ def _load_data(filename):
     """
     data_path = Path(__file__).resolve().parent.parent / "data" / filename
     if not data_path.exists():
-        if filename.endswith("wheel.json") or filename.endswith("dimensions.json"):
+        if filename.endswith("wheel.json") or filename.endswith("dimensions.json") or filename == "cupping.json":
             return []
         return {}
     return json.loads(data_path.read_text(encoding="utf-8"))
@@ -152,7 +150,7 @@ def get_recipe(method: str, roast_level: str = "medium", experience: str = "begi
         err = f"未找到冲煮法 '{method}'。可用方法: {avail}" if lang == "zh" else f"Brew method '{method}' not found. Available: {avail}"
         return json.dumps({"ok": False, "error": err}, ensure_ascii=False, indent=2)
 
-    roast = PARAMETERS_BY_ROAST.get(roast_level, PARAMETERS_BY_ROAST["medium"])
+    roast = PARAMETERS_BY_ROAST.get(roast_level, PARAMETERS_BY_ROAST.get("medium", {}))
     fields = {
         "method": method,
         "name": _t(recipe["name"], lang),
@@ -169,13 +167,13 @@ def get_recipe(method: str, roast_level: str = "medium", experience: str = "begi
         "experience": experience
     }
     if experience == "beginner":
-        fields["mantra"] = _t(MANTRAS["grind"], lang) + " | " + _t(MANTRAS["rule"], lang)
+        fields["mantra"] = _t(MANTRAS.get("grind", ""), lang) + " | " + _t(MANTRAS.get("rule", ""), lang)
     elif experience == "advanced":
         fields["advanced_notes"] = {
-            "solubility": _t(roast["solubility"], lang),
-            "water_temp": roast["water_temp"],
-            "grind_lean": _t(roast["grind"], lang),
-            "principle": _t(roast["principle"], lang),
+            "solubility": _t(roast.get("solubility", ""), lang),
+            "water_temp": roast.get("water_temp", ""),
+            "grind_lean": _t(roast.get("grind", ""), lang),
+            "principle": _t(roast.get("principle", ""), lang),
             "golden_cup": "萃取率 18-22%, TDS 1.15-1.35%" if lang == "zh" else "extraction 18-22%, TDS 1.15-1.35%"
         }
     h = "参数为通用起步值，具体器具/豆子需微调。单变量铁律: 一次只改一个变量。" if lang == "zh" else "Params are generic start points; adjust for your gear/beans. Iron law: change ONE variable at a time."
@@ -229,6 +227,7 @@ def get_craft_recipe(base: str = "espresso_classic", include_tea: bool = False, 
             pour_over (手冲基底 / pour-over base),
             cold_brew (冷萃基底 / cold brew base)
         include_tea: 是否含茶底 / include a tea base (default False)
+        chain: 连锁/无咖啡因框架 key(可选) / chain or caffeine-free framework key, e.g. "luckin","starbucks","caffeine_free_tea"
         language: 输出语言 / output language: zh or en (默认 zh)
     Returns: 8 项必填 SOP 框架；具体克数/萃取参数/门店当下配方需联网核实补全。
     """
@@ -269,17 +268,17 @@ def get_craft_recipe(base: str = "espresso_classic", include_tea: bool = False, 
         if chain in chains:
             c = chains[chain]
             fields["chain_framework"] = {
-                "name": _t(c["name_zh"], lang),
+                "name": c.get("name_en", c["name_zh"]) if lang == "en" else c["name_zh"],
                 "known_lines": c.get("known_lines", []),
-                "framework": _t(c["framework_zh"], lang),
-                "verify_note": _t(c["verify_note"], lang),
+                "framework": c.get("framework_en", c["framework_zh"]) if lang == "en" else c["framework_zh"],
+                "verify_note": c["verify_note"],
             }
         elif chain in caf:
             c = caf[chain]
             fields["caffeine_free_framework"] = {
-                "name": _t(c["name_zh"], lang),
-                "framework": _t(c["framework_zh"], lang),
-                "tips": _t(c.get("tips_zh", {}), lang),
+                "name": c.get("name_en", c["name_zh"]) if lang == "en" else c["name_zh"],
+                "framework": c.get("framework_en", c["framework_zh"]) if lang == "en" else c["framework_zh"],
+                "tips": c.get("tips_en", c.get("tips_zh", "")) if lang == "en" else c.get("tips_zh", ""),
             }
         else:
             avail = list(chains.keys()) + list(caf.keys())
@@ -296,6 +295,7 @@ def diagnose_flavor(problem: str, experience: str = "beginner", flow_rate: str =
         experience: 经验水平 / experience: beginner/intermediate/advanced (默认 beginner)
         flow_rate: 水流速度描述(可选) / flow rate, e.g. "很快"/"fast","很慢"/"slow"
         language: 输出语言 / output language: zh or en (默认 zh)
+        guided: 未命中时是否走引导问卷 / if True, fall back to a guided questionnaire when no match (default False)
     Returns: 诊断结果与调整建议 (JSON 中需人话改写层落地)。
     """
     lang = language if language in ("zh", "en") else "zh"
@@ -322,7 +322,7 @@ def diagnose_flavor(problem: str, experience: str = "beginner", flow_rate: str =
     }
     if experience == "beginner":
         fields["beginner_fix"] = _t(diag["beginner"], lang)
-        fields["mantra"] = _t(MANTRAS["grind"], lang) + " | " + _t(MANTRAS["rule"], lang)
+        fields["mantra"] = _t(MANTRAS.get("grind", ""), lang) + " | " + _t(MANTRAS.get("rule", ""), lang)
         if matched in ("bitter", "sour") and not flow_rate:
             fields["flow_diagnostic_question"] = ("做的时候水是很快就流完了,还是磨蹭很久才流完?" if lang == "zh" else "Did the water run through fast, or take a long time to finish?")
             fields["flow_diagnostic_hints"] = ("流得快 -> 粉太粗/水太多；流得慢 -> 可能其实过萃了" if lang == "zh" else "Fast -> too coarse / too much water; Slow -> may actually be over-extracted")
@@ -345,7 +345,8 @@ def _guided_questionnaire(lang):
              ""]
     for fam_name, fam in families.items():
         disc = fam.get("discriminator", {})
-        q = _t(disc.get("question_zh", disc.get("question_en", "")), lang) if isinstance(disc, dict) else ""
+        q = (disc.get("question_en", disc.get("question_zh", "")) if lang == "en"
+             else disc.get("question_zh", "")) if isinstance(disc, dict) else ""
         opts = disc.get("options", []) if isinstance(disc, dict) else []
         lines.append(f"- **{fam_name}**：{q}")
         for o in opts:
@@ -479,6 +480,7 @@ def get_parameters_guide(roast_level: str = "", origin: str = "", process: str =
         process: 处理法 / process: washed/natural/honey/anaerobic
         taste_preference: 口味偏好 / taste: acidity/sweetness/less_bitter/body/clarity
         language: 输出语言 / output language: zh or en (默认 zh)
+        user_context: 用户器具/口味上下文(可选) / user gear/taste context JSON for personalization
     Returns: 参数调整建议矩阵 (localized).
     """
     lang = language if language in ("zh", "en") else "zh"
@@ -491,9 +493,9 @@ def get_parameters_guide(roast_level: str = "", origin: str = "", process: str =
     lines = [f"## {L['title']}", "", f"### {L['gold']}", f"| {L['param']} | {L['std']} |", "|------|------|",
              f"| {L['ex']} | 18%-22% |", f"| {L['tds']} | 1.15%-1.35% |", ""]
     if roast_level:
-        r = PARAMETERS_BY_ROAST.get(roast_level, PARAMETERS_BY_ROAST["medium"])
-        lines += [f"### {L['roast']} ({roast_level})", f"- {L['gold'].split(' ')[0]}: {_t(r['solubility'], lang)}",
-                  f"- {L['std']}: {r['water_temp']}", f"- grind: {_t(r['grind'], lang)}", f"- {_t(r['principle'], lang)}"]
+        r = PARAMETERS_BY_ROAST.get(roast_level, PARAMETERS_BY_ROAST.get("medium", {}))
+        lines += [f"### {L['roast']} ({roast_level})", f"- {L['gold'].split(' ')[0]}: {_t(r.get('solubility', ''), lang)}",
+                  f"- {L['std']}: {r.get('water_temp', '')}", f"- grind: {_t(r.get('grind', ''), lang)}", f"- {_t(r.get('principle', ''), lang)}"]
     if origin:
         o = PARAMETERS_BY_ORIGIN.get(origin)
         if o:
@@ -580,8 +582,8 @@ def get_sensory_training(training_type: str = "overview", language: str = "zh") 
     Returns: 系统化感官训练方案 (localized).
     """
     lang = language if language in ("zh", "en") else "zh"
-    entry = SENSORY.get(training_type, SENSORY["overview"])
-    return entry.get(lang, entry["zh"])
+    entry = SENSORY.get(training_type, SENSORY.get("overview", {}))
+    return entry.get(lang, entry.get("zh", ""))
 
 
 @mcp.tool()
@@ -625,14 +627,12 @@ def get_learning_resources(level: str = "beginner", language: str = "zh") -> str
 def search_references(query: str, language: str = "zh", top_k: int = 3) -> str:
     """精确定位与漂移对因 reference 文档的全文关键词检索。
 
-    检索范围涵盖 references/ 目录下 37 篇中/英 reference 文档（23 cn + 14 en）。
+    检索范围涵盖 references/ 目录下中/英 reference 文档。
     提供三条命中项 + 文件名，让服务器端与 client 端可快速定位知识来源。
     Returns top_k reference matches with file names and matched excerpts.
     """
-    import pathlib, re, fnmatch
-
     L = lambda en, zh: en if language == "en" else zh
-    REFS = pathlib.Path(__file__).resolve().parent.parent / "references"
+    REFS = Path(__file__).resolve().parent.parent / "references"
     if not REFS.exists():
         return L(
             "references/ directory missing; no docs to search.",
@@ -660,7 +660,7 @@ def search_references(query: str, language: str = "zh", top_k: int = 3) -> str:
     scored = []
     for name, paths in files.items():
         # Use the zh path if available, else first available
-        zh_path = next((p for p in paths if "/en/" not in str(p)), paths[0])
+        zh_path = next((p for p in paths if "en" not in p.parts), paths[0])
         content = zh_path.read_text("utf-8")
         title_hit = sum(1 for t in terms if t in name.lower()) * 3
         body_hit = sum(1 for t in terms if t in content.lower()[:2000])
@@ -1143,13 +1143,13 @@ def identify_flavor(symptom: str, experience: str = "beginner", language: str = 
         "symptom": symptom,
         "family": best_family,
         "matched": best_leaf["id"],
-        "label": _t(best_leaf["label_zh"], lang),
+        "label": best_leaf.get("label_en", best_leaf["label_zh"]) if lang == "en" else best_leaf["label_zh"],
         "root_cause": _t(best_leaf["root_cause"], lang),
         "experience": experience,
     }
     if experience == "beginner":
         fields["beginner_fix"] = _t(best_leaf["beginner_fix"], lang)
-        fields["mantra"] = _t(MANTRAS["grind"], lang) + " | " + _t(MANTRAS["rule"], lang)
+        fields["mantra"] = _t(MANTRAS.get("grind", ""), lang) + " | " + _t(MANTRAS.get("rule", ""), lang)
     else:
         fields["advanced_fix"] = _t(best_leaf["advanced_fix"], lang)
         fields["science"] = ("化合物溶出顺序: 果酸类(先) -> 脂类 -> 糖类(甜) -> 碳水化合物(苦, 后)；金杯区间: 萃取率 18-22%, TDS 1.15-1.35%" if lang == "zh" else "Dissolution order: acids(first) -> lipids -> sugars(sweet) -> carbs(bitter, last); Golden cup: extraction 18-22%, TDS 1.15-1.35%")

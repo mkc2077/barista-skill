@@ -111,7 +111,7 @@
 
 ---
 
-## [2.9.0] - 2026-07-20  (博主特调 ASR 数据集 / Blogger craft-coffee ASR dataset)
+## [2.8.1] - 2026-07-20  (博主特调 ASR 数据集 / Blogger craft-coffee ASR dataset)
 
 ### Added
 - **`data/jimmy_craft_recipes.json`** — 25 条判为 craft 配方的结构化数据。`recipe_id` / `drink_name` / `source_video`（含**出处链接**）/ `ingredients` / `steps` / `ratio`。`ingredients` 由 Whisper 转写稿启发式抽取（真实出现的 数字+单位+名词），**未人工核实**，`provenance = MACHINE_TRANSCRIBED`。

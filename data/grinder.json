@@ -47,10 +47,7 @@
     }
   },
   "mahlkonig_ek43": {
-    "name": {
-      "zh": "Mahlkonig EK43",
-      "en": "Mahlkonig EK43"
-    },
+    "name": "Mahlkonig EK43",
     "type": {
       "zh": "商用电动",
       "en": "commercial electric"

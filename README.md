@@ -43,7 +43,7 @@
 - **学习资源 / Learning resources** —— 入门/进阶/专业三级 + SCA 认证 + 咖啡师名录
 - **SCA 认证 & Q-Grader 考试 / SCA Certification & Q-Grader** —— SCA 六大模块课程树（Foundation/Intermediate/Professional）、CVA 新评分体系（SCA-102/103/104/105）、Q-Grader 20-22 项考试、生豆分级、瑕疵豆、三角杯测、咖啡化学与感官映射
 
-> English coverage: 14 brew methods, 11 classic milk drinks, beans, water quality, pressure profiling, sensory training, SCA cupping, grinder calibration, golden-cup parameter matrices (incl. dripper/filter paper as the pour-over zero-th variable), troubleshooting, curated learning resources, a champion brewing recipes index (Kasuya 4:6, Du Jianing, Berg Wu, Carlos Medina, Peng, etc. with dripper/filter-paper map), and craft coffee as a standalone major category (base extraction specs / tea base / homemade syrup SOP / store-bought / full build SOP). 14/24 reference files mirrored in English under `references/en/`.
+> English coverage: 14 brew methods, 11 classic milk drinks, beans, water quality, pressure profiling, sensory training, SCA cupping, grinder calibration, golden-cup parameter matrices (incl. dripper/filter paper as the pour-over zero-th variable), troubleshooting, curated learning resources, a champion brewing recipes index (Kasuya 4:6, Du Jianing, Berg Wu, Carlos Medina, Peng, etc. with dripper/filter-paper map), and craft coffee as a standalone major category (base extraction specs / tea base / homemade syrup SOP / store-bought / full build SOP). 20/25 reference files mirrored in English under `references/en/`.
 
 ## 核心机制：顾问主导穿透提问 / Core: consultant-led penetrating questioning
 
@@ -123,9 +123,9 @@ barista-skill/
 │   ├── coffee_chemistry_sensory.json# [v3.0] 咖啡化学与感官映射
 │   ├── sca_official_sources.json    # [v3.0] 已验证来源索引
 ├── scripts/                   # self_check.py — 一致性自检 (33 项 PASS/FAIL)
-└── references/report_templates/  # 4 个顾问输出模板 + README
 └── references/               # 25 个参考文件 (中文原版 = 真相源)
-    ├── en/                   # English mirrors (14/24: 高/中价值文件全部完成)
+    ├── report_templates/     # 4 个顾问输出模板 + README
+    ├── en/                   # English mirrors (20/25: 高/中价值文件全部完成)
     │   ├── recipes-baseline / troubleshooting / parameters-guide / cupping / sensory
     │   ├── beans / grind-calibration / water-quality / equipment-profiles / pressure-profiles
     │   ├── champion-brewing / craft-coffee / learning-resources / README.md (coverage table)

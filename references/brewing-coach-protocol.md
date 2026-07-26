@@ -2,7 +2,7 @@
 
 > 本文件定义 barista-skill v4.0 的**闭环教练对话协议**：宿主（Skill / Agent）如何持有状态、在每一步向哪个 MCP 工具传参、又把工具返回的结果改写成人话回给用户。
 > 配套状态契约见 [data/user_profile_schema.json](data/user_profile_schema.json)（用户画像）与 [data/brew_session_schema.json](data/brew_session_schema.json)（单次冲煮会话）。
-> 本文件为**协议文档**，不随语言镜像（mono-lingual）；工具调用均双语（zh/en）。
+> 本文件为**协议文档**；英文镜像见 `references/en/brewing-coach-protocol.md`。工具调用均双语（zh/en）。
 
 ## 一、为什么需要协议
 

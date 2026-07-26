@@ -9,8 +9,8 @@
   "fields": {
     "gear": {
       "grinder": "string | 磨豆机型号（对应 grinder.json 的 key），如 comandante_c40 / 1zpresso_jx_pro / timemore_c3；未知可留空字符串",
-      "brewer": "string | 冲煮器具 key，如 v60 / kalita / french_press / aeropress / moka_pot / espresso",
-      "kettle": "string | 手冲壶流速特征，如 gooseneck_standard / gooseneck_slow / none；用于 equipment_profiles 个性化",
+      "brewer": "string | 冲煮器具 key，如 pour_over / french_press / aeropress / moka_pot / espresso（v60 / kalita 等别名亦被 EQUIP_HINTS 识别）",
+      "kettle": "string | 手冲壶流速特征，如 standard / slow_precise / fast / none；对应 equipment_profiles.gooseneck_kettles 的 key",
       "scale": "bool | 是否有称重秤（影响 dose/yield 精确度建议）"
     },
     "water": {
@@ -27,7 +27,7 @@
     }
   },
   "example": {
-    "gear": {"grinder": "comandante_c40", "brewer": "v60", "kettle": "gooseneck_standard", "scale": true},
+    "gear": {"grinder": "comandante_c40", "brewer": "pour_over", "kettle": "standard", "scale": true},
     "water": {"tds": 120, "source": "过滤水"},
     "taste": {"preference": "acidity", "dislikes": ["焦苦"]},
     "skill": {"level": "beginner", "beans_usually": ["ethiopia", "kenya"]}

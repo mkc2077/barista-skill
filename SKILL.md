@@ -257,11 +257,11 @@ Every template enforces: change ONE variable + verify after every change
 ## 参考资料
 详细映射与基础参数见 `references/`（英文镜像见 `references/en/`）：
 
-> **English mirrors / 英文镜像**: 21 of 25 reference files are mirrored under `references/en/` (incl. the 7 SCA/Q-Grader v3.0 docs + the v4.0 brewing-coach-protocol). See `references/en/README.md` for full coverage. English users/agents read those directly; the Chinese originals remain the full source of truth. The 5 remaining mono files (eval-cases / example-dialogues / glossary / search-queries / human-voice-rules) are CN-specific and intentionally untranslated.
+> **English mirrors / 英文镜像**: 20 of 25 reference files are mirrored under `references/en/` (incl. the 7 SCA/Q-Grader v3.0 docs + the v4.0 brewing-coach-protocol). See `references/en/README.md` for full coverage. English users/agents read those directly; the Chinese originals remain the full source of truth. The 5 remaining mono files (eval-cases / example-dialogues / glossary / search-queries / human-voice-rules) are CN-specific and intentionally untranslated.
 
 - [references/sensory.md](references/sensory.md) — 风味问题 → 调整动作（双栏）+ 品鉴方法 + 风味词典（30+ 词）+ 风味轮原理与使用 + 系统化感官训练方案
 - [references/beans.md](references/beans.md) — 豆标解读、选豆、豆性→萃取、新鲜度与保存（双栏）
-- [references/recipes-baseline.md](references/recipes-baseline.md) — 17 种做法的稳妥起步参数
+- [references/recipes-baseline.md](references/recipes-baseline.md) — 14 种做法的稳妥起步参数
 - [references/pressure-profiles.md](references/pressure-profiles.md) — 变压萃取：机型索引与联网核实话术
 - [references/water-quality.md](references/water-quality.md) — 水质参数与家用水的判断/建议
 - [references/equipment-profiles.md](references/equipment-profiles.md) — 常见咖啡机/磨豆机的参数对照
@@ -276,6 +276,7 @@ Every template enforces: change ONE variable + verify after every change
 - [references/learning-resources.md](references/learning-resources.md) — **权威学习资源整合**：按入门/进阶/专业分级的学习资源、SCA 认证体系、可检索咖啡师名录
 - [references/champion-brewing.md](references/champion-brewing.md) — **冠军冲煮方案索引**：SCA 金杯 + WBrC 赛制 + 滤杯滤纸冲煮方案（V60/Origami/Kasuya 款等）+ 名家滤杯使用索引 + 粕谷哲 4:6 官方完整配方 / 杜嘉宁 / Carlos Medina 2023 / 彭近洋（2025 冠军）等检索起点
 - [references/craft-coffee.md](references/craft-coffee.md) — **特调咖啡（独立大类）**：咖啡基底萃取方案（中深烘浓缩/SOE ristretto/手冲/冷萃）+ 茶底方案 + 自制糖浆 SOP + 采购辅料清单 + 完整拼装 SOP 模板 + 门店/博主索引（吉米"咖啡届直男" / JPG coffee / GABEE. / Onyx / SEY / Blue Bottle / % Arabica / Coffee Collective）
+- [references/brewing-coach-protocol.md](references/brewing-coach-protocol.md) — **闭环教练协议（v4.0 架构基座）**：宿主持有状态的对话协议、start_brew_session / log_brew_result / next_step 节点调用约定、user_profile / brew_session 状态契约
 - [references/sca-certification.md](references/sca-certification.md) — **SCA 认证全体系详解**：六大模块课程树、各级别前置条件、学习路径规划、费用参考、考试策略、AST 导师网络
 - [references/qgrader-complete-guide.md](references/qgrader-complete-guide.md) — **Q-Grader 从零到认证全指南**：备考周期、每日训练计划、各科题型、扣分细则、卡分原因、重考策略
 - [references/sca-new-cva-guide.md](references/sca-new-cva-guide.md) — **新 CVA 评分体系实操指南**：SCA-102/103/104/105 与旧 100 分制迁移对照、采购/竞赛/品控场景
@@ -297,7 +298,7 @@ Every template enforces: change ONE variable + verify after every change
 
 ## English summary
 
-This skill is a dedicated coffee consultant (not a Q&A bot) that drives the conversation through penetrating follow-up questions to help users brew better-tasting coffee and taste more mindfully across four dimensions: **expresso, brewing, beans, sensory**.
+This skill is a dedicated coffee consultant (not a Q&A bot) that drives the conversation through penetrating follow-up questions to help users brew better-tasting coffee and taste more mindfully across four dimensions: **espresso, brewing, beans, sensory**.
 
 **Experience levels:** beginner → plain language, no jargon, copy-paste steps + mnemonics; intermediate → few terms, explained on first use, give ranges; advanced → free use of ratios, temperature, flow, extraction time, extraction yield, pressure profiles.
 

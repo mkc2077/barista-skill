@@ -40,7 +40,10 @@
       "zh": "平衡型,接近金杯标准参数",
       "en": "balanced, near golden-cup standard"
     },
-    "mantra": "—"
+    "mantra": {
+      "zh": "—",
+      "en": "—"
+    }
   },
   "dark": {
     "solubility": {
