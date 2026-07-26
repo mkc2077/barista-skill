@@ -198,21 +198,52 @@ Single-file, double-click to run, built-in API adapter + full system prompt. API
 
 ### 方式 C：Next.js 全功能版（v4.3 新增）/ Next.js full-featured version (v4.3)
 
-`web/next-app/`——Next.js 14 + TypeScript + Tailwind CSS + Zustand，适合日常使用：
+`web/next-app/`——Next.js 14 + TypeScript + Tailwind CSS + Zustand，适合日常使用。
+
+#### 第一步：安装并启动 Next.js 应用
 
 ```bash
 cd web/next-app
 npm install
 npm run dev    # 开发模式 http://localhost:3000
-npm run build  # 生产构建
 ```
 
-相比单文件 HTML 版的额外功能 / Extra features beyond HTML version：
+浏览器打开 `http://localhost:3000`，点击右上角 ⚙ 设置 API 供应商和 Key 即可对话。
+
+#### 第二步（可选）：启用 MCP 工具
+
+> **重要**：Next.js 版的 MCP 功能需要单独启动 MCP Server，`npm run dev` 不会自动启动它。
+
+**方法 1：用一键脚本启动 MCP Server（推荐）**
+
+双击项目根目录的 `start.bat`（Windows）或运行 `bash start.sh`（macOS / Linux）。
+脚本会自动启动 MCP Server（`http://127.0.0.1:8765/mcp`），但会打开 HTML 版浏览器页面——**关掉那个页面即可**，MCP Server 在后台继续运行。
+
+**方法 2：手动启动 MCP Server**
+
+```bash
+cd mcp-server
+pip install "mcp[cli]>=1.8.0" starlette uvicorn
+python server.py --transport http --host 127.0.0.1 --port 8765
+```
+
+看到 `Barista MCP Server (HTTP) -> http://127.0.0.1:8765/mcp` 即表示启动成功。
+
+**第三步：在 Next.js 应用中开启 MCP**
+
+1. 打开 `http://localhost:3000` → 右上角 ⚙ 设置
+2. 勾选「启用 MCP 工具（需本地运行 MCP Server）」
+3. 确认 MCP 地址为 `http://127.0.0.1:8765/mcp`
+4. 发送消息时，顾问会自动调用 24 个专业工具
+
+> 排错：如果出现「MCP 连接失败: Failed to fetch」，说明 MCP Server 未启动。检查方法：浏览器访问 `http://127.0.0.1:8765/mcp`，如果无法连接，请按上述步骤启动 MCP Server。
+
+#### 额外功能 / Extra features
+
 - **多对话管理**：侧边栏创建/切换/删除/重命名对话，首条消息自动生成标题
 - **4 种咖啡主题**：浅烘 / 手冲 / 深烘 / 浓缩，CSS 变量驱动实时切换
-- **本地模型自动发现**：填写 Base URL 后点「发现」，自动获取 Ollama / LM Studio / vLLM 可用模型列表
+- **动态模型发现**：填写 Base URL 后点「获取模型」，自动从供应商 API 拉取可用模型列表
 - **导入/导出**：对话历史和设置可导出为 JSON 文件，导入恢复
-- **MCP 工具集成**：与 HTML 版相同的 24 个 MCP 工具调用能力
 
 详见 [`web/README.md`](web/README.md)（含三种方式对比表）。
 
