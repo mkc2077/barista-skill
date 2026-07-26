@@ -54,11 +54,31 @@ def test_tool_count_is_twenty_four():
 
 
 def test_no_dead_imports():
+    """Forbid module-level dead imports (sys/os/re).
+
+    The check parses the AST and only inspects *module-level* imports
+    (tree.body). Imports nested inside functions/classes -- e.g. the
+    `import sys` in _run_http's ImportError guard, used for
+    `print(..., file=sys.stderr)` -- are legitimate local imports and must
+    NOT trip this gate. The earlier naive substring scan ("import sys" not in
+    src) produced a false positive that broke the published main branch.
+    """
+    import ast
     src = (HERE.parent / "server.py").read_text(encoding="utf-8")
-    # the four blocked stdlib imports must not be present
-    for dead in ("import sys", "import os", "import re",
-                 "from typing import import Optional", "KNOWLEDGE = "):
-        assert dead not in src, f"dead symbol remains: {dead}"
+    tree = ast.parse(src)
+    mod_imports = set()
+    for node in tree.body:
+        if isinstance(node, ast.Import):
+            for alias in node.names:
+                mod_imports.add(alias.name.split(".")[0])
+        elif isinstance(node, ast.ImportFrom):
+            for alias in node.names:
+                mod_imports.add(alias.name.split(".")[0])
+    for dead in ("sys", "os", "re"):
+        assert dead not in mod_imports, f"dead module-level import remains: {dead}"
+    # guard against specific past mistakes (malformed / leftover symbols)
+    for bad in ("from typing import import Optional", "KNOWLEDGE = "):
+        assert bad not in src, f"bad symbol remains: {bad}"
 
 
 # --- get_recipe --------------------------------------------------------------

@@ -3,6 +3,16 @@
 本文件记录 barista 技能的版本变更。版本号遵循 [语义化版本](https://semver.org/)：主版本.次版本.修订号。
 
 ---
+## [4.4.1] - 2026-07-26
+
+### 修复（门禁根治 + 同步）
+- **根治 `test_no_dead_imports` 误报**：原测试用子串匹配 `"import sys"` 误判 `_run_http` 函数内合法导入，导致发布版 `origin/main` 门禁变红（误报型回归）。改为 AST 仅检查**模块级**未使用导入，函数内导入不再误伤。
+- **还原 `server.py` `_run_http` 缺依赖守卫**：恢复为干净的 3 行 stderr 提示（`import sys` + 3×`print(..., file=sys.stderr)`），不再需要 workaround。
+- **合并分叉**：本地未推送的 `817545b` 与远端 `fea6f6d`（web SSE 解析修复）已对齐，工作副本与 `origin/main` 完全一致。
+- **新增 CI**：`.github/workflows/test.yml` 在 push/PR 到 main 时自动跑 `self_check.py` + `pytest`，防止门禁再悄悄变红。
+- 验证：self_check.py ALL CHECKS PASSED；pytest 170 passed（`test_no_dead_imports` 已修复）。
+
+---
 ## [4.4.0] - 2026-07-27
 
 ### 新增（动态模型发现）

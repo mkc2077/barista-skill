@@ -1,0 +1,24 @@
+name: Gate (self_check + pytest)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install MCP server (test + http extras)
+        run: |
+          python -m pip install --upgrade pip
+          pip install "./mcp-server[test,http]"
+      - name: self_check invariants
+        run: python scripts/self_check.py
+      - name: pytest
+        run: python -m pytest mcp-server/test_data_consistency.py mcp-server/test_server.py -q
