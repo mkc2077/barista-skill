@@ -249,12 +249,13 @@ python server.py --transport http --host 127.0.0.1 --port 8765
 
 不想装 Node.js、不想敲命令行？我们提供打包好的**单文件 `Barista.exe`**（内嵌 Python 运行时 + 纯静态站点，约 8 MB），双击即用：
 
-1. 从 [GitHub Releases](https://github.com/mkc2077/barista-skill/releases) 下载 `Barista.exe`
-2. 双击运行 → 自动打开默认浏览器进入应用（本机 `127.0.0.1` 随机端口）
-3. 退出：网页右下角点「⏹ 退出本地服务」，或直接关闭程序窗口
+1. 从 [GitHub Releases](https://github.com/mkc2077/barista-skill/releases) 下载 `Barista.exe`（或在本项目根目录找到已构建的 `Barista.exe`）
+2. 双击运行 → **自动启动本地 MCP Server**（需同目录有 `mcp-server/` 且系统已安装 Python 与 `mcp` 依赖）→ 自动打开默认浏览器进入应用（本机 `127.0.0.1` 随机端口）
+3. 在「API 设置」里填一次 API Key，点「保存设置」即可持久化到浏览器；MCP 工具开关默认已开启
+4. 退出：网页右下角点「⏹ 退出本地服务」，或直接关闭程序窗口
 
-> 原理：`next build` 静态导出为 `out/` + 一个零依赖的 Python 静态服务器（`launcher/server.py`），经 [PyInstaller](https://pyinstaller.org/) 打包为单 exe（内嵌 Python 运行时，约 8 MB），**零依赖、零安装**。
-> 自己构建：`cd web/next-app && npm install && pip install pyinstaller && npm run build:exe` → 生成 `dist/Barista.exe`。
+> 原理：`next build` 静态导出为 `out/` + 一个零依赖的 Python 静态服务器（`launcher/server.py`），经 [PyInstaller](https://pyinstaller.org/) 打包为单 exe（内嵌 Python 运行时，约 8 MB）。Web 设置保存在浏览器 localStorage，MCP 服务由 exe 自动拉起。
+> 自己构建：`cd web/next-app && npm install && pip install pyinstaller && npm run build:exe` → 成品复制到**项目根目录** `Barista.exe`（同时保留 `web/next-app/dist/Barista.exe`）。它已内嵌全部 Web 依赖，可随意复制到任意文件夹 / 桌面双击使用；若需 MCP 自动启动，请把 `mcp-server/` 一并放在同目录。
 
 详见 [`web/README.md`](web/README.md)（含三种方式对比表）。
 

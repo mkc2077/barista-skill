@@ -18,6 +18,8 @@ import sys
 import socket
 import time
 import tempfile
+import shutil
+import urllib.request
 
 # PyInstaller --noconsole 打包的 Windows exe 运行时 stdout/stderr 为 None，
 # 任何 print / sys.stderr.write 都会崩溃：'NoneType' object has no attribute 'write'。
@@ -46,6 +48,10 @@ BASE_DIR = (
     if getattr(sys, "_MEIPASS", None)
     else os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
 )
+
+MCP_HOST = "127.0.0.1"
+MCP_PORT = 8765
+_mcp_proc = None  # MCP Server 子进程句柄（退出时一并结束）
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
@@ -100,6 +106,8 @@ def _quit_tree():
     这里优先杀掉父进程 PID，再按镜像名 taskkill，最后兜底 os._exit。
     """
     time.sleep(0.05)
+    # 0) 先结束 MCP Server 子进程
+    _stop_mcp_server()
     # 1) 如果作为 PyInstaller onefile exe 运行，直接结束父进程（bootloader）
     if getattr(sys, "frozen", False) and getattr(sys, "_MEIPASS", None):
         parent = os.getppid()
@@ -109,6 +117,88 @@ def _quit_tree():
     _run_quit(["taskkill", "/F", "/IM", os.path.basename(sys.executable)])
     time.sleep(0.4)
     os._exit(0)  # 最终兜底：强制退出当前进程
+
+
+def _find_python():
+    """在 PATH 中找一个可用的 Python 解释器（Windows 上优先 py.exe）。"""
+    for name in ("py", "python", "python3"):
+        path = shutil.which(name)
+        if path:
+            return path
+    return None
+
+
+def _start_mcp_server():
+    """exe 模式下自动启动同目录下的 mcp-server/server.py（HTTP 模式）。
+
+    仅当作为 PyInstaller 打包的单文件 exe 运行时才触发；开发模式仍由 start.bat/start.sh
+    或手动启动。若找不到 Python 或 mcp-server 未就绪，则记录日志后继续（不影响 web 服务）。
+    """
+    global _mcp_proc
+    if not (getattr(sys, "frozen", False) and getattr(sys, "_MEIPASS", None)):
+        return
+
+    exe_dir = os.path.dirname(sys.executable)
+    mcp_script = os.path.join(exe_dir, "mcp-server", "server.py")
+    if not os.path.exists(mcp_script):
+        print("[MCP] 未找到同目录 mcp-server/server.py，跳过自动启动")
+        return
+
+    python = _find_python()
+    if not python:
+        print("[MCP] 未找到 Python 解释器，无法自动启动 MCP Server")
+        return
+
+    print(f"[MCP] 正在启动 MCP Server：{python} mcp-server/server.py --transport http")
+    try:
+        _mcp_proc = subprocess.Popen(
+            [python, mcp_script, "--transport", "http", "--host", MCP_HOST, "--port", str(MCP_PORT)],
+            cwd=os.path.dirname(mcp_script),
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            creationflags=0x08000000,  # CREATE_NO_WINDOW
+        )
+    except Exception as e:
+        print(f"[MCP] 启动失败：{e}")
+        return
+
+    # 等待 MCP Server 就绪，最多 15 秒
+    url = f"http://{MCP_HOST}:{MCP_PORT}/mcp"
+    for i in range(30):
+        time.sleep(0.5)
+        try:
+            req = urllib.request.Request(
+                url,
+                data=b'{"jsonrpc":"2.0","method":"tools/list","id":1}',
+                headers={
+                    "Content-Type": "application/json",
+                    "Accept": "application/json, text/event-stream",
+                },
+                method="POST",
+            )
+            with urllib.request.urlopen(req, timeout=2) as resp:
+                if resp.status == 200:
+                    print(f"[MCP] MCP Server 已就绪：{url}")
+                    return
+        except Exception:
+            continue
+    print("[MCP] MCP Server 15 秒内未就绪，请确认依赖已安装（pip install \"mcp[cli]\" starlette uvicorn）")
+
+
+def _stop_mcp_server():
+    """退出时结束 MCP Server 子进程。"""
+    global _mcp_proc
+    if _mcp_proc is None:
+        return
+    try:
+        _mcp_proc.terminate()
+        _mcp_proc.wait(timeout=2)
+    except Exception:
+        try:
+            _mcp_proc.kill()
+        except Exception:
+            pass
+    _mcp_proc = None
 
 
 def find_free_port(start=4173, end=4200):
@@ -141,6 +231,10 @@ def main():
         "  ⏹  退出：关闭此窗口，或在网页右下角点「退出本地服务」\n\n"
     )
     sys.stderr.flush()
+
+    # 在后台自动启动 MCP Server（仅 exe 模式）
+    threading.Thread(target=_start_mcp_server, daemon=True).start()
+
     try:
         webbrowser.open(url)
     except Exception:

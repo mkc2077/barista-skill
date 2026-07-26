@@ -9,3 +9,6 @@
 __pycache__/
 *.pyc
 .venv/
+
+# 打包分发产物（单文件 exe，由 web/next-app/scripts/build-exe.py 生成，已内嵌全部依赖）
+Barista.exe

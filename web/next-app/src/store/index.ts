@@ -62,7 +62,7 @@ const defaultSettings: Settings = {
   model: '',
   temperature: 0.7,
   customPrompt: '',
-  mcpEnabled: false,
+  mcpEnabled: true,
   mcpUrl: 'http://127.0.0.1:8765/mcp',
 }
 

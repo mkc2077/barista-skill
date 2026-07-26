@@ -64,5 +64,13 @@ step([
     os.path.join(NEXT, "launcher", "server.py"),
 ])
 
-print("\n✅ 完成：web/next-app/dist/Barista.exe")
-print("   双击 Barista.exe 即可在本机启动，自动打开浏览器。")
+# 4) 复制成品到项目根目录，方便用户一眼找到并双击启动（不在嵌套的 dist/ 里）
+PROJECT_ROOT = os.path.dirname(os.path.dirname(NEXT))  # barista-skill-tweak/
+built_exe = os.path.join(NEXT, "dist", "Barista.exe")
+if os.path.exists(built_exe):
+    shutil.copy2(built_exe, os.path.join(PROJECT_ROOT, "Barista.exe"))
+    print(f"\n📦 已复制到项目根目录：{os.path.join(PROJECT_ROOT, 'Barista.exe')}")
+else:
+    print("\n⚠️ 未找到构建产物 dist/Barista.exe")
+
+print("\n✅ 完成。推荐直接双击项目根目录的 Barista.exe 启动，自动打开浏览器。")

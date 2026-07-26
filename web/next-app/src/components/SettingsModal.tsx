@@ -6,7 +6,7 @@ import { PROVIDERS } from '@/lib/providers'
 import { DEFAULT_SYSTEM_PROMPT } from '@/lib/system-prompt'
 import { ModelSelector } from './ModelSelector'
 import { ThemeSwitcher } from './ThemeSwitcher'
-import { X, Download, Upload, ChevronDown, ChevronRight } from 'lucide-react'
+import { X, Download, Upload, ChevronDown, ChevronRight, Save, Check } from 'lucide-react'
 
 export function SettingsModal() {
   const settings = useStore((s) => s.settings)
@@ -15,7 +15,17 @@ export function SettingsModal() {
   const exportData = useStore((s) => s.exportData)
   const importData = useStore((s) => s.importData)
   const [showAdvanced, setShowAdvanced] = useState(false)
+  const [saved, setSaved] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const handleSave = () => {
+    // zustand persist 已自动写入 localStorage；Save 按钮提供显式反馈
+    setSaved(true)
+    setTimeout(() => {
+      setSaved(false)
+      setShowSettings(false)
+    }, 800)
+  }
 
   const handleProviderChange = (provider: string) => {
     const p = PROVIDERS[provider]
@@ -153,7 +163,7 @@ export function SettingsModal() {
               text-sm outline-none focus:border-theme-accent"
           />
           <p className="text-xs theme-text-dim mt-1">
-            启用后顾问可调用 24 个专业工具。用 start.bat / start.sh 一键启动 MCP Server。
+            启用后顾问可调用 24 个专业工具。运行 Barista.exe 会自动启动本地 MCP Server；也可手动运行 start.bat / start.sh。
           </p>
         </div>
 
@@ -197,14 +207,28 @@ export function SettingsModal() {
             <Upload className="w-4 h-4" />
             导入
           </button>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".json"
-            onChange={handleImport}
-            className="hidden"
-          />
         </div>
+
+        <button
+          onClick={handleSave}
+          disabled={saved}
+          className={`w-full mt-3 flex items-center justify-center gap-2 px-3 py-2.5
+            rounded-lg text-sm font-medium transition-colors
+            ${saved
+              ? 'bg-green-600 text-white'
+              : 'bg-theme-accent text-white hover:opacity-90'}`}
+        >
+          {saved ? <Check className="w-4 h-4" /> : <Save className="w-4 h-4" />}
+          {saved ? '已保存' : '保存设置'}
+        </button>
+
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".json"
+          onChange={handleImport}
+          className="hidden"
+        />
       </div>
     </div>
   )
