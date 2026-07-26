@@ -127,7 +127,7 @@ export function Sidebar() {
                       className="p-1 hover:bg-theme-hover rounded"
                       title="删除"
                     >
-                      <Trash2 className="w-3 h-3 theme-text-dim hover:theme-danger" />
+                      <Trash2 className="w-3 h-3 theme-text-dim hover:text-theme-danger" />
                     </button>
                   </div>
                 </div>

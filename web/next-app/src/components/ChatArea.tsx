@@ -68,7 +68,7 @@ export function ChatArea() {
             className="p-2 hover:bg-theme-hover rounded-lg transition-colors"
             title="删除对话"
           >
-            <Trash2 className="w-4 h-4 theme-text-dim hover:theme-danger" />
+            <Trash2 className="w-4 h-4 theme-text-dim hover:text-theme-danger" />
           </button>
         </div>
       </header>

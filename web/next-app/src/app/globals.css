@@ -156,3 +156,17 @@ body {
   0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
   30% { transform: translateY(-6px); opacity: 1; }
 }
+/* ===== Prose Markdown Overrides (theme-aware) ===== */
+.prose { color: var(--text); }
+.prose :where(h1, h2, h3, h4, h5, h6) { color: var(--primary); }
+.prose :where(a) { color: var(--accent); }
+.prose :where(strong) { color: var(--primary); }
+.prose :where(code) { color: var(--accent); background: var(--hover); padding: 0.125rem 0.25rem; border-radius: 0.25rem; }
+.prose :where(pre) { background: var(--bg-chat); border: 1px solid var(--border); }
+.prose :where(blockquote) { border-left-color: var(--accent); color: var(--text-dim); }
+.prose :where(ul, ol) { color: var(--text); }
+.prose :where(li)::marker { color: var(--accent); }
+.prose :where(table) { border-color: var(--border); }
+.prose :where(th) { color: var(--primary); border-color: var(--border); }
+.prose :where(td) { border-color: var(--border); }
+.prose :where(hr) { border-color: var(--border); }

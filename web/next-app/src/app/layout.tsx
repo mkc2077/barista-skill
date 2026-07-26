@@ -21,7 +21,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="theme-pour-over">
+      <body>
         {children}
       </body>
     </html>

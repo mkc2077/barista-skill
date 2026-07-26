@@ -54,7 +54,7 @@ export function WelcomeScreen() {
       {!hasApiKey && (
         <button
           onClick={() => setShowSettings(true)}
-          className="mt-4 flex items-center gap-1.5 text-sm theme-text-dim hover:theme-primary transition-colors"
+          className="mt-4 flex items-center gap-1.5 text-sm theme-text-dim hover:text-theme-primary transition-colors"
         >
           <Settings className="w-4 h-4" />
           请先点击设置 API
