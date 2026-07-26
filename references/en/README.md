@@ -7,7 +7,7 @@ grinder steps, flavor wheel groups, sensory-solution recipes, water TDS, etc.).
 > The Chinese originals remain the full source of truth under `references/` (one
 > level up). The English mirrors are a convenience for international agents/users.
 
-## Currently translated (13 / 23)
+## Currently translated (20 / 25)
 
 | File | Topic | Intl. value |
 |------|-------|------|
@@ -24,21 +24,32 @@ grinder steps, flavor wheel groups, sensory-solution recipes, water TDS, etc.).
 | champion-brewing.md | champion brewing index + dripper/filter-paper recipes (V60/Origami/Kasuya model) & champion dripper map | high |
 | craft-coffee.md | craft coffee as a standalone category: base specs + tea base + homemade syrup SOP + store-bought list + full build SOP | high |
 | learning-resources.md | curated coffee learning resources by stage + SCA cert system + searchable barista directory | medium |
+| brewing-coach-protocol.md | v4.0 closed-loop coaching protocol (state contracts + node call conventions) | high |
+| sca-certification.md | SCA CSP six modules + independent Q-Grader landscape | high |
+| qgrader-complete-guide.md | Q-Grader 8 exam categories + prep plan + resources | high |
+| sca-new-cva-guide.md | SCA CVA four tables (SCA-102~105) + 1-9 to 100-point conversion | high |
+| green-coffee-evaluation.md | SCA screen-size / moisture / defect grading + grade table | high |
+| triangle-test-protocol.md | SCA triangle test protocol + difficulty progression + training | medium |
+| coffee-sensory-chemistry.md | coffee chemistry (acids/alkaloids/Maillard) -> sensory mapping | medium |
 
-All 8 high-value core files + 2 medium-value gear files + 3 indexes/guides
-(champion-brewing, craft-coffee, learning-resources) are translated. The remaining 4 are CN-specific (jargon glossary, search templates, sample dialogues,
-eval cases) and translate to little for an English reader; deferred.
+All 13 high-value core files + 4 medium-value files + 3 indexes/guides
+(champion-brewing, craft-coffee, learning-resources) are now mirrored. The
+remaining 5 are CN-specific and translate to little for an English reader; deferred.
 
-## Not yet translated (4) -- see references/ (Chinese) originals
+## Not yet translated (5) -- see references/ (Chinese) originals
 
 | File | Topic | Intl. value |
 |------|-------|------|
+| human-voice-rules.md | 7 iron rules for rewriting tool JSON into plain-language chat | low (CN-centric) |
 | glossary.md | beginner jargon-ban list + plain swaps | low (CN-centric) |
 | search-queries.md | live-search query templates | low (CN templates) |
 | example-dialogues.md | sample conversations (8 scenarios) | low (CN) |
 | eval-cases.md | eval cases (21) | low (CN) |
 
-> The remaining 4 are CN-specific (Chinese jargon-ban glossary, Chinese search templates, 8 CN-language sample dialogues, 21 CN eval cases); translating them to English adds little for an English reader and is deferred. The high/medium-value files are all now mirrored.
+> The remaining 5 are CN-specific (Chinese jargon-ban glossary, Chinese search
+> templates, 8 CN-language sample dialogues, 21 CN eval cases, CN beginner
+> jargon-ban list); translating them to English adds little for an English reader
+> and is deferred.
 
 ## Notes for translators expanding this set
 - Use plain ASCII where possible; avoid em/en dashes (use `--`), write temps as

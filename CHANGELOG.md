@@ -4,6 +4,15 @@
 
 ---
 
+## [4.0.1] - 2026-07-26  (文档：补译 en 镜像债 — 7 篇 references 全镜像)
+
+### Changed
+- 补齐英文镜像：将 `brewing-coach-protocol` / `sca-certification` / `qgrader-complete-guide` / `sca-new-cva-guide` / `green-coffee-evaluation` / `triangle-test-protocol` / `coffee-sensory-chemistry` 七篇 references 翻译为 `references/en/` 镜像，并从 `allowed_mono` 豁免清单移除；剩余 5 篇 mono（eval-cases / example-dialogues / glossary / search-queries / human-voice-rules）保持中文原版。
+- `references/en/README.md` 刷新为 20 / 25；`SKILL.md` 英文镜像说明同步为 21 of 25。
+
+### Notes
+- 纯文档改动，不涉及 MCP 工具、data 结构或运行时行为；版本号仅作发布标记。
+
 ## [4.0.0] - 2026-07-26  (闭环教练 + 风味辨识 — 合并原路线图 v3.1→v3.4 为大版本)
 
 ### Added

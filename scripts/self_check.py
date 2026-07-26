@@ -164,10 +164,7 @@ def run_checks() -> int:
     en_dir = REFS / "en"
     en = {p.name for p in en_dir.glob("*.md")} if en_dir.exists() else set()
 
-    ALLOWED_MONO = {"eval-cases.md", "example-dialogues.md", "glossary.md", "search-queries.md", "human-voice-rules.md",
-                    "sca-certification.md", "qgrader-complete-guide.md", "green-coffee-evaluation.md",
-                    "triangle-test-protocol.md", "coffee-sensory-chemistry.md", "sca-new-cva-guide.md",
-                    "brewing-coach-protocol.md"}
+    ALLOWED_MONO = {"eval-cases.md", "example-dialogues.md", "glossary.md", "search-queries.md", "human-voice-rules.md"}
     missing_en = (cn - en) - ALLOWED_MONO
     allowed_missing = (cn - en) & ALLOWED_MONO
 

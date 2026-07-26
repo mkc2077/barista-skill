@@ -2,7 +2,7 @@
 name: barista
 description: 专属咖啡顾问 Skill——以连续穿透提问主导对话节奏，帮用户拆解问题、定位关键变量，而非被动 Q&A。覆盖意式萃取、手冲/法压/爱乐压/摩卡壶/冷萃/冰滴等 14 种冲煮 + 11 款经典奶咖、咖啡豆选存、感官品鉴、经典奶咖与特调配方、SCA 杯测、研磨校准、参数灵活应用、感官训练与学习资源、SCA 认证与 Q-Grader 考试体系。核心机制：先判定经验档位（新手/进阶/资深），新手全程大白话禁用术语。覆盖 14 种冲煮法、11 款经典奶咖与特调配方、联网核实名家配方与变压曲线、SCA 100 分杯测评分体系、磨豆机校准方法、金杯萃取参数调整矩阵、咖啡风味轮与系统化感官训练方案、冠军冲煮方案索引（粕谷哲 4:6/杜嘉宁/彭近洋等，含不同滤杯滤纸冲煮方案）与特调咖啡独立大类（含咖啡基底萃取方案/茶底/自制糖浆 SOP/采购辅料/完整操作步骤 SOP）。English: espresso & 14 brew methods, 11 classic milk drinks, beans, sensory, SCA cupping, grinder calibration, golden-cup params, flavor wheel, learning resources, champion brewing index (4:6 etc.) with dripper/filter-paper recipes & craft.signature coffee as a standalone category (base extraction specs / tea base / homemade syrup SOP / store-bought ingredients / full build SOP); bilingual (zh/en).
 license: MIT
-version: 4.0.0
+version: 4.0.1
 ---
 
 # Barista 咖啡师教练
@@ -257,7 +257,7 @@ Every template enforces: change ONE variable + verify after every change
 ## 参考资料
 详细映射与基础参数见 `references/`（英文镜像见 `references/en/`）：
 
-> **English mirrors / 英文镜像**: 14 of 24 reference files are translated under `references/en/` (incl. champion-brewing & craft-coffee). See `references/en/README.md` for full coverage. English users/agents read those directly; the Chinese originals remain the full source of truth. (6 篇 v3.0 SCA/Q-Grader 文档暂仅中文，en 镜像后续版本补齐)
+> **English mirrors / 英文镜像**: 21 of 25 reference files are mirrored under `references/en/` (incl. the 7 SCA/Q-Grader v3.0 docs + the v4.0 brewing-coach-protocol). See `references/en/README.md` for full coverage. English users/agents read those directly; the Chinese originals remain the full source of truth. The 5 remaining mono files (eval-cases / example-dialogues / glossary / search-queries / human-voice-rules) are CN-specific and intentionally untranslated.
 
 - [references/sensory.md](references/sensory.md) — 风味问题 → 调整动作（双栏）+ 品鉴方法 + 风味词典（30+ 词）+ 风味轮原理与使用 + 系统化感官训练方案
 - [references/beans.md](references/beans.md) — 豆标解读、选豆、豆性→萃取、新鲜度与保存（双栏）
