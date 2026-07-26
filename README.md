@@ -1,7 +1,7 @@
 # Barista 咖啡师教练技能 / Barista Coffee-Coach Skill
 
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Version](https://img.shields.io/badge/version-4.0.1-blue)
+![Version](https://img.shields.io/badge/version-4.1.0-blue)
 ![Methods](https://img.shields.io/badge/brew-14%20methods-success)
 ![Milk drinks](https://img.shields.io/badge/milk%20drinks-11-success)
 ![MCP tools](https://img.shields.io/badge/MCP%20tools-24-blueviolet)
@@ -122,6 +122,7 @@ barista-skill/
 │   ├── defect_beans.json            # [v3.0] 瑕疵豆分类与扣分
 │   ├── coffee_chemistry_sensory.json# [v3.0] 咖啡化学与感官映射
 │   ├── sca_official_sources.json    # [v3.0] 已验证来源索引
+├── web/                      # 本地 HTML 版 (barista-chat.html, 零后端, 自带 API 适配层)
 ├── scripts/                   # self_check.py — 一致性自检 (33 项 PASS/FAIL)
 └── references/               # 25 个参考文件 (中文原版 = 真相源)
     ├── report_templates/     # 4 个顾问输出模板 + README
@@ -158,6 +159,15 @@ barista-skill/
 | 其他 / Other | 放入项目上下文目录，在系统提示中引用 |
 
 MCP 用法见 [`mcp-server/README.md`](mcp-server/README.md)（`pip install "mcp[cli]"` + 配置客户端）。
+
+
+## 本地 HTML 版（零后端）/ Local HTML runner (zero-backend)
+
+不想配 MCP、不想装 Python，只想在浏览器里直接聊？用 `web/barista-chat.html`——单文件、双击即开，自带 API 适配层（OpenAI / Claude / DeepSeek / Qwen / Kimi / GLM / Ollama / 自定义），内嵌完整系统提示词。API Key 仅存本地浏览器。
+
+Don't want MCP or Python? Open `web/barista-chat.html` — a single file, double-click to run, with a built-in API adapter (OpenAI / Claude / DeepSeek / Qwen / Kimi / GLM / Ollama / custom) and the full system prompt embedded. API key stays in your browser only.
+
+详见 [`web/README.md`](web/README.md)。
 
 ## 使用 / Usage
 
