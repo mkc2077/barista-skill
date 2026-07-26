@@ -42,6 +42,8 @@ npm install
 npm run dev
 ```
 
+> 需要 **Node.js 20 及以上**（Next.js 16 的运行要求）。
+
 打开 `http://localhost:3000`。相比单文件 HTML 版的额外功能：
 - **多对话管理**：侧边栏创建/切换/删除/重命名对话，自动生成标题
 - **4 种咖啡主题**：浅烘 (light-roast) / 手冲 (pour-over) / 深烘 (dark-roast) / 浓缩 (espresso)

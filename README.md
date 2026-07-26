@@ -18,7 +18,7 @@
 
 附带一个标准 MCP server（`barista-mcp`），可在 Claude Desktop / Cursor / ChatGPT 中直接调用（需 MCP 客户端）。详见 [mcp-server/README.md](mcp-server/README.md)。
 
-> **v4.3 新增 Next.js 全功能版**：`web/next-app/` 基于 Next.js 14 + TypeScript + Tailwind CSS + Zustand，新增多对话管理、4 种咖啡主题、本地模型自动发现、导入/导出等功能。原单文件 HTML 版保留为零依赖轻量版。详见下方「本地版」章节。
+> **v4.3 新增 Next.js 全功能版**：`web/next-app/` 基于 Next.js 16 + React 19 + TypeScript + Tailwind CSS + Zustand，新增多对话管理、4 种咖啡主题、本地模型自动发现、导入/导出等功能。原单文件 HTML 版保留为零依赖轻量版。详见下方「本地版」章节。
 
 > **部署方式 / Deployment** — 本 Skill 是为 Claude Code / Coze / WorkBuddy / QoderWork 等平台设计的 **Skill 文件**，由平台托管模型与 API key，你不需要 own 任何模型管理。下载目录 → 放入平台技能目录 → 即用。
 
@@ -198,7 +198,7 @@ Single-file, double-click to run, built-in API adapter + full system prompt. API
 
 ### 方式 C：Next.js 全功能版（v4.3 新增）/ Next.js full-featured version (v4.3)
 
-`web/next-app/`——Next.js 14 + TypeScript + Tailwind CSS + Zustand，适合日常使用。
+`web/next-app/`——Next.js 16 + React 19 + TypeScript + Tailwind CSS + Zustand，适合日常使用（需 Node.js 20+）。
 
 #### 第一步：安装并启动 Next.js 应用
 
