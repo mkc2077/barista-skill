@@ -126,7 +126,7 @@ TUNING_MATRIX = _load_data("parameters_tuning_matrix.json")
 CRAFT_CHAINS = _load_data("craft_chains_and_caffeine_free.json")
 
 
-mcp = FastMCP("barista")
+mcp = FastMCP("barista", stateless_http=True)
 
 
 @mcp.tool()
@@ -1322,8 +1322,60 @@ def next_step(context: str = "", problem: str = "", goal: str = "", equipment: s
 
 
 def main() -> None:
-    """Entry point used by the console script `barista-mcp`."""
-    mcp.run(transport="stdio")
+    """Entry point used by the console script `barista-mcp`.
+
+    Default: stdio transport (for MCP clients like Claude Desktop / TRAE / Cursor).
+    With --http: streamable-http on localhost:8765 (for browser clients like web/barista-chat.html).
+    """
+    import argparse
+    parser = argparse.ArgumentParser(description="Barista MCP Server")
+    parser.add_argument("--transport", choices=["stdio", "http"], default="stdio",
+                        help="Transport: stdio (default, MCP clients) or http (browser)")
+    parser.add_argument("--host", default="127.0.0.1", help="HTTP host (default 127.0.0.1)")
+    parser.add_argument("--port", type=int, default=8765, help="HTTP port (default 8765)")
+    args = parser.parse_args()
+
+    if args.transport == "http":
+        _run_http(args.host, args.port)
+    else:
+        mcp.run(transport="stdio")
+
+
+def _run_http(host: str, port: int) -> None:
+    """Run MCP server in streamable-http mode with CORS (for browser clients).
+
+    stateless_http=True on the FastMCP instance allows browser fetch to call
+    tools/list and tools/call directly without MCP session-id handshake.
+    """
+    try:
+        from starlette.applications import Starlette
+        from starlette.middleware import Middleware
+        from starlette.middleware.cors import CORSMiddleware
+        from starlette.routing import Mount
+        import uvicorn
+    except ImportError:
+        import sys
+        print("ERROR: HTTP mode requires starlette and uvicorn.", file=sys.stderr)
+        print('Install: pip install "mcp[cli]" starlette uvicorn', file=sys.stderr)
+        print("Or use the one-click starter: start.bat / start.sh", file=sys.stderr)
+        raise SystemExit(1)
+
+    mcp_app = mcp.streamable_http_app()
+    app = Starlette(
+        routes=[Mount("/", app=mcp_app)],
+        middleware=[
+            Middleware(
+                CORSMiddleware,
+                allow_origins=["*"],
+                allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
+                allow_headers=["*"],
+            ),
+        ],
+        lifespan=mcp_app.lifespan,
+    )
+    print(f"Barista MCP Server (HTTP) -> http://{host}:{port}/mcp")
+    print(f"24 tools available. Ctrl+C to stop.")
+    uvicorn.run(app, host=host, port=port)
 
 
 if __name__ == "__main__":

@@ -3,6 +3,31 @@
 本文件记录 barista 技能的版本变更。版本号遵循 [语义化版本](https://semver.org/)：主版本.次版本.修订号。
 
 ---
+## [4.2.0] - 2026-07-26
+
+### 新增（一键启动 + HTML ↔ MCP 联动）
+- **一键启动脚本 `start.bat` / `start.sh`** — 双击即可完成"检查 Python → 安装依赖 → 启动 MCP Server (HTTP) → 打开浏览器"全流程，零手动配置：
+  - 自动检测 `py.exe` / `python3` / `python`，缺 `mcp` / `starlette` / `uvicorn` 时自动安装。
+  - 后台启动 MCP Server（`--transport http --host 127.0.0.1 --port 8765`），轮询等待就绪后自动打开 `web/barista-chat.html`。
+- **MCP Server 新增 HTTP 传输模式**（`server.py --transport http`）：
+  - 基于 FastMCP `streamable_http_app()` + Starlette CORS 中间件，浏览器可直接 `fetch` 调用 `tools/list` 与 `tools/call`。
+  - `stateless_http=True` 免除 MCP session-id 握手，浏览器无需维护会话状态。
+  - 保留原 `stdio` 传输（默认），Claude Desktop / Cursor / TRAE 等 MCP 客户端零影响。
+- **HTML 版新增 MCP 工具调用**（`web/barista-chat.html`）：
+  - 设置面板新增「启用 MCP 工具」开关 + MCP Server 地址输入框（默认 `http://127.0.0.1:8765/mcp`）。
+  - 内置 `MCPClient` 类：JSON-RPC over HTTP，缓存 `tools/list` 结果，将 MCP 工具 schema 转为 OpenAI function-calling 格式。
+  - `chatWithMCP()` 函数调用循环：LLM → tool_calls → 执行 MCP 工具 → 结果回传 → LLM 再思考，最多 8 轮，实时显示「🔧 调用工具: xxx」状态。
+  - 启用 MCP 后顾问可调用全部 24 个专业工具（冲煮参数 / 故障诊断 / 杯测评分 / 研磨校准等），数据源从静态提示词升级为 28 个 JSON 动态查询。
+  - 向后兼容：未启用 MCP 时走原流式路径，行为与 v4.1.0 完全一致；Anthropic Claude 自动回退流式模式（暂不支持工具调用）。
+- **`pyproject.toml`** 新增 `[http]` optional dependencies（`starlette` + `uvicorn`），`mcp` 最低版本提升至 `1.8.0`。
+
+### 验证
+- Python 语法检查通过（`py_compile`）
+- JavaScript 语法检查通过（`new Function()` 构造成功）
+- MCP Server stdio 模式向后兼容（默认传输不变）
+- HTML 未启用 MCP 时行为与 v4.1.0 一致（流式 + 可中断 + 本地持久化）
+
+---
 ## [4.1.0] - 2026-07-26
 
 ### 新增（本地 HTML 版）

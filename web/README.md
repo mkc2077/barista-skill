@@ -10,8 +10,11 @@
 - **流式响应 + 可中断**：实时打字效果，随时点"停止"保留已生成内容。
 - **本地持久化**：API 配置与对话历史仅存于浏览器 `localStorage`，不上传任何服务器。
 - **三档自适应**：根据用户描述自动判断新手/进阶/资深，切换术语与参数粒度。
+- **[v4.2] 可选 MCP 工具调用**：启用后顾问可调用 24 个专业工具（冲煮参数查询、故障诊断、杯测评分、研磨校准等），数据源从静态提示词升级为 28 个 JSON 动态查询。需本地运行 MCP Server（用 `start.bat` / `start.sh` 一键启动）。
 
 ## 快速开始 / Quick start
+
+### 方式一：纯浏览器（零依赖）/ Option A: Browser-only (zero deps)
 
 1. 双击打开 `barista-chat.html`（任何现代浏览器：Chrome / Edge / Firefox / Safari）。
 2. 点击右上角 ⚙ 设置图标。
@@ -20,6 +23,15 @@
 5. 或直接在输入框提问，例如："我手冲太苦了怎么办"、"新手想做拿铁"、"SOE 直饮太酸"。
 
 > **Ollama 用户**：无需填 API Key，确保本地已运行 `ollama serve` 并已 `ollama pull` 对应模型即可。
+
+### 方式二：一键启动（HTML + MCP 工具）/ Option B: One-click starter (HTML + MCP tools)
+
+1. 双击仓库根目录的 `start.bat`（Windows）或终端运行 `bash start.sh`（macOS / Linux）。
+2. 脚本自动：检测 Python → 安装依赖 → 启动 MCP Server (HTTP) → 打开浏览器。
+3. 在浏览器设置里勾选「启用 MCP 工具」（地址已预填 `http://127.0.0.1:8765/mcp`）。
+4. 顾问现在可以调用 24 个专业工具——问"帮我查手冲参数"时它会调 `get_recipe`，说"浓缩太苦"时它会调 `diagnose_flavor`。
+
+> **注意**：MCP 工具模式仅支持 OpenAI 兼容 API（OpenAI / DeepSeek / Qwen / Kimi / GLM / Ollama / 自定义）。Anthropic Claude 暂不支持工具调用，会自动回退流式模式。
 
 ## 隐私 / Privacy
 
@@ -33,11 +45,11 @@
 |---|---|---|
 | 运行环境 | 浏览器（纯前端） | Python 进程 |
 | 数据源 | 内嵌于系统提示词（静态） | 28 个 JSON 数据文件（动态查询） |
-| 工具调用 | 无（纯对话） | 24 个双语 MCP 工具 |
+| 工具调用 | 可选：启用 MCP 后支持 24 个工具（[v4.2]） | 24 个双语 MCP 工具（原生） |
 | 适用场景 | 个人本地使用、快速体验 | Agent 平台集成、程序化调用 |
 | 联网检索 | 不支持 | 支持（点名冠军/博主/变压时） |
 
-HTML 版是"轻量体验版"，MCP Server 是"完整功能版"。需要联网检索、报告模板、杯测评分等进阶能力时，请使用 MCP Server。
+HTML 版是"轻量体验版"，MCP Server 是"完整功能版"。v4.2 起，通过 `start.bat` / `start.sh` 一键启动可让 HTML 版调用 MCP Server 的全部 24 个工具，兼顾简洁界面与完整功能。
 
 ## 许可 / License
 

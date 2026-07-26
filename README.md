@@ -1,7 +1,7 @@
 # Barista 咖啡师教练技能 / Barista Coffee-Coach Skill
 
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Version](https://img.shields.io/badge/version-4.1.0-blue)
+![Version](https://img.shields.io/badge/version-4.2.0-blue)
 ![Methods](https://img.shields.io/badge/brew-14%20methods-success)
 ![Milk drinks](https://img.shields.io/badge/milk%20drinks-11-success)
 ![MCP tools](https://img.shields.io/badge/MCP%20tools-24-blueviolet)
@@ -109,6 +109,8 @@ barista-skill/
 ├── README.md                 # 本文件
 ├── LICENSE                   # MIT
 ├── .gitignore
+├── start.bat                 # [v4.2] Windows 一键启动 (MCP Server + 浏览器)
+├── start.sh                  # [v4.2] macOS/Linux 一键启动
 ├── mcp-server/               # MCP 服务 (24 bilingual tools)
 │   ├── server.py / test_server.py
 │   ├── pyproject.toml / README.md
@@ -122,7 +124,7 @@ barista-skill/
 │   ├── defect_beans.json            # [v3.0] 瑕疵豆分类与扣分
 │   ├── coffee_chemistry_sensory.json# [v3.0] 咖啡化学与感官映射
 │   ├── sca_official_sources.json    # [v3.0] 已验证来源索引
-├── web/                      # 本地 HTML 版 (barista-chat.html, 零后端, 自带 API 适配层)
+├── web/                      # 本地 HTML 版 (barista-chat.html, 零后端, 自带 API 适配层, [v4.2] 可选 MCP 工具调用)
 ├── scripts/                   # self_check.py — 一致性自检 (33 项 PASS/FAIL)
 └── references/               # 25 个参考文件 (中文原版 = 真相源)
     ├── report_templates/     # 4 个顾问输出模板 + README
@@ -168,6 +170,16 @@ MCP 用法见 [`mcp-server/README.md`](mcp-server/README.md)（`pip install "mcp
 Don't want MCP or Python? Open `web/barista-chat.html` — a single file, double-click to run, with a built-in API adapter (OpenAI / Claude / DeepSeek / Qwen / Kimi / GLM / Ollama / custom) and the full system prompt embedded. API key stays in your browser only.
 
 详见 [`web/README.md`](web/README.md)。
+
+### 一键启动（HTML + MCP Server 联动）/ One-click starter (HTML + MCP Server)
+
+想要 HTML 版的简洁界面 + MCP Server 的 24 个专业工具？双击 `start.bat`（Windows）或运行 `bash start.sh`（macOS / Linux）即可：
+
+1. 自动检测 Python 并安装依赖（`mcp` / `starlette` / `uvicorn`）
+2. 后台启动 MCP Server（HTTP 模式，`127.0.0.1:8765`）
+3. 自动打开浏览器 → 在设置里勾选「启用 MCP 工具」→ 顾问即可调用冲煮参数查询、故障诊断、杯测评分等 24 个工具
+
+> 零配置：脚本会自动处理依赖安装、服务器启动、浏览器打开。关闭后台 MCP 窗口即可停止服务器。
 
 ## 使用 / Usage
 

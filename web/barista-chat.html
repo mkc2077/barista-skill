@@ -377,6 +377,12 @@ header {
       <div class="hint-text">越高越有创意，越低越稳定。推荐 0.6-0.8</div>
     </div>
 
+    <div class="form-group">
+      <label><input type="checkbox" id="mcp-enabled" style="width:auto;margin-right:6px">启用 MCP 工具（需本地运行 MCP Server）</label>
+      <input type="text" id="mcp-url-input" placeholder="http://127.0.0.1:8765/mcp">
+      <div class="hint-text">启用后顾问可调用 24 个专业工具（冲煮参数/故障诊断/杯测评分等）。用 start.bat / start.sh 一键启动 MCP Server。仅支持 OpenAI 兼容 API（Anthropic 暂不支持工具模式）。</div>
+    </div>
+
     <button class="advanced-toggle" id="advanced-toggle">▸ 高级设置（查看/编辑系统提示词）</button>
     <div class="advanced-section" id="advanced-section">
       <div class="form-group">
@@ -654,7 +660,7 @@ const PROVIDERS = {
 
 // ===== State =====
 let chatHistory = [];
-let config = { provider: '', apiKey: '', baseUrl: '', model: '', temperature: 0.7, customPrompt: '' };
+let config = { provider: '', apiKey: '', baseUrl: '', model: '', temperature: 0.7, customPrompt: '', mcpUrl: 'http://127.0.0.1:8765/mcp', mcpEnabled: false };
 let isStreaming = false;
 let abortController = null;
 
@@ -791,6 +797,142 @@ class LLMAdapter {
   }
 }
 
+// ===== MCP Client (JSON-RPC over HTTP, stateless) =====
+class MCPClient {
+  constructor(url) {
+    this.url = url;
+    this._id = 1;
+    this._toolsCache = null;
+  }
+
+  async _rpc(method, params) {
+    const resp = await fetch(this.url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json, text/event-stream' },
+      body: JSON.stringify({ jsonrpc: '2.0', method, params: params || {}, id: this._id++ }),
+      signal: abortController?.signal
+    });
+    if (!resp.ok) throw new Error(`MCP 错误 (${resp.status}): ${await resp.text()}`);
+    const data = await resp.json();
+    if (data.error) throw new Error(`MCP: ${data.error.message || JSON.stringify(data.error)}`);
+    return data.result;
+  }
+
+  async listTools() {
+    if (this._toolsCache) return this._toolsCache;
+    const result = await this._rpc('tools/list', {});
+    this._toolsCache = result.tools || [];
+    return this._toolsCache;
+  }
+
+  async callTool(name, args) {
+    const result = await this._rpc('tools/call', { name, arguments: args || {} });
+    // MCP returns content array; join text blocks
+    if (result.content) {
+      return result.content.filter(c => c.type === 'text').map(c => c.text).join('\n');
+    }
+    return JSON.stringify(result);
+  }
+
+  /** Convert MCP tools to OpenAI function-calling tools format */
+  toOpenAITools(mcpTools) {
+    return mcpTools.map(t => ({
+      type: 'function',
+      function: {
+        name: t.name,
+        description: (t.description || '').substring(0, 1024),
+        parameters: t.inputSchema || { type: 'object', properties: {} }
+      }
+    }));
+  }
+}
+
+// ===== Non-streaming chat with tool support (for function calling loop) =====
+async function chatOnce(adapter, messages, tools) {
+  const body = {
+    model: adapter.model,
+    messages: messages.map(m => ({ role: m.role, content: m.content, ...(m.tool_calls ? { tool_calls: m.tool_calls } : {}), ...(m.tool_call_id ? { tool_call_id: m.tool_call_id } : {}), ...(m.name ? { name: m.name } : {}) })),
+    temperature: adapter.temperature,
+    stream: false
+  };
+  if (tools && tools.length) body.tools = tools;
+  const headers = { 'Content-Type': 'application/json' };
+  if (adapter.apiKey) headers['Authorization'] = `Bearer ${adapter.apiKey}`;
+  const resp = await fetch(`${adapter.baseUrl}/chat/completions`, { method: 'POST', headers, body: JSON.stringify(body), signal: abortController?.signal });
+  if (!resp.ok) {
+    const errText = await resp.text();
+    let errMsg = `API 错误 (${resp.status})`;
+    try { const e = JSON.parse(errText); errMsg += `: ${e.error?.message || e.message || errText}`; }
+    catch { errMsg += `: ${errText.substring(0, 200)}`; }
+    throw new Error(errMsg);
+  }
+  const data = await resp.json();
+  return data.choices?.[0]?.message || { role: 'assistant', content: '' };
+}
+
+// ===== MCP-aware chat (non-streaming, with function calling loop) =====
+async function chatWithMCP(adapter, messages, bubble) {
+  const mcp = new MCPClient(config.mcpUrl);
+
+  // Connect + load tools
+  updateMessage(bubble, '🔧 正在连接 MCP Server...');
+  let tools;
+  try {
+    const mcpTools = await mcp.listTools();
+    tools = mcp.toOpenAITools(mcpTools);
+  } catch (err) {
+    throw new Error(`MCP 连接失败: ${err.message}\n请确认 MCP Server 已启动（运行 start.bat / start.sh），且地址正确。`);
+  }
+  updateMessage(bubble, `✅ 已加载 ${tools.length} 个工具，正在思考...`);
+
+  const workingMessages = [...messages];
+  let fullResponse = '';
+  const MAX_TOOL_ROUNDS = 8;
+
+  for (let round = 0; round < MAX_TOOL_ROUNDS; round++) {
+    const assistantMsg = await chatOnce(adapter, workingMessages, tools);
+
+    // No tool calls → final answer
+    if (!assistantMsg.tool_calls || assistantMsg.tool_calls.length === 0) {
+      fullResponse = assistantMsg.content || '';
+      updateMessage(bubble, fullResponse || '（空回复）');
+      return fullResponse;
+    }
+
+    // Add assistant message (with tool_calls) to working messages
+    workingMessages.push(assistantMsg);
+
+    // Execute each tool call
+    for (const tc of assistantMsg.tool_calls) {
+      const toolName = tc.function.name;
+      let args = {};
+      try { args = JSON.parse(tc.function.arguments || '{}'); } catch {}
+
+      updateMessage(bubble, `🔧 调用工具: \`${toolName}\`...`);
+
+      let toolResult;
+      try {
+        toolResult = await mcp.callTool(toolName, args);
+      } catch (err) {
+        toolResult = `工具调用失败: ${err.message}`;
+      }
+
+      workingMessages.push({
+        role: 'tool',
+        tool_call_id: tc.id,
+        name: toolName,
+        content: toolResult
+      });
+    }
+
+    updateMessage(bubble, '☕ 正在根据工具结果思考...');
+  }
+
+  fullResponse = '（工具调用轮次已达上限，请简化问题后重试）';
+  updateMessage(bubble, fullResponse);
+  return fullResponse;
+}
+
 // ===== Config Management =====
 function loadConfig() {
   try {
@@ -822,7 +964,8 @@ function getAdapter() {
 function updateStatus() {
   const adapter = getAdapter();
   if (adapter) {
-    elStatus.textContent = `${PROVIDERS[config.provider]?.name || '自定义'} · ${config.model}`;
+    const mcpTag = config.mcpEnabled ? ' · MCP' : '';
+    elStatus.textContent = `${PROVIDERS[config.provider]?.name || '自定义'} · ${config.model}${mcpTag}`;
     elStatus.className = 'status-badge connected';
     $('btn-start').disabled = false;
   } else {
@@ -958,14 +1101,21 @@ async function sendMessage() {
       ...chatHistory.map(m => ({ role: m.role, content: m.content }))
     ];
 
-    for await (const chunk of adapter.chatStream(messages)) {
-      fullResponse += chunk;
-      updateMessage(bubble, fullResponse);
+    // MCP-enabled path (OpenAI-compatible providers only; Anthropic uses native streaming)
+    if (config.mcpEnabled && config.mcpUrl && adapter.type !== 'anthropic') {
+      fullResponse = await chatWithMCP(adapter, messages, bubble);
+    } else {
+      // Original streaming path (backward compatible)
+      for await (const chunk of adapter.chatStream(messages)) {
+        fullResponse += chunk;
+        updateMessage(bubble, fullResponse);
+      }
+      if (!fullResponse) {
+        updateMessage(bubble, '（空回复，请检查 API 配置或重试）');
+      }
     }
 
-    if (!fullResponse) {
-      updateMessage(bubble, '（空回复，请检查 API 配置或重试）');
-    } else {
+    if (fullResponse) {
       chatHistory.push({ role: 'assistant', content: fullResponse });
       saveChatHistory();
     }
@@ -979,8 +1129,10 @@ async function sendMessage() {
         updateMessage(bubble, '（已停止）');
       }
     } else {
-      const errEl = addMessage('error', '');
-      errEl.innerHTML = `⚠ ${err.message}<br><br>可能原因：<br>• API Key 错误或过期<br>• Base URL 不正确<br>• 网络/CORS 限制（部分 API 不支持浏览器直接调用）<br>• 模型名不正确<br><br>请点击 ⚙ 检查设置`;
+      updateMessage(bubble, `⚠ ${err.message}`);
+      bubble.style.background = 'var(--color-error-bg)';
+      bubble.style.color = 'var(--color-error)';
+      bubble.style.borderColor = '#ffcdd2';
     }
   } finally {
     isStreaming = false;
@@ -1021,9 +1173,13 @@ async function startConversation() {
       { role: 'user', content: trigger }
     ];
 
-    for await (const chunk of adapter.chatStream(messages)) {
-      fullResponse += chunk;
-      updateMessage(bubble, fullResponse);
+    if (config.mcpEnabled && config.mcpUrl && adapter.type !== 'anthropic') {
+      fullResponse = await chatWithMCP(adapter, messages, bubble);
+    } else {
+      for await (const chunk of adapter.chatStream(messages)) {
+        fullResponse += chunk;
+        updateMessage(bubble, fullResponse);
+      }
     }
 
     if (fullResponse) {
@@ -1040,9 +1196,10 @@ async function startConversation() {
         updateMessage(bubble, '（已停止）');
       }
     } else {
-      bubble.innerHTML = `⚠ ${err.message}<br><br>请点击 ⚙ 检查 API 设置`;
+      updateMessage(bubble, `⚠ ${err.message}`);
       bubble.style.background = 'var(--color-error-bg)';
       bubble.style.color = 'var(--color-error)';
+      bubble.style.borderColor = '#ffcdd2';
     }
   } finally {
     isStreaming = false;
@@ -1093,6 +1250,9 @@ function openSettings() {
   $('temp-value').textContent = config.temperature;
   $('system-prompt-edit').value = config.customPrompt || DEFAULT_SYSTEM_PROMPT;
 
+  $('mcp-enabled').checked = config.mcpEnabled || false;
+  $('mcp-url-input').value = config.mcpUrl || 'http://127.0.0.1:8765/mcp';
+
   updateModelPresets();
   $('settings-modal').classList.remove('hidden');
 }
@@ -1136,6 +1296,8 @@ function saveSettings() {
   config.customPrompt = $('system-prompt-edit').value.trim() !== DEFAULT_SYSTEM_PROMPT
     ? $('system-prompt-edit').value.trim()
     : '';
+  config.mcpEnabled = $('mcp-enabled').checked;
+  config.mcpUrl = $('mcp-url-input').value.trim() || 'http://127.0.0.1:8765/mcp';
   saveConfig();
   updateStatus();
   closeSettings();
