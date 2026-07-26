@@ -25,7 +25,22 @@ export class MCPClient {
       signal,
     })
     if (!resp.ok) throw new Error(`MCP 错误 (${resp.status}): ${await resp.text()}`)
-    const data = await resp.json()
+
+    // MCP 1.28+ returns SSE format (text/event-stream): "event: message\ndata: {json}\n\n"
+    // Extract the JSON from the data: lines
+    const text = await resp.text()
+    let data: any
+    if (text.trim().startsWith('{')) {
+      // Plain JSON response
+      data = JSON.parse(text)
+    } else {
+      // SSE format: find the last data: line and parse it
+      const dataLines = text.split('\n').filter(l => l.startsWith('data:'))
+      if (dataLines.length === 0) throw new Error('MCP: 响应中无 data 行')
+      // Use the last data line (final result)
+      const jsonStr = dataLines[dataLines.length - 1].slice(5).trim()
+      data = JSON.parse(jsonStr)
+    }
     if (data.error) throw new Error(`MCP: ${data.error.message || JSON.stringify(data.error)}`)
     return data.result
   }

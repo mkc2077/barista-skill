@@ -903,7 +903,16 @@ class MCPClient {
       signal: abortController?.signal
     });
     if (!resp.ok) throw new Error(`MCP 错误 (${resp.status}): ${await resp.text()}`);
-    const data = await resp.json();
+    // MCP 1.28+ returns SSE format: "event: message\ndata: {json}\n\n"
+    const text = await resp.text();
+    let data;
+    if (text.trim().startsWith('{')) {
+      data = JSON.parse(text);
+    } else {
+      const dataLines = text.split('\n').filter(l => l.startsWith('data:'));
+      if (dataLines.length === 0) throw new Error('MCP: no data line in response');
+      data = JSON.parse(dataLines[dataLines.length - 1].slice(5).trim());
+    }
     if (data.error) throw new Error(`MCP: ${data.error.message || JSON.stringify(data.error)}`);
     return data.result;
   }
