@@ -3,6 +3,29 @@
 本文件记录 barista 技能的版本变更。版本号遵循 [语义化版本](https://semver.org/)：主版本.次版本.修订号。
 
 ---
+## [4.3.0] - 2026-07-26
+
+### 新增（Next.js 全功能版）
+- **`web/next-app/`** — Next.js 14 + TypeScript + Tailwind CSS + Zustand 全功能咖啡顾问应用：
+  - **多对话管理**：侧边栏支持创建/切换/删除/重命名对话，首条用户消息自动生成对话标题，Zustand persist 中间件自动持久化到 localStorage。
+  - **4 种咖啡主题**：浅烘 (light-roast) / 手冲 (pour-over) / 深烘 (dark-roast) / 浓缩 (espresso)，CSS 变量驱动，实时切换。
+  - **本地模型自动发现**：`useLocalModels` Hook 通过 fetch `/v1/models` 自动发现 Ollama / LM Studio / vLLM 可用模型，支持连接测试。
+  - **导入/导出**：对话历史和设置可导出为 JSON 文件，导入恢复，方便备份和迁移。
+  - **完整 MCP 集成**：与 HTML 版相同的 MCP 工具调用循环（`chatWithMCP`），支持 24 个专业工具。
+  - **组件化架构**：8 个 React 组件（Sidebar / ChatArea / ChatMessage / ChatInput / WelcomeScreen / SettingsModal / ModelSelector / ThemeSwitcher），TypeScript 类型安全。
+  - **LLM 适配层迁移**：`llm-adapter.ts` + `mcp-client.ts` + `providers.ts` + `system-prompt.ts` 从 HTML 版迁移为 TypeScript 模块。
+- **`docs/superpowers/specs/2026-07-26-nextjs-migration-design.md`** — 迁移设计文档。
+- **`docs/superpowers/plans/2026-07-26-nextjs-migration-plan.md`** — 12 任务实现计划。
+
+### 保留
+- `web/barista-chat.html` 单文件 HTML 版保留为零依赖轻量版，行为与 v4.2.0 一致。
+
+### 验证
+- TypeScript 类型检查通过（`npx tsc --noEmit`，零错误）
+- Next.js 生产构建通过（`npm run build`，零错误）
+- 构建产物：首页 53.5 kB，First Load JS 141 kB
+
+---
 ## [4.2.0] - 2026-07-26
 
 ### 新增（一键启动 + HTML ↔ MCP 联动）

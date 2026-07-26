@@ -1,16 +1,17 @@
-# Barista 本地 HTML 版 / Local HTML runner
+# Barista 本地咖啡顾问 / Local Coffee Consultant
 
-一个**纯浏览器、零后端**的本地咖啡顾问——把 `barista-skill` 的核心知识装进单个 HTML 文件，用户自己接入 LLM API Key 即可运行。A **browser-only, zero-backend** local coffee consultant — the core knowledge of `barista-skill` packed into a single HTML file; bring your own LLM API key.
+三种使用方式：**纯浏览器单文件**（零依赖）、**一键启动**（HTML + MCP 工具）、**Next.js 开发版**（完整功能）。Three options: **single-file HTML** (zero deps), **one-click starter** (HTML + MCP tools), **Next.js dev version** (full features).
 
 ## 特性 / Features
 
-- **单文件部署**：一个 `barista-chat.html`（约 41 KB），双击即开，无需安装任何依赖。
+- **多版本部署**：单文件 HTML（~41 KB）或 Next.js 全功能版，按需选择。
 - **自带 API 适配层**：支持 OpenAI / Anthropic Claude / DeepSeek / 通义千问 / Kimi / 智谱 GLM / Ollama（本地）/ 任意 OpenAI 兼容端点。
-- **顾问主导对话**：内嵌完整系统提示词（14 种冲煮法 + 11 款奶咖 + 故障决策树 + 新手术语表 + 说人话铁律），AI 会用穿透式追问主导对话，而非被动问答。
+- **顾问主导对话**：内嵌完整系统提示词（14 种冲煮法 + 11 款奶咖 + 故障决策树 + 新术语表 + 说人话铁律），AI 会用穿透式追问主导对话，而非被动问答。
 - **流式响应 + 可中断**：实时打字效果，随时点"停止"保留已生成内容。
 - **本地持久化**：API 配置与对话历史仅存于浏览器 `localStorage`，不上传任何服务器。
 - **三档自适应**：根据用户描述自动判断新手/进阶/资深，切换术语与参数粒度。
 - **[v4.2] 可选 MCP 工具调用**：启用后顾问可调用 24 个专业工具（冲煮参数查询、故障诊断、杯测评分、研磨校准等），数据源从静态提示词升级为 28 个 JSON 动态查询。需本地运行 MCP Server（用 `start.bat` / `start.sh` 一键启动）。
+- **[v4.3] Next.js 全功能版**：多对话管理、4 种咖啡主题、本地模型自动发现、导入/导出。
 
 ## 快速开始 / Quick start
 
@@ -33,23 +34,42 @@
 
 > **注意**：MCP 工具模式仅支持 OpenAI 兼容 API（OpenAI / DeepSeek / Qwen / Kimi / GLM / Ollama / 自定义）。Anthropic Claude 暂不支持工具调用，会自动回退流式模式。
 
+### 方式三：Next.js 开发版（完整功能）/ Option C: Next.js dev version (full features)
+
+```bash
+cd web/next-app
+npm install
+npm run dev
+```
+
+打开 `http://localhost:3000`。相比单文件 HTML 版的额外功能：
+- **多对话管理**：侧边栏创建/切换/删除/重命名对话，自动生成标题
+- **4 种咖啡主题**：浅烘 (light-roast) / 手冲 (pour-over) / 深烘 (dark-roast) / 浓缩 (espresso)
+- **本地模型自动发现**：填写 Base URL 后点击"发现"按钮，自动获取 Ollama / LM Studio / vLLM 的可用模型列表
+- **导入/导出**：对话历史和设置可导出为 JSON 文件，导入恢复
+- **MCP 工具集成**：与 HTML 版相同的 MCP 工具调用能力
+
+> **生产构建**：`npm run build && npm start`
+
+## 版本对比 / Version Comparison
+
+| | 单文件 HTML (`barista-chat.html`) | Next.js 版 (`web/next-app/`) | MCP Server (`mcp-server/`) |
+|---|---|---|---|
+| 运行环境 | 浏览器（纯前端） | Node.js + 浏览器 | Python 进程 |
+| 依赖 | 零依赖 | npm install | pip install |
+| 多对话管理 | 单对话 | 多对话（侧边栏） | N/A |
+| 主题切换 | 单一主题 | 4 种咖啡主题 | N/A |
+| 本地模型发现 | 手动填写 | 自动发现 | N/A |
+| 导入/导出 | 不支持 | 支持 | N/A |
+| 数据源 | 内嵌系统提示词（静态） | 内嵌系统提示词 + MCP 动态查询 | 28 个 JSON 数据文件 |
+| 工具调用 | 可选 MCP（[v4.2]） | 可选 MCP（[v4.3]） | 24 个双语 MCP 工具 |
+| 适用场景 | 快速体验、零安装 | 日常使用、完整功能 | Agent 平台集成 |
+
 ## 隐私 / Privacy
 
 - API Key、对话内容**仅保存在本地浏览器**（`localStorage`），不会发送到本仓库或任何第三方服务器。
 - 对话内容会直接发送到你配置的 LLM API 端点（由该服务商的隐私政策管辖）。
 - 清空浏览器数据 / 清空对话按钮即可彻底删除所有记录。
-
-## 与 MCP Server 的关系 / Relation to MCP server
-
-| | 本地 HTML 版 (`web/`) | MCP Server (`mcp-server/`) |
-|---|---|---|
-| 运行环境 | 浏览器（纯前端） | Python 进程 |
-| 数据源 | 内嵌于系统提示词（静态） | 28 个 JSON 数据文件（动态查询） |
-| 工具调用 | 可选：启用 MCP 后支持 24 个工具（[v4.2]） | 24 个双语 MCP 工具（原生） |
-| 适用场景 | 个人本地使用、快速体验 | Agent 平台集成、程序化调用 |
-| 联网检索 | 不支持 | 支持（点名冠军/博主/变压时） |
-
-HTML 版是"轻量体验版"，MCP Server 是"完整功能版"。v4.2 起，通过 `start.bat` / `start.sh` 一键启动可让 HTML 版调用 MCP Server 的全部 24 个工具，兼顾简洁界面与完整功能。
 
 ## 许可 / License
 
