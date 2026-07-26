@@ -1,7 +1,7 @@
 # Barista 咖啡师教练技能 / Barista Coffee-Coach Skill
 
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Version](https://img.shields.io/badge/version-4.2.0-blue)
+![Version](https://img.shields.io/badge/version-4.3.0-blue)
 ![Methods](https://img.shields.io/badge/brew-14%20methods-success)
 ![Milk drinks](https://img.shields.io/badge/milk%20drinks-11-success)
 ![MCP tools](https://img.shields.io/badge/MCP%20tools-24-blueviolet)
@@ -17,6 +17,8 @@
 > **30 秒预览 / 30-second preview**：用户「我做的手冲好苦怎么办？」"My pour-over is too bitter." → 顾问：「哪种苦——焦苦还是尾段涩？最近有没有换豆子或调了研磨度？」→ 追问锁定了变量后：「大概率是研磨太细 + 深烘豆。只改研磨度：往粗的方向转 1–2 格，其他全不变。做完喝一口，关注苦感是否从焦苦变成柔和的微苦。」**顾问主导, 穿透追问, 一次只改一个变量。** Consultant-led, penetrating follow-ups, one variable at a time.
 
 附带一个标准 MCP server（`barista-mcp`），可在 Claude Desktop / Cursor / ChatGPT 中直接调用（需 MCP 客户端）。详见 [mcp-server/README.md](mcp-server/README.md)。
+
+> **v4.3 新增 Next.js 全功能版**：`web/next-app/` 基于 Next.js 14 + TypeScript + Tailwind CSS + Zustand，新增多对话管理、4 种咖啡主题、本地模型自动发现、导入/导出等功能。原单文件 HTML 版保留为零依赖轻量版。详见下方「本地版」章节。
 
 > **部署方式 / Deployment** — 本 Skill 是为 Claude Code / Coze / WorkBuddy / QoderWork 等平台设计的 **Skill 文件**，由平台托管模型与 API key，你不需要 own 任何模型管理。下载目录 → 放入平台技能目录 → 即用。
 
@@ -111,6 +113,9 @@ barista-skill/
 ├── .gitignore
 ├── start.bat                 # [v4.2] Windows 一键启动 (MCP Server + 浏览器)
 ├── start.sh                  # [v4.2] macOS/Linux 一键启动
+├── .gitattributes            # [v4.2] 强制 *.bat CRLF / *.sh LF 行尾
+├── docs/                     # 设计文档与实现计划
+│   └── superpowers/          # [v4.3] Next.js 迁移设计文档 + 实现计划
 ├── mcp-server/               # MCP 服务 (24 bilingual tools)
 │   ├── server.py / test_server.py
 │   ├── pyproject.toml / README.md
@@ -124,7 +129,15 @@ barista-skill/
 │   ├── defect_beans.json            # [v3.0] 瑕疵豆分类与扣分
 │   ├── coffee_chemistry_sensory.json# [v3.0] 咖啡化学与感官映射
 │   ├── sca_official_sources.json    # [v3.0] 已验证来源索引
-├── web/                      # 本地 HTML 版 (barista-chat.html, 零后端, 自带 API 适配层, [v4.2] 可选 MCP 工具调用)
+├── web/                      # 本地版 (三种使用方式, 见下方「本地版」章节)
+│   ├── barista-chat.html     # [v4.1] 单文件 HTML 版 (零依赖, ~41KB)
+│   ├── next-app/             # [v4.3] Next.js 全功能版 (多对话/4主题/模型发现/导入导出)
+│   │   ├── src/app/          # Next.js App Router (layout.tsx / page.tsx / globals.css)
+│   │   ├── src/components/   # 8 个 React 组件 (Sidebar/ChatArea/ChatInput/ChatMessage/...)
+│   │   ├── src/lib/          # LLM 适配层 + MCP 客户端 + 供应商配置 + 系统提示词
+│   │   ├── src/store/        # Zustand 状态管理 (persist → localStorage)
+│   │   └── src/hooks/        # useLocalModels (本地模型自动发现)
+│   └── README.md             # 本地版使用说明 (三种方式对比表)
 ├── scripts/                   # self_check.py — 一致性自检 (33 项 PASS/FAIL)
 └── references/               # 25 个参考文件 (中文原版 = 真相源)
     ├── report_templates/     # 4 个顾问输出模板 + README
@@ -163,23 +176,45 @@ barista-skill/
 MCP 用法见 [`mcp-server/README.md`](mcp-server/README.md)（`pip install "mcp[cli]"` + 配置客户端）。
 
 
-## 本地 HTML 版（零后端）/ Local HTML runner (zero-backend)
+## 本地版（三种使用方式）/ Local versions (three options)
 
-不想配 MCP、不想装 Python，只想在浏览器里直接聊？用 `web/barista-chat.html`——单文件、双击即开，自带 API 适配层（OpenAI / Claude / DeepSeek / Qwen / Kimi / GLM / Ollama / 自定义），内嵌完整系统提示词。API Key 仅存本地浏览器。
+不想配 Agent 平台、不想配 MCP，只想在浏览器里直接聊？提供三种本地使用方式，按需选择 / Three local options, pick what fits：
 
-Don't want MCP or Python? Open `web/barista-chat.html` — a single file, double-click to run, with a built-in API adapter (OpenAI / Claude / DeepSeek / Qwen / Kimi / GLM / Ollama / custom) and the full system prompt embedded. API key stays in your browser only.
+### 方式 A：纯浏览器单文件（零依赖）/ Browser-only (zero deps)
 
-详见 [`web/README.md`](web/README.md)。
+`web/barista-chat.html`——单文件、双击即开，自带 API 适配层（OpenAI / Claude / DeepSeek / Qwen / Kimi / GLM / Ollama / 自定义），内嵌完整系统提示词。API Key 仅存本地浏览器。
 
-### 一键启动（HTML + MCP Server 联动）/ One-click starter (HTML + MCP Server)
+Single-file, double-click to run, built-in API adapter + full system prompt. API key stays in your browser only.
 
-想要 HTML 版的简洁界面 + MCP Server 的 24 个专业工具？双击 `start.bat`（Windows）或运行 `bash start.sh`（macOS / Linux）即可：
+### 方式 B：一键启动（HTML + MCP Server 联动）/ One-click starter (HTML + MCP tools)
+
+双击 `start.bat`（Windows）或运行 `bash start.sh`（macOS / Linux）即可：
 
 1. 自动检测 Python 并安装依赖（`mcp` / `starlette` / `uvicorn`）
 2. 后台启动 MCP Server（HTTP 模式，`127.0.0.1:8765`）
 3. 自动打开浏览器 → 在设置里勾选「启用 MCP 工具」→ 顾问即可调用冲煮参数查询、故障诊断、杯测评分等 24 个工具
 
 > 零配置：脚本会自动处理依赖安装、服务器启动、浏览器打开。关闭后台 MCP 窗口即可停止服务器。
+
+### 方式 C：Next.js 全功能版（v4.3 新增）/ Next.js full-featured version (v4.3)
+
+`web/next-app/`——Next.js 14 + TypeScript + Tailwind CSS + Zustand，适合日常使用：
+
+```bash
+cd web/next-app
+npm install
+npm run dev    # 开发模式 http://localhost:3000
+npm run build  # 生产构建
+```
+
+相比单文件 HTML 版的额外功能 / Extra features beyond HTML version：
+- **多对话管理**：侧边栏创建/切换/删除/重命名对话，首条消息自动生成标题
+- **4 种咖啡主题**：浅烘 / 手冲 / 深烘 / 浓缩，CSS 变量驱动实时切换
+- **本地模型自动发现**：填写 Base URL 后点「发现」，自动获取 Ollama / LM Studio / vLLM 可用模型列表
+- **导入/导出**：对话历史和设置可导出为 JSON 文件，导入恢复
+- **MCP 工具集成**：与 HTML 版相同的 24 个 MCP 工具调用能力
+
+详见 [`web/README.md`](web/README.md)（含三种方式对比表）。
 
 ## 使用 / Usage
 
