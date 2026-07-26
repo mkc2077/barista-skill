@@ -53,6 +53,16 @@ npm run dev
 
 > **生产构建**：`npm run build && npm start`
 
+#### 🪟 Windows 一键版（零安装 exe）/ Windows one-click exe
+
+适合不想装 Node.js 的小白用户：
+
+1. 从 [GitHub Releases](https://github.com/mkc2077/barista-skill/releases) 下载 `Barista.exe`
+2. 双击运行 → 自动打开浏览器进入应用
+3. 退出：网页右下角点「⏹ 退出本地服务」，或关闭程序窗口
+
+构建：`cd web/next-app && npm install && pip install pyinstaller && npm run build:exe` → 生成 `dist/Barista.exe`（内嵌 Python 运行时 + 纯静态站点，无需本机安装 Node/Python）。
+
 ## 版本对比 / Version Comparison
 
 | | 单文件 HTML (`barista-chat.html`) | Next.js 版 (`web/next-app/`) | MCP Server (`mcp-server/`) |

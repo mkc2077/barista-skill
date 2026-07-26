@@ -5,6 +5,7 @@ import { Sidebar } from '@/components/Sidebar'
 import { ChatArea } from '@/components/ChatArea'
 import { SettingsModal } from '@/components/SettingsModal'
 import { WelcomeScreen } from '@/components/WelcomeScreen'
+import { LocalExitButton } from '@/components/LocalExitButton'
 import { useStore, useCurrentConversation } from '@/store'
 
 export default function Home() {
@@ -30,6 +31,7 @@ export default function Home() {
         )}
       </div>
       {showSettings && <SettingsModal />}
+      <LocalExitButton />
     </main>
   )
 }

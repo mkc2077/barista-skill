@@ -1,9 +1,14 @@
 node_modules/
 .next/
 .next_bak/
+.next_bak_*/
 out/
 build/
+dist/
+launcher/out/
+launcher/out_bak_*/
 *.log
 .env*
 next-env.d.ts
 *.tsbuildinfo
+*.spec

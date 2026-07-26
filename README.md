@@ -245,6 +245,17 @@ python server.py --transport http --host 127.0.0.1 --port 8765
 - **动态模型发现**：填写 Base URL 后点「获取模型」，自动从供应商 API 拉取可用模型列表
 - **导入/导出**：对话历史和设置可导出为 JSON 文件，导入恢复
 
+#### 🪟 Windows 一键版（小白推荐，零安装）
+
+不想装 Node.js、不想敲命令行？我们提供打包好的**单文件 `Barista.exe`**（内嵌 Python 运行时 + 纯静态站点，约 8 MB），双击即用：
+
+1. 从 [GitHub Releases](https://github.com/mkc2077/barista-skill/releases) 下载 `Barista.exe`
+2. 双击运行 → 自动打开默认浏览器进入应用（本机 `127.0.0.1` 随机端口）
+3. 退出：网页右下角点「⏹ 退出本地服务」，或直接关闭程序窗口
+
+> 原理：`next build` 静态导出为 `out/` + 一个零依赖的 Python 静态服务器（`launcher/server.py`），经 [PyInstaller](https://pyinstaller.org/) 打包为单 exe（内嵌 Python 运行时，约 8 MB），**零依赖、零安装**。
+> 自己构建：`cd web/next-app && npm install && pip install pyinstaller && npm run build:exe` → 生成 `dist/Barista.exe`。
+
 详见 [`web/README.md`](web/README.md)（含三种方式对比表）。
 
 ## 使用 / Usage
