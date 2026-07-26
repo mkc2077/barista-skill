@@ -3,6 +3,27 @@
 本文件记录 barista 技能的版本变更。版本号遵循 [语义化版本](https://semver.org/)：主版本.次版本.修订号。
 
 ---
+## [4.4.0] - 2026-07-27
+
+### 新增（动态模型发现）
+- **供应商上游模型获取** — Next.js 版和 HTML 版均新增「获取模型」按钮，可直接从供应商 API `/models` 端点拉取可用模型列表：
+  - **`providers.ts`** 新增 `fetchModels()` 函数，支持 OpenAI 兼容格式（Bearer 认证）和 Anthropic 原生格式（x-api-key + anthropic-version 头）。
+  - **`useLocalModels` Hook** 重构为通用模型发现，不再局限于 Ollama，支持所有供应商。
+  - **`ModelSelector` 组件** 新增「获取模型」按钮，获取成功后展示实际可用模型列表，支持点击切换。
+  - **`barista-chat.html`** 同步新增 `fetchModelsFromAPI()` 函数、「获取模型」按钮、CSS 样式，切换供应商时自动重置已发现模型。
+- **模型列表更新** — 所有供应商默认模型列表更新至 2026 最新版本：
+  - OpenAI: gpt-5.4 / gpt-5.4-mini / gpt-4o / gpt-4o-mini
+  - Anthropic: claude-sonnet-4-5 / claude-opus-4-5 / claude-haiku-4-5
+  - DeepSeek: deepseek-v4-flash / deepseek-v4-pro
+  - 通义千问: qwen3.7-max / qwen3.7-plus / qwen3.7-flash
+  - Kimi: kimi-k2-turbo / kimi-k2-thinking / moonshot-v1-128k
+  - 智谱 GLM: glm-5 / glm-4-plus / glm-4-flash / glm-4-air
+  - Ollama: llama3.3 / qwen3 / gemma3 / phi4
+
+### 验证
+- TypeScript 类型检查通过（`npx tsc --noEmit`，零错误）
+- Next.js 生产构建通过（`npm run build`，零错误）
+---
 ## [4.3.0] - 2026-07-26
 
 ### 新增（Next.js 全功能版）

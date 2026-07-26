@@ -302,6 +302,27 @@ header {
   #input-area { padding: 8px 10px; }
   .modal-content { padding: 20px; }
 }
+
+/* Fetch Models Button */
+.btn-fetch-models {
+  padding: 8px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  color: var(--color-text);
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.btn-fetch-models:hover:not(:disabled) {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+.btn-fetch-models:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 </style>
 </head>
 <body>
@@ -367,8 +388,12 @@ header {
 
     <div class="form-group">
       <label>模型</label>
-      <input type="text" id="model-input" placeholder="gpt-4o-mini">
+      <div style="display:flex;gap:8px">
+        <input type="text" id="model-input" placeholder="gpt-5.4-mini" style="flex:1">
+        <button class="btn-fetch-models" id="btn-fetch-models" type="button">获取模型</button>
+      </div>
       <div class="provider-presets" id="model-presets"></div>
+      <div class="hint-text" id="fetch-status"></div>
     </div>
 
     <div class="form-group">
@@ -603,50 +628,50 @@ const PROVIDERS = {
   openai: {
     name: 'OpenAI',
     baseUrl: 'https://api.openai.com/v1',
-    models: ['gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo', 'gpt-3.5-turbo'],
-    defaultModel: 'gpt-4o-mini',
+    models: ['gpt-5.4', 'gpt-5.4-mini', 'gpt-4o', 'gpt-4o-mini'],
+    defaultModel: 'gpt-5.4-mini',
     type: 'openai'
   },
   anthropic: {
     name: 'Anthropic Claude',
     baseUrl: 'https://api.anthropic.com/v1',
-    models: ['claude-sonnet-4-20250514', 'claude-3-5-haiku-20241022'],
-    defaultModel: 'claude-sonnet-4-20250514',
+    models: ['claude-sonnet-4-5', 'claude-opus-4-5', 'claude-haiku-4-5'],
+    defaultModel: 'claude-sonnet-4-5',
     type: 'anthropic'
   },
   deepseek: {
     name: 'DeepSeek',
     baseUrl: 'https://api.deepseek.com',
-    models: ['deepseek-chat', 'deepseek-reasoner'],
-    defaultModel: 'deepseek-chat',
+    models: ['deepseek-v4-flash', 'deepseek-v4-pro'],
+    defaultModel: 'deepseek-v4-flash',
     type: 'openai'
   },
   qwen: {
     name: '通义千问 (Qwen)',
     baseUrl: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
-    models: ['qwen-plus', 'qwen-max', 'qwen-turbo', 'qwen-long'],
-    defaultModel: 'qwen-plus',
+    models: ['qwen3.7-max', 'qwen3.7-plus', 'qwen3.7-flash'],
+    defaultModel: 'qwen3.7-plus',
     type: 'openai'
   },
   moonshot: {
     name: 'Kimi (Moonshot)',
     baseUrl: 'https://api.moonshot.cn/v1',
-    models: ['moonshot-v1-8k', 'moonshot-v1-32k', 'moonshot-v1-128k'],
-    defaultModel: 'moonshot-v1-8k',
+    models: ['kimi-k2-turbo', 'kimi-k2-thinking', 'moonshot-v1-128k'],
+    defaultModel: 'kimi-k2-turbo',
     type: 'openai'
   },
   glm: {
     name: '智谱 GLM',
     baseUrl: 'https://open.bigmodel.cn/api/paas/v4',
-    models: ['glm-4', 'glm-4-flash', 'glm-4-air', 'glm-4-plus'],
+    models: ['glm-5', 'glm-4-plus', 'glm-4-flash', 'glm-4-air'],
     defaultModel: 'glm-4-flash',
     type: 'openai'
   },
   ollama: {
     name: 'Ollama (本地)',
     baseUrl: 'http://localhost:11434/v1',
-    models: ['qwen2.5', 'llama3', 'gemma2', 'phi3'],
-    defaultModel: 'qwen2.5',
+    models: ['llama3.3', 'qwen3', 'gemma3', 'phi4'],
+    defaultModel: 'qwen3',
     type: 'openai'
   },
   custom: {
@@ -657,6 +682,71 @@ const PROVIDERS = {
     type: 'openai'
   }
 };
+
+// Cache for fetched models
+let discoveredModels = [];
+
+// Fetch available models from provider API
+async function fetchModelsFromAPI() {
+  const baseUrl = $('base-url-input').value.trim();
+  const apiKey = $('api-key-input').value.trim();
+  const providerKey = $('provider-select').value;
+  const provider = PROVIDERS[providerKey];
+  const statusEl = $('fetch-status');
+  const btn = $('btn-fetch-models');
+
+  if (!baseUrl) {
+    statusEl.textContent = '请先填写 Base URL';
+    statusEl.style.color = 'var(--color-error)';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = '获取中...';
+  statusEl.textContent = '正在连接供应商 API...';
+  statusEl.style.color = 'var(--color-text-muted)';
+
+  try {
+    const url = baseUrl.replace(/\/+$/, '') + '/models';
+    const headers = {};
+
+    if (provider && provider.type === 'anthropic') {
+      if (apiKey) headers['x-api-key'] = apiKey;
+      headers['anthropic-version'] = '2023-06-01';
+    } else {
+      if (apiKey) headers['Authorization'] = 'Bearer ' + apiKey;
+    }
+
+    const resp = await fetch(url, { headers });
+    if (!resp.ok) {
+      const errText = await resp.text().catch(() => '');
+      throw new Error('HTTP ' + resp.status + (errText ? ': ' + errText.slice(0, 150) : ''));
+    }
+
+    const data = await resp.json();
+    const models = (data.data || data.models || [])
+      .map(m => m.id || m.name)
+      .filter(Boolean);
+
+    if (models.length === 0) {
+      statusEl.textContent = '连接成功，但未发现任何模型';
+      statusEl.style.color = 'var(--color-error)';
+      return;
+    }
+
+    discoveredModels = models;
+    statusEl.textContent = '✅ 发现 ' + models.length + ' 个可用模型';
+    statusEl.style.color = 'var(--color-success)';
+    updateModelPresets();
+  } catch (err) {
+    statusEl.textContent = '❌ 获取失败: ' + err.message;
+    statusEl.style.color = 'var(--color-error)';
+    discoveredModels = [];
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '获取模型';
+  }
+}
 
 // ===== State =====
 let chatHistory = [];
@@ -1266,19 +1356,28 @@ function onProviderChange() {
   const p = PROVIDERS[key];
   $('base-url-input').value = p.baseUrl;
   $('model-input').value = p.defaultModel;
+  discoveredModels = []; // Reset discovered models on provider change
+  $('fetch-status').textContent = '';
   updateModelPresets();
 }
+
+// Fetch models button event
+$('btn-fetch-models').addEventListener('click', fetchModelsFromAPI);
 
 function updateModelPresets() {
   const key = $('provider-select').value;
   const p = PROVIDERS[key];
   const container = $('model-presets');
   container.innerHTML = '';
-  if (p.models.length === 0) {
-    container.innerHTML = '<span class="hint-text">自定义供应商，请手动输入模型名</span>';
+
+  // Use discovered models if available, otherwise use preset list
+  const models = discoveredModels.length > 0 ? discoveredModels : p.models;
+
+  if (models.length === 0) {
+    container.innerHTML = '<span class="hint-text">点击「获取模型」从 API 拉取可用列表，或手动输入模型名</span>';
     return;
   }
-  for (const model of p.models) {
+  for (const model of models) {
     const tag = document.createElement('span');
     tag.className = 'provider-preset';
     tag.textContent = model;

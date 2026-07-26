@@ -1,10 +1,11 @@
 import { useState } from 'react'
+import { fetchModels } from '@/lib/providers'
 
 interface UseLocalModelsResult {
   discoveredModels: string[]
   status: 'idle' | 'loading' | 'success' | 'error'
   message: string
-  discover: (baseUrl: string, apiKey?: string) => Promise<void>
+  discover: (baseUrl: string, apiKey: string, providerKey: string) => Promise<void>
   reset: () => void
 }
 
@@ -13,7 +14,7 @@ export function useLocalModels(): UseLocalModelsResult {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [message, setMessage] = useState('')
 
-  const discover = async (baseUrl: string, apiKey?: string) => {
+  const discover = async (baseUrl: string, apiKey: string, providerKey: string) => {
     if (!baseUrl) {
       setStatus('error')
       setMessage('请先填写 Base URL')
@@ -21,20 +22,10 @@ export function useLocalModels(): UseLocalModelsResult {
     }
 
     setStatus('loading')
-    setMessage('正在连接...')
+    setMessage('正在获取模型列表...')
 
     try {
-      const url = `${baseUrl.replace(/\/+$/, '')}/models`
-      const headers: Record<string, string> = {}
-      if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`
-
-      const resp = await fetch(url, { headers })
-      if (!resp.ok) {
-        throw new Error(`HTTP ${resp.status}: ${await resp.text()}`)
-      }
-
-      const data = await resp.json()
-      const models = (data.data || data.models || []).map((m: any) => m.id || m.name).filter(Boolean)
+      const models = await fetchModels(providerKey, baseUrl, apiKey)
 
       if (models.length === 0) {
         setStatus('error')
@@ -44,10 +35,11 @@ export function useLocalModels(): UseLocalModelsResult {
 
       setDiscoveredModels(models)
       setStatus('success')
-      setMessage(`✅ 发现 ${models.length} 个模型`)
-    } catch (err: any) {
+      setMessage(`发现 ${models.length} 个可用模型`)
+    } catch (err: unknown) {
       setStatus('error')
-      setMessage(`❌ 连接失败: ${err.message}`)
+      const msg = err instanceof Error ? err.message : String(err)
+      setMessage(`获取失败: ${msg}`)
     }
   }
 

@@ -18,7 +18,7 @@ export function ModelSelector({ showDiscover = true }: ModelSelectorProps) {
   const availableModels = discoveredModels.length > 0 ? discoveredModels : provider.models
 
   const handleDiscover = () => {
-    discover(settings.baseUrl, settings.apiKey)
+    discover(settings.baseUrl, settings.apiKey, settings.provider)
   }
 
   return (
@@ -30,7 +30,7 @@ export function ModelSelector({ showDiscover = true }: ModelSelectorProps) {
             type="text"
             value={settings.model}
             onChange={(e) => updateSettings({ model: e.target.value })}
-            placeholder="gpt-4o-mini"
+            placeholder="gpt-5.4-mini"
             className="w-full px-3 py-2 pr-8 bg-theme-chat border border-theme-border rounded-lg
               text-sm outline-none focus:border-theme-accent"
           />
@@ -52,21 +52,21 @@ export function ModelSelector({ showDiscover = true }: ModelSelectorProps) {
         {showDiscover && (
           <button
             onClick={handleDiscover}
-            disabled={status === 'loading'}
+            disabled={status === 'loading' || !settings.baseUrl}
             className="px-3 py-2 border border-theme-border rounded-lg text-sm
               hover:border-theme-accent hover:bg-theme-hover transition-all
-              disabled:opacity-50 flex items-center gap-1"
-            title="测试连接并发现可用模型"
+              disabled:opacity-50 flex items-center gap-1 whitespace-nowrap"
+            title="从供应商 API 获取可用模型列表"
           >
             <Search className="w-4 h-4" />
-            发现
+            {status === 'loading' ? '获取中...' : '获取模型'}
           </button>
         )}
       </div>
 
       {availableModels.length > 0 && (
         <div className="flex flex-wrap gap-1.5 mt-2">
-          {availableModels.slice(0, 6).map(model => (
+          {availableModels.slice(0, 8).map(model => (
             <button
               key={model}
               onClick={() => updateSettings({ model })}
@@ -79,6 +79,11 @@ export function ModelSelector({ showDiscover = true }: ModelSelectorProps) {
               {model}
             </button>
           ))}
+          {availableModels.length > 8 && (
+            <span className="px-2.5 py-1 text-xs theme-text-dim">
+              +{availableModels.length - 8} 更多
+            </span>
+          )}
         </div>
       )}
 
