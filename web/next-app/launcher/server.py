@@ -17,6 +17,29 @@ import os
 import sys
 import socket
 import time
+import tempfile
+
+# PyInstaller --noconsole 打包的 Windows exe 运行时 stdout/stderr 为 None，
+# 任何 print / sys.stderr.write 都会崩溃：'NoneType' object has no attribute 'write'。
+# 检测到无控制台时，重定向到本地日志文件；如果日志目录也写失败，则落到 os.devnull。
+if sys.stdout is None or sys.stderr is None:
+    try:
+        log_dir = os.path.join(
+            os.environ.get("LOCALAPPDATA") or os.environ.get("TEMP") or tempfile.gettempdir(),
+            "Barista",
+            "logs",
+        )
+        os.makedirs(log_dir, exist_ok=True)
+        # 行缓冲：让日志实时落盘，方便排查
+        log_file = open(os.path.join(log_dir, "server.log"), "a", encoding="utf-8", buffering=1)
+    except Exception:
+        log_file = open(os.devnull, "w")
+    if sys.stdout is None:
+        sys.stdout = log_file
+    if sys.stderr is None:
+        sys.stderr = log_file
+    print(f"\n[{time.strftime('%Y-%m-%d %H:%M:%S')}] Barista 启动器已启动（无控制台模式）")
+    sys.stdout.flush()
 
 BASE_DIR = (
     os.path.join(sys._MEIPASS, "out")
@@ -56,24 +79,36 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         pass  # 静默
 
 
-def _quit_tree():
-    """整树结束当前进程（含 PyInstaller --onefile 的 bootloader 父进程）。
-
-    先按镜像名 taskkill /F /IM，再兜底 os._exit，确保本地版「退出」按钮
-    能真正关闭整个程序，不留残留进程（否则会占着端口、无法再次启动）。
-    """
-    time.sleep(0.05)
+def _run_quit(cmd):
+    """静默执行 taskkill 等命令，不留黑窗。"""
     try:
         subprocess.Popen(
-            ["taskkill", "/F", "/IM", os.path.basename(sys.executable)],
+            cmd,
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
             creationflags=0x08000000,  # CREATE_NO_WINDOW：不在桌面闪黑窗
         )
     except Exception:
         pass
-    time.sleep(0.3)
-    os._exit(0)  # 兜底：无论如何强制退出当前进程
+
+
+def _quit_tree():
+    """整树结束当前进程（含 PyInstaller --onefile 的 bootloader 父进程）。
+
+    PyInstaller --onefile 会派生 bootloader 父进程 + 运行子进程；
+    仅 os._exit 只能杀子进程，父进程会残留（占端口、无法再次启动）。
+    这里优先杀掉父进程 PID，再按镜像名 taskkill，最后兜底 os._exit。
+    """
+    time.sleep(0.05)
+    # 1) 如果作为 PyInstaller onefile exe 运行，直接结束父进程（bootloader）
+    if getattr(sys, "frozen", False) and getattr(sys, "_MEIPASS", None):
+        parent = os.getppid()
+        if parent and parent > 0:
+            _run_quit(["taskkill", "/F", "/PID", str(parent)])
+    # 2) 按当前可执行文件名兜底（同进程名的所有实例一起结束）
+    _run_quit(["taskkill", "/F", "/IM", os.path.basename(sys.executable)])
+    time.sleep(0.4)
+    os._exit(0)  # 最终兜底：强制退出当前进程
 
 
 def find_free_port(start=4173, end=4200):
@@ -92,6 +127,7 @@ def main():
     port = find_free_port()
     if port is None:
         sys.stderr.write("无法找到可用端口（4173-4200 均被占用）\n")
+        sys.stderr.flush()
         sys.exit(1)
 
     socketserver.TCPServer.allow_reuse_address = True
@@ -104,6 +140,7 @@ def main():
         "  🌐 正在为你打开浏览器…\n"
         "  ⏹  退出：关闭此窗口，或在网页右下角点「退出本地服务」\n\n"
     )
+    sys.stderr.flush()
     try:
         webbrowser.open(url)
     except Exception:
