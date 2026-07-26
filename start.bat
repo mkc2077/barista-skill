@@ -69,9 +69,9 @@ start "Barista MCP Server" /min %PY% server.py --transport http --host 127.0.0.1
 REM Wait for server to be ready
 echo   Waiting for server...
 set "READY=0"
-for /l %%i in (1,1,15) do (
+for /l %%i in (1,1,25) do (
     timeout /t 1 /nobreak >nul
-    powershell -Command "try { Invoke-WebRequest -Uri 'http://127.0.0.1:8765/mcp' -Method POST -ContentType 'application/json' -Body '{\"jsonrpc\":\"2.0\",\"method\":\"tools/list\",\"id\":1}' -UseBasicParsing -TimeoutSec 2 | Out-Null; exit 0 } catch { exit 1 }" >nul 2>nul
+    powershell -Command "try { Invoke-WebRequest -Uri 'http://127.0.0.1:8765/mcp' -Method POST -ContentType 'application/json' -Headers @{Accept='application/json, text/event-stream'} -Body '{\"jsonrpc\":\"2.0\",\"method\":\"tools/list\",\"id\":1}' -UseBasicParsing -TimeoutSec 2 | Out-Null; exit 0 } catch { exit 1 }" >nul 2>nul
     if not errorlevel 1 (
         set "READY=1"
         echo   Server ready
@@ -81,7 +81,7 @@ for /l %%i in (1,1,15) do (
 )
 :ready
 if "%READY%"=="0" (
-    echo [WARN] Server not ready in 15s, opening browser anyway
+    echo [WARN] Server not ready in 25s, opening browser anyway
 )
 
 REM Open browser

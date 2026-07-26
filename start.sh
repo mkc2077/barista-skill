@@ -48,16 +48,17 @@ echo "  Server PID: $SERVER_PID"
 # Wait for server
 echo "  等待服务器就绪 / Waiting for server..."
 READY=0
-for i in $(seq 1 15); do
+for i in $(seq 1 25); do
     sleep 1
     if curl -s -X POST http://127.0.0.1:8765/mcp \
         -H "Content-Type: application/json" \
+        -H "Accept: application/json, text/event-stream" \
         -d '{"jsonrpc":"2.0","method":"tools/list","id":1}' > /dev/null 2>&1; then
         READY=1
         echo "  服务器就绪 / Server ready"
         break
     fi
-    echo "  等待中... $i/15"
+    echo "  等待中... $i/25"
 done
 if [ "$READY" = "0" ]; then
     echo "[WARN] 服务器未就绪，仍尝试打开浏览器 / opening browser anyway"

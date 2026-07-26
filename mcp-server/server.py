@@ -1361,21 +1361,15 @@ def _run_http(host: str, port: int) -> None:
         raise SystemExit(1)
 
     mcp_app = mcp.streamable_http_app()
-    app = Starlette(
-        routes=[Mount("/", app=mcp_app)],
-        middleware=[
-            Middleware(
-                CORSMiddleware,
-                allow_origins=["*"],
-                allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
-                allow_headers=["*"],
-            ),
-        ],
-        lifespan=mcp_app.lifespan,
+    mcp_app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
+        allow_headers=["*"],
     )
     print(f"Barista MCP Server (HTTP) -> http://{host}:{port}/mcp")
     print(f"24 tools available. Ctrl+C to stop.")
-    uvicorn.run(app, host=host, port=port)
+    uvicorn.run(mcp_app, host=host, port=port)
 
 
 if __name__ == "__main__":
