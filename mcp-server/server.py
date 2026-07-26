@@ -126,7 +126,17 @@ TUNING_MATRIX = _load_data("parameters_tuning_matrix.json")
 CRAFT_CHAINS = _load_data("craft_chains_and_caffeine_free.json")
 
 
-mcp = FastMCP("barista", stateless_http=True)
+# Disable DNS rebinding protection for local browser clients.
+# MCP 1.28+ auto-enables it when host is 127.0.0.1, which rejects
+# requests from file:// (double-clicked HTML) and other origins.
+from mcp.server.transport_security import TransportSecuritySettings
+mcp = FastMCP(
+    "barista",
+    stateless_http=True,
+    transport_security=TransportSecuritySettings(
+        enable_dns_rebinding_protection=False,
+    ),
+)
 
 
 @mcp.tool()
