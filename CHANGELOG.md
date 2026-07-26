@@ -3,6 +3,12 @@
 本文件记录 barista 技能的版本变更。版本号遵循 [语义化版本](https://semver.org/)：主版本.次版本.修订号。
 
 ---
+## [4.4.2] - 2026-07-26
+
+### 修复（pip 安装 / CI 包装）
+- **修复 `pip install ./mcp-server` 构建失败**：hatchling 无法确定 wheel 内文件。改为 `[tool.hatch.build.targets.wheel] only-include = ["server.py"]` 并显式 `force-include` 整个 `../data` 目录到 wheel。
+- **修复安装后运行时数据加载**：`server.py` 的 `_load_data` 现在同时支持源码树布局（`repo_root/data/`）和安装后的 wheel 布局（`data/` 与 `server.py` 同级），安装包可正确读取 `version.json` 与全部数据文件。
+
 ## [4.4.1] - 2026-07-26
 
 ### 修复（门禁根治 + 同步）

@@ -65,14 +65,21 @@ def _load_data(filename):
     """Load data from data/<filename>.json with graceful degradation.
 
     Reads the JSON file from the data/ directory.
+    Supports both the source-tree layout (repo_root/data/) and the
+    installed-wheel layout (data/ next to server.py).
     If the file is missing, returns empty dict or empty list.
     """
-    data_path = Path(__file__).resolve().parent.parent / "data" / filename
-    if not data_path.exists():
-        if filename.endswith("wheel.json") or filename.endswith("dimensions.json") or filename == "cupping.json":
-            return []
-        return {}
-    return json.loads(data_path.read_text(encoding="utf-8"))
+    here = Path(__file__).resolve().parent
+    candidates = [
+        here.parent / "data" / filename,   # source-tree: repo_root/data/
+        here / "data" / filename,          # installed wheel: data/ next to server.py
+    ]
+    for data_path in candidates:
+        if data_path.exists():
+            return json.loads(data_path.read_text(encoding="utf-8"))
+    if filename.endswith("wheel.json") or filename.endswith("dimensions.json") or filename == "cupping.json":
+        return []
+    return {}
 
 
 # Package version ? single source: data/version.json
