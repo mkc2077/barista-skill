@@ -29,6 +29,9 @@ export interface Settings {
   customPrompt: string
   mcpEnabled: boolean
   mcpUrl: string
+  // 联网搜索（Scheme B 本地版）：使用 AnySearch，用户自带 API Key（匿名亦可）
+  webSearchEnabled: boolean
+  anysearchApiKey: string
 }
 
 export interface AppState {
@@ -64,6 +67,8 @@ const defaultSettings: Settings = {
   customPrompt: '',
   mcpEnabled: true,
   mcpUrl: 'http://127.0.0.1:8765/mcp',
+  webSearchEnabled: false,
+  anysearchApiKey: '',
 }
 
 export const useStore = create<AppState>()(

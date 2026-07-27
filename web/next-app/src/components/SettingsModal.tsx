@@ -168,6 +168,30 @@ export function SettingsModal() {
         </div>
 
         <div className="mb-4">
+          <label className="flex items-center gap-2 text-sm cursor-pointer">
+            <input
+              type="checkbox"
+              checked={settings.webSearchEnabled}
+              onChange={(e) => updateSettings({ webSearchEnabled: e.target.checked })}
+              className="w-4 h-4"
+            />
+            启用联网搜索（AnySearch）
+          </label>
+          <input
+            type="password"
+            value={settings.anysearchApiKey}
+            onChange={(e) => updateSettings({ anysearchApiKey: e.target.value })}
+            placeholder="AnySearch API Key（可留空走匿名额度）"
+            className="w-full mt-2 px-3 py-2 bg-theme-chat border border-theme-border rounded-lg
+              text-sm outline-none focus:border-theme-accent"
+          />
+          <p className="text-xs theme-text-dim mt-1">
+            联网搜索由 AnySearch 提供（api.anysearch.com）。留空使用匿名免费额度（按 IP 限流）；
+            也可填写自己的 Key 提升配额。密钥仅保存在本地浏览器，不会上传。
+          </p>
+        </div>
+
+        <div className="mb-4">
           <ThemeSwitcher />
         </div>
 

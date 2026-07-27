@@ -23,6 +23,27 @@
 > **部署方式 / Deployment** — 本 Skill 是为 Claude Code / Coze / WorkBuddy / QoderWork 等平台设计的 **Skill 文件**，由平台托管模型与 API key，你不需要 own 任何模型管理。下载目录 → 放入平台技能目录 → 即用。
 
 
+## 两种方案 / Two schemes
+
+本仓库提供两种使用方式，按需选择 / Two ways to use, pick what fits:
+
+### 方案 A · Skill 模式（依赖你自己的 Agent）
+把本仓库作为 **Skill** 放入 WorkBuddy / Trae / Codex / Claude Code / Cursor 等 Agent 的技能目录。
+- **模型由你的 Agent 提供**：Agent 自带 LLM 与 API Key，技能不托管任何模型。
+- **24 个专业工具**：通过随仓库的 `mcp-server/` 以 MCP 暴露，由 Agent 启动后直接调用。
+- **零本地安装**：下载目录 → 放入平台技能目录 → 即用。
+- 适合：已在用某款 Agent、希望咖啡顾问能力直接集成进工作流的用户。详见 [`SKILL.md`](SKILL.md) 与 [`AGENTS.md`](AGENTS.md)。
+
+### 方案 B · 本地独立版（Barista.exe / Next.js）
+双击 `Barista.exe`（或运行 `web/next-app`）启动本地 Web 应用，**自己连接模型与联网搜索**：
+- **模型 API**：在「API 设置」里填写你自己的 Base URL / Key / 模型（OpenAI / Claude / DeepSeek / 通义 / GLM / Ollama / 自定义）。
+- **联网搜索（AnySearch）**：内置 [AnySearch](https://www.anysearch.com/docs) 联网搜索，填自己的 AnySearch API Key（留空走匿名免费额度）即可让顾问引用实时资料。
+- **MCP 自动启动**：运行 `Barista.exe` 会自动拉起本地 MCP Server（24 个工具），无需手动配。
+- **设置持久化**：API Key、MCP 开关、联网搜索开关都保存在浏览器 localStorage，下次打开无需重填。
+- 适合：不想装 Node.js / 不敲命令、希望双击即用且自带联网能力的小白用户。见下方「本地版」章节。
+
+> 两种方案共享同一套咖啡顾问知识（`references/`）、同一套 MCP 工具（`mcp-server/`）与同一套系统提示词；区别只在「谁提供模型」与「是否内置联网搜索」。
+
 ## 覆盖内容 / Coverage
 
 > 以下全部知识在**顾问主导穿透追问**模式下交付——顾问先锁定你的器具/豆子/口感问题，再精准给方案，而非一次性信息堆砌。
@@ -176,9 +197,9 @@ barista-skill/
 MCP 用法见 [`mcp-server/README.md`](mcp-server/README.md)（`pip install "mcp[cli]"` + 配置客户端）。
 
 
-## 本地版（三种使用方式）/ Local versions (three options)
+## 本地版（方案 B 的几种形态）/ Local version (Scheme B options)
 
-不想配 Agent 平台、不想配 MCP，只想在浏览器里直接聊？提供三种本地使用方式，按需选择 / Three local options, pick what fits：
+不想配 Agent 平台、不想配 MCP，只想在浏览器里直接聊？提供几种本地使用方式，按需选择 / A few local options, pick what fits：
 
 ### 方式 A：纯浏览器单文件（零依赖）/ Browser-only (zero deps)
 
@@ -251,7 +272,7 @@ python server.py --transport http --host 127.0.0.1 --port 8765
 
 1. 从 [GitHub Releases](https://github.com/mkc2077/barista-skill/releases) 下载 `Barista.exe`（或在本项目根目录找到已构建的 `Barista.exe`）
 2. 双击运行 → **自动启动本地 MCP Server**（需同目录有 `mcp-server/` 且系统已安装 Python 与 `mcp` 依赖）→ 自动打开默认浏览器进入应用（本机 `127.0.0.1` 随机端口）
-3. 在「API 设置」里填一次 API Key，点「保存设置」即可持久化到浏览器；MCP 工具开关默认已开启
+3. 在「API 设置」里填一次模型 API Key，点「保存设置」即可持久化到浏览器；MCP 工具开关默认已开启；如需联网搜索，勾选「启用联网搜索（AnySearch）」并可填自己的 AnySearch API Key（留空走匿名免费额度）
 4. 退出：网页右下角点「⏹ 退出本地服务」，或直接关闭程序窗口
 
 > 原理：`next build` 静态导出为 `out/` + 一个零依赖的 Python 静态服务器（`launcher/server.py`），经 [PyInstaller](https://pyinstaller.org/) 打包为单 exe（内嵌 Python 运行时，约 8 MB）。Web 设置保存在浏览器 localStorage，MCP 服务由 exe 自动拉起。

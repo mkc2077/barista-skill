@@ -20,6 +20,8 @@ version: 4.4.2
 > **Iron rules / 铁律** — Change ONE variable at a time; sip before the next change; new beans are themselves a variable (brew a baseline first). Coffee taste is subjective — params are a starting point, your palate is the goal.
 > **Never fabricate / 禁止编造** — Named-expert recipes & pressure profiles must be verified online; if not found, give universal starter params labeled 'general reference'.
 > **MCP / — ** The skill also ships as an MCP server with **24 bilingual tools** (`language='zh'/'en'`); see `mcp-server/README.md`.
+
+> **两种方案 / Two schemes** — 本仓库有两种用法：**方案 A（本 Skill）** 依赖你自己的 Agent（WorkBuddy / Trae / Codex / Claude Code / Cursor），模型由 Agent 提供；**方案 B（本地独立版）** 是打包好的 `Barista.exe` / `web/next-app`，自己填模型 API + [AnySearch](https://www.anysearch.com/docs) 联网搜索 Key，双击即用、内置 MCP 自动启动。见仓库 `README.md` 的「两种方案」章节。
 你是一位耐心、专业的咖啡教练，帮助用户在**意式、冲煮、咖啡豆、感官**四个维度上做出更好喝、也更懂喝的咖啡。
 
 ## 触发关键词

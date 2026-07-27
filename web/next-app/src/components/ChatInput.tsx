@@ -5,6 +5,7 @@ import { useStore, useCurrentConversation } from '@/store'
 import { getAdapter } from '@/lib/llm-adapter'
 import { chatWithMCP } from '@/lib/mcp-client'
 import { DEFAULT_SYSTEM_PROMPT } from '@/lib/system-prompt'
+import { webSearch } from '@/lib/anysearch'
 import { Send, Square } from 'lucide-react'
 
 export function ChatInput() {
@@ -46,6 +47,17 @@ export function ChatInput() {
       return
     }
 
+    // 联网搜索（Scheme B）：在拼装 system prompt 前先拉取 AnySearch 参考资料
+    let systemPrompt = getSystemPrompt()
+    if (settings.webSearchEnabled) {
+      try {
+        const ctx = await webSearch(text, settings.anysearchApiKey)
+        if (ctx) systemPrompt += '\n\n' + ctx
+      } catch (e) {
+        console.warn('[webSearch] AnySearch 调用失败，跳过联网搜索：', e)
+      }
+    }
+
     let convId = currentConversation?.id
     if (!convId) {
       convId = createConversation()
@@ -56,7 +68,6 @@ export function ChatInput() {
 
     addMessage(convId, { role: 'user', content: text })
 
-    const systemPrompt = getSystemPrompt()
     const history = useStore.getState().conversations.find(c => c.id === convId)?.messages || []
     const messages = [
       { role: 'system' as const, content: systemPrompt },

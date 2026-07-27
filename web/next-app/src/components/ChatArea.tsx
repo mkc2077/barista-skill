@@ -45,6 +45,7 @@ export function ChatArea() {
   }
 
   const mcpTag = settings.mcpEnabled ? ' · MCP' : ''
+  const webTag = settings.webSearchEnabled ? ' · 联网' : ''
 
   return (
     <div className="flex flex-col h-screen">
@@ -52,7 +53,7 @@ export function ChatArea() {
         <div className="flex items-center gap-3">
           <h2 className="font-semibold text-sm">{currentConversation.title}</h2>
           <span className="text-xs theme-text-dim">
-            {settings.provider || '未配置'} · {settings.model}{mcpTag}
+            {settings.provider || '未配置'} · {settings.model}{mcpTag}{webTag}
           </span>
         </div>
         <div className="flex items-center gap-2">
