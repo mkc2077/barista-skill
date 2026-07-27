@@ -40,24 +40,25 @@ export function LocalExitButton() {
       style={{
         position: 'fixed',
         right: 14,
-        bottom: 14,
-        zIndex: 9999,
-        fontSize: 12,
-        lineHeight: 1.4,
-        padding: '7px 12px',
-        borderRadius: 10,
-        border: '1px solid rgba(0,0,0,0.12)',
-        background: 'rgba(255,255,255,0.92)',
-        color: '#555',
+        bottom: 80,
+        zIndex: 50,
+        fontSize: 11,
+        lineHeight: 1.3,
+        padding: '5px 10px',
+        borderRadius: 8,
+        border: '1px solid rgba(0,0,0,0.10)',
+        background: 'rgba(255,255,255,0.88)',
+        color: '#666',
         cursor: 'pointer',
-        opacity: 0.55,
-        boxShadow: '0 1px 4px rgba(0,0,0,0.12)',
+        opacity: 0.4,
+        boxShadow: '0 1px 3px rgba(0,0,0,0.10)',
         backdropFilter: 'blur(4px)',
+        transition: 'opacity 0.2s ease',
       }}
-      onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
-      onMouseLeave={(e) => (e.currentTarget.style.opacity = '0.55')}
+      onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.85')}
+      onMouseLeave={(e) => (e.currentTarget.style.opacity = '0.4')}
     >
-      {quitting ? '已退出，可关闭窗口 ✅' : '⏹ 退出本地服务'}
+      {quitting ? '已退出 ✅' : '⏹ 退出本地'}
     </button>
   )
 }
