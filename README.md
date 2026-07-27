@@ -280,6 +280,12 @@ python server.py --transport http --host 127.0.0.1 --port 8765
 
 详见 [`web/README.md`](web/README.md)（含三种方式对比表）。
 
+### 本次发布（方案 B 本地版 · web-v1.0.0）
+- **两种方案合一**：同一仓库既可作为 Skill（方案 A，依赖你的 Agent 提供模型），也可作为本地 `Barista.exe`（方案 B，自填模型 API + AnySearch 联网搜索）。
+- **AnySearch 联网搜索**：设置里勾选「启用联网搜索」并填自己的 AnySearch Key（留空走匿名免费额度），顾问即可引用实时资料。
+- **MCP 自动启动 + 设置持久化**：双击即用，24 工具自动就绪，Key 与开关存浏览器 localStorage。
+- 下载见 [GitHub Releases · web-v1.0.0](https://github.com/mkc2077/barista-skill/releases/tag/web-v1.0.0)。
+
 ## 使用 / Usage
 
 对话中说"帮我冲一杯手冲""这个萃取好苦怎么办""深烘豆怎么调"等，顾问自动用穿透式追问主导对话、锁定关键变量，而非被动等待指令。Say "brew me a pour-over" / "my espresso is too bitter" / "tune for dark roast" — the consultant auto-drives the conversation with penetrating follow-ups to lock in the key variable.

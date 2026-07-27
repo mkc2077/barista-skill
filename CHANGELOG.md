@@ -3,6 +3,17 @@
 本文件记录 barista 技能的版本变更。版本号遵循 [语义化版本](https://semver.org/)：主版本.次版本.修订号。
 
 ---
+## [Web 本地版 web-v1.0.0] - 2026-07-27
+
+### 新增（方案 B 本地版 / Barista.exe）
+- **两种方案架构**：仓库同时支持「方案 A · Skill 模式」（放入 Agent 技能目录，模型由 Agent 提供）与「方案 B · 本地独立版」（`Barista.exe` / Next.js，用户自填模型 API）。详见 README「两种方案」章节。
+- **AnySearch 联网搜索**：内置 [AnySearch](https://www.anysearch.com/docs) 联网搜索，设置可填自己的 API Key（留空走匿名免费额度），顾问在回答前自动拼接实时资料上下文（失败优雅降级）。
+- **MCP 自动启动**：运行 `Barista.exe` 自动拉起本地 MCP Server（24 工具），无需手动配置。
+- **设置持久化**：模型 API、MCP 开关、联网搜索开关键均存浏览器 localStorage。
+- 校验：`next build` 静态导出 + PyInstaller 单文件 exe（约 8 MB），启动 HTTP 200、MCP 24 工具、`/__quit` 整树退出无残留。
+
+> 方案 A（Skill）版本仍为 4.4.2，本条目仅记录 Web 本地版发布，二者共享同一套知识库与 MCP 工具。
+
 ## [4.4.2] - 2026-07-26
 
 ### 修复（pip 安装 / CI 包装）
