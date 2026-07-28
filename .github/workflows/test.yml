@@ -1,4 +1,4 @@
-name: Gate (self_check + pytest)
+name: Gate (self_check + pytest + web typecheck)
 
 on:
   push:
@@ -22,3 +22,22 @@ jobs:
         run: python scripts/self_check.py
       - name: pytest
         run: python -m pytest mcp-server/test_data_consistency.py mcp-server/test_server.py -q
+
+  # 前端门禁：tsc --noEmit 覆盖 web/next-app/src 全部 .ts/.tsx。
+  # 防止 chatOnce 走错 API 端点、工具格式遗漏这类静默 bug 混进 main。
+  web-typecheck:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web/next-app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: "web/next-app/package-lock.json"
+      - name: Install deps
+        run: npm ci
+      - name: Type check (tsc --noEmit)
+        run: npm run typecheck
