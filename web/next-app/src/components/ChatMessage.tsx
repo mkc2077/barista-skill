@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Copy, Check } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import type { Message } from '@/store'
+import { ToolCardView } from './cards'
 
 interface ChatMessageProps {
   message: Message
@@ -41,9 +42,18 @@ export function ChatMessage({ message }: ChatMessageProps) {
           {isUser ? (
             <p className="whitespace-pre-wrap">{message.content}</p>
           ) : (
-            <div className="prose prose-sm max-w-none theme-text">
-              <ReactMarkdown>{message.content}</ReactMarkdown>
-            </div>
+            <>
+              {message.cards && message.cards.length > 0 && (
+                <div className="mb-2 space-y-2">
+                  {message.cards.map((c, i) => (
+                    <ToolCardView key={i} card={c} />
+                  ))}
+                </div>
+              )}
+              <div className="prose prose-sm max-w-none theme-text">
+                <ReactMarkdown>{message.content}</ReactMarkdown>
+</div>
+            </>
           )}
         </div>
         {!isUser && (

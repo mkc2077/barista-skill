@@ -6,6 +6,8 @@ import { getAdapter } from '@/lib/llm-adapter'
 import { chatWithMCP } from '@/lib/mcp-client'
 import { DEFAULT_SYSTEM_PROMPT } from '@/lib/system-prompt'
 import { webSearch } from '@/lib/anysearch'
+import { CARD_PARSERS } from '@/lib/card-parsers'
+import type { ToolCard } from '@/store'
 import { Send, Square } from 'lucide-react'
 
 export function ChatInput() {
@@ -18,6 +20,7 @@ export function ChatInput() {
   const setStreaming = useStore((s) => s.setStreaming)
   const addMessage = useStore((s) => s.addMessage)
   const updateMessage = useStore((s) => s.updateMessage)
+  const appendCards = useStore((s) => s.appendCards)
   const createConversation = useStore((s) => s.createConversation)
   const setShowSettings = useStore((s) => s.setShowSettings)
   const currentConversation = useCurrentConversation()
@@ -82,6 +85,7 @@ export function ChatInput() {
 
     setStreaming(true)
     abortControllerRef.current = new AbortController()
+    const cards: ToolCard[] = []
 
     let fullResponse = webSearchFail ? '⚠️ 联网搜索不可用，已用离线知识库回答。\n\n' : ''
 
@@ -94,8 +98,18 @@ export function ChatInput() {
           (status) => {
             updateMessage(convId!, assistantMsgId, status)
           },
-          abortControllerRef.current.signal
+          abortControllerRef.current.signal,
+          (toolName, raw) => {
+            const parser = CARD_PARSERS[toolName]
+            if (parser) {
+              const data = parser(raw)
+              if (data) cards.push({ tool: toolName, data })
+            }
+          },
         )
+        if (cards.length > 0) {
+          appendCards(convId!, assistantMsgId, cards)
+        }
       } else {
         for await (const chunk of adapter.chatStream(messages, abortControllerRef.current.signal)) {
           fullResponse += chunk

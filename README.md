@@ -286,6 +286,11 @@ python server.py --transport http --host 127.0.0.1 --port 8765
 - **MCP 自动启动 + 设置持久化**：双击即用，24 工具自动就绪，Key 与开关存浏览器 localStorage。
 - 下载见 [GitHub Releases · web-v1.0.0](https://github.com/mkc2077/barista-skill/releases/tag/web-v1.0.0)。
 
+### 本次更新（v4.5.0 · SCA 工具可视化 + 中文混合检索）
+- **生成式 UI 工具卡片（方案 B Web 端）**：`calculate_cupping_score` / `calculate_cva_score` / `get_triangle_protocol` / `get_qgrader_study_plan` 四个结构化工具的结果在 Web 对话流中自动渲染为可视化卡片（评分条 / 进度条 / 杯数网格 / 备考时间线），而非纯 Markdown 文本。解析失败仍回退 Markdown，对模型上下文零负担。
+- **`search_references` 中文 2-gram 混合检索**：旧实现只按空格切分，中文长查询整段当作单一 token 几乎从不命中；现改为中英混合分词（英文按词、中文 2 字 bigram）+ 全文打分 + 标题加权，中文长查询命中显著提升，英文检索行为不变。
+- 校验：前端 `tsc --noEmit` 零错（CI 已含 `web-typecheck`）；前端解析器对 `server.py` 真实输出冒烟测试 37 通过；`pytest` 173 passed；`self_check.py` ALL CHECKS PASSED。详见 [CHANGELOG.md](CHANGELOG.md) 的 `[4.5.0]` 条目。
+
 ## 使用 / Usage
 
 对话中说"帮我冲一杯手冲""这个萃取好苦怎么办""深烘豆怎么调"等，顾问自动用穿透式追问主导对话、锁定关键变量，而非被动等待指令。Say "brew me a pour-over" / "my espresso is too bitter" / "tune for dark roast" — the consultant auto-drives the conversation with penetrating follow-ups to lock in the key variable.

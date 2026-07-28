@@ -640,6 +640,39 @@ def get_learning_resources(level: str = "beginner", language: str = "zh") -> str
                     f"2. Intermediate (3-12m): Barista Hustle extraction theory -> systematic cupping -> SCA Brewing Foundation\n"
                     f"3. Professional (12m+): SCA Sensory Skills full -> Q-Grader cert -> Le Nez du Cafe 36-aroma training")]
     return "\n".join(lines)
+def _tokenize(text):
+    """Mixed CJK + Latin tokenizer for search scoring (zero deps).
+
+    Latin runs -> lowercased words; CJK runs -> adjacent 2-char bigrams.
+    Bigrams let long Chinese queries actually find the right reference doc
+    instead of being searched as one giant substring that never matches.
+    """
+    tokens = []
+    i, n = 0, len(text)
+    while i < n:
+        ch = text[i]
+        if ch.isascii():
+            j = i
+            while j < n and text[j].isascii() and text[j].isalnum():
+                j += 1
+            if j > i:
+                tokens.append(text[i:j].lower())
+                i = j
+            else:
+                i += 1
+        else:
+            j = i
+            while j < n and not text[j].isascii():
+                j += 1
+            run = text[i:j]
+            for k in range(len(run) - 1):
+                tokens.append(run[k:k + 2])
+            if len(run) == 1:
+                tokens.append(run)
+            i = j
+    return tokens
+
+
 @mcp.tool()
 def search_references(query: str, language: str = "zh", top_k: int = 3) -> str:
     """精确定位与漂移对因 reference 文档的全文关键词检索。
@@ -673,15 +706,24 @@ def search_references(query: str, language: str = "zh", top_k: int = 3) -> str:
         )
 
     # Score each file: title match weight + body match count
-    terms = query.lower().split()
+    query_tokens = _tokenize(query)
     scored = []
     for name, paths in files.items():
         # Use the zh path if available, else first available
         zh_path = next((p for p in paths if "en" not in p.parts), paths[0])
         content = zh_path.read_text("utf-8")
-        title_hit = sum(1 for t in terms if t in name.lower()) * 3
-        body_hit = sum(1 for t in terms if t in content.lower()[:2000])
-        score = title_hit + body_hit
+        content_lower = content.lower()
+        name_lower = name.lower()
+        score = 0
+        seen = set()
+        for t in query_tokens:
+            if t in seen:
+                continue
+            seen.add(t)
+            w = 2 if len(t) > 1 else 1
+            score += content_lower.count(t) * w
+            if t in name_lower:
+                score += 6
         if score > 0:
             scored.append((score, name, paths, content))
 

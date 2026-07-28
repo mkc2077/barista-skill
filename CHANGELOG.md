@@ -14,6 +14,13 @@
 
 > 方案 A（Skill）版本仍为 4.4.2，本条目仅记录 Web 本地版发布，二者共享同一套知识库与 MCP 工具。
 
+## [4.5.0] - 2026-07-28
+
+### 新增（工具可视化 + 中文混合检索）
+- **生成式 UI 工具卡片（方案 B Web 端）**：`calculate_cupping_score` / `calculate_cva_score` / `get_triangle_protocol` / `get_qgrader_study_plan` 四个结构化工具的结果不再只以纯文本呈现，自动渲染为可视化卡片——杯测 10 维评分条 + 等级徽章、CVA 情感分/旧百平方对照进度条、三角杯测轮数·杯数·通过线网格、Q-Grader 备考阶段时间线。前端 MCP 客户端拦截工具原始返回，专用解析器转成结构化卡片数据，与模型对话流解耦、对模型上下文零负担（解析失败仍回退 Markdown）。
+- **`search_references` 中文 2-gram 混合检索**：旧实现 `query.lower().split()` 只按空格切分，中文长查询（如「柠檬酸的风味」）整段当作单一 token，几乎从不命中；且只搜文档前 2000 字符，正文后半不可达。改为零依赖的中英混合分词（英文按词、中文取相邻 2 字 bigram）+ 全文 count 打分 + 标题加权 + 去重。中文长查询命中率显著提升，英文检索行为保持不变。
+- **验证**：前端 `tsc --noEmit` 零错（已纳入 CI `web-typecheck` 并行任务）；前端解析器对 `server.py` 真实输出的冒烟测试 37 通过（4 工具 × 中英双语，关键字段精确断言）；新增 3 条中文 2-gram 回归测试，`pytest` 173 passed；`self_check.py` ALL CHECKS PASSED。
+
 ## [4.4.2] - 2026-07-26
 
 ### 修复（pip 安装 / CI 包装）

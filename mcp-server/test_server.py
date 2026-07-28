@@ -425,6 +425,24 @@ def test_search_references_no_match():
     assert "no" in out.lower() or "???" in out or "Did not" in out or "try" in out.lower()
 
 
+def test_search_references_chinese_bigram_query():
+    "2-gram: a long Chinese query (柠檬酸的风味) must find references, not no-match."
+    out = b.search_references("柠檬酸的风味", "zh", 3)
+    assert "###" in out, "long Chinese query should match >=1 reference"
+
+
+def test_search_references_chinese_short_phrase():
+    "2-gram: 杯测打分 should match (naive split() returned nothing)."
+    out = b.search_references("杯测打分", "zh", 3)
+    assert "###" in out
+
+
+def test_search_references_chinese_single_compound():
+    "2-gram: 柠檬酸 should match (regression vs naive split)."
+    out = b.search_references("柠檬酸", "zh", 3)
+    assert "###" in out
+
+
 def test_search_references_is_bilingual_tool():
     "search_references should accept language=zh and language=en"
     out_en = b.search_references("espresso", "en", 2)

@@ -4,12 +4,18 @@ import { v4 as uuidv4 } from 'uuid'
 
 export type Theme = 'light-roast' | 'pour-over' | 'dark-roast' | 'espresso'
 
+export interface ToolCard {
+  tool: string
+  data: Record<string, unknown>
+}
+
 export interface Message {
   id: string
   role: 'user' | 'assistant' | 'system'
   content: string
   timestamp: number
   model?: string
+  cards?: ToolCard[]
 }
 
 export interface Conversation {
@@ -49,6 +55,7 @@ export interface AppState {
   renameConversation: (id: string, title: string) => void
   addMessage: (conversationId: string, message: Omit<Message, 'id' | 'timestamp'>) => string
   updateMessage: (conversationId: string, messageId: string, content: string) => void
+  appendCards: (conversationId: string, messageId: string, cards: ToolCard[]) => void
   updateSettings: (partial: Partial<Settings>) => void
   setTheme: (theme: Theme) => void
   toggleSidebar: () => void
@@ -152,6 +159,24 @@ export const useStore = create<AppState>()(
                   ...c,
                   messages: c.messages.map(m =>
                     m.id === messageId ? { ...m, content } : m
+                  ),
+                  updatedAt: Date.now(),
+                }
+          ),
+        }))
+      },
+
+      appendCards: (conversationId, messageId, cards) => {
+        set((state) => ({
+          conversations: state.conversations.map(c =>
+            c.id !== conversationId
+              ? c
+              : {
+                  ...c,
+                  messages: c.messages.map(m =>
+                    m.id === messageId
+                      ? { ...m, cards: [...(m.cards || []), ...cards] }
+                      : m
                   ),
                   updatedAt: Date.now(),
                 }

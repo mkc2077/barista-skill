@@ -1,5 +1,13 @@
 import { LLMAdapter, ChatMessage, chatOnce } from './llm-adapter'
 
+const CARD_TOOLS = new Set<string>([
+  'calculate_cupping_score',
+  'calculate_cva_score',
+  'get_triangle_protocol',
+  'get_qgrader_study_plan',
+  'get_flavor_wheel',
+])
+
 export class MCPClient {
   url: string
   private _id: number = 1
@@ -85,7 +93,8 @@ export async function chatWithMCP(
   messages: ChatMessage[],
   mcpUrl: string,
   onProgress: MCPProgressCallback,
-  signal?: AbortSignal
+  signal?: AbortSignal,
+  onCard?: (toolName: string, rawResult: string) => void,
 ): Promise<string> {
   const mcp = new MCPClient(mcpUrl)
 
@@ -129,6 +138,10 @@ export async function chatWithMCP(
         toolResult = await mcp.callTool(toolName, args, signal)
       } catch (err: any) {
         toolResult = `工具调用失败: ${err.message}`
+      }
+
+      if (onCard && CARD_TOOLS.has(toolName)) {
+        onCard(toolName, toolResult)
       }
 
       workingMessages.push({
