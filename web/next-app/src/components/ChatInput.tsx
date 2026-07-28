@@ -49,12 +49,16 @@ export function ChatInput() {
 
     // 联网搜索（Scheme B）：在拼装 system prompt 前先拉取 AnySearch 参考资料
     let systemPrompt = getSystemPrompt()
+    // 联网搜索任一失败路径（抛错 / 返空）都给用户一个可见信号，避免被误以为已经联网
+    let webSearchFail = false
     if (settings.webSearchEnabled) {
       try {
         const ctx = await webSearch(text, settings.anysearchApiKey)
         if (ctx) systemPrompt += '\n\n' + ctx
+        else webSearchFail = true
       } catch (e) {
         console.warn('[webSearch] AnySearch 调用失败，跳过联网搜索：', e)
+        webSearchFail = true
       }
     }
 
@@ -79,10 +83,10 @@ export function ChatInput() {
     setStreaming(true)
     abortControllerRef.current = new AbortController()
 
-    let fullResponse = ''
+    let fullResponse = webSearchFail ? '⚠️ 联网搜索不可用，已用离线知识库回答。\n\n' : ''
 
     try {
-      if (settings.mcpEnabled && settings.mcpUrl && adapter.type !== 'anthropic') {
+      if (settings.mcpEnabled && settings.mcpUrl) {
         fullResponse = await chatWithMCP(
           adapter,
           messages,
