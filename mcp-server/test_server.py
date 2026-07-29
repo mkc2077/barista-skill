@@ -39,7 +39,7 @@ def test_main_entrypoint_exists():
     assert callable(b.main)
 
 
-def test_tool_count_is_twenty_four():
+def test_tool_count_is_twenty_five():
     tools = sorted(b.mcp._tool_manager._tools)
     assert tools == [
         "calculate_cupping_score", "calculate_cva_score", "calibrate_grinder",
@@ -49,7 +49,7 @@ def test_tool_count_is_twenty_four():
         "get_qgrader_study_plan", "get_recipe", "get_sca_course",
         "get_sca_path", "get_sensory_training", "get_triangle_protocol",
         "identify_flavor", "log_brew_result", "next_step",
-        "search_references", "search_sca_sources", "start_brew_session",
+        "rag_search", "search_references", "search_sca_sources", "start_brew_session",
     ]
 
 
@@ -403,6 +403,18 @@ def test_learning_resources_all(level, lang):
 
 
 
+
+# --- rag_search (hybrid semantic + keyword, optional RAG) ---
+def test_rag_search_returns_markdown():
+    "rag_search must return markdown-like output (either RAG hits or keyword fallback)."
+    out = b.rag_search("espresso too bitter", "en", 3)
+    assert isinstance(out, str) and out, "rag_search must return a non-empty string"
+    assert "#" in out, "rag_search should return markdown"
+
+def test_rag_search_garbage_query_no_crash():
+    "rag_search must not crash on nonsense input; returns a graceful message."
+    out = b.rag_search("zzznonsense123zzz", "zh", 2)
+    assert isinstance(out, str)
 
 # --- search_references (uses top-of-file session-level b) ---
 

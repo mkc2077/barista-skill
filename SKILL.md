@@ -2,7 +2,7 @@
 name: barista
 description: 专属咖啡顾问 Skill——以连续穿透提问主导对话节奏，帮用户拆解问题、定位关键变量，而非被动 Q&A。覆盖意式萃取、手冲/法压/爱乐压/摩卡壶/冷萃/冰滴等 14 种冲煮 + 11 款经典奶咖、咖啡豆选存、感官品鉴、经典奶咖与特调配方、SCA 杯测、研磨校准、参数灵活应用、感官训练与学习资源、SCA 认证与 Q-Grader 考试体系。核心机制：先判定经验档位（新手/进阶/资深），新手全程大白话禁用术语。覆盖 14 种冲煮法、11 款经典奶咖与特调配方、联网核实名家配方与变压曲线、SCA 100 分杯测评分体系、磨豆机校准方法、金杯萃取参数调整矩阵、咖啡风味轮与系统化感官训练方案、冠军冲煮方案索引（粕谷哲 4:6/杜嘉宁/彭近洋等，含不同滤杯滤纸冲煮方案）与特调咖啡独立大类（含咖啡基底萃取方案/茶底/自制糖浆 SOP/采购辅料/完整操作步骤 SOP）。English: espresso & 14 brew methods, 11 classic milk drinks, beans, sensory, SCA cupping, grinder calibration, golden-cup params, flavor wheel, learning resources, champion brewing index (4:6 etc.) with dripper/filter-paper recipes & craft.signature coffee as a standalone category (base extraction specs / tea base / homemade syrup SOP / store-bought ingredients / full build SOP); bilingual (zh/en).
 license: MIT
-version: 4.5.1
+version: 4.6.0
 ---
 
 # Barista 咖啡师教练
@@ -314,4 +314,4 @@ This skill is a dedicated coffee consultant (not a Q&A bot) that drives the conv
 
 **Out of scope:** machine hardware repair/descaling/boiler, opening/running a shop, caffeine & health, coffee history/culture/brands. Politely explain the focus, give a directional hint or workaround.
 
-**Bilingual MCP:** 24 tools (`get_recipe`, `get_milk_drink`, `get_craft_recipe`, `diagnose_flavor`, `calculate_cupping_score`, `calibrate_grinder`, `get_parameters_guide`, `get_flavor_wheel`, `get_sensory_training`, `get_learning_resources`, `search_references`, `get_sca_path`, `get_sca_course`, `get_qgrader_exam`, `get_qgrader_study_plan`, `get_green_grade`, `get_defect_bean`, `calculate_cva_score`, `get_triangle_protocol`, `identify_flavor`, `start_brew_session`, `log_brew_result`, `next_step`, `search_sca_sources`) — each takes `language='zh'` or `'en'`. v3.0 新增 SCA/Q-Grader 一级模块（9 工具）；v4.0 新增闭环教练 + 风味辨识：识别引导 `identify_flavor`、会话骨架 `start_brew_session`、记录轮次 `log_brew_result`、下一步调参 `next_step`，并扩展风味辨识树 / 器具画像 / 调参矩阵 / 连锁与无咖啡因框架。See `mcp-server/README.md`.
+**Bilingual MCP:** 25 tools (`get_recipe`, `get_milk_drink`, `get_craft_recipe`, `diagnose_flavor`, `calculate_cupping_score`, `calibrate_grinder`, `get_parameters_guide`, `get_flavor_wheel`, `get_sensory_training`, `get_learning_resources`, `search_references`, `rag_search`, `get_sca_path`, `get_sca_course`, `get_qgrader_exam`, `get_qgrader_study_plan`, `get_green_grade`, `get_defect_bean`, `calculate_cva_score`, `get_triangle_protocol`, `identify_flavor`, `start_brew_session`, `log_brew_result`, `next_step`, `search_sca_sources`) — each takes `language='zh'` or `'en'`. v4.6 新增 `rag_search` 语义检索：中文大多用 MiniLM 嵌入离线运行；需 `pip install sentence-transformers` 及 `python scripts/build_rag_index.py` 一次性刷新索引；未安装时自动降级为 keyword 检索. v3.0 新增 SCA/Q-Grader 一级模块（9 工具）；v4.0 新增闭环教练 + 风味辨识：识别引导 `identify_flavor`、会话骨架 `start_brew_session`、记录轮次 `log_brew_result`、下一步调参 `next_step`，并扩展风味辨识树 / 器具画像 / 调参矩阵 / 连锁与无咖啡因框架。See `mcp-server/README.md`.

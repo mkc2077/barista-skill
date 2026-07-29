@@ -291,6 +291,9 @@ python server.py --transport http --host 127.0.0.1 --port 8765
 - **`search_references` 中文 2-gram 混合检索**：旧实现只按空格切分，中文长查询整段当作单一 token 几乎从不命中；现改为中英混合分词（英文按词、中文 2 字 bigram）+ 全文打分 + 标题加权，中文长查询命中显著提升，英文检索行为不变。
 - 校验：前端 `tsc --noEmit` 零错（CI 已含 `web-typecheck`）；前端解析器对 `server.py` 真实输出冒烟测试 37 通过；`pytest` 173 passed；`self_check.py` ALL CHECKS PASSED。详见 [CHANGELOG.md](CHANGELOG.md) 的 `[4.5.0]` 条目。
 
+### 本次更新（v4.6.0 · RAG 语义检索）
+- **`rag_search` 混合语义检索 MCP 工具（可选）**：本地 sentence-transformers（`paraphrase-multilingual-MiniLM-L12-v2`，384 维多语言嵌入）驱动，中文/英文语义查询一次到位——"酸味太重" 能命中酸类 + 萃取诊断文档（纯关键词搜不到）。`pip install "./mcp-server[rag]"` 后跑一次 `python scripts/build_rag_index.py` 即启用；未装则 `rag_search` 自动降级回 `search_references` 关键词检索，行为不破坏。
+
 ## 使用 / Usage
 
 对话中说"帮我冲一杯手冲""这个萃取好苦怎么办""深烘豆怎么调"等，顾问自动用穿透式追问主导对话、锁定关键变量，而非被动等待指令。Say "brew me a pour-over" / "my espresso is too bitter" / "tune for dark roast" — the consultant auto-drives the conversation with penetrating follow-ups to lock in the key variable.

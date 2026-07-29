@@ -2,7 +2,7 @@
 """Barista Skill MCP Server (bilingual zh/en).
 
 Wraps the barista coffee-coach skill as a Model Context Protocol (MCP) service.
-24 tools cover coffee brewing, reference search, flavor diagnosis, SCA cupping scoring, grinder
+25 tools cover coffee brewing, RAG semantic search, reference search, flavor diagnosis, SCA cupping scoring, grinder
 calibration, parameter tuning, the flavor wheel, sensory training, classic milk
 drinks, learning resources, SCA certification paths, CVA scoring, Q-Grader exams & study plans,
 green coffee grading, defect beans, triangle test protocols, and SCA source search — plus a
@@ -764,6 +764,55 @@ def search_references(query: str, language: str = "zh", top_k: int = 3) -> str:
     lines.append(L(
         "> Tip: content snapshots are dated 2026-07-17. Online verification recommended for champion recipes and pressure profiles.",
         "> 提示：参考内容为 2026-07-17 快照。冠军配方与变压曲线建议联网核实最新数据。",
+    ))
+    return "\n".join(lines)
+
+
+@mcp.tool()
+def rag_search(query: str, language: str = "zh", top_k: int = 5) -> str:
+    """语义 + 关键词混合检索引用文档 / Hybrid (semantic+keyword) search over references/*.md.
+
+    Uses the local RAG index (sentence-transformers embeddings) when available;
+    degrades to keyword-only `search_references` when the index is missing or
+    sentence-transformers is not installed. Run `python scripts/build_rag_index.py`
+    after adding new reference docs / beans / craft recipes to refresh the index.
+
+    Args:
+        query: 中英混查即可 / free-text query (zh or en)
+        language: output language: zh or en (default zh)
+        top_k: top-k hits (default 5)
+    Returns: Markdown list of hits (source id + excerpt + score).
+    """
+    try:
+        import rag_index as _ri
+        if _ri.is_available():
+            hits = _ri.query(query, top_k=top_k, language=language)
+            if hits:
+                return _format_rag_hits(hits, language)
+    except Exception:
+        pass
+    return search_references(query, language=language, top_k=top_k)
+
+
+def _format_rag_hits(hits, language):
+    """Format RAG query results as markdown, mirroring search_references shape."""
+    L = lambda en, zh: en if language == "en" else zh
+    header = L(
+        "## RAG search results ({0} hits, semantic+keyword fusion)",
+        "## RAG 检索结果（{0} 条命中，语义 + 关键词融合）",
+    ).format(len(hits))
+    lines = [header, ""]
+    for rank, h in enumerate(hits, 1):
+        lines.append(f"### {rank}. [{h['score']}] `{h['source']}`")
+        text = h["text"][:1000]
+        if len(h["text"]) > 1000:
+            text += " ..."
+        lines.extend([text, ""])
+    lines.append(L(
+        "> Powered by local sentence-transformers (paraphrase-multilingual-MiniLM-L12-v2). "
+        "Re-run `scripts/build_rag_index.py` to refresh after adding new docs.",
+        "> 由本地 sentence-transformers (paraphrase-multilingual-MiniLM-L12-v2) 驱动。"
+        "新增豆子/特调后请重跑 `scripts/build_rag_index.py` 以刷新索引。",
     ))
     return "\n".join(lines)
 

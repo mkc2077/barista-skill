@@ -14,6 +14,17 @@
 
 > 方案 A（Skill）版本仍为 4.4.2，本条目仅记录 Web 本地版发布，二者共享同一套知识库与 MCP 工具。
 
+## [4.6.0] - 2026-07-29
+
+### 新增（RAG 语义检索）
+- **`rag_search` 混合语义检索 MCP 工具**：`query → keyword (CJK 2-gram) score + cosine(384-D sentence-transformers embedding) weighted fusion (0.6 : 0.4) → top-k`。本地运行、零网络查询：`paraphrase-multilingual-MiniLM-L12-v2`（384 维多语言嵌入）一次性下载后离线缓存，后续每次查询都从本地读权重。
+- **可重启索引**：`scripts/build_rag_index.py` 把 `references/*.md`（zh + en，共 45 篇）按 markdown 头部 + 段落切成 ~800 字带 ~120 字重叠的 583 个 chunk，逐段嵌入并归一化存为 `data/rag_index.pkl`。新增豆子/特调/参考文档后跑一次脚本即可刷新索引。索引文件已 `.gitignore`，每位用户本地构建（已验证：62 秒完成 583 chunks）。
+- **优雅降级**：`rag_search` 当 `sentence-transformers` 未安装、或 `data/rag_index.pkl` 不存在时，自动回退到现有 `search_references` 关键词检索。SKILL.md 工具数同步升级 24 → 25。
+- **嵌入模型离线加载**：rag_index.py 检测到本地 HF 缓存时自动设 `HF_HUB_OFFLINE=1 / TRANSFORMERS_OFFLINE=1`，跳过 huggingface_hub 在中国网络上间歇性 SSL / httpx "client has been closed" 失败的"是否有更新版本"网络检查；首装用户照常下载（已验证本地 hf-mirror.com 镜像 62 秒拿到权重）。
+- **依赖处理**：`mcp-server/pyproject.toml` 新增 `rag` 可选 extras：`pip install "./mcp-server[rag]"`；wheel `only-include` 加入 `rag_index.py`。
+- **架构借鉴**：从 `awesome-llm-apps/rag_tutorials/{local_hybrid_search_rag, corrective_rag, autonomous_rag}` 抽取三范式（可重启索引、关键词+语义融合、优雅降级），但拒绝其 torch + llama-cpp + spacy + Qdrant 的重型栈，仅保留 sentence-transformers + 本地 pickle。
+- 验证：本地 `tsc --noEmit` 零错；前端解析冒烟 37 通过；`pytest` 175 passed（新增 2 条 rag_search 测试）；`self_check.py` ALL CHECKS PASSED，5 源版本 = 4.6.0；RAG 端到端实测（5 个语义查询 × top-3）全部命中相关咖啡文档。
+
 ## [4.5.1] - 2026-07-29
 
 ### 修复（CI 门禁 / 依赖上限）
