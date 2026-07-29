@@ -14,6 +14,12 @@
 
 > 方案 A（Skill）版本仍为 4.4.2，本条目仅记录 Web 本地版发布，二者共享同一套知识库与 MCP 工具。
 
+## [4.5.1] - 2026-07-29
+
+### 修复（CI 门禁 / 依赖上限）
+- **修复 CI 自检红**：`mcp 2.0.0` 当日发布，`mcp.server.fastmcp` 子模块被重构移除（已验证：1.29.0 仍在、2.0.0 移走），而项目依赖 `mcp[cli]>=1.8.0` 无上限，CI 重新解析时拉到 2.0.0，`server.py` 的 `from mcp.server.fastmcp import FastMCP` 在自检时 `ModuleNotFoundError`，`self_check` 在版本同步校验之前就崩了。改为 `mcp[cli]>=1.8.0,<2.0` 封住未经验证的大版本，CI 回退解析到 1.29.x，导入与自检恢复。代码逻辑零改动。
+- 验证：本地 `mcp` 1.28.1 下 `self_check.py` ALL CHECKS PASSED、`pytest` 173 passed、5 源版本同步 = 4.5.1。
+
 ## [4.5.0] - 2026-07-28
 
 ### 新增（工具可视化 + 中文混合检索）
