@@ -135,6 +135,66 @@
         "zh": "36味闻香瓶,Q-Grader必考工具",
         "en": "36-aroma kit, Q-grader must-have"
       }
+    },
+    {
+      "name": "咖啡沙龙 SCA 论坛",
+      "url": "coffeesalon.com",
+      "type": {
+        "zh": "中文论坛",
+        "en": "CN forum"
+      },
+      "desc": {
+        "zh": "历年 SCA/Q-Grader 考试交流帖与备考心得汇总",
+        "en": "Historical SCA/Q-Grader exam threads & prep notes"
+      }
+    },
+    {
+      "name": "HackCoffeeStudio",
+      "url": "mp.weixin.qq.com",
+      "type": {
+        "zh": "公众号",
+        "en": "WeChat blog"
+      },
+      "desc": {
+        "zh": "SCA 认证体系拆文 + Q-Grader 备考策略专题",
+        "en": "SCA cert breakdowns & Q-Grader prep series"
+      }
+    },
+    {
+      "name": "CafeCulture 啡言食语",
+      "url": "cafeculture.com.cn",
+      "type": {
+        "zh": "行业媒体",
+        "en": "Industry media"
+      },
+      "desc": {
+        "zh": "SCA/CVA 新规专栏与认证动向跟踪",
+        "en": "SCA/CVA columns & certification updates"
+      }
+    },
+    {
+      "name": "知乎 SCA/Q-Grader 话题",
+      "url": "zhihu.com",
+      "type": {
+        "zh": "知识社区",
+        "en": "Q&A community"
+      },
+      "desc": {
+        "zh": "持证考生实战经验贴与槽点梳理",
+        "en": "Certified test-taker experience threads"
+      }
+    },
+    {
+      "name": "B站 咖啡学习区",
+      "url": "bilibili.com",
+      "type": {
+        "zh": "视频",
+        "en": "video"
+      },
+      "desc": {
+        "zh": "中文 brew / SCA / 杯测 视频教程与备考 VLOG",
+        "en": "CN brew / SCA / cupping video tutorials & prep VLOGs"
+      }
     }
   ]
 }

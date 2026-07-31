@@ -1,0 +1,20 @@
+{
+  "name": "barista-skill",
+  "description": "Barista Skill library for AI agents — bilingual coffee knowledge base, SCA/Q-Grader certification tools, 25 MCP tools, and a standalone Barista.exe local app",
+  "owner": {
+    "name": "mkc2077",
+    "url": "https://github.com/mkc2077"
+  },
+  "plugins": [
+    {
+      "name": "barista-skill",
+      "description": "Bilingual (zh/en) coffee coaching skill with 25 MCP tools: brewing, milk drinks, sensory, SCA certification, Q-Grader prep, CVA assessment, grinder calibration, defect ID, learning resources, and RAG semantic search. Also ships Barista.exe (Next.js standalone + MCP auto-start).",
+      "version": "4.6.1",
+      "source": "./",
+      "author": {
+        "name": "mkc2077",
+        "url": "https://github.com/mkc2077"
+      }
+    }
+  ]
+}

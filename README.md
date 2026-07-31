@@ -1,7 +1,7 @@
 # Barista 咖啡师教练技能 / Barista Coffee-Coach Skill
 
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Version](https://img.shields.io/badge/version-4.6.0-blue)
+![Version](https://img.shields.io/badge/version-4.6.1-blue)
 ![MCP tools](https://img.shields.io/badge/MCP%20tools-25-blueviolet)
 ![Methods](https://img.shields.io/badge/brew-14%20methods-success)
 
@@ -55,9 +55,15 @@
 
 `pip install "./mcp-server[rag]"` 后跑一次 `scripts/build_rag_index.py`，完成一次后 `rag_search` 功能即激活。
 
-## 安装 / Install
-
-把仓库放入所用Agent的技能目录👉 立即使用。兼容的平台列表见 `SKILL.md` 或 `mcp-server/README.md`。
+## 安装 / Install
+
+**方案 A · Skill 模式（最快）**：
+
+把仓库放入所用 Agent 的技能目录即可使用——不需要 npm/yarn/pip 额外步骤。兼容 Codex / Claude Code / Cursor / WorkBuddy 等所有遵循 Vercel Agent Skills 规范的平台（本仓库通过 `.claude-plugin/plugin.json` 声明元数据）.
+
+**方案 B · 本地独立版（不需要 Agent）**：
+
+Windows 用户双击 `Barista.exe`（或运行 `web/next-app`）。自己填模型 API Key，内置 25 MCP 工具 + AnySearch 联网搜索（可选，留空走免费用量），设置持久化在浏览器。详见 [`web/README.md`](web/README.md)。
 
 ## 本地版（方案 B）/ Local apps
 

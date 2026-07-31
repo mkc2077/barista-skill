@@ -19,7 +19,12 @@
     {"id": "perfect_daily_grind", "name": "Perfect Daily Grind", "url": "https://perfectdailygrind.com", "category": "media", "scope": {"zh": "全维度专业媒体", "en": "Full-dimension pro media"}, "trust": "medium-high"},
     {"id": "gafei", "name": "中国咖啡网", "url": "https://gafei.com", "category": "cn_community", "scope": {"zh": "中文资讯入口", "en": "CN info index"}, "trust": "medium"},
     {"id": "torch_coffee", "name": "Torch Coffee", "url": "https://www.torchcoffee.asia", "category": "education", "scope": {"zh": "Q-Grader 备考资料", "en": "Q-Grader prep"}, "trust": "medium"},
-    {"id": "expertcafe", "name": "Expertcafe", "url": "https://www.expertcafe.be", "category": "cn_community", "scope": {"zh": "Q-Grader 考试口径来源", "en": "Q-Grader exam count source"}, "trust": "medium"}
+    {"id": "expertcafe", "name": "Expertcafe", "url": "https://www.expertcafe.be", "category": "cn_community", "scope": {"zh": "Q-Grader 考试口径来源", "en": "Q-Grader exam count source"}, "trust": "medium"},
+    {"id": "zhihu_qgrader", "name": "知乎 SCA/Q-Grader 话题", "url": "https://www.zhihu.com", "category": "cn_community", "scope": {"zh": "持证考生备考实战经验汇总贴", "en": "Verified Q-Grader experience threads"}, "trust": "medium"},
+    {"id": "bilibili_coffee", "name": "B站 咖啡学习区", "url": "https://www.bilibili.com", "category": "media", "scope": {"zh": "中文视频教程与备考 VLOG", "en": "CN video tutorials & prep VLOGs"}, "trust": "medium"},
+    {"id": "cafe_culture", "name": "CafeCulture 啡言食语", "url": "https://cafeculture.com.cn", "category": "media", "scope": {"zh": "行业资讯与 SCA/CVA 专栏", "en": "Industry news & SCA/CVA columns"}, "trust": "medium"},
+    {"id": "hack_coffee_studio", "name": "HackCoffeeStudio", "url": "mp.weixin.qq.com", "category": "cn_community", "scope": {"zh": "SCA 认证拆文与 Q-Grader 备考点拨", "en": "SCA cert breakdowns & Q-Grader prep tips"}, "trust": "medium"},
+    {"id": "coffee_salon_forum", "name": "咖啡沙龙论坛", "url": "https://www.coffeesalon.com", "category": "cn_community", "scope": {"zh": "历年 SCA/Q-Grader 考试交流帖", "en": "Historical SCA/Q-Grader exam threads"}, "trust": "medium"}
   ],
   "verification_policy": {
     "official_required_for": ["CVA protocols", "CSP module structure", "Q-Grader certification rules", "Defect table"],

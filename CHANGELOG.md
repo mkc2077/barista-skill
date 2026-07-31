@@ -14,6 +14,14 @@
 
 > 方案 A（Skill）版本仍为 4.4.2，本条目仅记录 Web 本地版发布，二者共享同一套知识库与 MCP 工具。
 
+## [4.6.1] - 2026-07-31
+
+### 补充（专业级学习与社区来源扩充）
+- **`learning_resources.json` professional 级扩充**：从 4 条（仅官方/工具）增至 9 条，补上中文社区实战来源（咖啡沙龙论坛 / HackCoffeeStudio 公众号 / CafeCulture 啡言食语 / 知乎 SCA·Q-Grader 话题 / B站咖啡学习区）。对齐 v3.0 计划“大幅扩展 professional 级别，新增公众号/论坛等实战来源”的残留缺口。代码逻辑零改动。
+- **`sca_official_sources.json` community_curated 扩充**：从 5 条增至 10 条，新增知乎/B站/CafeCulture/HackCoffeeStudio/咖啡沙龙论坛五条已验证中文来源；保留原有单行紧凑格式与 CRLF 行尾。
+- 诚实边界：未捏造小红书 note_id / xsec_token（手头无经验证的真实笔记 ID，避免违反“禁止编造”铁律），仅收录有公开 URL 的平台频道。
+- 验证：`self_check.py` ALL CHECKS PASSED；`pytest` 157 passed（2 rag 测试需模型未本地安装，按惯例 deselected）。
+
 ## [4.6.0] - 2026-07-29
 
 ### 新增（RAG 语义检索）
