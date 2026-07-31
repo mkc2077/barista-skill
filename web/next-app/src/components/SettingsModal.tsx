@@ -69,190 +69,198 @@ export function SettingsModal() {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div
-        className="absolute inset-0 bg-black/40"
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
         onClick={() => setShowSettings(false)}
       />
 
-      <div className="relative bg-theme-secondary rounded-2xl shadow-2xl w-[90%] max-w-md max-h-[90vh]
-        overflow-y-auto p-6 animate-msg-in">
-        <button
-          onClick={() => setShowSettings(false)}
-          className="absolute top-4 right-4 p-1 hover:bg-theme-hover rounded transition-colors"
-        >
-          <X className="w-5 h-5 theme-text-dim" />
-        </button>
-
-        <h2 className="text-lg font-bold theme-primary mb-5">API 设置</h2>
-
-        <div className="mb-4">
-          <label className="block text-xs font-medium theme-text-dim mb-1.5">API 供应商</label>
-          <select
-            value={settings.provider}
-            onChange={(e) => handleProviderChange(e.target.value)}
-            className="w-full px-3 py-2 bg-theme-chat border border-theme-border rounded-lg
-              text-sm outline-none focus:border-theme-accent"
+      {/* Nested bezel modal: outer shell holds the inner content surface */}
+      <div className="bezel-shell relative animate-entry w-[92%] max-w-md max-h-[88vh]">
+        <div className="bezel-core overflow-y-auto p-6">
+          <button
+            onClick={() => setShowSettings(false)}
+            className="absolute top-5 right-5 p-1 hover:bg-theme-hover rounded transition-colors ease-editorial"
+            aria-label="关闭"
           >
-            <option value="">— 请选择 —</option>
-            {Object.entries(PROVIDERS).map(([key, p]) => (
-              <option key={key} value={key}>{p.name}</option>
-            ))}
-          </select>
-        </div>
+            <X className="w-4 h-4 theme-text-dim" strokeWidth={1.5} />
+          </button>
 
-        <div className="mb-4">
-          <label className="block text-xs font-medium theme-text-dim mb-1.5">API Key</label>
-          <input
-            type="password"
-            value={settings.apiKey}
-            onChange={(e) => updateSettings({ apiKey: e.target.value })}
-            placeholder="sk-..."
-            className="w-full px-3 py-2 bg-theme-chat border border-theme-border rounded-lg
-              text-sm outline-none focus:border-theme-accent"
-          />
-          <p className="text-xs theme-text-dim mt-1">密钥仅保存在本地浏览器，不会上传</p>
-        </div>
+          <span className="eyebrow">API 设置</span>
+          <h2 className="font-editorial text-2xl theme-primary mt-2 mb-5">接入你的模型</h2>
 
-        <div className="mb-4">
-          <label className="block text-xs font-medium theme-text-dim mb-1.5">Base URL</label>
-          <input
-            type="text"
-            value={settings.baseUrl}
-            onChange={(e) => updateSettings({ baseUrl: e.target.value })}
-            placeholder="https://api.openai.com/v1"
-            className="w-full px-3 py-2 bg-theme-chat border border-theme-border rounded-lg
-              text-sm outline-none focus:border-theme-accent"
-          />
-        </div>
-
-        <div className="mb-4">
-          <ModelSelector />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-xs font-medium theme-text-dim mb-1.5">
-            温度 <span className="theme-primary font-bold">{settings.temperature}</span>
-          </label>
-          <input
-            type="range"
-            min="0"
-            max="2"
-            step="0.1"
-            value={settings.temperature}
-            onChange={(e) => updateSettings({ temperature: parseFloat(e.target.value) })}
-            className="w-full"
-          />
-          <p className="text-xs theme-text-dim mt-1">越高越有创意，越低越稳定。推荐 0.6-0.8</p>
-        </div>
-
-        <div className="mb-4">
-          <label className="flex items-center gap-2 text-sm cursor-pointer">
-            <input
-              type="checkbox"
-              checked={settings.mcpEnabled}
-              onChange={(e) => updateSettings({ mcpEnabled: e.target.checked })}
-              className="w-4 h-4"
-            />
-            启用 MCP 工具（需本地运行 MCP Server）
-          </label>
-          <input
-            type="text"
-            value={settings.mcpUrl}
-            onChange={(e) => updateSettings({ mcpUrl: e.target.value })}
-            placeholder="http://127.0.0.1:8765/mcp"
-            className="w-full mt-2 px-3 py-2 bg-theme-chat border border-theme-border rounded-lg
-              text-sm outline-none focus:border-theme-accent"
-          />
-          <p className="text-xs theme-text-dim mt-1">
-            启用后顾问可调用 24 个专业工具。运行 Barista.exe 会自动启动本地 MCP Server；也可手动运行 start.bat / start.sh。
-          </p>
-        </div>
-
-        <div className="mb-4">
-          <label className="flex items-center gap-2 text-sm cursor-pointer">
-            <input
-              type="checkbox"
-              checked={settings.webSearchEnabled}
-              onChange={(e) => updateSettings({ webSearchEnabled: e.target.checked })}
-              className="w-4 h-4"
-            />
-            启用联网搜索（AnySearch）
-          </label>
-          <input
-            type="password"
-            value={settings.anysearchApiKey}
-            onChange={(e) => updateSettings({ anysearchApiKey: e.target.value })}
-            placeholder="AnySearch API Key（可留空走匿名额度）"
-            className="w-full mt-2 px-3 py-2 bg-theme-chat border border-theme-border rounded-lg
-              text-sm outline-none focus:border-theme-accent"
-          />
-          <p className="text-xs theme-text-dim mt-1">
-            联网搜索由 AnySearch 提供（api.anysearch.com）。留空使用匿名免费额度（按 IP 限流）；
-            也可填写自己的 Key 提升配额。密钥仅保存在本地浏览器，不会上传。
-          </p>
-        </div>
-
-        <div className="mb-4">
-          <ThemeSwitcher />
-        </div>
-
-        <button
-          onClick={() => setShowAdvanced(!showAdvanced)}
-          className="flex items-center gap-1 text-sm theme-accent hover:underline mt-2"
-        >
-          {showAdvanced ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
-          高级设置（查看/编辑系统提示词）
-        </button>
-        {showAdvanced && (
-          <div className="mt-3">
-            <textarea
-              value={settings.customPrompt || DEFAULT_SYSTEM_PROMPT}
-              onChange={(e) => updateSettings({ customPrompt: e.target.value })}
-              className="w-full min-h-[200px] px-3 py-2 bg-theme-chat border border-theme-border
-                rounded-lg text-xs font-mono outline-none focus:border-theme-accent resize-y"
-            />
-            <p className="text-xs theme-text-dim mt-1">修改后保存即生效。留空则使用默认提示词</p>
+          <div className="mb-4">
+            <label className="block text-xs font-medium theme-text-dim mb-1.5">API 供应商</label>
+            <select
+              value={settings.provider}
+              onChange={(e) => handleProviderChange(e.target.value)}
+              className="w-full px-3 py-2 bg-theme-chat border border-theme-border rounded-lg
+                text-sm outline-none focus:border-theme-accent transition-colors ease-editorial"
+            >
+              <option value="">— 请选择 —</option>
+              {Object.entries(PROVIDERS).map(([key, p]) => (
+                <option key={key} value={key}>{p.name}</option>
+              ))}
+            </select>
           </div>
-        )}
 
-        <div className="flex gap-2 mt-5 pt-4 border-t border-theme-border">
+          <div className="mb-4">
+            <label className="block text-xs font-medium theme-text-dim mb-1.5">API Key</label>
+            <input
+              type="password"
+              value={settings.apiKey}
+              onChange={(e) => updateSettings({ apiKey: e.target.value })}
+              placeholder="sk-..."
+              className="w-full px-3 py-2 bg-theme-chat border border-theme-border rounded-lg
+                text-sm outline-none focus:border-theme-accent transition-colors ease-editorial"
+            />
+            <p className="text-xs theme-text-dim mt-1">密钥仅保存在本地浏览器，不会上传</p>
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-xs font-medium theme-text-dim mb-1.5">Base URL</label>
+            <input
+              type="text"
+              value={settings.baseUrl}
+              onChange={(e) => updateSettings({ baseUrl: e.target.value })}
+              placeholder="https://api.openai.com/v1"
+              className="w-full px-3 py-2 bg-theme-chat border border-theme-border rounded-lg
+                text-sm outline-none focus:border-theme-accent transition-colors ease-editorial"
+            />
+          </div>
+
+          <div className="mb-4">
+            <ModelSelector />
+          </div>
+
+          <div className="mb-4">
+            <label className="flex items-center justify-between text-xs font-medium theme-text-dim mb-1.5">
+              <span>温度</span>
+              <span className="font-keystroke theme-primary">{settings.temperature.toFixed(1)}</span>
+            </label>
+            <input
+              type="range"
+              min="0"
+              max="2"
+              step="0.1"
+              value={settings.temperature}
+              onChange={(e) => updateSettings({ temperature: parseFloat(e.target.value) })}
+              className="w-full"
+            />
+            <p className="text-xs theme-text-dim mt-1">越高越有创意，越低越稳定。推荐 0.6-0.8</p>
+          </div>
+
+          <div className="mb-4">
+            <label className="flex items-center gap-2 text-sm cursor-pointer">
+              <input
+                type="checkbox"
+                checked={settings.mcpEnabled}
+                onChange={(e) => updateSettings({ mcpEnabled: e.target.checked })}
+                className="w-4 h-4"
+              />
+              启用 MCP 工具（需本地运行 MCP Server）
+            </label>
+            <input
+              type="text"
+              value={settings.mcpUrl}
+              onChange={(e) => updateSettings({ mcpUrl: e.target.value })}
+              placeholder="http://127.0.0.1:8765/mcp"
+              className="w-full mt-2 px-3 py-2 bg-theme-chat border border-theme-border rounded-lg
+                text-sm outline-none focus:border-theme-accent transition-colors ease-editorial"
+            />
+            <p className="text-xs theme-text-dim mt-1">
+              启用后顾问可调用 25 个专业工具。运行 Barista.exe 会自动启动本地 MCP Server；也可手动运行 start.bat / start.sh。
+            </p>
+          </div>
+
+          <div className="mb-4">
+            <label className="flex items-center gap-2 text-sm cursor-pointer">
+              <input
+                type="checkbox"
+                checked={settings.webSearchEnabled}
+                onChange={(e) => updateSettings({ webSearchEnabled: e.target.checked })}
+                className="w-4 h-4"
+              />
+              启用联网搜索（AnySearch）
+            </label>
+            <input
+              type="password"
+              value={settings.anysearchApiKey}
+              onChange={(e) => updateSettings({ anysearchApiKey: e.target.value })}
+              placeholder="AnySearch API Key（可留空走匿名额度）"
+              className="w-full mt-2 px-3 py-2 bg-theme-chat border border-theme-border rounded-lg
+                text-sm outline-none focus:border-theme-accent transition-colors ease-editorial"
+            />
+            <p className="text-xs theme-text-dim mt-1">
+              联网搜索由 AnySearch 提供（api.anysearch.com）。留空使用匿名免费额度（按 IP 限流）；
+              也可填写自己的 Key 提升配额。密钥仅保存在本地浏览器，不会上传。
+            </p>
+          </div>
+
+          <div className="mb-4">
+            <ThemeSwitcher />
+          </div>
+
           <button
-            onClick={handleExport}
-            className="flex-1 flex items-center justify-center gap-2 px-3 py-2
-              border border-theme-border rounded-lg text-sm hover:bg-theme-hover transition-colors"
+            onClick={() => setShowAdvanced(!showAdvanced)}
+            className="flex items-center gap-1 text-sm theme-accent hover:underline mt-2 transition-colors ease-editorial"
           >
-            <Download className="w-4 h-4" />
-            导出
+            {showAdvanced ? <ChevronDown className="w-4 h-4" strokeWidth={1.5} /> : <ChevronRight className="w-4 h-4" strokeWidth={1.5} />}
+            高级设置（查看/编辑系统提示词）
           </button>
+          {showAdvanced && (
+            <div className="mt-3">
+              <textarea
+                value={settings.customPrompt || DEFAULT_SYSTEM_PROMPT}
+                onChange={(e) => updateSettings({ customPrompt: e.target.value })}
+                className="w-full min-h-[200px] px-3 py-2 bg-theme-chat border border-theme-border
+                  rounded-lg text-xs font-keystroke outline-none focus:border-theme-accent
+                  transition-colors ease-editorial resize-y"
+              />
+              <p className="text-xs theme-text-dim mt-1">修改后保存即生效。留空则使用默认提示词</p>
+            </div>
+          )}
+
+          <div className="flex gap-2 mt-5 pt-4 border-t border-theme-border">
+            <button
+              onClick={handleExport}
+              className="flex-1 flex items-center justify-center gap-2 px-3 py-2
+                border border-theme-border rounded-lg text-sm hover:bg-theme-hover
+                transition-colors ease-editorial press-physics"
+            >
+              <Download className="w-4 h-4" strokeWidth={1.5} />
+              导出
+            </button>
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="flex-1 flex items-center justify-center gap-2 px-3 py-2
+                border border-theme-border rounded-lg text-sm hover:bg-theme-hover
+                transition-colors ease-editorial press-physics"
+            >
+              <Upload className="w-4 h-4" strokeWidth={1.5} />
+              导入
+            </button>
+          </div>
+
           <button
-            onClick={() => fileInputRef.current?.click()}
-            className="flex-1 flex items-center justify-center gap-2 px-3 py-2
-              border border-theme-border rounded-lg text-sm hover:bg-theme-hover transition-colors"
+            onClick={handleSave}
+            disabled={saved}
+            className={`w-full mt-3 flex items-center justify-center gap-2 px-3 py-2.5
+              rounded-lg text-sm font-medium transition-all ease-editorial press-physics
+              ${saved
+                ? 'bg-green-600 text-white'
+                : 'bg-theme-accent text-white hover:opacity-90'}`}
           >
-            <Upload className="w-4 h-4" />
-            导入
+            {saved ? <Check className="w-4 h-4" strokeWidth={1.5} /> : <Save className="w-4 h-4" strokeWidth={1.5} />}
+            {saved ? '已保存' : '保存设置'}
           </button>
+
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".json"
+            onChange={handleImport}
+            className="hidden"
+          />
         </div>
-
-        <button
-          onClick={handleSave}
-          disabled={saved}
-          className={`w-full mt-3 flex items-center justify-center gap-2 px-3 py-2.5
-            rounded-lg text-sm font-medium transition-colors
-            ${saved
-              ? 'bg-green-600 text-white'
-              : 'bg-theme-accent text-white hover:opacity-90'}`}
-        >
-          {saved ? <Check className="w-4 h-4" /> : <Save className="w-4 h-4" />}
-          {saved ? '已保存' : '保存设置'}
-        </button>
-
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept=".json"
-          onChange={handleImport}
-          className="hidden"
-        />
       </div>
     </div>
   )

@@ -141,39 +141,31 @@ export function ChatInput() {
   }
 
   return (
-    <div className="px-4 py-3 border-t border-theme-border bg-theme-secondary flex gap-2 items-end">
-      <textarea
-        ref={textareaRef}
-        value={input}
-        onChange={(e) => { setInput(e.target.value); autoResize() }}
-        onKeyDown={handleKeyDown}
-        rows={1}
-        placeholder="输入消息... (Enter 发送, Shift+Enter 换行)"
-        className="flex-1 bg-theme-chat border border-theme-border rounded-xl px-4 py-2.5
-          text-sm resize-none outline-none focus:border-theme-accent transition-colors
-          min-h-[42px] max-h-[120px]"
-      />
-      <button
-        onClick={handleSend}
-        className={`px-5 py-2.5 rounded-xl font-medium text-sm text-white transition-all
-          min-h-[42px] flex items-center gap-1.5
-          ${isStreaming
-            ? 'bg-red-500 hover:bg-red-600'
-            : 'bg-theme-primary hover:opacity-90'
-          }`}
-      >
-        {isStreaming ? (
-          <>
-            <Square className="w-4 h-4" />
-            停止
-          </>
-        ) : (
-          <>
-            <Send className="w-4 h-4" />
-            发送
-          </>
-        )}
-      </button>
+    // Nested bezel input: outer tray holds a textarea + nested circular CTA side-by-side
+    <div className="px-4 py-3 bg-theme-secondary">
+      <div className="bezel-shell-sm bg-transparent flex items-end gap-2 max-w-3xl mx-auto">
+        <div className="bezel-core-sm flex-1 flex items-end gap-2 px-3 py-2.5">
+          <textarea
+            ref={textareaRef}
+            value={input}
+            onChange={(e) => { setInput(e.target.value); autoResize() }}
+            onKeyDown={handleKeyDown}
+            rows={1}
+            placeholder="输入消息... (Enter 发送 · Shift+Enter 换行)"
+            className="flex-1 bg-transparent text-sm resize-none outline-none
+              min-h-[24px] max-h-[120px] placeholder:theme-text-dim"
+          />
+        </div>
+        <button
+          onClick={handleSend}
+          className={`shrink-0 w-10 h-10 rounded-[0.75rem] flex items-center justify-center
+            text-white transition-all press-physics ease-editorial
+            ${isStreaming ? 'bg-theme-danger' : 'bg-theme-primary'}`}
+          aria-label={isStreaming ? '停止' : '发送'}
+        >
+          {isStreaming ? <Square className="w-4 h-4" strokeWidth={1.5} /> : <Send className="w-4 h-4" strokeWidth={1.5} />}
+        </button>
+      </div>
     </div>
   )
 }

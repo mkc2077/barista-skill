@@ -44,32 +44,34 @@ export function ChatArea() {
     }
   }
 
-  const mcpTag = settings.mcpEnabled ? ' · MCP' : ''
-  const webTag = settings.webSearchEnabled ? ' · 联网' : ''
+  const meta = [settings.provider || '未配置', settings.model]
+  if (settings.mcpEnabled) meta.push('MCP')
+  if (settings.webSearchEnabled) meta.push('联网')
 
   return (
     <div className="flex flex-col h-screen">
-      <header className="flex items-center justify-between px-6 py-3 border-b border-theme-border bg-theme-secondary">
-        <div className="flex items-center gap-3">
-          <h2 className="font-semibold text-sm">{currentConversation.title}</h2>
-          <span className="text-xs theme-text-dim">
-            {settings.provider || '未配置'} · {settings.model}{mcpTag}{webTag}
+      {/* Header: eyebrow meta above a typed title heading — no glued sticky nav */}
+      <header className="flex items-center justify-between px-6 py-4 border-b border-theme-border bg-theme-secondary">
+        <div className="flex flex-col gap-0.5 min-w-0">
+          <span className="font-keystroke text-[10px] uppercase tracking-wider theme-text-dim truncate">
+            {meta.filter(Boolean).join(' · ')}
           </span>
+          <h2 className="font-editorial text-lg theme-primary truncate">{currentConversation.title}</h2>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           <button
             onClick={() => setShowSettings(true)}
-            className="p-2 hover:bg-theme-hover rounded-lg transition-colors"
+            className="p-2 hover:bg-theme-hover rounded-lg transition-colors ease-editorial"
             title="设置"
           >
-            <Settings className="w-4 h-4 theme-text-dim" />
+            <Settings className="w-4 h-4 theme-text-dim" strokeWidth={1.5} />
           </button>
           <button
             onClick={handleClear}
-            className="p-2 hover:bg-theme-hover rounded-lg transition-colors"
+            className="p-2 hover:bg-theme-hover rounded-lg transition-colors ease-editorial"
             title="删除对话"
           >
-            <Trash2 className="w-4 h-4 theme-text-dim hover:text-theme-danger" />
+            <Trash2 className="w-4 h-4 theme-text-dim hover:text-theme-danger" strokeWidth={1.5} />
           </button>
         </div>
       </header>
@@ -77,9 +79,9 @@ export function ChatArea() {
       <div
         ref={scrollContainerRef}
         onScroll={handleScroll}
-        className="flex-1 overflow-y-auto px-4 py-6"
+        className="flex-1 overflow-y-auto px-4 py-8"
       >
-        <div className="space-y-4">
+        <div className="space-y-5">
           {currentConversation.messages.map(msg => (
             <ChatMessage key={msg.id} message={msg} />
           ))}
@@ -90,11 +92,12 @@ export function ChatArea() {
       {!isNearBottom && currentConversation.messages.length > 0 && (
         <button
           onClick={scrollToBottom}
-          className="absolute bottom-24 right-6 z-10 p-2 rounded-full border border-theme-border
-            bg-theme-secondary shadow-lg hover:scale-110 transition-all"
+          className="absolute bottom-24 right-6 z-10 bezel-shell-sm bg-theme-secondary press-physics transition-all ease-editorial"
           aria-label="Scroll to bottom"
         >
-          <ArrowDown className="w-4 h-4" />
+          <div className="bezel-core-sm p-1.5">
+            <ArrowDown className="w-4 h-4 theme-text" strokeWidth={1.5} />
+          </div>
         </button>
       )}
 

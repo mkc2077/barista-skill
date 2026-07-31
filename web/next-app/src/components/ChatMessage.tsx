@@ -21,48 +21,64 @@ export function ChatMessage({ message }: ChatMessageProps) {
     setTimeout(() => setCopied(false), 2000)
   }
 
-  const avatar = isUser ? '🧑' : isError ? '⚠️' : '☕'
+  // taste-skill: no emoji. Clean monogram dots in semantic colors.
+  const monogram = isUser ? 'U' : isError ? '!' : 'C'
 
   return (
     <div className="flex gap-3 max-w-3xl mx-auto w-full animate-msg-in">
-      <div className="w-9 h-9 rounded-full flex items-center justify-center text-lg flex-shrink-0
-        bg-theme-accent">
-        {avatar}
-      </div>
-      <div className="flex-1 group">
-        <div
-          className={`px-4 py-3 rounded-xl text-sm leading-relaxed
-            ${isUser
-              ? 'bg-theme-primary text-white rounded-tr-sm'
-              : isError
-              ? 'bg-red-50 text-red-700 border border-red-200 rounded-tl-sm'
-              : 'bg-theme-secondary border border-theme-border rounded-tl-sm'
-            }`}
-        >
-          {isUser ? (
-            <p className="whitespace-pre-wrap">{message.content}</p>
-          ) : (
-            <>
-              {message.cards && message.cards.length > 0 && (
-                <div className="mb-2 space-y-2">
-                  {message.cards.map((c, i) => (
-                    <ToolCardView key={i} card={c} />
-                  ))}
-                </div>
-              )}
-              <div className="prose prose-sm max-w-none theme-text">
-                <ReactMarkdown>{message.content}</ReactMarkdown>
-</div>
-            </>
-          )}
+      {/* Monogram dot — nested dot inside an outer hairline ring */}
+      <div className="flex-shrink-0 mt-0.5">
+        <div className="bezel-shell-sm bg-transparent">
+          <div
+            className={`bezel-core-sm w-8 h-8 flex items-center justify-center text-xs font-medium
+              ${isUser
+                ? 'bg-theme-primary text-white'
+                : isError
+                ? 'bg-theme-danger text-white'
+                : 'bg-theme-accent text-white'}`}
+          >
+            {monogram}
+          </div>
         </div>
+      </div>
+
+      <div className="flex-1 group min-w-0">
+        {/* Nested bubble: the bubble surface stays inside a subtle tray (bezel-shell-sm) */}
+        <div className="bezel-shell-sm bg-transparent">
+          <div
+            className={`px-4 py-3 text-sm leading-relaxed
+              ${isUser
+                ? 'bg-theme-primary text-white'
+                : isError
+                ? 'bg-theme-danger/10 text-theme-danger border border-theme-danger/30'
+                : 'bezel-core-sm'}`}
+          >
+            {isUser ? (
+              <p className="whitespace-pre-wrap">{message.content}</p>
+            ) : (
+              <>
+                {message.cards && message.cards.length > 0 && (
+                  <div className="mb-2 space-y-2">
+                    {message.cards.map((c, i) => (
+                      <ToolCardView key={i} card={c} />
+                    ))}
+                  </div>
+                )}
+                <div className="prose prose-sm max-w-none theme-text">
+                  <ReactMarkdown>{message.content}</ReactMarkdown>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+
         {!isUser && (
           <button
             onClick={handleCopy}
-            className="mt-1 flex items-center gap-1 text-xs theme-text-dim
-              opacity-0 group-hover:opacity-100 transition-opacity"
+            className="mt-1.5 flex items-center gap-1 text-xs theme-text-dim
+              opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-editorial"
           >
-            {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+            {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" strokeWidth={1.5} />}
             {copied ? '已复制' : '复制'}
           </button>
         )}

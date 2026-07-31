@@ -14,6 +14,20 @@
 
 > 方案 A（Skill）版本仍为 4.4.2，本条目仅记录 Web 本地版发布，二者共享同一套知识库与 MCP 工具。
 
+## [4.7.0] - 2026-07-31
+
+### 新增（前端 Premium 设计系统重构）
+- **Web 本地版 UI 重设计（web-v1.1.0 轨）**：借鉴 taste-skill 的"Editorial Luxury × Soft Structuralism"语汇，为方案 B 本地应用（Barista.exe / Next.js）铺一层 premium token，回应用户"要更有高级感"的诉求。
+  - **Double-Bezel 嵌套外壳**：新增 `bezel-shell` / `bezel-shell-sm` / `bezel-core` 三层结构件，用于侧栏按钮、欢迎页 CTA、聊天输入框、设置弹窗、消息气泡；视觉上像一体切削而非堆叠卡片。
+  - **Editorial 字体层级**：标题用 `font-editorial`（Instrument Serif 字族）+ `eyebrow` 小字签；技术读数/温度/配置状态用 `font-keystroke`（JetBrains Mono）；移除 Inter，系统字栈兜底。
+  - **弹簧物理微交互**：`press-physics` 按下缩放回弹、`ease-spring` / `ease-editorial` 缓动曲线；`animate-entry` / `animate-stagger` 配合 CSS keyframes 做滚动入场（无 JS / 无 Framer Motion）。
+  - **电影颗粒覆盖层**：`body::after` 极低透明度（0.022-0.03）SVG 噪点固定层，`pointer-events: none`，4 主题各有独立 `--grain-opacity`。
+  - **消息头像去 emoji**：聊天头像由咖啡 emoji 改为 U/C/! 双层嵌套 monogram 圈，侧栏 Logo 改 `font-editorial` Barista 字标 + beta 标签。
+- **零新依赖、零行为回归**：纯 CSS/Tailwind 原生类；4 个咖啡主题（浅烘/手冲/深烘/浓缩）全部保留，premium token 叠加在既有调色板上而非替换；方案 A（Skill 模式）与方案 B（exe）知识库 / 25 个 MCP 工具 / 数据文件完全未触碰。
+- **验证**：tsc --noEmit 零错；next build 编译成功；Chrome headless 截图渲染正常；self_check.py 5 源 4.7.0 同步 ALL CHECKS PASSED；pytest 175 passed。
+
+> 本次为前端仅改动，主版本号 4.6.1 -> 4.7.0 反映设计系统级新特性；Web 本地版内部版本 web-v1.1.0（package.json 维持 1.0.0，exe 构建未重打）。
+
 ## [4.6.1] - 2026-07-31
 
 ### 补充（专业级学习与社区来源扩充）

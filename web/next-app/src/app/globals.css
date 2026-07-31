@@ -2,7 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ===== Coffee Themes ===== */
+/* ============================================================
+   Coffee Editorial — taste-skill inspired design primitives
+   4 themes stay; add premium surface language on top.
+   ============================================================ */
 
 /* Light Roast */
 .theme-light-roast {
@@ -13,7 +16,7 @@
   --accent: #c9a96e;
   --text: #3e2723;
   --text-dim: #8d6e63;
-  --border: #d7ccc8;
+  --border: #e5dbd0;
   --hover: #efebe9;
   --danger: #c62828;
   --user-bubble: #6f4e37;
@@ -21,6 +24,12 @@
   --assistant-bubble: #ffffff;
   --scrollbar-thumb: #d7ccc8;
   --scrollbar-track: #f5f0e8;
+  /* new premium tokens */
+  --bezel-shell: rgba(111, 78, 55, 0.04);
+  --bezel-hairline: rgba(111, 78, 55, 0.10);
+  --ambient-shadow: 0 8px 32px rgba(62, 39, 35, 0.05), 0 2px 8px rgba(62, 39, 35, 0.03);
+  --inner-highlight: inset 0 1px 1px rgba(255, 255, 255, 0.6);
+  --grain-opacity: 0.022;
 }
 
 /* Pour Over */
@@ -32,7 +41,7 @@
   --accent: #c9a96e;
   --text: #3e2723;
   --text-dim: #8d6e63;
-  --border: #d7ccc8;
+  --border: #e5dbd0;
   --hover: #efebe9;
   --danger: #c62828;
   --user-bubble: #6f4e37;
@@ -40,6 +49,11 @@
   --assistant-bubble: #ffffff;
   --scrollbar-thumb: #d7ccc8;
   --scrollbar-track: #faf6f0;
+  --bezel-shell: rgba(62, 39, 35, 0.03);
+  --bezel-hairline: rgba(62, 39, 35, 0.09);
+  --ambient-shadow: 0 8px 32px rgba(62, 39, 35, 0.05), 0 2px 8px rgba(62, 39, 35, 0.03);
+  --inner-highlight: inset 0 1px 1px rgba(255, 255, 255, 0.65);
+  --grain-opacity: 0.022;
 }
 
 /* Dark Roast */
@@ -59,6 +73,11 @@
   --assistant-bubble: #2a2018;
   --scrollbar-thumb: #3e2a20;
   --scrollbar-track: #1a1310;
+  --bezel-shell: rgba(201, 169, 110, 0.05);
+  --bezel-hairline: rgba(201, 169, 110, 0.12);
+  --ambient-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), 0 2px 8px rgba(0, 0, 0, 0.22);
+  --inner-highlight: inset 0 1px 1px rgba(201, 169, 110, 0.07);
+  --grain-opacity: 0.03;
 }
 
 /* Espresso */
@@ -78,6 +97,11 @@
   --assistant-bubble: #1a1310;
   --scrollbar-thumb: #2a2018;
   --scrollbar-track: #0f0a08;
+  --bezel-shell: rgba(212, 165, 116, 0.05);
+  --bezel-hairline: rgba(212, 165, 116, 0.12);
+  --ambient-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.28);
+  --inner-highlight: inset 0 1px 1px rgba(212, 165, 116, 0.07);
+  --grain-opacity: 0.03;
 }
 
 /* ===== Base Styles ===== */
@@ -105,14 +129,43 @@
   background: var(--primary);
 }
 
-body {
-  font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+html, body {
+  /* taste-skill: no Inter. Premium system stack with Chinese fallback. (Chinese text keeps PingFang/MS YaHei fonts rather than a Latin webfont) */
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', system-ui, sans-serif;
+  letter-spacing: 0;
   background-color: var(--bg);
   color: var(--text);
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Editorial serif for hero / display headings */
+.font-editorial {
+  font-family: 'Instrument Serif', 'Times New Roman', 'Noto Serif SC', Georgia, serif;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  font-weight: 400;
+}
+
+/* Monospace accent for code / meta / keystrokes */
+.font-keystroke {
+  font-family: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+}
+
+/* Film grain overlay — fixed, pointer-events-none, very low opacity.
+   Adds physical paper / film depth without repaint cost. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: var(--grain-opacity, 0.025);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55' /%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
 }
 
 /* Theme-aware utility classes */
@@ -134,6 +187,87 @@ body {
 .border-theme-primary { border-color: var(--primary); }
 .border-theme-accent { border-color: var(--accent); }
 
+/* ============================================================
+   PREMIUM PRIMITIVES — taste-skill Double-Bezel + Spatial Rhythm
+   ============================================================ */
+
+/* Nested Bezel: outer shell wrapper (machined tray look) */
+.bezel-shell {
+  background: var(--bezel-shell, transparent);
+  border: 1px solid var(--bezel-hairline, var(--border));
+  border-radius: 1.5rem;
+  padding: 0.375rem;
+  box-shadow: var(--ambient-shadow);
+}
+
+.bezel-core {
+  background: var(--bg-secondary);
+  border-radius: calc(1.5rem - 0.375rem);
+  box-shadow: var(--inner-highlight);
+}
+
+.bezel-shell-sm {
+  background: var(--bezel-shell, transparent);
+  border: 1px solid var(--bezel-hairline, var(--border));
+  border-radius: 1rem;
+  padding: 0.25rem;
+}
+
+.bezel-core-sm {
+  background: var(--bg-secondary);
+  border-radius: calc(1rem - 0.25rem);
+  box-shadow: var(--inner-highlight);
+}
+
+/* Ambient float — diffused, low-opacity shadow (replaces harsh shadow-lg) */
+.shadow-ambient {
+  box-shadow: var(--ambient-shadow);
+}
+
+/* Eyebrow tag — caps, tight tracking, precedes major headings */
+.eyebrow {
+  display: inline-block;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.625rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--text-dim);
+  background: var(--hover);
+  border: 1px solid var(--border);
+}
+
+/* Spring physics easing — replaces linear / ease-in-out */
+.ease-spring {
+  transition-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+}
+.ease-editorial {
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Subtle physical press on actuation */
+.press-physics {
+  transition: transform 0.18s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.press-physics:active {
+  transform: scale(0.97);
+}
+
+/* Scroll entry — gentle heavy fade-up on appearance */
+@keyframes taste-entry {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-entry {
+  animation: taste-entry 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Staggered reveal helper for grids (uses inline animation-delay) */
+.animate-stagger {
+  animation: taste-entry 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 /* Typing indicator */
 .typing-indicator {
   display: inline-flex;
@@ -146,7 +280,7 @@ body {
   height: 8px;
   border-radius: 50%;
   background: var(--text-dim);
-  animation: typing-bounce 1.4s infinite ease-in-out;
+  animation: typing-bounce 1.4s infinite cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
@@ -156,14 +290,39 @@ body {
   0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
   30% { transform: translateY(-6px); opacity: 1; }
 }
+
+/* Legacy message-in alias (kept so old className still resolves) */
+@keyframes msg-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-msg-in {
+  animation: msg-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 /* ===== Prose Markdown Overrides (theme-aware) ===== */
 .prose { color: var(--text); }
-.prose :where(h1, h2, h3, h4, h5, h6) { color: var(--primary); }
+.prose :where(h1, h2, h3, h4, h5, h6) { color: var(--primary); letter-spacing: -0.01em; }
 .prose :where(a) { color: var(--accent); }
 .prose :where(strong) { color: var(--primary); }
-.prose :where(code) { color: var(--accent); background: var(--hover); padding: 0.125rem 0.25rem; border-radius: 0.25rem; }
-.prose :where(pre) { background: var(--bg-chat); border: 1px solid var(--border); }
-.prose :where(blockquote) { border-left-color: var(--accent); color: var(--text-dim); }
+.prose :where(code) {
+  color: var(--accent);
+  background: var(--hover);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.375rem;
+  font-family: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+  font-size: 0.85em;
+}
+.prose :where(pre) {
+  background: var(--bg-chat);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+}
+.prose :where(blockquote) {
+  border-left-color: var(--accent);
+  color: var(--text-dim);
+  padding-left: 1rem;
+}
 .prose :where(ul, ol) { color: var(--text); }
 .prose :where(li)::marker { color: var(--accent); }
 .prose :where(table) { border-color: var(--border); }
