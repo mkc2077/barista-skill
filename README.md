@@ -24,6 +24,8 @@
 
 
 ## 两种方案 / Two schemes
+> **最新版 v5.0.0** —— 从 v4 系列跃迁至完全重构。详见 [Release v5.0.0](https://github.com/mkc2077/barista-skill/releases/tag/v5.0.0)。
+
 
 
 
