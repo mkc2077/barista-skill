@@ -50,9 +50,7 @@ export function ChatInput() {
       return
     }
 
-    // 联网搜索（Scheme B）：在拼装 system prompt 前先拉取 AnySearch 参考资料
     let systemPrompt = getSystemPrompt()
-    // 联网搜索任一失败路径（抛错 / 返空）都给用户一个可见信号，避免被误以为已经联网
     let webSearchFail = false
     if (settings.webSearchEnabled) {
       try {
@@ -60,7 +58,7 @@ export function ChatInput() {
         if (ctx) systemPrompt += '\n\n' + ctx
         else webSearchFail = true
       } catch (e) {
-        console.warn('[webSearch] AnySearch 调用失败，跳过联网搜索：', e)
+        console.warn('[websearch] AnySearch failed:', e)
         webSearchFail = true
       }
     }
@@ -141,30 +139,34 @@ export function ChatInput() {
   }
 
   return (
-    // Nested bezel input: outer tray holds a textarea + nested circular CTA side-by-side
     <div className="px-4 py-3 bg-theme-secondary">
-      <div className="bezel-shell-sm bg-transparent flex items-end gap-2 max-w-3xl mx-auto">
-        <div className="bezel-core-sm flex-1 flex items-end gap-2 px-3 py-2.5">
+      {/* Double-bezel-input: outer shell + inner surface */}
+      <div className="bezel-double max-w-3xl mx-auto">
+        <div className="flex items-end gap-2 px-3 py-2.5">
           <textarea
             ref={textareaRef}
             value={input}
             onChange={(e) => { setInput(e.target.value); autoResize() }}
             onKeyDown={handleKeyDown}
             rows={1}
-            placeholder="输入消息... (Enter 发送 · Shift+Enter 换行)"
+            placeholder="输入消息... (Enter 发送 / Shift+Enter 换行)"
             className="flex-1 bg-transparent text-sm resize-none outline-none
-              min-h-[24px] max-h-[120px] placeholder:theme-text-dim"
+min-h-[24px] max-h-[120px] placeholder:opacity-50"
           />
+          <button
+            onClick={handleSend}
+            className={`shrink-0 flex items-center justify-center px-2.5 py-2.5 rounded-xl
+              text-white font-medium text-sm press-physics
+              transition-colors duration-200 ease-editorial
+              ${isStreaming ? 'bg-theme-danger' : 'bg-theme-primary hover:opacity-90'}`}
+            aria-label={isStreaming ? 'Stop' : 'Send'}
+          >
+            {isStreaming
+              ? <Square className="w-4 h-4" strokeWidth={1.5} />
+              : <Send className="w-4 h-4" strokeWidth={1.5} />
+            }
+          </button>
         </div>
-        <button
-          onClick={handleSend}
-          className={`shrink-0 w-10 h-10 rounded-[0.75rem] flex items-center justify-center
-            text-white transition-all press-physics ease-editorial
-            ${isStreaming ? 'bg-theme-danger' : 'bg-theme-primary'}`}
-          aria-label={isStreaming ? '停止' : '发送'}
-        >
-          {isStreaming ? <Square className="w-4 h-4" strokeWidth={1.5} /> : <Send className="w-4 h-4" strokeWidth={1.5} />}
-        </button>
       </div>
     </div>
   )

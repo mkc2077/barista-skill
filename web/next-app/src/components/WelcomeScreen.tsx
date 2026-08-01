@@ -1,7 +1,7 @@
 'use client'
 
 import { useStore } from '@/store'
-import { Settings } from 'lucide-react'
+import { ArrowRight, Settings } from 'lucide-react'
 
 export function WelcomeScreen() {
   const settings = useStore((s) => s.settings)
@@ -18,81 +18,95 @@ export function WelcomeScreen() {
     }
   }
 
-  const tags = ['14 种冲煮法', '11 款经典奶坊', '故障排查', '感官引导', '三档自适应']
+  const tags = ['14 种冲煮法', '11 款经典奶咖', '瑕疵排查', '感官引带', '三档自适应']
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center px-8 py-24">
-      <span className="eyebrow animate-stagger" style={{ animationDelay: '0ms' }}>
-        Coffee Consultant · 双语 · 顾问主导
-      </span>
-
-      <h1
-        className="font-editorial text-5xl md:text-6xl theme-primary mt-6 mb-3 animate-stagger"
-        style={{ animationDelay: '80ms' }}
+    <div className="aurora-bg flex-1 min-h-0 grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-12 px-6 sm:px-10 md:px-16 lg:px-24 py-16 md:py-20">
+      {/* Left: editorial display column (asymmetric, soft-skill / redesign-skill anti-default) */}
+      <div
+        className="md:col-span-7 flex flex-col justify-center relative z-[1] animate-stagger"
+        style={{ animationDelay: '0ms' }}
       >
-        Barista 咖啡顾问
-      </h1>
+        <span className="eyebrow w-fit">COFFEE CONSULTANT</span>
 
-      <p
-        className="theme-text-dim text-center text-base max-w-md mb-1 animate-stagger"
-        style={{ animationDelay: '160ms' }}
-      >
-        顾问主导穿透追问，找到影响口感的那一个变量
-      </p>
-      <p
-        className="theme-text-dim text-center text-sm max-w-md mb-10 animate-stagger"
+        <h1 className="display-hero theme-primary mt-7 mb-6">
+          Barista<br />咖啡顾问
+        </h1>
+
+        <p className="theme-text-dim text-base md:text-lg max-w-md mb-2 leading-relaxed">
+          顾问式追问，穿透表象——找到影响杯中风味的那个关键变量。
+        </p>
+        <p className="theme-text-dim text-sm max-w-md mb-10 font-keystroke tracking-wide">
+          不是被动问答。先问透，再动手。
+        </p>
+
+        <div className="flex flex-wrap gap-2 max-w-xl">
+          {tags.map((tag) => (
+            <span
+              key={tag}
+              className="bezel-shell-sm px-3 py-1 rounded-full text-xs theme-text-dim hover:border-theme-accent transition-colors duration-300 ease-editorial"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Right: glass start tray with star-border accent */}
+      <div
+        className="md:col-span-5 flex items-center justify-center md:justify-end relative z-[1] animate-stagger"
         style={{ animationDelay: '220ms' }}
       >
-        不是被动问答，是顾问先问你
-      </p>
+        <div className="glass-panel w-full max-w-sm p-6 md:p-7">
+          <div className="flex items-center justify-between mb-1">
+            <span className="eyebrow">BEGIN</span>
+            <span className="font-keystroke text-[0.625rem] theme-text-dim tracking-widest">
+              25 TOOLS · RAG
+            </span>
+          </div>
 
-      <div
-        className="flex flex-wrap gap-2 justify-center max-w-lg mb-12 animate-stagger"
-        style={{ animationDelay: '300ms' }}
-      >
-        {tags.map(tag => (
-          <span
-            key={tag}
-            className="px-3 py-1 rounded-full text-xs theme-text-dim
-              border border-theme-border bg-theme-secondary/60"
-          >
-            {tag}
-          </span>
-        ))}
+          <h2 className="font-editorial text-2xl theme-primary mt-4 mb-2 leading-tight">
+            准备好开始了吗？
+          </h2>
+          <p className="theme-text-dim text-sm mb-7 leading-relaxed">
+            填好你的模型 API 即可对话。也支持联网搜索与本地咖啡知识库的语义检索。
+          </p>
+
+          {/* CTA with star-border accent ring */}
+          <div className="star-border rounded-[1rem] mb-3">
+            <button
+              onClick={handleStart}
+              disabled={!hasApiKey}
+              className="group relative z-[1] w-full flex items-center justify-center gap-2.5 px-6 py-3.5
+                bg-theme-primary text-white rounded-[0.9rem] font-medium text-sm
+                press-physics disabled:opacity-40 disabled:cursor-not-allowed
+                transition-transform ease-spring"
+            >
+              <span>开始对话</span>
+              <ArrowRight
+                className="w-4 h-4 group-hover:translate-x-0.5 transition-transform ease-spring"
+                strokeWidth={1.5}
+              />
+            </button>
+          </div>
+
+          {!hasApiKey ? (
+            <button
+              onClick={() => setShowSettings(true)}
+              className="mt-2 w-full flex items-center justify-center gap-1.5 text-xs theme-text-dim
+                hover:text-theme-primary transition-colors ease-editorial
+                border-t border-theme-border pt-4"
+            >
+              <Settings className="w-3.5 h-3.5" strokeWidth={1.5} />
+              请先配置你的 API Key
+            </button>
+          ) : (
+            <p className="mt-2 text-center text-[0.625rem] font-keystroke tracking-widest theme-text-dim border-t border-theme-border pt-4">
+              READY · {(settings.provider ?? '—').toUpperCase()}
+            </p>
+          )}
+        </div>
       </div>
-
-      {/* Double-Bezel CTA: outer machined tray holds a pill button with nested icon circle */}
-      <div className="bezel-shell animate-stagger" style={{ animationDelay: '380ms' }}>
-        <button
-          onClick={handleStart}
-          disabled={!hasApiKey}
-          className="group w-full flex items-center justify-center gap-3 px-6 py-3.5
-            bg-theme-primary text-white rounded-[1.125rem] font-medium text-sm
-            press-physics disabled:opacity-40 disabled:cursor-not-allowed"
-        >
-          <span>开始对话</span>
-          <span
-            className="w-6 h-6 rounded-full bg-white/15 flex items-center justify-center
-              group-hover:translate-x-0.5 group-hover:-translate-y-px group-hover:scale-105
-              transition-transform ease-spring"
-            style={{ transitionDuration: '0.4s' }}
-          >
-            <span className="text-sm leading-none">↑</span>
-          </span>
-        </button>
-      </div>
-
-      {!hasApiKey && (
-        <button
-          onClick={() => setShowSettings(true)}
-          className="mt-8 flex items-center gap-1.5 text-xs theme-text-dim
-            hover:text-theme-primary transition-colors ease-editorial animate-stagger"
-          style={{ animationDelay: '460ms' }}
-        >
-          <Settings className="w-3.5 h-3.5" />
-          请先点击设置 API
-        </button>
-      )}
     </div>
   )
 }

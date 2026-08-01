@@ -3,17 +3,26 @@
 @tailwind utilities;
 
 /* ============================================================
-   Coffee Editorial — taste-skill inspired design primitives
-   4 themes stay; add premium surface language on top.
+   Barista Design System v5.0
+   taste-skill Editorial Luxury x soft-skill (soft structuralism)
+   x minimal-skill x redesign-skill
+
+   Guiding philosophy:
+   - Editorial Luxury (VARIANCE=8, MOTION=6, DENSITY=3) as backbone
+   - Soft Structuralism surface language: airy, diffused, no harsh contrast
+   - Minimalist restraint: one accent, muted pastels, bento grids
+   - Redesign-skill full audit applied (no Inter, tinted shadows, etc.)
+
+   4 coffee themes stay intact — premium tokens overlay atop.
    ============================================================ */
 
-/* Light Roast */
+/* ===== Light Roast (浅烘) ===== */
 .theme-light-roast {
   --bg: #faf6f0;
   --bg-secondary: #ffffff;
   --bg-chat: #f5f0e8;
   --primary: #6f4e37;
-  --accent: #c9a96e;
+  --accent: #b08d57;
   --text: #3e2723;
   --text-dim: #8d6e63;
   --border: #e5dbd0;
@@ -24,21 +33,29 @@
   --assistant-bubble: #ffffff;
   --scrollbar-thumb: #d7ccc8;
   --scrollbar-track: #f5f0e8;
-  /* new premium tokens */
-  --bezel-shell: rgba(111, 78, 55, 0.04);
-  --bezel-hairline: rgba(111, 78, 55, 0.10);
-  --ambient-shadow: 0 8px 32px rgba(62, 39, 35, 0.05), 0 2px 8px rgba(62, 39, 35, 0.03);
-  --inner-highlight: inset 0 1px 1px rgba(255, 255, 255, 0.6);
-  --grain-opacity: 0.022;
+  /* Bezel tray & cores */
+  --bezel-shell: rgba(111,78,55,0.09);
+  --bezel-hairline: rgba(111,78,55,0.16);
+  --ambient-shadow: 0 14px 44px rgba(111,78,55,0.10),0 4px 12px rgba(62,39,35,0.06);
+  --ambient-shadow-lg: 0 28px 76px rgba(111,78,55,0.14),0 8px 22px rgba(62,39,35,0.08);
+  --inner-highlight: inset 0 1px 1px rgba(255,255,255,0.7);
+  --grain-opacity: 0.026;
+  /* Aurora mesh glow */
+  --aurora-1: rgba(111,78,55,0.20);
+  --aurora-2: rgba(176,141,87,0.16);
+  --aurora-3: rgba(138,154,91,0.10);
+  /* Glass tray */
+  --glass-tint: rgba(255,252,246,0.50);
+  --glass-hairline: rgba(255,255,255,0.58);
 }
 
-/* Pour Over */
+/* ===== Pour Over (手冲) ===== */
 .theme-pour-over {
   --bg: #f5f0e8;
   --bg-secondary: #ffffff;
   --bg-chat: #faf6f0;
   --primary: #3e2723;
-  --accent: #c9a96e;
+  --accent: #b08d57;
   --text: #3e2723;
   --text-dim: #8d6e63;
   --border: #e5dbd0;
@@ -49,20 +66,26 @@
   --assistant-bubble: #ffffff;
   --scrollbar-thumb: #d7ccc8;
   --scrollbar-track: #faf6f0;
-  --bezel-shell: rgba(62, 39, 35, 0.03);
-  --bezel-hairline: rgba(62, 39, 35, 0.09);
-  --ambient-shadow: 0 8px 32px rgba(62, 39, 35, 0.05), 0 2px 8px rgba(62, 39, 35, 0.03);
-  --inner-highlight: inset 0 1px 1px rgba(255, 255, 255, 0.65);
-  --grain-opacity: 0.022;
+  --bezel-shell: rgba(62,39,35,0.08);
+  --bezel-hairline: rgba(62,39,35,0.15);
+  --ambient-shadow: 0 14px 44px rgba(62,39,35,0.09),0 4px 12px rgba(62,39,35,0.05);
+  --ambient-shadow-lg: 0 28px 76px rgba(62,39,35,0.13),0 8px 22px rgba(62,39,35,0.07);
+  --inner-highlight: inset 0 1px 1px rgba(255,255,255,0.7);
+  --grain-opacity: 0.026;
+  --aurora-1: rgba(62,39,35,0.18);
+  --aurora-2: rgba(176,141,87,0.15);
+  --aurora-3: rgba(138,154,91,0.09);
+  --glass-tint: rgba(255,252,246,0.50);
+  --glass-hairline: rgba(255,255,255,0.6);
 }
 
-/* Dark Roast */
+/* ===== Dark Roast (深烘) ===== */
 .theme-dark-roast {
   --bg: #1a1310;
   --bg-secondary: #241a15;
   --bg-chat: #1f1612;
-  --primary: #c9a96e;
-  --accent: #d4b87e;
+  --primary: #d4b87e;
+  --accent: #d4a574;
   --text: #e8ddd0;
   --text-dim: #8d7563;
   --border: #3e2a20;
@@ -73,18 +96,24 @@
   --assistant-bubble: #2a2018;
   --scrollbar-thumb: #3e2a20;
   --scrollbar-track: #1a1310;
-  --bezel-shell: rgba(201, 169, 110, 0.05);
-  --bezel-hairline: rgba(201, 169, 110, 0.12);
-  --ambient-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), 0 2px 8px rgba(0, 0, 0, 0.22);
-  --inner-highlight: inset 0 1px 1px rgba(201, 169, 110, 0.07);
-  --grain-opacity: 0.03;
+  --bezel-shell: rgba(212,184,126,0.10);
+  --bezel-hairline: rgba(212,184,126,0.20);
+  --ambient-shadow: 0 14px 48px rgba(0,0,0,0.44),0 4px 14px rgba(0,0,0,0.30);
+  --ambient-shadow-lg: 0 30px 84px rgba(0,0,0,0.55),0 10px 26px rgba(0,0,0,0.36);
+  --inner-highlight: inset 0 1px 1px rgba(212,184,126,0.10);
+  --grain-opacity: 0.034;
+  --aurora-1: rgba(212,165,116,0.14);
+  --aurora-2: rgba(138,154,91,0.08);
+  --aurora-3: rgba(93,64,55,0.30);
+  --glass-tint: rgba(36,26,21,0.50);
+  --glass-hairline: rgba(212,184,126,0.20);
 }
 
-/* Espresso */
+/* ===== Espresso (浓缩) ===== */
 .theme-espresso {
   --bg: #0f0a08;
   --bg-secondary: #1a1310;
-  --bg-chat: #14100e;
+  --bg-chat: #12100e;
   --primary: #d4a574;
   --accent: #c9a96e;
   --text: #e0d5c8;
@@ -97,41 +126,32 @@
   --assistant-bubble: #1a1310;
   --scrollbar-thumb: #2a2018;
   --scrollbar-track: #0f0a08;
-  --bezel-shell: rgba(212, 165, 116, 0.05);
-  --bezel-hairline: rgba(212, 165, 116, 0.12);
-  --ambient-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.28);
-  --inner-highlight: inset 0 1px 1px rgba(212, 165, 116, 0.07);
-  --grain-opacity: 0.03;
+  --bezel-shell: rgba(212,165,116,0.10);
+  --bezel-hairline: rgba(212,165,116,0.20);
+  --ambient-shadow: 0 14px 48px rgba(0,0,0,0.54),0 4px 14px rgba(0,0,0,0.38);
+  --ambient-shadow-lg: 0 30px 84px rgba(0,0,0,0.64),0 10px 26px rgba(0,0,0,0.42);
+  --inner-highlight: inset 0 1px 1px rgba(212,165,116,0.12);
+  --grain-opacity: 0.036;
+  --aurora-1: rgba(212,165,116,0.14);
+  --aurora-2: rgba(201,169,110,0.09);
+  --aurora-3: rgba(78,52,46,0.32);
+  --glass-tint: rgba(26,19,16,0.50);
+  --glass-hairline: rgba(212,165,116,0.22);
 }
 
-/* ===== Base Styles ===== */
+/* ===== Base Reset ===== */
 
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
-
-*::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-*::-webkit-scrollbar-track {
-  background: var(--scrollbar-track, transparent);
-}
-
-*::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb);
-  border-radius: 3px;
-}
-
-*::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
-}
+*::-webkit-scrollbar { width: 6px; height: 6px; }
+*::-webkit-scrollbar-track { background: var(--scrollbar-track, transparent); }
+*::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 3px; }
+*::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
 html, body {
-  /* taste-skill: no Inter. Premium system stack with Chinese fallback. (Chinese text keeps PingFang/MS YaHei fonts rather than a Latin webfont) */
-  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', system-ui, sans-serif;
+  font-family: -apple-system,'SF Pro Display','Helvetica Neue','PingFang SC','Microsoft YaHei','Segoe UI',system-ui,sans-serif;
   letter-spacing: 0;
   background-color: var(--bg);
   color: var(--text);
@@ -142,21 +162,31 @@ html, body {
   text-rendering: optimizeLegibility;
 }
 
-/* Editorial serif for hero / display headings */
+/* ===== Typography ===== */
+
 .font-editorial {
-  font-family: 'Instrument Serif', 'Times New Roman', 'Noto Serif SC', Georgia, serif;
+  font-family: 'Instrument Serif','Noto Serif SC',Georgia,serif;
   letter-spacing: -0.02em;
   line-height: 1.08;
   font-weight: 400;
 }
 
-/* Monospace accent for code / meta / keystrokes */
 .font-keystroke {
-  font-family: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+  font-family: 'JetBrains Mono','SF Mono',ui-monospace,monospace;
+  font-variant-numeric: tabular-nums;
 }
 
-/* Film grain overlay — fixed, pointer-events-none, very low opacity.
-   Adds physical paper / film depth without repaint cost. */
+/* Hero display headline (taste-skill: clamp-based, negative tracking, tight leading) */
+.display-hero {
+  font-family: 'Instrument Serif','Noto Serif SC',Georgia,serif;
+  font-size: clamp(2.75rem, 7vw, 5.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  font-weight: 400;
+}
+
+/* ===== Film Grain Overlay (fixed, pointer-events-none) ===== */
+
 body::after {
   content: '';
   position: fixed;
@@ -168,141 +198,247 @@ body::after {
   mix-blend-mode: overlay;
 }
 
-/* Theme-aware utility classes */
+/* ===== Aurora Glow (CSS-only radial mesh, react-bits heritage) ===== */
+
+.aurora-bg {
+  position: relative;
+  isolation: isolate;
+}
+.aurora-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(62% 42% at 14% 10%, var(--aurora-1), transparent 66%),
+    radial-gradient(48% 42% at 88% 26%, var(--aurora-2), transparent 60%),
+    radial-gradient(50% 44% at 54% 96%, var(--aurora-3), transparent 62%);
+  filter: blur(3px);
+  animation: aurora-drift 26s ease-in-out infinite alternate;
+  will-change: transform, opacity;
+}
+@keyframes aurora-drift {
+  0%   { transform: translate3d(0,0,0) scale(1); }
+  100% { transform: translate3d(-1.5%,1.2%,0) scale(1.05); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .aurora-bg::before { animation: none; }
+}
+
+/* ===== Glass Panel (soft-skill Appendix C, liquid-glass through CSS) ===== */
+
+.glass-panel {
+  position: relative;
+  isolation: isolate;
+  border-radius: 1.4rem;
+  background:
+    linear-gradient(135deg, var(--glass-hairline), transparent 65%),
+    var(--glass-tint);
+  backdrop-filter: blur(24px) saturate(170%) contrast(1.05);
+  -webkit-backdrop-filter: blur(24px) saturate(170%) contrast(1.05);
+  border: 1px solid var(--glass-hairline);
+  box-shadow:
+    inset 0 1px 0 var(--glass-hairline),
+    inset 0 -1px 0 rgba(255,255,255,0.04),
+    var(--ambient-shadow-lg);
+}
+.glass-panel::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  border-radius: inherit;
+  border: 1px solid rgba(255,255,255,0.06);
+  pointer-events: none;
+}
+@media (prefers-reduced-transparency: reduce) {
+  .glass-panel {
+    background: var(--bg-secondary);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+/* ===== Bezel Architecture (soft-skill Double-Bezel / Doppelrand) ===== */
+
+.bezel-shell {
+  background: var(--bezel-shell);
+  border: 1px solid var(--bezel-hairline, var(--border));
+  border-radius: 1.5rem;
+  box-shadow: var(--ambient-shadow);
+}
+.bezel-core {
+  background: var(--bg-secondary);
+  border: 1px solid var(--bezel-hairline, var(--border));
+  border-radius: 1.25rem;
+  box-shadow: var(--inner-highlight);
+}
+
+.bezel-shell-sm {
+  background: var(--bezel-shell);
+  border: 1px solid var(--bezel-hairline, var(--border));
+  border-radius: 1rem;
+}
+.bezel-core-sm {
+  background: var(--bg-secondary);
+  border: 1px solid var(--bezel-hairline, var(--border));
+  border-radius: 0.85rem;
+  box-shadow: var(--inner-highlight);
+}
+
+/* Double-bezel with explicit outer ring and inner card */
+.bezel-double {
+  position: relative;
+  background: var(--bezel-shell);
+  border: 1px solid var(--bezel-hairline);
+  border-radius: 1.5rem;
+  box-shadow: var(--ambient-shadow);
+  padding: 0.375rem;
+}
+.bezel-double > * {
+  background: var(--bg-secondary);
+  border: 1px solid var(--bezel-hairline);
+  border-radius: 1.2rem;
+  box-shadow: var(--inner-highlight);
+}
+
+/* ===== Ambient Tinted Shadows ===== */
+
+.shadow-ambient { box-shadow: var(--ambient-shadow); }
+.shadow-ambient-lg { box-shadow: var(--ambient-shadow-lg); }
+
+/* ===== Eyebrow Tag (brand-chip) ===== */
+
+.eyebrow {
+  display: inline-block;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.6rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.21em;
+  color: var(--accent);
+  background: var(--bezel-shell);
+  border: 1px solid var(--bezel-hairline, var(--border));
+}
+
+/* ===== StarBorder (CSS-only, react-bits heritage) ===== */
+
+.star-border {
+  position: relative;
+  overflow: hidden;
+  padding: 2px 0;
+}
+.star-border::before,
+.star-border::after {
+  content: '';
+  position: absolute;
+  width: 300%;
+  height: 50%;
+  opacity: 0.6;
+  border-radius: 50%;
+  z-index: 0;
+}
+.star-border::before {
+  top: -10px;
+  left: -250%;
+  background: radial-gradient(circle, var(--primary), transparent 12%);
+  animation: star-drive-1 7s linear infinite alternate;
+}
+.star-border::after {
+  bottom: -11px;
+  right: -250%;
+  background: radial-gradient(circle, var(--accent), transparent 12%);
+  animation: star-drive-2 7s linear infinite alternate;
+}
+@keyframes star-drive-1 {
+  0%   { transform: translate(0%, 0%); opacity: 1; }
+  100% { transform: translate(100%, 0%); opacity: 0; }
+}
+@keyframes star-drive-2 {
+  0%   { transform: translate(0%, 0%); opacity: 1; }
+  100% { transform: translate(-100%,0%); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .star-border::before,
+  .star-border::after { animation: none; }
+}
+
+/* ===== Utility Eases (physical spring, editorial curve) ===== */
+
+.ease-spring { transition-timing-function: cubic-bezier(0.32, 0.72, 0, 1); }
+.ease-editorial { transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+
+/* ===== Physical press (spring-based pushdown) ===== */
+
+.press-physics {
+  transition: transform 0.18s cubic-bezier(0.32,0.72,0,1);
+}
+.press-physics:active {
+  transform: scale(0.96);
+}
+
+/* ===== Scroll Entry (fade + lift + blur -> clean) ===== */
+
+.animate-entry {
+  animation: entry-fade-in 0.7s cubic-bezier(0.16,1,0.3,1) both;
+}
+.animate-stagger {
+  animation: entry-fade-in 0.7s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes entry-fade-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Legacy message-in alias */
+.animate-msg-in {
+  animation: msg-slide 0.45s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes msg-slide {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Typing Indicator ===== */
+
+.typing-indicator { display: inline-flex; gap: 4px; padding: 4px 0; }
+.typing-indicator span {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--text-dim);
+  animation: type-bounce 1.4s infinite cubic-bezier(0.32,0.72,0,1);
+}
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes type-bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-6px); opacity: 1; }
+}
+
+/* ===== theme utility classes (block-level) ===== */
+
 .theme-bg { background-color: var(--bg); }
-.theme-bg-secondary { background-color: var(--bg-secondary); }
-.theme-bg-chat { background-color: var(--bg-chat); }
-.theme-primary { color: var(--primary); }
 .theme-text { color: var(--text); }
 .theme-text-dim { color: var(--text-dim); }
+.theme-primary { color: var(--primary); }
 .theme-accent { color: var(--accent); }
+.theme-border { color: var(--border); }
 .theme-danger { color: var(--danger); }
-.bg-theme-primary { background-color: var(--primary); }
-.bg-theme-accent { background-color: var(--accent); }
-.bg-theme-hover { background-color: var(--hover); }
 .bg-theme-secondary { background-color: var(--bg-secondary); }
 .bg-theme-chat { background-color: var(--bg-chat); }
+.bg-theme-hover { background-color: var(--hover); }
+.bg-theme-primary { background-color: var(--primary); }
+.bg-theme-accent { background-color: var(--accent); }
 .bg-theme-danger { background-color: var(--danger); }
 .border-theme-border { border-color: var(--border); }
 .border-theme-primary { border-color: var(--primary); }
 .border-theme-accent { border-color: var(--accent); }
 
-/* ============================================================
-   PREMIUM PRIMITIVES — taste-skill Double-Bezel + Spatial Rhythm
-   ============================================================ */
+/* ===== Prose Markdown (theme-aware) ===== */
 
-/* Nested Bezel: outer shell wrapper (machined tray look) */
-.bezel-shell {
-  background: var(--bezel-shell, transparent);
-  border: 1px solid var(--bezel-hairline, var(--border));
-  border-radius: 1.5rem;
-  padding: 0.375rem;
-  box-shadow: var(--ambient-shadow);
-}
-
-.bezel-core {
-  background: var(--bg-secondary);
-  border-radius: calc(1.5rem - 0.375rem);
-  box-shadow: var(--inner-highlight);
-}
-
-.bezel-shell-sm {
-  background: var(--bezel-shell, transparent);
-  border: 1px solid var(--bezel-hairline, var(--border));
-  border-radius: 1rem;
-  padding: 0.25rem;
-}
-
-.bezel-core-sm {
-  background: var(--bg-secondary);
-  border-radius: calc(1rem - 0.25rem);
-  box-shadow: var(--inner-highlight);
-}
-
-/* Ambient float — diffused, low-opacity shadow (replaces harsh shadow-lg) */
-.shadow-ambient {
-  box-shadow: var(--ambient-shadow);
-}
-
-/* Eyebrow tag — caps, tight tracking, precedes major headings */
-.eyebrow {
-  display: inline-block;
-  padding: 0.25rem 0.625rem;
-  border-radius: 9999px;
-  font-size: 0.625rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: var(--text-dim);
-  background: var(--hover);
-  border: 1px solid var(--border);
-}
-
-/* Spring physics easing — replaces linear / ease-in-out */
-.ease-spring {
-  transition-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
-}
-.ease-editorial {
-  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Subtle physical press on actuation */
-.press-physics {
-  transition: transform 0.18s cubic-bezier(0.32, 0.72, 0, 1);
-}
-.press-physics:active {
-  transform: scale(0.97);
-}
-
-/* Scroll entry — gentle heavy fade-up on appearance */
-@keyframes taste-entry {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.animate-entry {
-  animation: taste-entry 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-/* Staggered reveal helper for grids (uses inline animation-delay) */
-.animate-stagger {
-  animation: taste-entry 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-/* Typing indicator */
-.typing-indicator {
-  display: inline-flex;
-  gap: 4px;
-  padding: 4px 0;
-}
-
-.typing-indicator span {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--text-dim);
-  animation: typing-bounce 1.4s infinite cubic-bezier(0.32, 0.72, 0, 1);
-}
-
-.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
-
-@keyframes typing-bounce {
-  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-  30% { transform: translateY(-6px); opacity: 1; }
-}
-
-/* Legacy message-in alias (kept so old className still resolves) */
-@keyframes msg-in {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.animate-msg-in {
-  animation: msg-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-/* ===== Prose Markdown Overrides (theme-aware) ===== */
 .prose { color: var(--text); }
-.prose :where(h1, h2, h3, h4, h5, h6) { color: var(--primary); letter-spacing: -0.01em; }
+.prose :where(h1,h2,h3,h4,h5,h6) { color: var(--primary); letter-spacing: -0.01em; }
 .prose :where(a) { color: var(--accent); }
 .prose :where(strong) { color: var(--primary); }
 .prose :where(code) {
@@ -310,7 +446,7 @@ body::after {
   background: var(--hover);
   padding: 0.125rem 0.375rem;
   border-radius: 0.375rem;
-  font-family: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+  font-family: 'JetBrains Mono','SF Mono',ui-monospace,monospace;
   font-size: 0.85em;
 }
 .prose :where(pre) {
@@ -323,7 +459,7 @@ body::after {
   color: var(--text-dim);
   padding-left: 1rem;
 }
-.prose :where(ul, ol) { color: var(--text); }
+.prose :where(ul,ol) { color: var(--text); }
 .prose :where(li)::marker { color: var(--accent); }
 .prose :where(table) { border-color: var(--border); }
 .prose :where(th) { color: var(--primary); border-color: var(--border); }

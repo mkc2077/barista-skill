@@ -39,18 +39,17 @@ export function ChatArea() {
   if (!currentConversation) return null
 
   const handleClear = () => {
-    if (confirm('确定删除此对话？')) {
+    if (confirm('删除此对话？')) {
       deleteConversation(currentConversation.id)
     }
   }
 
-  const meta = [settings.provider || '未配置', settings.model]
+  const meta = [settings.provider || '--', settings.model]
   if (settings.mcpEnabled) meta.push('MCP')
-  if (settings.webSearchEnabled) meta.push('联网')
+  if (settings.webSearchEnabled) meta.push('WEB')
 
   return (
     <div className="flex flex-col h-screen">
-      {/* Header: eyebrow meta above a typed title heading — no glued sticky nav */}
       <header className="flex items-center justify-between px-6 py-4 border-b border-theme-border bg-theme-secondary">
         <div className="flex flex-col gap-0.5 min-w-0">
           <span className="font-keystroke text-[10px] uppercase tracking-wider theme-text-dim truncate">
@@ -59,28 +58,15 @@ export function ChatArea() {
           <h2 className="font-editorial text-lg theme-primary truncate">{currentConversation.title}</h2>
         </div>
         <div className="flex items-center gap-1">
-          <button
-            onClick={() => setShowSettings(true)}
-            className="p-2 hover:bg-theme-hover rounded-lg transition-colors ease-editorial"
-            title="设置"
-          >
+          <button onClick={() => setShowSettings(true)} className="p-2 hover:bg-theme-hover rounded-xl transition-colors ease-editorial" title="Settings">
             <Settings className="w-4 h-4 theme-text-dim" strokeWidth={1.5} />
           </button>
-          <button
-            onClick={handleClear}
-            className="p-2 hover:bg-theme-hover rounded-lg transition-colors ease-editorial"
-            title="删除对话"
-          >
+          <button onClick={handleClear} className="p-2 hover:bg-theme-hover rounded-xl transition-colors ease-editorial" title="Delete">
             <Trash2 className="w-4 h-4 theme-text-dim hover:text-theme-danger" strokeWidth={1.5} />
           </button>
         </div>
       </header>
-
-      <div
-        ref={scrollContainerRef}
-        onScroll={handleScroll}
-        className="flex-1 overflow-y-auto px-4 py-8"
-      >
+      <div ref={scrollContainerRef} onScroll={handleScroll} className="flex-1 overflow-y-auto px-4 py-8">
         <div className="space-y-5">
           {currentConversation.messages.map(msg => (
             <ChatMessage key={msg.id} message={msg} />
@@ -90,11 +76,7 @@ export function ChatArea() {
       </div>
 
       {!isNearBottom && currentConversation.messages.length > 0 && (
-        <button
-          onClick={scrollToBottom}
-          className="absolute bottom-24 right-6 z-10 bezel-shell-sm bg-theme-secondary press-physics transition-all ease-editorial"
-          aria-label="Scroll to bottom"
-        >
+        <button onClick={scrollToBottom} className="absolute bottom-24 right-6 z-10 bezel-shell-sm bg-theme-secondary" aria-label="Scroll to bottom">
           <div className="bezel-core-sm p-1.5">
             <ArrowDown className="w-4 h-4 theme-text" strokeWidth={1.5} />
           </div>

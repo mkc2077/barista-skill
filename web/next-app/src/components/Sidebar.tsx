@@ -41,13 +41,14 @@ export function Sidebar() {
 
   return (
     <>
+      {/* Floating toggle — detached bezel pill (soft-skill Fluid Island) */}
       {!sidebarOpen && (
         <button
           onClick={toggleSidebar}
-          className="fixed left-4 top-4 z-50 bezel-shell-sm bg-theme-secondary press-physics transition-colors"
+          className="fixed left-5 top-5 z-50 bezel-shell-sm bg-theme-secondary press-physics shadow-ambient"
           aria-label="Open sidebar"
         >
-          <div className="bezel-core-sm p-1.5">
+          <div className="bezel-core-sm p-2">
             <ChevronRight className="w-4 h-4 theme-text" strokeWidth={1.5} />
           </div>
         </button>
@@ -58,51 +59,51 @@ export function Sidebar() {
           bg-theme-secondary border-r border-theme-border h-screen flex-shrink-0`}
       >
         <div className="flex flex-col h-full w-72">
-          {/* Nested bezel header: logo wordmark inside a tiny machined tray */}
+          {/* Header */}
           <div className="p-4 border-b border-theme-border">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-baseline gap-2">
                 <span className="font-editorial text-xl theme-primary leading-none">Barista</span>
-                <span
-                  className="eyebrow"
-                  style={{ padding: '0.15rem 0.4rem', fontSize: '0.5rem', letterSpacing: '0.1em' }}
-                >
-                  β
-                </span>
+                <span className="eyebrow" style={{ padding: '0.15rem 0.4rem', fontSize: '0.5rem' }}>v5</span>
               </div>
               <button
                 onClick={toggleSidebar}
-                className="p-1 hover:bg-theme-hover rounded transition-colors ease-editorial"
+                className="p-1.5 hover:bg-theme-hover rounded-lg transition-colors ease-editorial"
                 aria-label="Close sidebar"
               >
                 <ChevronLeft className="w-4 h-4 theme-text-dim" strokeWidth={1.5} />
               </button>
             </div>
 
-            <button
-              onClick={handleNewChat}
-              className="bezel-shell-sm w-full press-physics group"
-            >
-              <div className="bezel-core-sm flex items-center justify-center gap-2 px-3 py-2.5 hover:bg-theme-hover transition-colors ease-editorial">
-                <Plus className="w-3.5 h-3.5 theme-accent" strokeWidth={1.5} />
-                <span className="text-sm font-medium">新建对话</span>
-              </div>
-            </button>
+            {/* New Chat CTA with star-border accent ring */}
+            <div className="star-border rounded-[0.9rem]">
+              <button
+                onClick={handleNewChat}
+                className="relative z-[1] w-full flex items-center justify-center gap-2 px-4 py-2.5
+                  bg-theme-primary text-white rounded-[0.9rem] text-sm font-medium press-physics
+                  transition-colors duration-200 ease-editorial hover:opacity-90"
+              >
+                <Plus className="w-3.5 h-3.5" strokeWidth={1.5} />
+                <span>新建对话</span>
+              </button>
+            </div>
           </div>
 
+          {/* Conversation list with staggered entry */}
           <div className="flex-1 overflow-y-auto p-3">
             {conversations.length === 0 ? (
-              <p className="text-center theme-text-dim text-xs mt-8">暂无对话</p>
+              <p className="text-center theme-text-dim text-xs mt-8 font-keystroke">::_no_conversations</p>
             ) : (
-              conversations.map(conv => (
+              conversations.map((conv, idx) => (
                 <div
                   key={conv.id}
                   onClick={() => selectConversation(conv.id)}
-                  className={`group flex items-center gap-2 px-3 py-2.5 rounded-lg cursor-pointer
-                    transition-all duration-300 ease-editorial mb-1 hover:translate-x-0.5 border
+                  style={{ animationDelay: `${idx * 28}ms` }}
+                  className={`animate-stagger group flex items-center gap-2 px-3 py-2.5 rounded-xl cursor-pointer
+                    transition-all duration-300 ease-editorial mb-1
                     ${conv.id === currentConversationId
-                      ? 'bg-theme-hover border-theme-accent/40'
-                      : 'border-transparent hover:bg-theme-hover'}`}
+                      ? 'bg-theme-hover ring-1 ring-theme-accent/40 shadow-ambient'
+                      : 'hover:bg-theme-hover'}`}
                 >
                   <MessageSquare className="w-3.5 h-3.5 flex-shrink-0 theme-text-dim" strokeWidth={1.5} />
                   {editingId === conv.id ? (
@@ -122,7 +123,7 @@ export function Sidebar() {
                   <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-editorial">
                     <button
                       onClick={(e) => handleStartRename(conv.id, conv.title, e)}
-                      className="p-1 hover:bg-theme-hover rounded press-physics"
+                      className="p-1 hover:bg-theme-hover rounded-lg press-physics"
                       title="重命名"
                       type="button"
                     >
@@ -130,7 +131,7 @@ export function Sidebar() {
                     </button>
                     <button
                       onClick={(e) => handleDelete(conv.id, e)}
-                      className="p-1 hover:bg-theme-hover rounded press-physics"
+                      className="p-1 hover:bg-theme-hover rounded-lg press-physics"
                       title="删除"
                       type="button"
                     >
@@ -142,7 +143,7 @@ export function Sidebar() {
             )}
           </div>
 
-          {/* Footer status line: monospace meta + settings entry */}
+          {/* Footer: keystroke meta + settings entry */}
           <div className="p-3 border-t border-theme-border">
             <div className="px-3 mb-2">
               <span className="font-keystroke text-[10px] uppercase tracking-wider theme-text-dim block truncate">
@@ -151,7 +152,7 @@ export function Sidebar() {
             </div>
             <button
               onClick={() => setShowSettings(true)}
-              className="w-full flex items-center gap-2 px-3 py-2 rounded-lg
+              className="w-full flex items-center gap-2 px-3 py-2 rounded-xl
                 hover:bg-theme-hover transition-colors ease-editorial text-sm"
             >
               <Settings className="w-3.5 h-3.5" strokeWidth={1.5} />

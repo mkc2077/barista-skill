@@ -13,7 +13,7 @@ interface ChatMessageProps {
 export function ChatMessage({ message }: ChatMessageProps) {
   const [copied, setCopied] = useState(false)
   const isUser = message.role === 'user'
-  const isError = message.role === 'assistant' && message.content.startsWith('⚠')
+  const isError = message.role === 'assistant' && message.content.startsWith('\u26a0')
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(message.content)
@@ -21,17 +21,15 @@ export function ChatMessage({ message }: ChatMessageProps) {
     setTimeout(() => setCopied(false), 2000)
   }
 
-  // taste-skill: no emoji. Clean monogram dots in semantic colors.
   const monogram = isUser ? 'U' : isError ? '!' : 'C'
 
   return (
     <div className="flex gap-3 max-w-3xl mx-auto w-full animate-msg-in">
-      {/* Monogram dot — nested dot inside an outer hairline ring */}
       <div className="flex-shrink-0 mt-0.5">
         <div className="bezel-shell-sm bg-transparent">
           <div
             className={`bezel-core-sm w-8 h-8 flex items-center justify-center text-xs font-medium
-              ${isUser
+${isUser
                 ? 'bg-theme-primary text-white'
                 : isError
                 ? 'bg-theme-danger text-white'
@@ -43,15 +41,14 @@ export function ChatMessage({ message }: ChatMessageProps) {
       </div>
 
       <div className="flex-1 group min-w-0">
-        {/* Nested bubble: the bubble surface stays inside a subtle tray (bezel-shell-sm) */}
-        <div className="bezel-shell-sm bg-transparent">
+        <div className={isUser ? '' : 'bezel-double'}>
           <div
             className={`px-4 py-3 text-sm leading-relaxed
-              ${isUser
-                ? 'bg-theme-primary text-white'
+${isUser
+                ? 'bezel-shell-sm bg-theme-primary text-white rounded-lg'
                 : isError
                 ? 'bg-theme-danger/10 text-theme-danger border border-theme-danger/30'
-                : 'bezel-core-sm'}`}
+                : 'bg-theme-secondary'}`}
           >
             {isUser ? (
               <p className="whitespace-pre-wrap">{message.content}</p>
@@ -79,7 +76,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
               opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-editorial"
           >
             {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" strokeWidth={1.5} />}
-            {copied ? '已复制' : '复制'}
+            {copied ? 'Copied' : 'Copy'}
           </button>
         )}
       </div>

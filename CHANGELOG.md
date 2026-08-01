@@ -3,6 +3,16 @@
 本文件记录 barista 技能的版本变更。版本号遵循 [语义化版本](https://semver.org/)：主版本.次版本.修订号。
 
 ---
+## [4.7.1] - 2026-08-01
+
+### 优化（前端增量迭代）
+- **bezel-double 统一**：SettingsModal 改用 bezel-double 嵌套外壳；rounded-xl 统一替换残留 rounded-lg
+- **精简 SettingsModal**：从 326 行精简至 140 行，移除冗余注释、压缩 JSX 布局
+- **UI 文本英文化**：SettingsModal 标签/placeholder/alert 统一英文，Sidebar/WelcomeScreen 保留中文
+- **CSS 注释重写**：globals.css 加入 Editorial Luxury/Soft Structuralism 设计哲学注释
+- **版本同步**：5 源同步至 4.7.1；验证：tsc --noEmit 零错；next build Compile成功；pytest 175 passed
+
+---
 ## [Web 本地版 web-v1.0.0] - 2026-07-27
 
 ### 新增（方案 B 本地版 / Barista.exe）
