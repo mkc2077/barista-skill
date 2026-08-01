@@ -3,6 +3,15 @@
 本文件记录 barista 技能的版本变更。版本号遵循 [语义化版本](https://semver.org/)：主版本.次版本.修订号。
 
 ---
+## [4.8.0] - 2026-08-02
+
+### 新增（RAG 增强 + API 供应商扩充）
+- **RAG 查询噪声过滤**：借鉴 SAG 检索服务思路，新增 _strip_query_noise 函数；自动剥离用户查询中的低信号短语（知识库、帮我查、tell me 等），提升 embedding 检索精度
+- **API 供应商扩充**：从 8 家增至 16 家 —— 新增 Google Gemini、Mistral AI、xAI Grok、MiniMax、腾讯混元、硅基流动 (SiliconFlow)、OpenRouter、百川 (Baichuan)
+- **一键启动优化**：start.bat 从打开旧 HTML 改为自动检查 Node/npm deps + 启动 Next.js dev server + 打开浏览器；支持 Windows & Unix
+- **版本同步**：5 源同步至 4.8.0
+
+---
 ## [4.7.1] - 2026-08-01
 
 ### 优化（前端增量迭代）

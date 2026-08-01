@@ -47,6 +47,26 @@ FUSION_SEMANTIC_WEIGHT = 0.6      # hybrid: 0.6 semantic + 0.4 keyword
 CHUNK_TARGET = 800
 CHUNK_OVERLAP = 120
 
+# SAG-inspired query noise phrases stripped before tokenising.
+_QUERY_NOISE_ZH = (
+    "知识库", "资料库", "告诉我", "帮我查", "搜索",
+    "查询", "请问", "关于", "是什么", "有哪些", "有什么",
+)
+_QUERY_NOISE_EN = (
+    "tell me", "search", "query", "find", "what is", "how to",
+    "can you", "please", "according to", "in the", "from the",
+)
+
+
+def _strip_query_noise(text, language="zh"):
+    """Remove boilerplate phrases that add zero signal to retrieval."""
+    cleaned = text.strip().lower()
+    noise = _QUERY_NOISE_EN + _QUERY_NOISE_ZH if language == "zh" else _QUERY_NOISE_EN
+    for phrase in noise:
+        cleaned = cleaned.replace(phrase, " ")
+    return cleaned.strip()
+
+
 _EMBEDDER: Any = None
 _INDEX_CACHE: Optional[dict] = None
 
@@ -288,7 +308,9 @@ def query(text, top_k=5, semantic_weight=FUSION_SEMANTIC_WEIGHT, language="zh"):
     emb_matrix = idx["embeddings"]
 
     q_emb = _l2_normalize(list(map(float, _embedder().encode(text))))
-    q_tokens = _tokenize(text)
+    # SAG-inspired: strip noise phrases for cleaner retrieval signal
+    cleaned_text = _strip_query_noise(text, language)
+    q_tokens = _tokenize(cleaned_text)
 
     lang = language if language in ("zh", "en") else "zh"
     soft_kw_max = max(20.0, float(len(q_tokens)) * 4.0)
