@@ -4,7 +4,7 @@
 
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-![Version](https://img.shields.io/badge/version-4.8.0-blue)
+![Version](https://img.shields.io/badge/version-5.0.0-blue)
 ![MCP tools](https://img.shields.io/badge/MCP%20tools-25-blueviolet)
 
 ![Methods](https://img.shields.io/badge/brew-14%20methods-success)
