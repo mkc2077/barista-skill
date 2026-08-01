@@ -18,7 +18,7 @@ where py.exe >nul 2>nul && set "PY=py.exe"
 if not defined PY (
     where python.exe >nul 2>nul && set "PY=python.exe"
 )
-if not definedPY (
+if not defined PY (
     echo [ERROR] Python 3.10+ not found
     pause
     exit /b 1
@@ -27,7 +27,7 @@ if not definedPY (
 REM ─── Find Node ───
 set "NODE="
 where node.exe >nul 2>nul && set "NODE=node.exe"
-if not definedNODE (
+if not defined NODE (
     echo [ERROR] Node.js not found
     pause
     exit /b 1
@@ -36,8 +36,8 @@ if not definedNODE (
 REM ─── Find npm ───
 set "NPM="
 where npm.cmd >nul 2>nul && set "NPM=npm.cmd"
-where npm >nul 2>nul && if not definedNPM set "NPM=npm"
-if not definedNPM (
+where npm >nul 2>nul && if not defined NPM set "NPM=npm"
+if not defined NPM (
     echo [ERROR] npm not found
     pause
     exit /b 1

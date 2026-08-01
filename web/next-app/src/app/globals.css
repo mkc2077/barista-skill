@@ -435,6 +435,31 @@ body::after {
 .border-theme-primary { border-color: var(--primary); }
 .border-theme-accent { border-color: var(--accent); }
 
+
+/* ===== Shimmer / Skeleton pulse ===== */
+@keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+.shimmer {
+  background: linear-gradient(90deg, var(--bg-chat) 25%, var(--border) 50%, var(--bg-chat) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* ===== Truncate text (single + multi-line) ===== */
+.truncate-1 { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.truncate-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* ===== Subtle float lift (impeccable calm hover) ===== */
+.float-hover { transition: transform 0.3s var(--ease-editorial, ease), box-shadow 0.3s var(--ease-editorial, ease); }
+.float-hover:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--ambient-shadow); }
+
+
+/* ===== Text Balance ===== */
+h1, h2, h3, h4, .font-editorial { text-wrap: balance; }
+
+
+/* ===== Focus Ring ===== */
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
 /* ===== Prose Markdown (theme-aware) ===== */
 
 .prose { color: var(--text); }
