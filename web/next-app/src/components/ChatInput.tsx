@@ -141,7 +141,7 @@ export function ChatInput() {
   return (
     <div className="px-4 py-3 bg-theme-secondary">
       {/* Double-bezel-input: outer shell + inner surface */}
-      <div className="bezel-double max-w-3xl mx-auto">
+      <div className=" max-w-3xl mx-auto">
         <div className="flex items-end gap-2 px-3 py-2.5">
           <textarea
             ref={textareaRef}
@@ -157,7 +157,7 @@ min-h-[24px] max-h-[120px] placeholder:opacity-50"
             onClick={handleSend}
             className={`shrink-0 flex items-center justify-center px-2.5 py-2.5 rounded-xl
               text-white font-medium text-sm press-physics
-              transition-colors duration-200 ease-editorial
+              transition-colors duration-200 ease-spring
               ${isStreaming ? 'bg-theme-danger' : 'bg-theme-primary hover:opacity-90'}`}
             aria-label={isStreaming ? 'Stop' : 'Send'}
           >

@@ -58,10 +58,10 @@ export function ChatArea() {
           <h2 className="font-editorial text-lg theme-primary truncate">{currentConversation.title}</h2>
         </div>
         <div className="flex items-center gap-1">
-          <button onClick={() => setShowSettings(true)} className="p-2 hover:bg-theme-hover rounded-xl transition-colors ease-editorial" title="Settings">
+          <button onClick={() => setShowSettings(true)} className="p-2 hover:bg-theme-hover rounded-xl transition-colors ease-spring" title="Settings">
             <Settings className="w-4 h-4 theme-text-dim" strokeWidth={1.5} />
           </button>
-          <button onClick={handleClear} className="p-2 hover:bg-theme-hover rounded-xl transition-colors ease-editorial" title="Delete">
+          <button onClick={handleClear} className="p-2 hover:bg-theme-hover rounded-xl transition-colors ease-spring" title="Delete">
             <Trash2 className="w-4 h-4 theme-text-dim hover:text-theme-danger" strokeWidth={1.5} />
           </button>
         </div>
@@ -76,7 +76,7 @@ export function ChatArea() {
       </div>
 
       {!isNearBottom && currentConversation.messages.length > 0 && (
-        <button onClick={scrollToBottom} className="absolute bottom-24 right-6 z-10 bezel-shell-sm bg-theme-secondary" aria-label="Scroll to bottom">
+        <button onClick={scrollToBottom} className="absolute bottom-24 right-6 z-10 -sm bg-theme-secondary" aria-label="Scroll to bottom">
           <div className="bezel-core-sm p-1.5">
             <ArrowDown className="w-4 h-4 theme-text" strokeWidth={1.5} />
           </div>

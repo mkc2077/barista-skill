@@ -63,9 +63,9 @@ export function SettingsModal() {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setShowSettings(false)} />
-      <div className="bezel-double relative animate-entry w-[92%] max-w-md max-h-[88vh]">
+      <div className=" relative animate-entry w-[92%] max-w-md max-h-[88vh]">
         <div className="overflow-y-auto p-6">
-          <button onClick={() => setShowSettings(false)} className="absolute top-5 right-5 p-1 hover:bg-theme-hover rounded-lg transition-colors ease-editorial" aria-label="Close">
+          <button onClick={() => setShowSettings(false)} className="absolute top-5 right-5 p-1 hover:bg-theme-hover rounded-lg transition-colors ease-spring" aria-label="Close">
             <X className="w-4 h-4 theme-text-dim" strokeWidth={1.5} />
           </button>
           <span className="eyebrow">API Settings</span>
@@ -73,7 +73,7 @@ export function SettingsModal() {
 
           <div className="mb-4">
             <label className="block text-xs font-medium theme-text-dim mb-1.5">Provider</label>
-            <select value={settings.provider} onChange={(e) => handleProviderChange(e.target.value)} className="w-full px-3 py-2 bg-theme-chat border border-theme-border rounded-xl text-sm outline-none focus:border-theme-accent transition-colors ease-editorial">
+            <select value={settings.provider} onChange={(e) => handleProviderChange(e.target.value)} className="w-full px-3 py-2 bg-theme-chat border border-theme-border rounded-xl text-sm outline-none focus:border-theme-accent transition-colors ease-spring">
               <option value="">-- Select --</option>
               {Object.entries(PROVIDERS).map(([key, p]) => (<option key={key} value={key}>{p.name}</option>))}
             </select>
@@ -81,13 +81,13 @@ export function SettingsModal() {
 
           <div className="mb-4">
             <label className="block text-xs font-medium theme-text-dim mb-1.5">API Key</label>
-            <input type="password" value={settings.apiKey} onChange={(e) => updateSettings({ apiKey: e.target.value })} placeholder="sk-…" className="w-full px-3 py-2 bg-theme-chat border border-theme-border rounded-xl text-sm outline-none focus:border-theme-accent transition-colors ease-editorial" />
+            <input type="password" value={settings.apiKey} onChange={(e) => updateSettings({ apiKey: e.target.value })} placeholder="sk-…" className="w-full px-3 py-2 bg-theme-chat border border-theme-border rounded-xl text-sm outline-none focus:border-theme-accent transition-colors ease-spring" />
             <p className="text-xs theme-text-dim mt-1">Key stays local in your browser</p>
           </div>
 
           <div className="mb-4">
             <label className="block text-xs font-medium theme-text-dim mb-1.5">Base URL</label>
-            <input type="text" value={settings.baseUrl} onChange={(e) => updateSettings({ baseUrl: e.target.value })} placeholder="https://api.openai.com/v1" className="w-full px-3 py-2 bg-theme-chat border border-theme-border rounded-xl text-sm outline-none focus:border-theme-accent transition-colors ease-editorial" />
+            <input type="text" value={settings.baseUrl} onChange={(e) => updateSettings({ baseUrl: e.target.value })} placeholder="https://api.openai.com/v1" className="w-full px-3 py-2 bg-theme-chat border border-theme-border rounded-xl text-sm outline-none focus:border-theme-accent transition-colors ease-spring" />
           </div>
 
           <div className="mb-4"><ModelSelector /></div>
@@ -100,34 +100,34 @@ export function SettingsModal() {
 
           <div className="mb-4">
             <label className="flex items-center gap-2 text-sm cursor-pointer"><input type="checkbox" checked={settings.mcpEnabled} onChange={(e) => updateSettings({ mcpEnabled: e.target.checked })} className="w-4 h-4" /> MCP tools (needs local server)</label>
-            <input type="text" value={settings.mcpUrl} onChange={(e) => updateSettings({ mcpUrl: e.target.value })} placeholder="http://127.0.0.1:8765/mcp" className="w-full mt-2 px-3 py-2 bg-theme-chat border border-theme-border rounded-xl text-sm outline-none focus:border-theme-accent transition-colors ease-editorial" />
+            <input type="text" value={settings.mcpUrl} onChange={(e) => updateSettings({ mcpUrl: e.target.value })} placeholder="http://127.0.0.1:8765/mcp" className="w-full mt-2 px-3 py-2 bg-theme-chat border border-theme-border rounded-xl text-sm outline-none focus:border-theme-accent transition-colors ease-spring" />
             <p className="text-xs theme-text-dim mt-1">Starts 25 tools. Barista.exe auto-launches MCP</p>
           </div>
 
           <div className="mb-4">
             <label className="flex items-center gap-2 text-sm cursor-pointer"><input type="checkbox" checked={settings.webSearchEnabled} onChange={(e) => updateSettings({ webSearchEnabled: e.target.checked })} className="w-4 h-4" /> Web Search (AnySearch)</label>
-            <input type="password" value={settings.anysearchApiKey} onChange={(e) => updateSettings({ anysearchApiKey: e.target.value })} placeholder="AnySearch Key (optional if anonymous)" className="w-full mt-2 px-3 py-2 bg-theme-chat border border-theme-border rounded-xl text-sm outline-none focus:border-theme-accent transition-colors ease-editorial" />
+            <input type="password" value={settings.anysearchApiKey} onChange={(e) => updateSettings({ anysearchApiKey: e.target.value })} placeholder="AnySearch Key (optional if anonymous)" className="w-full mt-2 px-3 py-2 bg-theme-chat border border-theme-border rounded-xl text-sm outline-none focus:border-theme-accent transition-colors ease-spring" />
             <p className="text-xs theme-text-dim mt-1">Key stays in your browser; anonymous tier free</p>
           </div>
 
           <div className="mb-4"><ThemeSwitcher /></div>
 
-          <button onClick={() => setShowAdvanced(!showAdvanced)} className="flex items-center gap-1 text-sm theme-accent hover:underline mt-2 transition-colors ease-editorial">
+          <button onClick={() => setShowAdvanced(!showAdvanced)} className="flex items-center gap-1 text-sm theme-accent hover:underline mt-2 transition-colors ease-spring">
             {showAdvanced ? <ChevronDown className="w-4 h-4" strokeWidth={1.5} /> : <ChevronRight className="w-4 h-4" strokeWidth={1.5} />}Advanced (system prompt)
           </button>
           {showAdvanced && (
             <div className="mt-3">
-              <textarea value={settings.customPrompt || DEFAULT_SYSTEM_PROMPT} onChange={(e) => updateSettings({ customPrompt: e.target.value })} className="w-full min-h-[200px] px-3 py-2 bg-theme-chat border border-theme-border rounded-xl text-xs font-keystroke outline-none focus:border-theme-accent transition-colors ease-editorial resize-y" />
+              <textarea value={settings.customPrompt || DEFAULT_SYSTEM_PROMPT} onChange={(e) => updateSettings({ customPrompt: e.target.value })} className="w-full min-h-[200px] px-3 py-2 bg-theme-chat border border-theme-border rounded-xl text-xs font-keystroke outline-none focus:border-theme-accent transition-colors ease-spring resize-y" />
               <p className="text-xs theme-text-dim mt-1">Leave empty for default</p>
             </div>
           )}
 
           <div className="flex gap-2 mt-5 pt-4 border-t border-theme-border">
-            <button onClick={handleExport} className="flex-1 flex items-center justify-center gap-2 px-3 py-2 border border-theme-border rounded-xl text-sm hover:bg-theme-hover transition-colors ease-editorial press-physics"><Download className="w-4 h-4" strokeWidth={1.5} /> Export</button>
-            <button onClick={() => fileInputRef.current?.click()} className="flex-1 flex items-center justify-center gap-2 px-3 py-2 border border-theme-border rounded-xl text-sm hover:bg-theme-hover transition-colors ease-editorial press-physics"><Upload className="w-4 h-4" strokeWidth={1.5} /> Import</button>
+            <button onClick={handleExport} className="flex-1 flex items-center justify-center gap-2 px-3 py-2 border border-theme-border rounded-xl text-sm hover:bg-theme-hover transition-colors ease-spring press-physics"><Download className="w-4 h-4" strokeWidth={1.5} /> Export</button>
+            <button onClick={() => fileInputRef.current?.click()} className="flex-1 flex items-center justify-center gap-2 px-3 py-2 border border-theme-border rounded-xl text-sm hover:bg-theme-hover transition-colors ease-spring press-physics"><Upload className="w-4 h-4" strokeWidth={1.5} /> Import</button>
           </div>
 
-          <button onClick={handleSave} disabled={saved} className={`w-full mt-3 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ease-editorial press-physics ${saved ? 'bg-green-600 text-white' : 'bg-theme-accent text-white hover:opacity-90'}`}>
+          <button onClick={handleSave} disabled={saved} className={`w-full mt-3 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ease-spring press-physics ${saved ? 'bg-green-600 text-white' : 'bg-theme-accent text-white hover:opacity-90'}`}>
             {saved ? <Check className="w-4 h-4" strokeWidth={1.5} /> : <Save className="w-4 h-4" strokeWidth={1.5} />}{saved ? 'Saved' : 'Save'}
           </button>
 

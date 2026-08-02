@@ -83,7 +83,7 @@ def _load_data(filename):
 
 
 # Package version ? single source: data/version.json
-__version__ = _load_data("version.json").get("version", "0.0.0+unknown")
+__version__ = "5.1.0"
 
 RECIPES = _load_data("recipes.json")
 

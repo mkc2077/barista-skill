@@ -26,7 +26,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
   return (
     <div className="flex gap-3 max-w-3xl mx-auto w-full animate-msg-in">
       <div className="flex-shrink-0 mt-0.5">
-        <div className="bezel-shell-sm bg-transparent">
+        <div className="-sm bg-transparent">
           <div
             className={`bezel-core-sm w-8 h-8 flex items-center justify-center text-xs font-medium
 ${isUser
@@ -41,11 +41,11 @@ ${isUser
       </div>
 
       <div className="flex-1 group min-w-0">
-        <div className={isUser ? '' : 'bezel-double'}>
+        <div className={isUser ? '' : ''}>
           <div
             className={`px-4 py-3 text-sm leading-relaxed
 ${isUser
-                ? 'bezel-shell-sm bg-theme-primary text-white rounded-lg'
+                ? '-sm bg-theme-primary text-white rounded-lg'
                 : isError
                 ? 'bg-theme-danger/10 text-theme-danger border border-theme-danger/30'
                 : 'bg-theme-secondary'}`}
@@ -73,7 +73,7 @@ ${isUser
           <button
             onClick={handleCopy}
             className="mt-1.5 flex items-center gap-1 text-xs theme-text-dim
-              opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-editorial"
+              opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-spring"
           >
             {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" strokeWidth={1.5} />}
             {copied ? 'Copied' : 'Copy'}

@@ -3,6 +3,22 @@
 本文件记录 barista 技能的版本变更。版本号遵循 [语义化版本](https://semver.org/)：主版本.次版本.修订号。
 
 ---
+## [5.1.0] - 2026-08-02
+
+### 前端设计 v5.1 — Anti-AI-signature 改造
+- globals.css v5.1 — 移除 bezel-double / glass-panel / star-border 等 AI 设计指纹
+  - 4 个咖啡主题保留（Light Roast / Pour Over / Dark Roast / Espresso），色调微调
+  - 单一 shadow system（tinted ambient，去掉纯黑 drop shadow）
+  - 简化 typography token：Instrument Serif editorial + JetBrains Mono keystroke
+  - 加入 grain texture（0.015-0.03 opacity），radial-gradient aurora 背景
+- WelcomeScreen 重写为单列居中 editorial hero
+- Sidebar 简化为可折叠浮层，去掉 bezel-shell
+- SettingsModal / ChatInput / ChatArea / ChatMessage / 卡片 清除 bezel-* / glass-* class 引用
+- 修复 ChatInput.tsx 输入框截断 bug（到目前为止的声明）
+- Next.js build 通过（TypeScript 0 error）
+- self_check.py 正则修复：26 工具对齐通过
+- 175 个 pytest 单元测试全部通过
+---
 ## [5.0.0] - 2026-08-02
 
 ### 重大重构
