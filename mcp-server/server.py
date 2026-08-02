@@ -785,6 +785,7 @@ def rag_search(query: str, language: str = "zh", top_k: int = 5) -> str:
     """
     try:
         import rag_index as _ri
+        _ri.rebuild_if_changed(verbose=False)
         if _ri.is_available():
             hits = _ri.query(query, top_k=top_k, language=language)
             if hits:
@@ -816,6 +817,23 @@ def _format_rag_hits(hits, language):
     ))
     return "\n".join(lines)
 
+
+@mcp.tool()
+def add_knowledge(source_id: str, text: str, language: str = "zh") -> str:
+    """Append new knowledge text to the RAG index without full rebuild."""
+    L = lambda en, zh: en if language == "en" else zh
+    try:
+        import rag_index as _ri
+        if not _ri.have_sentence_transformers():
+            return L("sentence-transformers not installed",
+                     "sentence-transformers not installed")
+        result = _ri.add_documents([(source_id, text)])
+        n = result.get("added", 0)
+        c = result.get("chunks", 0)
+        return L(f"Added to RAG index: {n} docs, {c} chunks",
+                 f"Added to RAG index: {n} docs, {c} chunks")
+    except Exception as e:
+        return L(f"Failed: {e}", f"Failed: {e}")
 
 # --- v3.0 SCA / Q-Grader / CVA / Green Coffee tools -------------------------
 

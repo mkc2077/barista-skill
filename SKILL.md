@@ -225,7 +225,7 @@ Every template enforces: change ONE variable + verify after every change
 用户提到"杯测""cupping""打分""SCA 评分"时触发。SCA 杯测是精品咖啡行业的标准品质评估方法——通过控制所有变量来公平比较不同咖啡豆的风味品质。
 - 完整流程（干香→注水→破渣→撇沫→降温→啜吸→评分→余韵）与 SCA 100 分十维度评分体系见 [references/cupping.md](references/cupping.md)。
 - 新手转述："杯测就是大家用同样的方法冲、同样的方式尝，给咖啡打分，像考试一样公平。"
-- 杯测环境、器具清单、水质标准（TDS 125–175ppm）、样品烘焙要求均在 cupping.md 中。
+- 杯测环境、器具清单、水质标准（TDS 126–175ppm）、样品烘焙要求均在 cupping.md 中。
 
 ### 研磨度校准（Grind Calibration）
 用户提到"校准""刻度""怎么调磨豆机""粒径"时触发。研磨是萃取的第一关键变量。
@@ -259,7 +259,7 @@ Every template enforces: change ONE variable + verify after every change
 ## 参考资料
 详细映射与基础参数见 `references/`（英文镜像见 `references/en/`）：
 
-> **English mirrors / 英文镜像**: 20 of 25 reference files are mirrored under `references/en/` (incl. the 7 SCA/Q-Grader v3.0 docs + the v4.0 brewing-coach-protocol). See `references/en/README.md` for full coverage. English users/agents read those directly; the Chinese originals remain the full source of truth. The 5 remaining mono files (eval-cases / example-dialogues / glossary / search-queries / human-voice-rules) are CN-specific and intentionally untranslated.
+> **English mirrors / 英文镜像**: 20 of 26 reference files are mirrored under `references/en/` (incl. the 7 SCA/Q-Grader v3.0 docs + the v4.0 brewing-coach-protocol). See `references/en/README.md` for full coverage. English users/agents read those directly; the Chinese originals remain the full source of truth. The 5 remaining mono files (eval-cases / example-dialogues / glossary / search-queries / human-voice-rules) are CN-specific and intentionally untranslated.
 
 - [references/sensory.md](references/sensory.md) — 风味问题 → 调整动作（双栏）+ 品鉴方法 + 风味词典（30+ 词）+ 风味轮原理与使用 + 系统化感官训练方案
 - [references/beans.md](references/beans.md) — 豆标解读、选豆、豆性→萃取、新鲜度与保存（双栏）
@@ -276,7 +276,7 @@ Every template enforces: change ONE variable + verify after every change
 - [references/grind-calibration.md](references/grind-calibration.md) — **研磨度校准指南**：粒径分布原理、C40/EK43/Eureka 校准方法、Dose→Yield→Time 通用原则、故障排查
 - [references/parameters-guide.md](references/parameters-guide.md) — **参数灵活应用专题**：金杯理论、溶出顺序、按产区/品种/处理法/烘焙度/口味调整矩阵与实例
 - [references/learning-resources.md](references/learning-resources.md) — **权威学习资源整合**：按入门/进阶/专业分级的学习资源、SCA 认证体系、可检索咖啡师名录
-- [references/champion-brewing.md](references/champion-brewing.md) — **冠军冲煮方案索引**：SCA 金杯 + WBrC 赛制 + 滤杯滤纸冲煮方案（V60/Origami/Kasuya 款等）+ 名家滤杯使用索引 + 粕谷哲 4:6 官方完整配方 / 杜嘉宁 / Carlos Medina 2023 / 彭近洋（2025 冠军）等检索起点
+- [references/champion-brewing.md](references/champion-brewing.md) — **冠军冲煮方案索引**：SCA 金杯 + WBrC 赛制 + 滤杯滤纸冲煮方案（V60/Origami/Kasuya 款等）+ 名家滤杯使用索引 + 粕谷哲 4:6 官方完整配方 / 杜嘉宁 / Carlos Medina 2023 / 彭近洋（2026 冠军）等检索起点
 - [references/craft-coffee.md](references/craft-coffee.md) — **特调咖啡（独立大类）**：咖啡基底萃取方案（中深烘浓缩/SOE ristretto/手冲/冷萃）+ 茶底方案 + 自制糖浆 SOP + 采购辅料清单 + 完整拼装 SOP 模板 + 门店/博主索引（吉米"咖啡届直男" / JPG coffee / GABEE. / Onyx / SEY / Blue Bottle / % Arabica / Coffee Collective）
 - [references/brewing-coach-protocol.md](references/brewing-coach-protocol.md) — **闭环教练协议（v4.0 架构基座）**：宿主持有状态的对话协议、start_brew_session / log_brew_result / next_step 节点调用约定、user_profile / brew_session 状态契约
 - [references/sca-certification.md](references/sca-certification.md) — **SCA 认证全体系详解**：六大模块课程树、各级别前置条件、学习路径规划、费用参考、考试策略、AST 导师网络
@@ -314,4 +314,4 @@ This skill is a dedicated coffee consultant (not a Q&A bot) that drives the conv
 
 **Out of scope:** machine hardware repair/descaling/boiler, opening/running a shop, caffeine & health, coffee history/culture/brands. Politely explain the focus, give a directional hint or workaround.
 
-**Bilingual MCP:** 25 tools (`get_recipe`, `get_milk_drink`, `get_craft_recipe`, `diagnose_flavor`, `calculate_cupping_score`, `calibrate_grinder`, `get_parameters_guide`, `get_flavor_wheel`, `get_sensory_training`, `get_learning_resources`, `search_references`, `rag_search`, `get_sca_path`, `get_sca_course`, `get_qgrader_exam`, `get_qgrader_study_plan`, `get_green_grade`, `get_defect_bean`, `calculate_cva_score`, `get_triangle_protocol`, `identify_flavor`, `start_brew_session`, `log_brew_result`, `next_step`, `search_sca_sources`) — each takes `language='zh'` or `'en'`. v4.6 新增 `rag_search` 语义检索：中文大多用 MiniLM 嵌入离线运行；需 `pip install sentence-transformers` 及 `python scripts/build_rag_index.py` 一次性刷新索引；未安装时自动降级为 keyword 检索. v3.0 新增 SCA/Q-Grader 一级模块（9 工具）；v4.0 新增闭环教练 + 风味辨识：识别引导 `identify_flavor`、会话骨架 `start_brew_session`、记录轮次 `log_brew_result`、下一步调参 `next_step`，并扩展风味辨识树 / 器具画像 / 调参矩阵 / 连锁与无咖啡因框架。See `mcp-server/README.md`.
+**Bilingual MCP:** 26 tools (`add_knowledge, `get_recipe`, `get_milk_drink`, `get_craft_recipe`, `diagnose_flavor`, `calculate_cupping_score`, `calibrate_grinder`, `get_parameters_guide`, `get_flavor_wheel`, `get_sensory_training`, `get_learning_resources`, `search_references`, `rag_search`, `get_sca_path`, `get_sca_course`, `get_qgrader_exam`, `get_qgrader_study_plan`, `get_green_grade`, `get_defect_bean`, `calculate_cva_score`, `get_triangle_protocol`, `identify_flavor`, `start_brew_session`, `log_brew_result`, `next_step`, `search_sca_sources`) — each takes `language='zh'` or `'en'`. v4.6 新增 `rag_search` 语义检索：中文大多用 MiniLM 嵌入离线运行；需 `pip install sentence-transformers` 及 `python scripts/build_rag_index.py` 一次性刷新索引；未安装时自动降级为 keyword 检索. v3.0 新增 SCA/Q-Grader 一级模块（9 工具）；v4.0 新增闭环教练 + 风味辨识：识别引导 `identify_flavor`、会话骨架 `start_brew_session`、记录轮次 `log_brew_result`、下一步调参 `next_step`，并扩展风味辨识树 / 器具画像 / 调参矩阵 / 连锁与无咖啡因框架。See `mcp-server/README.md`.

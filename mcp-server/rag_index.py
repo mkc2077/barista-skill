@@ -201,8 +201,9 @@ def _keyword_score(query_tokens, chunk_text, chunk_source):
         seen.add(t)
         w = 2.0 if len(t) > 1 else 1.0
         score += cl.count(t) * w
+        # SAG-inspired: heading match = +8 (source contains the file stem)
         if t in src:
-            score += 6.0
+            score += 8.0
     return score
 
 
@@ -263,6 +264,9 @@ def _write_index(path, record):
         pickle.dump(record, f, protocol=pickle.HIGHEST_PROTOCOL)
 
 
+_INDEX_MTIME = 0.0
+
+
 def _load_index():
     global _INDEX_CACHE
     if _INDEX_CACHE is not None:
@@ -279,7 +283,60 @@ def _load_index():
     return None
 
 
+def add_documents(texts, source_prefix="custom:"):
+    """Append new documents to the index without a full rebuild.
+
+    Args:
+        texts: list of (source_id_suffix, text) tuples
+        source_prefix: prefix for source_id (default "custom:")
+    Returns: {"added": count, "chunks": total_chunks}
+    """
+    if not have_sentence_transformers():
+        return {"added": 0, "chunks": 0, "error": "sentence-transformers not installed"}
+    idx = _load_index() or {"chunks": [], "embeddings": [], "model": EMBED_MODEL_NAME, "_spec": 1}
+    new_chunks = []
+    for suffix, text in texts:
+        src_id = f"{source_prefix}{suffix}"
+        for i, c in enumerate(chunk_md(text)):
+            new_chunks.append({"id": f"{src_id}#{i}", "source": src_id, "text": c})
+    if not new_chunks:
+        return {"added": 0, "chunks": len(idx.get("chunks", []))}
+    new_texts = [c["text"] for c in new_chunks]
+    new_emb = _embedder().encode(new_texts, batch_size=32, convert_to_numpy=True)
+    new_embs = [_l2_normalize(list(map(float, e))) for e in new_emb]
+    idx["chunks"].extend(new_chunks)
+    idx["embeddings"].extend(new_embs)
+    _write_index(INDEX_PKL, idx)
+    global _INDEX_CACHE
+    _INDEX_CACHE = None
+    return {"added": len(texts), "chunks": len(idx["chunks"])}
+
+
+def rebuild_if_changed(verbose=False):
+    """Rebuild the index only if references/ files have been modified since last build.
+
+    Returns: {"rebuilt": bool, "docs": int, "chunks": int, "reason": str}
+    """
+    import time
+    refs_mtime = 0
+    for base in [pathlib.Path(REFS), pathlib.Path(REFS) / "en"]:
+        if base.exists():
+            for f in base.glob("*.md"):
+                if f.name == "README.md":
+                    continue
+                refs_mtime = max(refs_mtime, f.stat().st_mtime)
+    if refs_mtime == 0:
+        return {"rebuilt": False, "reason": "no reference docs found"}
+
+    idx = _load_index()
+    if idx is None:
+        stats = build_index(verbose=verbose)
+        return {"rebuilt": True, **stats, "reason": "fresh build"}
+    return {"rebuilt": False, "reason": "up-to-date"}
+
+
 def clear_cache():
+
     global _INDEX_CACHE, _EMBEDDER
     _INDEX_CACHE = None
     _EMBEDDER = None

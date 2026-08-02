@@ -128,10 +128,10 @@ def test_en_refs_mirror_structure():
 
 
 def test_server_tool_count_matches_skill_md():
-    "SKILL.md lists 25 MCP tools; verify server.py has exactly 25 @mcp.tool()."
+    "SKILL.md lists 26 MCP tools; verify server.py has exactly 26 @mcp.tool()."
     server = (ROOT / "mcp-server" / "server.py").read_text("utf-8")
     actual = len(re.findall(r"@mcp\.tool\(\)", server))
-    assert actual == 25, f"server.py has {actual} @mcp.tool(), expected 25"
+    assert actual == 26, f"server.py has {actual} @mcp.tool(), expected 26"
 
 
 def test_data_equals_server_import():

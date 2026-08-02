@@ -4,7 +4,7 @@
 Run:  python scripts/self_check.py
 Prints a PASS/FAIL report of every consistency invariant the skill depends on:
 
-1. 25 MCP tools: SKILL.md declared names == server.py actual @mcp.tool names
+1. 26 MCP tools: SKILL.md declared names == server.py actual @mcp.tool names
 2. data/*.json: cardinality vs SKILL.md claims (14 brew / 11 milk / ...)
 3. references: bilingual mirror status (which md files are allowed mono-lingual)
 4. version: data/version.json (single source) syncs across 4 other sources
@@ -51,13 +51,13 @@ def run_checks() -> int:
     # [1.1] MCP tool name alignment
     print("[1.1] MCP tool names: SKILL.md declared == server.py actual")
     skill_text = SKILL.read_text("utf-8")
-    lst = re.search(r"`get_recipe.*?search_sca_sources`", skill_text, re.DOTALL)
+    lst = re.search(r"`add_knowledge.*?search_sca_sources`", skill_text, re.DOTALL)
     if not lst:
-        fail("SKILL.md tool list not found", "looking for `get_recipe ... get_learning_resources` block")
+        fail("SKILL.md tool list not found", "looking for `add_knowledge ... search_sca_sources` block")
         fails += 1
         declared = set()
     else:
-        declared = {n for n in re.findall(r"\b(get_\w+|diagnose_\w+|calculate_\w+|calibrate_\w+|search_\w+|identify_\w+|start_\w+|log_\w+|next_\w+|rag_\w+)\b", lst.group(0))}
+        declared = {n for n in re.findall(r"\b(add_\w+|get_\w+|diagnose_\w+|calculate_\w+|calibrate_\w+|search_\w+|identify_\w+|start_\w+|log_\w+|next_\w+|rag_\w+)\b", lst.group(0))}
 
     sv_text = SERVER.read_text("utf-8")
     actual = []

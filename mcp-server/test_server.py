@@ -42,7 +42,7 @@ def test_main_entrypoint_exists():
 def test_tool_count_is_twenty_five():
     tools = sorted(b.mcp._tool_manager._tools)
     assert tools == [
-        "calculate_cupping_score", "calculate_cva_score", "calibrate_grinder",
+        "add_knowledge", "calculate_cupping_score", "calculate_cva_score", "calibrate_grinder",
         "diagnose_flavor", "get_craft_recipe", "get_defect_bean",
         "get_flavor_wheel", "get_green_grade", "get_learning_resources",
         "get_milk_drink", "get_parameters_guide", "get_qgrader_exam",
