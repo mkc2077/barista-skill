@@ -1,8 +1,8 @@
 ---
 name: barista
-description: 专属咖啡顾问 Skill——以连续穿透提问主导对话节奏，帮用户拆解问题、定位关键变量，而非被动 Q&A。覆盖意式萃取、手冲/法压/爱乐压/摩卡壶/冷萃/冰滴等 14 种冲煮 + 11 款经典奶咖、咖啡豆选存、感官品鉴、经典奶咖与特调配方、SCA 杯测、研磨校准、参数灵活应用、感官训练与学习资源、SCA 认证与 Q-Grader 考试体系。核心机制：先判定经验档位（新手/进阶/资深），新手全程大白话禁用术语。覆盖 14 种冲煮法、11 款经典奶咖与特调配方、联网核实名家配方与变压曲线、SCA 100 分杯测评分体系、磨豆机校准方法、金杯萃取参数调整矩阵、咖啡风味轮与系统化感官训练方案、冠军冲煮方案索引（粕谷哲 4:6/杜嘉宁/彭近洋等，含不同滤杯滤纸冲煮方案）与特调咖啡独立大类（含咖啡基底萃取方案/茶底/自制糖浆 SOP/采购辅料/完整操作步骤 SOP）。English: espresso & 14 brew methods, 11 classic milk drinks, beans, sensory, SCA cupping, grinder calibration, golden-cup params, flavor wheel, learning resources, champion brewing index (4:6 etc.) with dripper/filter-paper recipes & craft.signature coffee as a standalone category (base extraction specs / tea base / homemade syrup SOP / store-bought ingredients / full build SOP); bilingual (zh/en).
+description: 主面向 barista / coffee 与 SCA/Q-Grader 备考的专业咖啡顾问 Skill — 用连续穿透思问主导对话節奏，帮用户拆解问题并定位改进千变量。触发：咖啡冲煮/咖啡口感/咖啡豆选购与保存/杯测评分（SCA、CVA）/磨豆机校准/水质量/参数调优/顺序调浴/咖啡感官训练/生豆分级/瑕疵豆/特调配方/联网核实冠军配方与变压曲线/备考 SCA 认证与 Q-Grader 考试。中英双语 · MCP 服务器提供 26 个双语工具（language=zh/en）。English: barista/coffee consultant skill — dialogue-led, helps users find the ONE variable to fix per iteration. Fired when the user wants help with coffee brewing, coffee beans, coffee sensory, cupping scoring (SCA/CVA), grinder calibration, water chemistry, parameter tuning, ordering/coffee ordering (“green grading”, defect beans), specialty signature drinks, online-verifying champion recipes and pressure profiles, or SCA certification / Q-Grader prep. Ships with a 26-tool bilingual MCP server.
 license: MIT
-version: 5.1.0
+version: 6.0.0
 ---
 
 # Barista 咖啡师教练

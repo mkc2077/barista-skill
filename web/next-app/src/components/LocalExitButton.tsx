@@ -25,7 +25,7 @@ export function LocalExitButton() {
   return (
     <button
       onClick={handleQuit}
-      title="固定的本地服务和退出"
+      title='关闭本地服务并退出'
       style={{
         position: 'fixed',
         right: 14,
@@ -34,14 +34,13 @@ export function LocalExitButton() {
         fontSize: 11,
         lineHeight: 1.3,
         padding: '5px 10px',
-        borderRadius: 10,
+        borderRadius: 8,
         border: '1px solid var(--border)',
-        background: 'var(--glass-tint)',
-        color: 'var(--text-dim)',
+        background: 'var(--surface)',
+        color: 'var(--text-muted)',
         cursor: 'pointer',
         opacity: 0.4,
-        boxShadow: 'var(--ambient-shadow)',
-        backdropFilter: 'blur(12px)',
+        boxShadow: 'var(--shadow-ambient)',
         transition: 'opacity 0.2s ease',
       }}
       onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.85')}

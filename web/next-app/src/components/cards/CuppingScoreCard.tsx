@@ -1,49 +1,42 @@
 'use client'
 
-import type { CuppingCardData } from '@/lib/card-parsers'
+interface CuppingScoreData {
+  total?: number
+  dimensions?: Record<string, number>
+  grade?: string
+}
 
-const MAX_BAR = 10
-
-export function CuppingScoreCard({ data }: { data: CuppingCardData }) {
-  const gradeTone = data.isSpecialty
-    ? 'bg-emerald-100 text-emerald-700 border-emerald-300'
-    : 'bg-amber-100 text-amber-700 border-amber-300'
+export function CuppingScoreCard({ data }: { data: CuppingScoreData }) {
+  const total = data.total ?? 0
+  const grade = data.grade ?? (total >= 85 ? '精品' : total >= 80 ? '优秀' : '商业')
+  const dims = data.dimensions ?? {}
 
   return (
-    <div className="rounded-xl border border-theme-border bg-theme-secondary p-3">
-      <div className="flex items-center justify-between mb-3">
-        <span className="text-xs font-semibold theme-text">SCA 杯测评分</span>
-        <span className={`text-xs px-2 py-0.5 rounded-full border ${gradeTone}`}>
-          {data.grade || '—'}{data.isSpecialty ? ' ★' : ''}
-        </span>
+    <div className='coffee-card'>
+      <div className='coffee-card-header'>
+        <span className='coffee-card-title'>杯测评分</span>
+        <span className='coffee-card-metric'>SCA · {grade}</span>
       </div>
-
-      <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 mb-3">
-        {data.dimensions.map(d => {
-          const pct = Math.min(100, (d.score / MAX_BAR) * 100)
-          return (
-            <div key={d.name}>
-              <div className="flex justify-between text-[11px] theme-text mb-0.5">
-                <span className="truncate">{d.name}</span>
-                <span className="theme-text-dim">{d.score.toFixed(2)}</span>
+      <div className='flex items-baseline gap-3 mb-3'>
+        <span className='font-editorial text-3xl' style={{ color: 'var(--accent)' }}>{total.toFixed(2)}</span>
+        <span className='text-xs text-[var(--text-muted)]'>/ 100</span>
+      </div>
+      {Object.keys(dims).length > 0 && (
+        <div className='space-y-1'>
+          {Object.entries(dims).map(([key, val]) => (
+            <div key={key} className='flex items-center gap-2'>
+              <span className='text-xs text-[var(--text-muted)] w-20 shrink-0'>{key}</span>
+              <div className='flex-1 h-1 rounded-full bg-[var(--surface-inset)] overflow-hidden'>
+                <div
+                  className='h-full rounded-full transition-all duration-500'
+                  style={{ width: (val as number * 10) + '%', backgroundColor: 'var(--accent)' }}
+                />
               </div>
-              <div className="h-1.5 rounded-full bg-theme-border overflow-hidden">
-                <div className="h-full rounded-full bg-theme-accent" style={{ width: `${pct}%` }} />
-              </div>
+              <span className='text-xs font-keystroke text-[var(--text)] w-8 text-right'>{val as number}</span>
             </div>
-          )
-        })}
-      </div>
-
-      <div className="flex items-center justify-between text-xs pt-2 border-t border-theme-border">
-        <span className="theme-text-dim">
-          扣分: 小瑕疵 {data.taintDeduction.toFixed(2)} · 大瑕疵 {data.faultDeduction.toFixed(2)}
-        </span>
-        <div className="text-right">
-          <div className="text-2xl font-bold theme-text leading-none">{data.final.toFixed(2)}</div>
-          <div className="text-[10px] theme-text-dim">最终得分 / 100</div>
+          ))}
         </div>
-      </div>
+      )}
     </div>
   )
 }

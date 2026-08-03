@@ -35,11 +35,11 @@ export function useLocalModels(): UseLocalModelsResult {
 
       setDiscoveredModels(models)
       setStatus('success')
-      setMessage(`发现 ${models.length} 个可用模型`)
+      setMessage('发现 ' + models.length + ' 个可用模型')
     } catch (err: unknown) {
       setStatus('error')
       const msg = err instanceof Error ? err.message : String(err)
-      setMessage(`获取失败: ${msg}`)
+      setMessage('获取失败: ' + msg)
     }
   }
 

@@ -1,46 +1,47 @@
 'use client'
 
-import type { CvaCardData } from '@/lib/card-parsers'
+interface CvaData {
+  total?: number
+  old_scale?: number
+  dimensions?: { name: string; score: number; weight: number }[]
+}
 
-// 1-9 affective scale mapped onto a 0-100 bar for visual width.
-export function CvaScoreCard({ data }: { data: CvaCardData }) {
-  const pct = Math.min(100, (data.affective / 9) * 100)
-  const legacyPct = Math.min(100, data.legacy100)
-  const bandTone = data.isSpecialty
-    ? 'bg-emerald-100 text-emerald-700 border-emerald-300'
-    : 'bg-amber-100 text-amber-700 border-amber-300'
+export function CvaScoreCard({ data }: { data: CvaData }) {
+  const total = data.total ?? 0
+  const oldScale = data.old_scale ?? 0
+  const dims = data.dimensions ?? []
+
   return (
-    <div className="rounded-xl border border-theme-border bg-theme-secondary p-3">
-      <div className="flex items-center justify-between mb-3">
-        <span className="text-xs font-semibold theme-text">CVA 情感评估</span>
-        <span className={`text-xs px-2 py-0.5 rounded-full border ${bandTone}`}>
-          {data.band || '—'}{data.isSpecialty ? ' ★' : ''}
-        </span>
+    <div className='coffee-card'>
+      <div className='coffee-card-header'>
+        <span className='coffee-card-title'>CVA 评分</span>
+        <span className='coffee-card-metric'>SCA 新制</span>
       </div>
-      <div className="space-y-2">
+      <div className='flex items-baseline gap-4 mb-3'>
         <div>
-          <div className="flex justify-between text-[11px] theme-text mb-0.5">
-            <span>情感总分 (1-9)</span>
-            <span className="theme-text-dim">{data.affective.toFixed(2)}</span>
-          </div>
-          <div className="h-1.5 rounded-full bg-theme-border overflow-hidden">
-            <div className="h-full rounded-full bg-theme-accent" style={{ width: `${pct}%` }} />
-          </div>
+          <span className='font-editorial text-3xl' style={{ color: 'var(--accent)' }}>{total.toFixed(1)}</span>
+          <span className='text-xs text-[var(--text-muted)] ml-1'>/ 100 新</span>
         </div>
-        <div>
-          <div className="flex justify-between text-[11px] theme-text mb-0.5">
-            <span>旧 100 分制对照</span>
-            <span className="theme-text-dim">{data.legacy100.toFixed(2)}</span>
-          </div>
-          <div className="h-1.5 rounded-full bg-theme-border overflow-hidden">
-            <div className="h-full rounded-full bg-sky-500" style={{ width: `${legacyPct}%` }} />
-          </div>
+        <div className='border-l border-[var(--rule)] pl-4'>
+          <span className='font-keystroke text-lg text-[var(--text)]'>{oldScale.toFixed(2)}</span>
+          <span className='text-xs text-[var(--text-muted)] ml-1'>/ 100 旧</span>
         </div>
       </div>
-      {(data.descriptiveRichness != null || data.extrinsic != null) && (
-        <div className="flex gap-4 mt-2 pt-2 border-t border-theme-border text-[11px] theme-text-dim">
-          {data.descriptiveRichness != null && <span>描述性 {data.descriptiveRichness.toFixed(1)} / 15</span>}
-          {data.extrinsic != null && <span>外在属性 {data.extrinsic.toFixed(1)} / 100</span>}
+      {dims.length > 0 && (
+        <div className='space-y-1.5'>
+          {dims.map((d) => (
+            <div key={d.name} className='flex items-center gap-2'>
+              <span className='text-xs text-[var(--text-muted)] w-24 shrink-0'>{d.name}</span>
+              <div className='flex-1 h-1 rounded-full bg-[var(--surface-inset)] overflow-hidden'>
+                <div
+                  className='h-full rounded-full'
+                  style={{ width: d.score + '%', backgroundColor: 'var(--accent)' }}
+                />
+              </div>
+              <span className='text-xs font-keystroke text-[var(--text)] w-8 text-right'>{d.score}</span>
+              <span className='text-[10px] text-[var(--text-faint)] w-6'>x{d.weight}</span>
+            </div>
+          ))}
         </div>
       )}
     </div>

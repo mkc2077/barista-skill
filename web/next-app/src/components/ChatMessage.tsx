@@ -21,62 +21,57 @@ export function ChatMessage({ message }: ChatMessageProps) {
     setTimeout(() => setCopied(false), 2000)
   }
 
-  const monogram = isUser ? 'U' : isError ? '!' : 'C'
+  const monogram = isUser ? '你' : isError ? '!' : 'B'
 
   return (
-    <div className="flex gap-3 max-w-3xl mx-auto w-full animate-msg-in">
-      <div className="flex-shrink-0 mt-0.5">
-        <div className="-sm bg-transparent">
-          <div
-            className={`bezel-core-sm w-8 h-8 flex items-center justify-center text-xs font-medium
-${isUser
-                ? 'bg-theme-primary text-white'
-                : isError
-                ? 'bg-theme-danger text-white'
-                : 'bg-theme-accent text-white'}`}
-          >
-            {monogram}
-          </div>
+    <div className='flex gap-3 max-w-3xl mx-auto w-full animate-[msg-in_0.35s_cubic-bezier(0.16,1,0.3,1)_both]'>
+      <div className='flex-shrink-0 mt-0.5'>
+        <div
+          className='w-8 h-8 rounded-lg flex items-center justify-center text-xs font-medium font-keystroke'
+          style={{
+            background: isUser ? 'var(--accent)' : isError ? 'var(--danger)' : 'var(--surface-raised)',
+            color: isUser || isError ? 'var(--text-on-accent)' : 'var(--text-muted)',
+            border: isUser || isError ? 'none' : '1px solid var(--border)',
+          }}
+        >
+          {monogram}
         </div>
       </div>
 
-      <div className="flex-1 group min-w-0">
-        <div className={isUser ? '' : ''}>
-          <div
-            className={`px-4 py-3 text-sm leading-relaxed
-${isUser
-                ? '-sm bg-theme-primary text-white rounded-lg'
-                : isError
-                ? 'bg-theme-danger/10 text-theme-danger border border-theme-danger/30'
-                : 'bg-theme-secondary'}`}
-          >
-            {isUser ? (
-              <p className="whitespace-pre-wrap">{message.content}</p>
-            ) : (
-              <>
-                {message.cards && message.cards.length > 0 && (
-                  <div className="mb-2 space-y-2">
-                    {message.cards.map((c, i) => (
-                      <ToolCardView key={i} card={c} />
-                    ))}
-                  </div>
-                )}
-                <div className="prose prose-sm max-w-none theme-text">
-                  <ReactMarkdown>{message.content}</ReactMarkdown>
+      <div className='flex-1 group min-w-0'>
+        <div
+          className='px-4 py-3 text-sm leading-relaxed rounded-lg'
+          style={{
+            background: isUser ? 'var(--user-bubble)' : 'var(--surface)',
+            color: isUser ? 'var(--user-text)' : 'var(--text)',
+            border: isUser ? 'none' : '1px solid var(--border)',
+          }}
+        >
+          {isUser ? (
+            <p className='whitespace-pre-wrap'>{message.content}</p>
+          ) : (
+            <>
+              {message.cards && message.cards.length > 0 && (
+                <div className='mb-2 space-y-2'>
+                  {message.cards.map((c, i) => (
+                    <ToolCardView key={i} card={c} />
+                  ))}
                 </div>
-              </>
-            )}
-          </div>
+              )}
+              <div className='prose prose-sm max-w-none'>
+                <ReactMarkdown>{message.content}</ReactMarkdown>
+              </div>
+            </>
+          )}
         </div>
 
-        {!isUser && (
+        {!isUser && message.content && (
           <button
             onClick={handleCopy}
-            className="mt-1.5 flex items-center gap-1 text-xs theme-text-dim
-              opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-spring"
+            className='mt-1.5 flex items-center gap-1 text-xs text-[var(--text-faint)] opacity-0 group-hover:opacity-100 transition-opacity duration-200'
           >
-            {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" strokeWidth={1.5} />}
-            {copied ? 'Copied' : 'Copy'}
+            {copied ? <Check className='w-3 h-3' strokeWidth={1.5} /> : <Copy className='w-3 h-3' strokeWidth={1.5} />}
+            {copied ? '已复制' : '复制'}
           </button>
         )}
       </div>

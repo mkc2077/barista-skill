@@ -1,43 +1,32 @@
 'use client'
 
-import type { StudyPlanCardData } from '@/lib/card-parsers'
+interface StudyPlanData {
+  days?: number
+  phase?: string
+  daily_tasks?: string[]
+  notes?: string
+}
 
-export function StudyPlanCard({ data }: { data: StudyPlanCardData }) {
+export function StudyPlanCard({ data }: { data: StudyPlanData }) {
   return (
-    <div className="rounded-xl border border-theme-border bg-theme-secondary p-3">
-      <div className="flex items-center justify-between mb-3">
-        <span className="text-xs font-semibold theme-text">Q-Grader 备考计划</span>
-        {data.totalDays > 0 && (
-          <span className="text-xs px-2 py-0.5 rounded-full bg-theme-hover theme-text-dim">
-            {data.totalDays} 天
-          </span>
-        )}
+    <div className='coffee-card'>
+      <div className='coffee-card-header'>
+        <span className='coffee-card-title'>备考计划</span>
+        <span className='coffee-card-metric'>{data.days ?? '--'} 天 · {data.phase ?? ''}</span>
       </div>
-      <div className="space-y-2">
-        {data.phases.map((p, i) => (
-          <div key={i} className="text-xs">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="px-1.5 py-0.5 rounded bg-theme-accent text-white text-[10px] font-medium">
-                第 {p.dayStart}-{p.dayEnd} 天
-              </span>
-              <span className="theme-text font-medium truncate">{p.title}</span>
-              <span className="theme-text-dim ml-auto">{p.days}d</span>
-            </div>
-            {p.items.length > 0 && (
-              <ul className="ml-1 space-y-0.5">
-                {p.items.slice(0, 3).map((it, j) => (
-                  <li key={j} className="theme-text-dim truncate">
-                    {it.name}<span className="theme-text-dim"> — {it.desc}</span>
-                  </li>
-                ))}
-                {p.items.length > 3 && (
-                  <li className="theme-text-dim italic">+{p.items.length - 3} 项…</li>
-                )}
-              </ul>
-            )}
-          </div>
-        ))}
-      </div>
+      {data.daily_tasks && data.daily_tasks.length > 0 && (
+        <ul className='space-y-1'>
+          {data.daily_tasks.map((task, i) => (
+            <li key={i} className='flex items-start gap-2 text-xs text-[var(--text-secondary)]'>
+              <span className='font-keystroke text-[var(--text-faint)] shrink-0'>{String(i + 1).padStart(2, '0')}</span>
+              <span>{task}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+      {data.notes && (
+        <p className='text-xs text-[var(--text-muted)] mt-2 leading-relaxed'>{data.notes}</p>
+      )}
     </div>
   )
 }

@@ -3,6 +3,32 @@
 本文件记录 barista 技能的版本变更。版本号遵循 [语义化版本](https://semver.org/)：主版本.次版本.修订号。
 
 ---
+---
+## [6.0.0] - 2026-08-03
+
+### 前端完全重构 v6.0 — Design System Rebuild
+
+UI 根据 taste-skill / impeccable / ui-ux-pro-max 参考资源完全重构：
+- 新设计令牌（Light 浅炭 / Dark 深炭），单一 accent（copper/amber），去除 AI-slop
+- Instrument Serif editorial + PingFang body + JetBrains Mono keystroke
+- 反-AI 规则：无紫蓝渐变 / 无 aurora / 无嵌套卡片 / 尊重 reduced-motion
+- calm-hover（+1px 上升），重写 7 核心组件
+
+### SAG-style RAG 实体层 (mcp-server/rag_entities.py)
+- 从 data/*.json 抽取咖啡实体（bean/origin/roast/method/flavor）
+- query-time 动态超边：共享实体调整 chunk 排序，遵守 ponytail（无新增依赖）
+- rag_search 现 pull top_k*3，entity rerank 后截断
+
+### PixelRAG 评估
+- 咖啡知识以文本为主，截图管道不饵咈，后期另行跟踪
+
+### 一键启动验证
+- start.bat / start.sh 通过；172 tests pass；self_check 26 tools aligned
+
+### mattpocock/skills 参考
+- 借鉴 wayfinder / ADR / changeset / out-of-scope 文档结构，强化项目决策痕迹
+- 参考其 writing-great-skills SKILL.md 样式优化主 SKILL.md 的 描述/触发/工作流清晰度
+
 ## [5.1.0] - 2026-08-02
 
 ### 前端设计 v5.1 — Anti-AI-signature 改造

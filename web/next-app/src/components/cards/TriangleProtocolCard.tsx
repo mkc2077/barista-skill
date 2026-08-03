@@ -1,38 +1,36 @@
 'use client'
 
-import type { TriangleCardData } from '@/lib/card-parsers'
+interface TriangleData {
+  difficulty?: string
+  cups_per_round?: number
+  pass_threshold?: string
+  rounds?: number
+  description?: string
+}
 
-export function TriangleProtocolCard({ data }: { data: TriangleCardData }) {
+export function TriangleProtocolCard({ data }: { data: TriangleData }) {
   return (
-    <div className="rounded-xl border border-theme-border bg-theme-secondary p-3">
-      <div className="flex items-center justify-between mb-3">
-        <span className="text-xs font-semibold theme-text">三角杯测协议</span>
-        <span className="text-xs px-2 py-0.5 rounded-full bg-theme-hover theme-text-dim">
-          {data.difficulty || '—'}
-        </span>
+    <div className='coffee-card'>
+      <div className='coffee-card-header'>
+        <span className='coffee-card-title'>三角杯测协议</span>
+        <span className='coffee-card-metric'>{data.difficulty ?? '标准'}</span>
       </div>
-      <div className="grid grid-cols-2 gap-3 text-xs">
-        <div className="text-center rounded-lg bg-theme-hover py-2">
-          <div className="text-xl font-bold theme-text">{data.rounds}</div>
-          <div className="text-[10px] theme-text-dim">轮数</div>
+      <div className='grid grid-cols-3 gap-3 mb-3'>
+        <div>
+          <span className='block text-[10px] font-keystroke text-[var(--text-faint)] uppercase tracking-wider'>轮数</span>
+          <span className='text-sm font-keystroke text-[var(--text)]'>{data.rounds ?? '--'}</span>
         </div>
-        <div className="text-center rounded-lg bg-theme-hover py-2">
-          <div className="text-xl font-bold theme-text">{data.totalCups}</div>
-          <div className="text-[10px] theme-text-dim">总杯数</div>
+        <div>
+          <span className='block text-[10px] font-keystroke text-[var(--text-faint)] uppercase tracking-wider'>每轮杯数</span>
+          <span className='text-sm font-keystroke text-[var(--text)]'>{data.cups_per_round ?? '--'}</span>
         </div>
-      </div>
-      <div className="mt-3 space-y-1 text-[11px] theme-text-dim">
-        <div className="flex justify-between">
-          <span>每轮杯数</span><span className="theme-text">{data.cupsPerRound}（1 异 + {data.sameCount} 同）</span>
-        </div>
-        <div className="flex justify-between">
-          <span>通过线</span><span className="theme-text">{data.passThreshold}</span>
+        <div>
+          <span className='block text-[10px] font-keystroke text-[var(--text-faint)] uppercase tracking-wider'>通过线</span>
+          <span className='text-sm font-keystroke text-[var(--text)]'>{data.pass_threshold ?? '--'}</span>
         </div>
       </div>
-      {data.difficultyProgression && (
-        <div className="mt-2 pt-2 border-t border-theme-border text-[11px] theme-text-dim">
-          {data.difficultyProgression}
-        </div>
+      {data.description && (
+        <p className='text-xs text-[var(--text-muted)] leading-relaxed'>{data.description}</p>
       )}
     </div>
   )

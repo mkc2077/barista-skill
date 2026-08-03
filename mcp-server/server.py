@@ -83,7 +83,7 @@ def _load_data(filename):
 
 
 # Package version ? single source: data/version.json
-__version__ = "5.1.0"
+__version__ = "6.0.0"
 
 RECIPES = _load_data("recipes.json")
 
@@ -785,10 +785,17 @@ def rag_search(query: str, language: str = "zh", top_k: int = 5) -> str:
     """
     try:
         import rag_index as _ri
+        import rag_entities as _re
         _ri.rebuild_if_changed(verbose=False)
         if _ri.is_available():
-            hits = _ri.query(query, top_k=top_k, language=language)
+            # Pull more candidates so entity rerank (SAG-style dynamic
+            # hyperedges via shared coffee entities) has room to reorder.
+            hits = _ri.query(query, top_k=max(top_k * 3, 15), language=language)
             if hits:
+                try:
+                    hits = _re.enrich_query(query, hits)[:top_k]
+                except Exception:
+                    hits = hits[:top_k]
                 return _format_rag_hits(hits, language)
     except Exception:
         pass
