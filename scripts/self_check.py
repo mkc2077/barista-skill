@@ -252,6 +252,32 @@ def run_checks() -> int:
             fail("SKILL.md references templates", "no point to references/report_templates/")
             fails += 1
 
+    # [7.1] hardcoded color literals in web src (CSS token discipline, v7 P3)
+    print("")
+    print("[7.1] web/next-app/src: hardcoded hex literals == CSS token allowlist")
+    WEB_SRC = ROOT / "web" / "next-app" / "src"
+    # 有意镜像 globals.css token 的色板：ThemeSwitcher 色板预览需同时显示两主题，
+    # 无法用 var(--page)（只取当前主题）。白名单外一律打回。
+    ALLOWED_HEX = {"#faf7f2", "#0f0d0b"}
+    if WEB_SRC.exists():
+        bad = []
+        for f in WEB_SRC.rglob("*.ts*"):
+            if "node_modules" in f.parts:
+                continue
+            for i, line in enumerate(f.read_text("utf-8").splitlines(), 1):
+                for m in re.findall(r"#[0-9a-fA-F]{3,8}\b", line):
+                    if m.lower() not in ALLOWED_HEX:
+                        bad.append(f"{f.relative_to(ROOT)}:{i}: {m}")
+        if bad:
+            fail("hardcoded hex outside token allowlist",
+                 "\n".join(bad[:20]) + ("\n..." if len(bad) > 20 else ""))
+            fails += 1
+        else:
+            ok("no hardcoded hex outside allowlist",
+               "token discipline holds (" + str(len(ALLOWED_HEX)) + " intentional mirrors allowed)")
+    else:
+        ok("web/next-app/src not present (skip)")
+
     return fails
 
 
