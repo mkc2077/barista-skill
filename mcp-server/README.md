@@ -104,12 +104,12 @@ pip install -e .            # 之后可直接用 `barista-mcp` 启动
 
 ```
 mcp-server/
-├── server.py          # MCP server, 24 tools (bilingual)
+├── server.py          # MCP server, 26 tools (bilingual)
 ├── pyproject.toml     # packaging (entry point: barista-mcp -> server:main)
 └── README.md          # this file
 ```
 
-知识来源 / Knowledge source: `../references/` (25 Markdown files). 工具返回的结构化数据来自 `../data/` (28 JSON files) + `server.py` 内置. The structured data returned by tools comes from `../data/` JSON files + built-in `server.py` constants.
+知识来源 / Knowledge source: `../references/` (25 zh topics + 21 en mirrored Markdown files). 工具返回的结构化数据来自 `../data/` (28 JSON files) + `server.py` 内置. The structured data returned by tools comes from `../data/` JSON files + built-in `server.py` constants.
 
 ## 传输协议 / Transport
 

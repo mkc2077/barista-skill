@@ -1,6 +1,0 @@
-feat: RAG 查询噪声过滤 + API 供应商扩充 + 一键启动优化 (v4.8.0)
-
-- RAG: 新增 _strip_query_noise 函数（借鉴 SAG 检索服务），自动剥离低信号查询短语
-- API: 供应商从 8 家扩至 16 家：新增 Gemini/Mistral/Grok/MiniMax/混元/SiliconFlow/OpenRouter/百川
-- start.bat: 从打开旧 HTML 改为启动 Next.js dev server + 自动检查依赖
-- 版本 5 源同步至 4.8.0；验证：tsc 零错，next build 成功，self_check ALL PASSED

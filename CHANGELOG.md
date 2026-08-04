@@ -5,6 +5,17 @@
 ---
 ---
 ---
+## [6.1.1] - 2026-08-04
+
+### 文档一致性与卫生修复 (docs hygiene patch)
+
+- **SKILL.md** — 删除重复 H1 标题（v6 迭代残留）；frontmatter description 错别字修复（"穿透思问"→"穿透式提问"、"千变量"→"关键变量"、"節奏"→"节奏"、"水质量"→"水质"、"顺序调浴"→"分段注水"）；英文段 "ordering/coffee ordering" → "green-coffee grading"。
+- **工具数表述统一为 26** — SKILL.md 正文简介残留 "24 bilingual tools" 修正；`mcp-server/README.md` 架构注释 "24 tools" 修正（实际 26 个公开工具，经 server.py 顶层函数核实）。
+- **mcp-server/README.md** — 知识来源表述精确化：references 实为 25 个中文主题 + 21 个英文镜像文件（原 "25 Markdown files" 与磁盘不符）。
+- **仓库清理** — 删除根目录残留文件 `_msg_v480.txt`（v4.8.0 发布留言草稿）。
+- 无功能变更，无 API 变更；26 个 MCP 工具行为不变。
+
+---
 ## [6.1.0] - 2026-08-04
 
 ### 跨对话复用 + 用户专属核心 (v6.1)
