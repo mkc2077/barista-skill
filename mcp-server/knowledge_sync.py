@@ -51,10 +51,10 @@ DEDUP_RATIO = 0.85
 ADD_DOCS: Optional[Callable] = None
 
 
-def _default_add_docs(texts: List, source_prefix: str = AUTO_SOURCE_PREFIX) -> dict:
+def _default_add_docs(texts: List, source_prefix: str = AUTO_SOURCE_PREFIX, metas: Optional[List] = None) -> dict:
     """延迟导入 rag_index（避免循环依赖 + 允许 sentence-transformers 缺失时优雅返回）。"""
     import rag_index as _ri
-    return _ri.add_documents(texts, source_prefix=source_prefix)
+    return _ri.add_documents(texts, source_prefix=source_prefix, metas=metas)
 
 
 def _now() -> float:
@@ -166,6 +166,7 @@ def sync_once(
 
     fetched, added, skipped_dup, errors = 0, 0, 0, 0
     new_items: List[tuple] = []  # (source_suffix, text)
+    new_metas: List[dict] = []   # 与 new_items 对齐的元数据（供 rag_search filter）
 
     for topic in topics:
         try:
@@ -183,10 +184,11 @@ def sync_once(
             suffix = _slug(r["title"]) + "-" + str(int(_now()))
             text = f"# {r['title']}\n\n来源：{r['url']}\n\n{r['snippet']}"
             new_items.append((suffix, text))
+            new_metas.append({"category": "search", "source": "auto", "url": r["url"]})
 
     if new_items:
         try:
-            result = adder(new_items, source_prefix=AUTO_SOURCE_PREFIX)
+            result = adder(new_items, source_prefix=AUTO_SOURCE_PREFIX, metas=new_metas)
             added = result.get("added", len(new_items))
         except Exception as e:  # noqa: BLE001 — sentence-transformers 缺失等
             errors += 1

@@ -19,6 +19,7 @@ Wraps the [barista-skill](../) coffee-coach skill as a Model Context Protocol se
 | `get_sensory_training` | 感官训练方案 / sensory training | "怎么练品鉴" / "how to train palate" |
 | `get_learning_resources` | 分阶段学习资源 / learning resources | "入门看什么" / "where to start" |
 | `search_references` | 参考文档全文检索 / reference search | "搜索杯测" / "search cupping" |
+| `rag_search` | 混合检索（语义+关键词+实体重排），支持 `mode=fast/precise` 与 `filter="category=search"` 元数据过滤 / hybrid RAG search | "查金杯参数" / "golden cup" |
 | `get_sca_path` | SCA 认证全景 (CSP+Q-Grader) / SCA cert landscape | "SCA 认证路线" / "SCA cert path" |
 | `get_sca_course` | CSP 模块/级别课程详情 / CSP course detail | "Brewing Foundation" / "brewing foundation" |
 | `get_qgrader_exam` | Q-Grader 8 大类考试详情 / Q-Grader exams | "闻香瓶考试" / "olfactory exam" |
@@ -37,6 +38,7 @@ Wraps the [barista-skill](../) coffee-coach skill as a Model Context Protocol se
 | `set_knowledge_schedule` | 方案B 调度器配置（daily/weekly/monthly） / configure auto-sync scheduler | "每周自动更新" / "weekly auto-sync" |
 
 > v7 P1（知识引擎）：`sync_knowledge_now` / `check_knowledge_updates` / `set_knowledge_schedule` 由 `knowledge_sync.py` 驱动——AnySearch 联网拉取最新配方/冲煮手法/冠军方案，标题去重（精确 + difflib 相似度）后以 `auto:` 前缀增量写入 RAG 索引；失败显式返回错误并保留上次成功时间，绝不静默。方案A：模型每周调用一次 `check_knowledge_updates`；方案B：Settings 开启「定期自动更新」即可。
+> v7 P2（RAG v2）：自动同步条目带元数据（`category=search` / `source=auto` / `url`），`rag_search` 支持 `filter="category=search"` 等元数据过滤（PixelRAG payload-filtering 思路，SQLite/小规模下直接预过滤，无新依赖）；`mode=precise`（默认，SAG 式实体重排）与 `mode=fast` 两档。评估见 `evals/golden_qa.jsonl` + `scripts/run_rag_eval.py`（Recall@5，PixelRAG 式精确源匹配）。
 
 所有工具签名：最后一个可选参数 `language: str = "zh"`，传 `"en"` 即得到英文输出。
 All tools accept an optional trailing `language` arg; pass `"en"` for English.

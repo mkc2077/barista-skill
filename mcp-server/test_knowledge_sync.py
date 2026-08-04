@@ -52,8 +52,8 @@ class FakeRAG:
     def __init__(self):
         self.calls = []
 
-    def __call__(self, texts, source_prefix="custom:"):
-        self.calls.append((source_prefix, list(texts)))
+    def __call__(self, texts, source_prefix="custom:", metas=None):
+        self.calls.append((source_prefix, list(texts), metas))
         return {"added": len(texts), "chunks": len(texts)}
 
 
@@ -80,8 +80,10 @@ def test_sync_once_adds_new_and_dedups(monkeypatch):
     assert stats["added"] == 2          # 配方A(重复)被跳过
     assert stats["skipped_dup"] == 1
     assert stats["errors"] == 0
-    # 两次入库调用都带 auto: 前缀
-    assert all(prefix == "auto:" for prefix, _ in rag.calls)
+    # 两次入库调用都带 auto: 前缀 + 元数据（category=search, source=auto, url）
+    assert all(prefix == "auto:" for prefix, _, _ in rag.calls)
+    for _, _, metas in rag.calls:
+        assert metas and all(m.get("category") == "search" and m.get("source") == "auto" and m.get("url") for m in metas)
     # 状态已持久化
     state = json.loads(ks.STATE_FILE.read_text("utf-8"))
     assert len(state["seen_titles"]) == 2
@@ -116,7 +118,7 @@ def test_sync_once_rag_missing_is_explicit(monkeypatch):
         return [{"title": "配方Y", "url": "https://y", "snippet": "y"}]
     monkeypatch.setattr(ks, "_search_topic", _f)
 
-    def _bad_add(texts, source_prefix="auto:"):
+    def _bad_add(texts, source_prefix="auto:", metas=None):
         raise ImportError("sentence-transformers not installed")
     stats = ks.sync_once(topics=["t1"], add_docs=_bad_add)
     assert stats["errors"] == 1

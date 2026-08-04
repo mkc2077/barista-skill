@@ -239,11 +239,11 @@ def build_index(verbose=True):
     chunks = []
     for src_id, text in docs:
         for i, c in enumerate(chunk_md(text)):
-            chunks.append({"id": f"{src_id}#{i}", "source": src_id, "text": c})
+            chunks.append({"id": f"{src_id}#{i}", "source": src_id, "text": c, "meta": {}})
     if not chunks:
         if verbose:
             print("[rag_index] no reference docs found")
-        _write_index(INDEX_PKL, {"chunks": [], "embeddings": [], "model": EMBED_MODEL_NAME, "_spec": 1})
+        _write_index(INDEX_PKL, {"chunks": [], "embeddings": [], "model": EMBED_MODEL_NAME, "_spec": 2})
         return {"docs": 0, "chunks": 0}
 
     texts = [c["text"] for c in chunks]
@@ -283,22 +283,25 @@ def _load_index():
     return None
 
 
-def add_documents(texts, source_prefix="custom:"):
+def add_documents(texts, source_prefix="custom:", metas=None):
     """Append new documents to the index without a full rebuild.
 
     Args:
         texts: list of (source_id_suffix, text) tuples
         source_prefix: prefix for source_id (default "custom:")
+        metas: optional list of metadata dicts, aligned with texts (used by
+            rag_search `filter`; e.g. {"category": "search", "url": "..."})
     Returns: {"added": count, "chunks": total_chunks}
     """
     if not have_sentence_transformers():
         return {"added": 0, "chunks": 0, "error": "sentence-transformers not installed"}
-    idx = _load_index() or {"chunks": [], "embeddings": [], "model": EMBED_MODEL_NAME, "_spec": 1}
+    idx = _load_index() or {"chunks": [], "embeddings": [], "model": EMBED_MODEL_NAME, "_spec": 2}
     new_chunks = []
-    for suffix, text in texts:
+    for n, (suffix, text) in enumerate(texts):
         src_id = f"{source_prefix}{suffix}"
+        meta = (metas[n] if metas and n < len(metas) and metas[n] else {}) or {}
         for i, c in enumerate(chunk_md(text)):
-            new_chunks.append({"id": f"{src_id}#{i}", "source": src_id, "text": c})
+            new_chunks.append({"id": f"{src_id}#{i}", "source": src_id, "text": c, "meta": meta})
     if not new_chunks:
         return {"added": 0, "chunks": len(idx.get("chunks", []))}
     new_texts = [c["text"] for c in new_chunks]
@@ -348,9 +351,13 @@ def is_available():
     return _INDEX_CACHE is not None and have_sentence_transformers()
 
 
-def query(text, top_k=5, semantic_weight=FUSION_SEMANTIC_WEIGHT, language="zh"):
+def query(text, top_k=5, semantic_weight=FUSION_SEMANTIC_WEIGHT, language="zh", filters=None):
     """Hybrid query: keyword score + cosine(embedding) weighted fusion.
 
+    Args:
+        filters: optional dict {meta_key: value_or_list}; chunks whose meta
+            doesn't match every condition are excluded (pre-filter). Meta is
+            set via add_documents(metas=...); reference docs have empty meta.
     Returns a list of {id, source, score: weighted_fusion, text} dicts,
     sorted by score descending. Returns [] if no index or no ST — the
     caller should fall back to keyword-only search_references.
@@ -363,6 +370,17 @@ def query(text, top_k=5, semantic_weight=FUSION_SEMANTIC_WEIGHT, language="zh"):
 
     chunk_list = idx["chunks"]
     emb_matrix = idx["embeddings"]
+
+    if filters:
+        keep = []
+        for i, c in enumerate(chunk_list):
+            meta = c.get("meta") or {}
+            if all(_meta_match(meta, k, v) for k, v in filters.items()):
+                keep.append(i)
+        if not keep:
+            return []
+        chunk_list = [chunk_list[i] for i in keep]
+        emb_matrix = [emb_matrix[i] for i in keep]
 
     q_emb = _l2_normalize(list(map(float, _embedder().encode(text))))
     # SAG-inspired: strip noise phrases for cleaner retrieval signal
@@ -391,3 +409,11 @@ def query(text, top_k=5, semantic_weight=FUSION_SEMANTIC_WEIGHT, language="zh"):
         "score": round(fused, 4),
         "text": chunk_list[i]["text"],
     } for fused, i in scored[:top_k]]
+
+
+def _meta_match(meta, key, value):
+    """Filter condition: meta[key] equals value, or is one of a list."""
+    actual = str(meta.get(key, "")).lower()
+    if isinstance(value, (list, tuple)):
+        return actual in {str(v).lower() for v in value}
+    return actual == str(value).lower()

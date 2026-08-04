@@ -770,7 +770,7 @@ def search_references(query: str, language: str = "zh", top_k: int = 3) -> str:
 
 
 @mcp.tool()
-def rag_search(query: str, language: str = "zh", top_k: int = 5) -> str:
+def rag_search(query: str, language: str = "zh", top_k: int = 5, mode: str = "precise", filter: str = "") -> str:
     """语义 + 关键词混合检索引用文档 / Hybrid (semantic+keyword) search over references/*.md.
 
     Uses the local RAG index (sentence-transformers embeddings) when available;
@@ -782,6 +782,10 @@ def rag_search(query: str, language: str = "zh", top_k: int = 5) -> str:
         query: 中英混查即可 / free-text query (zh or en)
         language: output language: zh or en (default zh)
         top_k: top-k hits (default 5)
+        mode: fast（跳过实体重排，更快）or precise（默认：SAG 式实体扩展重排）
+        filter: 元数据过滤，逗号分隔 key=value；支持值列表 key=v1|v2。
+            v7 起自动同步的知识条目带 meta：category=search、source=auto、url=<来源链接>。
+            示例：filter="category=search" 只搜自动同步的知识库条目；filter="source=auto" 同上。
     Returns: Markdown list of hits (source id + excerpt + score).
     """
     try:
@@ -789,18 +793,38 @@ def rag_search(query: str, language: str = "zh", top_k: int = 5) -> str:
         import rag_entities as _re
         _ri.rebuild_if_changed(verbose=False)
         if _ri.is_available():
+            filters = _parse_meta_filter(filter) if filter.strip() else None
             # Pull more candidates so entity rerank (SAG-style dynamic
             # hyperedges via shared coffee entities) has room to reorder.
-            hits = _ri.query(query, top_k=max(top_k * 3, 15), language=language)
-            if hits:
+            hits = _ri.query(query, top_k=max(top_k * 3, 15), language=language, filters=filters)
+            if hits and mode == "precise":
                 try:
                     hits = _re.enrich_query(query, hits)[:top_k]
                 except Exception:
                     hits = hits[:top_k]
+            else:
+                hits = hits[:top_k]
+            if hits:
                 return _format_rag_hits(hits, language)
     except Exception:
         pass
     return search_references(query, language=language, top_k=top_k)
+
+
+def _parse_meta_filter(spec: str):
+    """Parse "k=v,k2=v1|v2" into {k: value-or-list}. Malformed pairs are skipped."""
+    out = {}
+    for pair in spec.split(","):
+        pair = pair.strip()
+        if not pair or "=" not in pair:
+            continue
+        k, v = pair.split("=", 1)
+        k, v = k.strip().strip("'\" "), v.strip().strip("'\" ")
+        if not k or not v:
+            continue
+        vals = [x.strip() for x in v.split("|") if x.strip()]
+        out[k] = vals if len(vals) > 1 else vals[0]
+    return out or None
 
 
 def _format_rag_hits(hits, language):
