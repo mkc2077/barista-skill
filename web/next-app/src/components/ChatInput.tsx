@@ -4,14 +4,15 @@ import { useState, useRef, useCallback } from 'react'
 import { useStore, useCurrentConversation } from '@/store'
 import { getAdapter } from '@/lib/llm-adapter'
 import { chatWithMCP } from '@/lib/mcp-client'
-import { DEFAULT_SYSTEM_PROMPT } from '@/lib/system-prompt'
+import { buildSystemPrompt } from '@/lib/system-prompt'
 import { webSearch } from '@/lib/anysearch'
 import { CARD_PARSERS } from '@/lib/card-parsers'
 import type { ToolCard } from '@/store'
-import { Send, Square } from 'lucide-react'
+import { Send, Square, Image as ImageIcon, X } from 'lucide-react'
 
 export function ChatInput() {
   const [input, setInput] = useState('')
+  const [images, setImages] = useState<string[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const abortRef = useRef<AbortController | null>(null)
 
@@ -25,7 +26,32 @@ export function ChatInput() {
   const openSettings = useStore((s) => s.setShowSettings)
   const current = useCurrentConversation()
 
-  const getSystemPrompt = () => settings.systemPrompt || DEFAULT_SYSTEM_PROMPT
+  const getSystemPrompt = () => buildSystemPrompt(settings)
+
+  
+  const handlePaste = useCallback((e: React.ClipboardEvent) => {
+    const items = e.clipboardData?.items;
+    if (!items) return;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type.startsWith('image/')) {
+        e.preventDefault();
+        const file = items[i].getAsFile();
+        if (file) addImageFromFile(file);
+      }
+    }
+  }, []);
+
+  const addImageFromFile = useCallback((file: File) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImages((prev) => [...prev, reader.result as string]);
+    };
+    reader.readAsDataURL(file);
+  }, []);
+
+  const removeImage = useCallback((idx: number) => {
+    setImages((prev) => prev.filter((_, i) => i !== idx));
+  }, []);
 
   const autoResize = useCallback(() => {
     const t = textareaRef.current
@@ -70,13 +96,15 @@ export function ChatInput() {
 
     setInput('')
     if (textareaRef.current) textareaRef.current.style.height = 'auto'
+    setImages([])
 
-    addMessage(convId, { role: 'user', content: text })
+
+    addMessage(convId, { role: 'user', content: text, images: images.length > 0 ? [...images] : undefined })
 
     const history = useStore.getState().conversations.find(c => c.id === convId)?.messages || []
     const messages = [
       { role: 'system' as const, content: systemPrompt },
-      ...history.map(m => ({ role: m.role as 'user' | 'assistant', content: m.content })),
+      ...history.map(m => ({ role: m.role as 'user' | 'assistant', content: m.content, ...(m.images && m.images.length ? { images: m.images } : {}) })),
     ]
 
     const assistantId = addMessage(convId, { role: 'assistant', content: '' })
@@ -135,6 +163,27 @@ export function ChatInput() {
     <div className='px-4 py-3 bg-[var(--surface)] border-t border-[var(--rule)]'>
       <div className='max-w-3xl mx-auto'>
         <div className='flex items-end gap-2 surface-inset px-3 py-2.5 rounded-xl'>
+          {images.length > 0 && (
+            <div className='flex gap-2 mb-2 flex-wrap'>
+              {images.map((img, i) => (
+                <div key={i} className='relative group'>
+                  <img src={img} className='h-16 w-auto rounded-lg object-cover border border-[var(--border)]' />
+                  <button onClick={() => removeImage(i)} className='absolute -top-1.5 -right-1.5 btn-icon w-5 h-5 rounded-full bg-[var(--surface)] shadow-sm opacity-0 group-hover:opacity-100'>
+                    <X className='w-2.5 h-2.5' strokeWidth={2} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+          <div className='flex items-end gap-2 px-3 py-2.5'>
+          <label className='btn-icon cursor-pointer shrink-0 self-end mb-0.5' data-tooltip='Upload image'>
+            <ImageIcon className='w-4 h-4' strokeWidth={1.5} />
+            <input type='file' accept='image/*' className='hidden' onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) addImageFromFile(file);
+              e.target.value = '';
+            }} />
+          </label>
           <textarea
             ref={textareaRef}
             value={input}
@@ -142,6 +191,7 @@ export function ChatInput() {
             onKeyDown={handleKeyDown}
             rows={1}
             placeholder='输入消息... (Enter 发送 / Shift+Enter 换行)'
+            onPaste={handlePaste}
             className='flex-1 bg-transparent text-sm resize-none outline-none min-h-[24px] max-h-[120px] placeholder:opacity-50'
           />
           <button
@@ -151,6 +201,7 @@ export function ChatInput() {
           >
             {streaming ? <Square className='w-4 h-4' strokeWidth={1.5} /> : <Send className='w-4 h-4' strokeWidth={1.5} />}
           </button>
+          </div>
         </div>
       </div>
     </div>

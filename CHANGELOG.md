@@ -4,6 +4,22 @@
 
 ---
 ---
+---
+## [6.1.0] - 2026-08-04
+
+### 跨对话复用 + 用户专属核心 (v6.1)
+
+- **用户画像固化** — Settings 新增 profile: UserProfile（器具/口味/档位/水质/常喝豆），跨对话 localStorage 持久化，zustand merge 保护旧有用户设定。
+- **手上物料** — 添加多支豆（含产地/处理法/烘焙度/备注）、多台磨豆机，全部持久化且可编辑可删除。
+- **本地知识库 + 联网刷新** — 任意搜索关键词 → AnySearch → 结构化 KnowledgeNote 存储；按时间逆向排序注入每次对话。
+- **真·用户专属对话** — buildSystemPrompt 每轮组装：设备/水质/口味/档位/豆子库存/知识库 → 注入 system prompt；user_context JSON 随 MCP 工具调用透传。
+- **gate fix** — ChatInput JSX 少闭包 + globals.css @import Tailwind 序号 fix，frontend build 恢复；multimodal 图片流 4 条 LLM 通道打通，user bubble 渲染图片。
+
+### README + GitHub release
+
+- README 中文全新译文（同英文单文残）+ 英文精简版
+- release file `docs/_release_v6.1.0.md`
+
 ## [6.0.0] - 2026-08-03
 
 ### 前端完全重构 v6.0 — Design System Rebuild

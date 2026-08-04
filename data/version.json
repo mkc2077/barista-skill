@@ -1,4 +1,4 @@
 {
-  "version": "6.0.0",
+  "version": "6.1.0",
   "_comment": "single source of truth for the package version. SKILL.md / mcp-server/pyproject.toml / CHANGELOG.md / server.py all must match this."
 }

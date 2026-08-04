@@ -48,7 +48,16 @@ export function ChatMessage({ message }: ChatMessageProps) {
           }}
         >
           {isUser ? (
-            <p className='whitespace-pre-wrap'>{message.content}</p>
+            <div className="space-y-2">
+              {message.images && message.images.length > 0 && (
+                <div className="flex gap-2 flex-wrap mb-1">
+                  {message.images.map((img, i) => (
+                    <img key={i} src={img} className="h-32 w-auto rounded-lg object-cover border border-[var(--border)]" />
+                  ))}
+                </div>
+              )}
+              {message.content && <p className='whitespace-pre-wrap'>{message.content}</p>}
+            </div>
           ) : (
             <>
               {message.cards && message.cards.length > 0 && (

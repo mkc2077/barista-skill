@@ -1,3 +1,5 @@
+import type { Settings, UserProfile, InventoryBean, KnowledgeNote } from '@/store'
+
 export const DEFAULT_SYSTEM_PROMPT = `你是一位专属咖啡顾问（Dedicated Coffee Consultant），不是被动问答机器人。你主导对话节奏，通过连续、高质量、穿透式的追问，帮用户摸清现状、拆解问题、找到影响口感的关键变量与下一步动作。
 
 ## 核心机制：顾问主导交互——你来提问，用户来回答
@@ -172,9 +174,125 @@ SOE/单品 → "同一种豆做意式"
 新手三步尝味法：①闻香（像坚果/巧克力/水果？）②喝一口让咖啡在嘴里转（酸/苦/甜？）③吞下后看回甘
 资深六维度：aroma / acidity / sweetness / body / aftertaste / balance；可提示啜吸(slurp)让咖啡雾化捕捉香气
 
+## 识图：用户发图片时怎么读
+用户可能发来图片，请像咖啡师看实物一样去读，别当成普通文字。
+- 豆卡 / 豆标 / 商品详情页：先抓“产地、处理法、烘焙度、烘焙日期、海拔、品种、含水量或粒径、风味描述、规格与价格”几个关键字段；读完后用大白话复述确认，再据此推荐冲煮方案。看不清或模糊的字，明说“这块我看不真切，你帮我念一下”——绝不凭模糊画面编造产地或风味。
+- 磨豆机 / 咖啡机详情页：抓“刀盘类型与大小、研磨档位范围、转速、出品均匀度、机器泵压或水温可调范围”，用来给更贴合这台机器的研磨与参数建议。
+- 杯测表 / 萃取照片 / 粉床照片：从表格读评分维度与数值；从照片看粉的粗细与颜色是否均匀、有无通道、油脂颜色与厚度、流速快慢，给出方向性判断。
+- 不管读到什么，先复述确认再行动，图片只是线索不是最终事实。
+- 若用户接的是不支持看图的模型，就明说“我看不到图，把豆卡上几行关键字打给我”。
+
+## 用户专属方案与复用：记住眼前这个人
+你不是一次性问答，你要记住这个用户。
+- 持续积累对TA的认知：常用器具、磨豆机型号与档位、常喝豆的产地与处理法、口味偏好（爱酸/怕苦/要醇厚/要干净）、技术档位（新手/进阶/资深）、过往调整里“喝着满意”的那组参数。
+- 每次给方案前先想：TA之前的设定里有没有能直接复用的？有就优先复用、只动一个变量，而不是从头推导。例：“上次你 JX-Pro 3.2 档 + 92℃ + 1:16 喝着满意，这包深烘豆先沿用这套，只把水温降到 88℃ 试试。”
+- 用户读图传来的豆卡 / 机器信息，立刻并入TA的画像并复用，不让TA重复说。
+- 只在用户明确换了器具、换了豆、或上次方案不满意时，才推翻复用的设定。
+- 给方案时一句话点出“为什么这次复用 / 为什么这次要改”，让用户明白逻辑、方便TA自己接着调。
+
 ## 其他知识领域（用户问起时展开）
 - 冠军冲煮方案：粕谷哲 4:6 法、杜嘉宁、彭近洋、王策 VWI、吴则霖三温暖等（具体配方需联网核实，不可编造）
 - SCA 认证与 Q-Grader 考试体系
 - 生豆分级与瑕疵豆分类
 - 三角杯测协议
 - 咖啡化学与感官映射`
+// ────────────────────────────────────────────────────────────────────
+// 用户专属：把画像、手上物料、近期笔记实时拼进 system prompt
+// ────────────────────────────────────────────────────────────────────
+
+const TASTE_LABEL: Record<string, string> = {
+  acidity: '更爱干净明亮的酸',
+  sweetness: '偏爱甜感足、回甘明显的',
+  less_bitter: '怕苦，要压住焦苦',
+  body: '要醇厚饱满',
+  clarity: '要风味清晰、干净',
+}
+const LEVEL_LABEL: Record<string, string> = {
+  beginner: '新手（用大白话，别甩参数术语）',
+  intermediate: '进阶（给区间，关键术语配口语解释）',
+  advanced: '资深（可直接给精确参数与反应机理）',
+}
+
+function nonEmpty(v: string | undefined): v is string { return !!v && v.trim().length > 0 }
+
+function roastLabel(r?: string) {
+  if (!r) return ''
+  return r === 'light' ? '浅烘' : r === 'dark' ? '深烘' : '中烘'
+}
+
+export function buildUserProfileBlock(s: Settings): string {
+  const p: UserProfile = s.profile || ({} as UserProfile)
+  const lines: string[] = []
+  const gear: string[] = []
+  if (nonEmpty(p.grinder)) gear.push('磨豆机 ' + p.grinder)
+  if (nonEmpty(p.brewer)) gear.push('常做器具 ' + p.brewer)
+  if (nonEmpty(p.kettle)) gear.push('手冲壶 ' + p.kettle)
+  if (p.scale) gear.push('有秤')
+  if (gear.length) lines.push('- 设备：' + gear.join('，'))
+  const water: string[] = []
+  if (nonEmpty(p.waterTds)) water.push('TDS ' + p.waterTds + 'ppm')
+  if (nonEmpty(p.waterSource)) water.push(p.waterSource)
+  if (water.length) lines.push('- 水质：' + water.join('，'))
+  const taste: string[] = []
+  if (nonEmpty(p.tastePref) && TASTE_LABEL[p.tastePref]) taste.push(TASTE_LABEL[p.tastePref])
+  if (p.dislikes && p.dislikes.length) taste.push('不喜欢 ' + p.dislikes.join('、'))
+  if (taste.length) lines.push('- 口味：' + taste.join('；'))
+  if (nonEmpty(p.level) && LEVEL_LABEL[p.level]) lines.push('- 技术档位：' + LEVEL_LABEL[p.level])
+  if (p.beansUsual && p.beansUsual.length) lines.push('- 常喝豆：' + p.beansUsual.join('、'))
+  if (s.inventoryGrinders && s.inventoryGrinders.length) lines.push('- 其它磨豆机：' + s.inventoryGrinders.join('、'))
+  if (s.inventoryBeans && s.inventoryBeans.length) {
+    const beans = s.inventoryBeans.map((b: InventoryBean) => {
+      const parts: string[] = [b.name || '未命名豆']
+      const meta: string[] = []
+      if (nonEmpty(b.origin)) meta.push(b.origin!)
+      if (nonEmpty(b.process)) meta.push(b.process!)
+      const rl = roastLabel(b.roast)
+      if (rl) meta.push(rl)
+      if (meta.length) parts.push('（' + meta.join(' · ') + '）')
+      if (nonEmpty(b.note)) parts.push(' — ' + b.note!)
+      return parts.join('')
+    })
+    lines.push('- 手上的豆子：' + beans.join('；'))
+  }
+  if (lines.length === 0) return ''
+  return '## 这位用户是谁（画像已在每次对话中带上来，请据此给方案、复用 TA 之前喝着满意的设定）\n' + lines.join('\n')
+}
+
+export function buildUserContextJSON(s: Settings): string {
+  const p = s.profile || ({} as UserProfile)
+  return JSON.stringify({
+    gear: { grinder: p.grinder || '', brewer: p.brewer || '', kettle: p.kettle || '', scale: !!p.scale },
+    water: { tds: p.waterTds ? Number(p.waterTds) || 0 : 0, source: p.waterSource || '' },
+    taste: { preference: p.tastePref || '', dislikes: p.dislikes || [] },
+    skill: { level: p.level || '', beans_usually: p.beansUsual || [] },
+  })
+}
+
+export function buildKnowledgeBlock(s: Settings): string {
+  const notes: KnowledgeNote[] = s.knowledge || []
+  if (!notes.length) return ''
+  const recent = [...notes].sort((a, b) => b.createdAt - a.createdAt).slice(0, 8)
+  const rows = recent.map((n) => {
+    const head = '【' + n.category + '】' + n.title
+    const src = n.source ? '（来源：' + n.source + '）' : ''
+    const body = (n.text || '').trim().slice(0, 500)
+    return '- ' + head + src + (body ? '：' + body : '')
+  })
+  return '## 这位用户的本地知识库（TA 自己积累的笔记，回答时优先对照、可补充但不臆造）\n' + rows.join('\n')
+}
+
+export function buildSystemPrompt(s: Settings): string {
+  const base = nonEmpty(s.systemPrompt) ? s.systemPrompt! : DEFAULT_SYSTEM_PROMPT
+  const ctx = buildUserContextJSON(s)
+  const profile = buildUserProfileBlock(s)
+  const knowledge = buildKnowledgeBlock(s)
+  const tail: string[] = []
+  if (profile) tail.push(profile)
+  if (knowledge) tail.push(knowledge)
+  if (ctx) tail.push(
+    '## 调用工具时传 user_context（保持个性化一路贯通）\n' +
+    '当你调用 get_recipe / get_parameters_guide / diagnose_flavor / identify_flavor / get_craft_recipe 这些工具时，如果它们有 user_context 参数，请把下面这段 JSON 作为 user_context 传过去，不要留空：\n' +
+    '```json\n' + ctx + '\n```')
+  if (tail.length === 0) return base
+  return base + '\n\n' + tail.join('\n\n')
+}

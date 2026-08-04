@@ -2,10 +2,43 @@ import { PROVIDERS } from './providers'
 
 export interface ChatMessage {
   role: 'user' | 'assistant' | 'system' | 'tool'
-  content: string
+  content: string | ImageContentPart[]
   tool_calls?: any[]
   tool_call_id?: string
   name?: string
+}
+
+export interface ImageContentPart {
+  type: 'image_url'
+  image_url: { url: string; detail?: 'low' | 'high' | 'auto' }
+}
+
+function _openAIContent(m: ChatMessage): any {
+  const msg = m as any;
+  if (msg.images && msg.images.length > 0) {
+    const parts: any[] = [{ type: "text", text: msg.content || "" }];
+    for (const img of msg.images) parts.push({ type: "image_url", image_url: { url: img, detail: "auto" } });
+    return parts;
+  }
+  return msg.content;
+}
+
+function _anthropicContent(m: ChatMessage): any {
+  const msg = m as any;
+  if (msg.images && msg.images.length > 0) {
+    const parts: any[] = [{ type: "text", text: msg.content || "" }];
+    for (const img of msg.images) {
+      const u = String(img);
+      const bi = u.indexOf("base64,");
+      if (bi > 0) {
+        const media_type = u.slice(u.indexOf(":") + 1, u.indexOf(";"));
+        const data = u.slice(bi + 7);
+        parts.push({ type: "image", source: { type: "base64", media_type, data } });
+      }
+    }
+    return parts;
+  }
+  return msg.content;
 }
 
 export class LLMAdapter {
@@ -41,7 +74,19 @@ export class LLMAdapter {
     const url = `${this.baseUrl}/chat/completions`
     const body = {
       model: this.model,
-      messages: messages.map(m => ({ role: m.role, content: m.content })),
+      messages: messages.map(m => {
+      // If the message has images, build content[] array (OpenAI vision format).
+      // Otherwise plain string content.
+      const msg = m as any;
+      if (msg.images && msg.images.length > 0) {
+        const parts: any[] = [{ type: 'text', text: msg.content || '' }];
+        for (const img of msg.images) {
+          parts.push({ type: 'image_url', image_url: { url: img, detail: 'auto' } });
+        }
+        return { role: m.role, content: parts };
+      }
+      return { role: m.role, content: m.content };
+    }),
       stream: true,
       temperature: this.temperature,
     }
@@ -95,7 +140,7 @@ export class LLMAdapter {
     const chatMsgs = messages.filter(m => m.role !== 'system')
     const body: Record<string, any> = {
       model: this.model,
-      messages: chatMsgs.map(m => ({ role: m.role, content: m.content })),
+      messages: chatMsgs.map((m: ChatMessage) => ({ role: m.role, content: _anthropicContent(m) })),
       max_tokens: 4096,
       stream: true,
       temperature: this.temperature,
@@ -173,7 +218,7 @@ async function _chatOnceOpenAI(
     model: adapter.model,
     messages: messages.map(m => ({
       role: m.role,
-      content: m.content,
+      content: _openAIContent(m),
       ...(m.tool_calls ? { tool_calls: m.tool_calls } : {}),
       ...(m.tool_call_id ? { tool_call_id: m.tool_call_id } : {}),
       ...(m.name ? { name: m.name } : {}),
@@ -247,7 +292,7 @@ async function _chatOnceAnthropic(
       }
       anthropicMsgs.push({ role: 'assistant', content })
     } else {
-      anthropicMsgs.push({ role: m.role, content: m.content })
+      anthropicMsgs.push({ role: m.role, content: _anthropicContent(m) })
     }
   }
 

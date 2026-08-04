@@ -65,3 +65,29 @@ export async function webSearch(
 
   return `以下是联网搜索（AnySearch）返回的参考资料，请在回答中优先采用并注明来源：\n\n${blocks.join('\n\n')}`
 }
+
+/**
+ * 同 webSearch，但额外返回原始结果数组，便于「更新知识库」把每条结果
+ * 存为一条 KnowledgeNote。
+ */
+export async function webSearchRaw(
+  query: string,
+  apiKey?: string,
+  maxResults = 5,
+): Promise<{ markdown: string; results: AnySearchResult[] }> {
+  const payload = { query, max_results: maxResults, format: 'markdown' }
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+  if (apiKey && apiKey.trim()) headers['Authorization'] = `Bearer ${apiKey.trim()}`
+  const res = await fetch(ANYSEARCH_ENDPOINT, { method: 'POST', headers, body: JSON.stringify(payload) })
+  if (!res.ok) throw new Error(`AnySearch 请求失败：HTTP ${res.status}`)
+  const data = (await res.json()) as AnySearchResponse
+  const results = Array.isArray(data?.results) ? data.results : []
+  const blocks = results.slice(0, maxResults).map((r, i) => {
+    const snippet = (r.snippet || r.content || '').trim()
+    return `${i + 1}. ${r.title}\n   ${r.url}${snippet ? `\n   ${snippet}` : ''}`
+  })
+  const markdown = blocks.length
+    ? `以下是联网搜索（AnySearch）返回的参考资料，请在回答中优先采用并注明来源：\n\n${blocks.join('\n\n')}`
+    : ''
+  return { markdown, results }
+}

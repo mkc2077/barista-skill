@@ -16,6 +16,38 @@ export interface Message {
   timestamp: number;
   model?: string;
   cards?: ToolCard[];
+  images?: string[];
+}
+
+export interface UserProfile {
+  grinder: string;
+  brewer: string;
+  kettle: string;
+  scale: boolean;
+  waterTds: string;
+  waterSource: string;
+  tastePref: string;          // acidity | sweetness | less_bitter | body | clarity
+  dislikes: string[];          // e.g. ['焦苦', '涩']
+  level: string;               // beginner | intermediate | advanced
+  beansUsual: string[];         // origins/processes the user likes
+}
+
+export interface InventoryBean {
+  id: string;
+  name: string;
+  origin?: string;
+  process?: string;
+  roast?: string;              // light | medium | dark
+  note?: string;
+}
+
+export interface KnowledgeNote {
+  id: string;
+  title: string;
+  text: string;
+  category: string;            // recipe | method | bean | gear | search | note
+  createdAt: number;
+  source?: string;
 }
 
 export interface Conversation {
@@ -37,6 +69,10 @@ export interface Settings {
   mcpServerUrl: string;
   webSearchOn: boolean;
   anysearchKey: string;
+  profile: UserProfile;
+  inventoryBeans: InventoryBean[];
+  inventoryGrinders: string[];
+  knowledge: KnowledgeNote[];
 }
 
 export interface AppState {
@@ -75,6 +111,21 @@ const defaultSettings: Settings = {
   mcpServerUrl: "http://127.0.0.1:8765/mcp",
   webSearchOn: false,
   anysearchKey: "",
+  profile: {
+    grinder: "",
+    brewer: "",
+    kettle: "",
+    scale: false,
+    waterTds: "",
+    waterSource: "",
+    tastePref: "",
+    dislikes: [],
+    level: "",
+    beansUsual: [],
+  },
+  inventoryBeans: [],
+  inventoryGrinders: [],
+  knowledge: [],
 };
 
 export const useStore = create<AppState>()(
@@ -136,7 +187,26 @@ export const useStore = create<AppState>()(
         });
       },
     }),
-    { name: "barista-skill-store-v6", storage: createJSONStorage(() => localStorage) }
+    {
+      name: "barista-skill-store-v6",
+      storage: createJSONStorage(() => localStorage),
+      merge: (persisted, current) => {
+        const p = (persisted as any) || {};
+        const cur = current as any;
+        const sSettings = { ...cur.settings, ...(p.settings || {}) };
+        const dp = cur.settings.profile || {};
+        sSettings.profile = {
+          ...dp,
+          ...(p.settings?.profile || {}),
+          dislikes: p.settings?.profile?.dislikes ?? dp.dislikes ?? [],
+          beansUsual: p.settings?.profile?.beansUsual ?? dp.beansUsual ?? [],
+        };
+        sSettings.inventoryBeans = p.settings?.inventoryBeans ?? cur.settings.inventoryBeans ?? [];
+        sSettings.inventoryGrinders = p.settings?.inventoryGrinders ?? cur.settings.inventoryGrinders ?? [];
+        sSettings.knowledge = p.settings?.knowledge ?? cur.settings.knowledge ?? [];
+        return { ...cur, ...p, settings: sSettings };
+      },
+    }
   )
 );
 

@@ -1,109 +1,161 @@
 # Barista Coffee Coach Skill
 
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Version](https://img.shields.io/badge/version-6.0.0-blue)
+![Version](https://img.shields.io/badge/version-6.1.0-blue)
 ![MCP tools](https://img.shields.io/badge/MCP%20tools-26-blueviolet)
 ![Brew methods](https://img.shields.io/badge/brew-14%20methods-success)
 ![Tests](https://img.shields.io/badge/tests-175%20pass-success)
 
-A general-purpose AI agent **dedicated Coffee Coach Skill** — dialogue-led,
-continuous penetrating follow-ups that map the current situation, break the
-problem apart, and find the ONE variable that improves the cup. **Bilingual**
-(zh / en). MCP tools support `language="zh"/"en"` natively. Works with
-WorkBuddy / Claude Code / Cursor / Codex / Trae.
+Dedicated coffee coach skill. The AI leads, asking deep follow-ups until it finds the ONE variable that will make the cup better. Bilingual (zh/en). 26-tool MCP server, one-click local app, RAG layer.
 
-> "My coffee is too bitter" → the consultant asks: bitter in the front, or
-> the back of throat? Lately changed beans or grind size? → lock the
-> variable → "push ratio deeper and finer grind, touch nothing else first.
-> Log the bitterness delta."
+---
 
-Ships with a standard MCP server (`barista-mcp`, callable from any MCP
-client). See [mcp-server/README.md](mcp-server/README.md) for tool surface.
+## English
 
-## Two schemes / 两种方案
+### v6.1 highlights
 
-> **v6.0.0** — full frontend rebuild (single-accent design tokens, anti-AI-slop
-  UI rules), SAG-style query-time dynamic entity hyperedges in RAG, light/dark
-  themes. See [CHANGELOG.md](CHANGELOG.md) and
-  [docs/adr/0002-frontend-v6-design-direction.md](docs/adr/0002-frontend-v6-design-direction.md).
+- Persistent user profile (gear / taste / beans / water) via localStorage
+- Bean & grinder inventory tracked in Settings
+- Personal knowledge library with one-click web refresh via AnySearch
+- Multimodal image input: upload bean cards / grinder product pages / cupping gauge sheets
 
-| | Scheme A (skill) | Scheme B (local app) |
-|---|---|---|
-| Model | Your own Agent client provides the model | You fill in your own API key (OpenAI / Anthropic / Qwen / DeepSeek / Kimi / GLM / Ollama / ...) |
-| Web search | Asked through your Agent | Built-in, via [AnySearch](https://www.anysearch.com/docs) key (anonymous tier free) |
-| One-click start | n/a | `start.bat` (Windows) / `start.sh` (macOS / Linux) — auto-installs deps, launches MCP, opens browser |
-| Storage | Server-side / agent-managed | localStorage in browser only |
+### Quick start
 
-## Quick start (Scheme B)
+1. Python 3.10+ and Node.js 20+ on the machine
+2. Double-click start.bat (Windows) or run ./start.sh (macOS / Linux)
+3. Fill in your API key in the Settings panel
+4. Start asking coffee questions - images and your memories load automatically
 
-1. Ensure Python 3.10+ and Node.js 20+ are installed.
-2. Double-click `start.bat` on Windows (or `./start.sh` on macOS / Linux).
-3. Fill in your API key in Settings when the app opens.
-4. Start asking questions.
+### Coverage
 
-To stop: close the terminal window. The launcher cleans up the MCP backend
-and matches the Next.js dev server to your tab.
+| Area | What |
+|------|------|
+| Brewing | 14 methods (V60 / Kalita / AeroPress / French / espresso / moka / cold brew / ice drip / Turkish / Vietnamese phin / ...) + 11 milk drinks + craft specialty recipes |
+| Beans | Selection / storage / processing / roast / altitude / moisture / aging; 12 origins + 6 processing matrices |
+| Sensory | SCA cupping (10 dims), CVA novel scale (SCA-102/103/104/105), flavor wheel, triangle cupping; chemistry maps to sensory |
+| Grinder | 5 hand grinders + multiple electric models, calibration tack + use tips |
+| Espresso | Yield rate, pressure curves, pre-infusion, variable pressure |
+| Water | TDS, hardness, pH, chlorine, mineral impact |
+| Champions | 4:6 method (Kasuya Tetso) and others, web-verified |
+| SCA | 6 modules each Foundation / Intermediate / Professional |
+| Q-Grader | 22 exams: full content as exam type, passing scores, study traps |
+| Green | Defect beans I/II, scoring rules, sieve/SPE grading |
+| Learning | Official sources + community (Xiaohongshu / WeChat / Zhihu / forums / Bilibili) |
 
-## What the skill covers
+### MCP tools (26)
 
-- **14 brewing methods** + **11 classic milk drinks** + craft specialty drinks
-- **Bean selection, storage, water quality**
-- **Sensory evaluation**: SCA cupping (100-pt), CVA new scale (SCA-102/103/104/105)
-- **Grinder calibration**, golden-cup parameter matrices, the flavor wheel
-- **Champion brewing index**: 4:6 method (Kasuya), Inoue recipes, etc. with
-  dripper / filter-paper / water-temperature recipes
-- **SCA certification** and **Q-Grader exam** track (6 modules × 3 levels,
-  22 exam items, study plans, defect scoring, green grading)
-- **Bilingual** references and report templates
+| Group | Tools |
+|-------|-------|
+| Brew / Sensory | get_recipe, get_parameters_guide, diagnose_flavor, identify_flavor, get_sensory_training, get_craft_recipe, start_brew_session, next_step, log_brew_result |
+| Milk / Flavor | get_milk_drink, get_flavor_wheel |
+| Grinder | calibrate_grinder |
+| Cupping | calculate_cupping_score, calculate_cva_score |
+| SCA / Green | get_sca_path, get_sca_course, get_green_grade, get_defect_bean, search_sca_sources |
+| Q-Grader | get_qgrader_exam, get_qgrader_study_plan, get_triangle_protocol |
+| Learning / RAG | get_learning_resources, rag_search, search_references, add_knowledge |
 
-## RAG (how retrieval works in v6)
+Every tool supports language=zh/en and a user_context JSON parameter for personalization. Full tool docs: mcp-server/README.md
 
-`mcp-server/rag_index.py` performs **hybrid retrieval** (CJK 2-gram keyword
-+ sentence-transformers semantic cosine) over `references/*.md`, with
-degrade-to-keyword fallback when the embedding model isn't installed.
+### RAG
 
-`mcp-server/rag_entities.py` is a **SAG-inspired query-time dynamic hyperedge**
-layer: extracts coffee entities (bean / origin / roast / method / flavor)
-from `data/*.json`, builds a controlled vocabulary, and at query time
-boosts chunks that share entities with the query. `rag_search` pulls 
-`top_k*3` candidates, reranks by entity overlap, then truncates — lifting
-the document that hooks onto a different coffee concept higher.
+Hybrid retrieval: CJK 2-gram keyword + sentence-transformers (paraphrase-multilingual-MiniLM-L12-v2) cosine over references/ documents. Falls back to pure keyword when sentence-transformers is not installed. SAG-style entity rerank (mcp-server/rag_entities.py) boosts chunks that share entities with the query. PixelRAG screenshot pipeline deferred - see docs/adr/0001-pixelrag-screenshot-retrieval-deferred.md
 
-For why we did **not** bundle the full PixelRAG screenshot pipeline, see
-[docs/adr/0001-pixelrag-screenshot-retrieval-deferred.md](docs/adr/0001-pixelrag-screenshot-retrieval-deferred.md).
-Short version: coffee knowledge is text parameters + JSON; visual layout
-is rarely the retrieve signal. The `add_documents` API keeps the door
-open for a future opt-in upload-screenshot hook.
+### Project structure
 
-## Contributing
+        barista-skill/
+        data/            structured JSON
+        references/      dual-language topic docs (en/ mirror)
+        mcp-server/      MCP server + RAG engine + tests
+        web/             Next.js 16.x frontend with profile/inventory/knowledge panel
+        scripts/         repo utilities (build_rag_index / self_check)
+        docs/            ADRs / roadmap / releases
+        start.bat        one-click launcher (Windows)
+        start.sh         one-click launcher (macOS / Linux)
+        SKILL.md        skill protocol file
 
-We borrow the mattpocock/skills hygiene pattern:
+### Decision tracking
 
-- **ADRs** (`docs/adr/*.md`) record "we decided X because Y". Future runs
-  do not re-litigate.
-- **.out-of-scope** (`docs/out-of-scope/*.md}) records "we did not do X,
-  here is the specific reason why".
-- **SKILL.md frontmatter description** lists triggers with a single
-  trigger per branch (per mattpocock's writing-great-skills), with the
-  leading word "barista / coffee / SCA / Q-Grader / cupping".
+The project adopted hygiene patterns from mattpocock/skills and ponytail:
 
-## Reflection
+- ADRs (docs/adr/) record decisions, no re-litigation
+- Out-of-scope (docs/out-of-scope/) documents deliberate non-features
+- SKILL.md frontmatter lists triggers, one per branch
 
-This version was rebuilt under:
+---
 
-- @ponytail — laziness constraint (no new heavy deps unless proven needed)
-- @andrej-karpathy-skills — behavioral guidelines to reduce common LLM
-  coding mistakes
-- Reference repos:
-  - [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) — anti-slop UI rules
-  - [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill)
-  - [pbakaus/impeccable](https://github.com/pbakaus/impeccable)
-  - [DavidHDev/react-bits](https://github.com/DavidHDev/react-bits)
-  - [Zleap-AI/SAG](https://github.com/Zleap-AI/SAG) — entity / query-time dynamic hyperedges
-  - [StarTrail-org/PixelRAG](https://github.com/StarTrail-org/PixelRAG) — studied, deferred (see ADR 0001)
-  - [mattpocock/skills](https://github.com/mattpocock/skills) — ADR, out-of-scope,
-    writing-great-skills hygiene pattern
+## Chinese
 
-## License
+### v6.1 核心新功能
+
+- 跨对话画像持久化 — 设备/口味/豆子/水质横跨对话保存，每个请求的 system prompt 都带上你的画像
+- 手上豆库存 — 设置面板里随时增删手头上的豆子与磨豆机，存入 localStorage
+- 个人知识库 + 一键联网刷新 — 搜索关键词，一键三秒 AskAnySearch，结果结构化存为 KnowledgeNote；最近 8 条注入每个对话
+- 多模态图片理解 — 聊天输入框附带上传按钮，可发豆卡/磨豆机商品页/杯测图，模型会读内容并据此回答
+
+### 快速开始
+
+1. Python 3.10+ 与 Node.js 20+ 已安装
+2. 双击 start.bat (Windows) / 运行 ./start.sh (macOS / Linux)
+3. 在弹窗里：选一家供应商、填 Key、选 Model、保存
+4. 开始输入咖啡问题 — 图片与用户记忆会自动加载
+
+### 覆盖范围
+
+| 域 | 内容 |
+|-------|-------|
+| 冲煮 | 14 器具（V60 / Kalita / 法压 / 爱乐压 / 意式 / 摩卡壶 / 冷萃 / 冰滴 / 土耳其 / 越南 phin...）+ 11 经典奶咖 + 特调配方 |
+| 豆子 | 选购/保存/处理法/烘焙等级/海拔/含水率/养豆；12 产地 + 6 处理法参数矩阵 |
+| 感官 | SCA 杯测 (10维度)、CVA 新标 (SCA-102/103/104/105) 与旧分制对照、风味车轮、三角杯测；化学反应 ↔ 感官映射 |
+| 磨豆机 | 5 手磨 + 多台电磨的校正刻度 + 实战使用建议 |
+| 意式 | 萃取率/压力曲线/预浸泡/变压分析 |
+| 水质 | TDS、硬度、pH、氯、矿物质影响 |
+| 冠军 | 粕谷哲 4:6 法等冠军配方，联网核实、不编造 |
+| SCA | 6 模块（Barista/Brewing/Sensory/Roasting/Green/Q）各 Foundation/Intermediate/Professional，含目标与课时、考试形式 |
+| Q-Grader | 22 项考试：每项考试形式（盲测/笔试/实操）、通过线、常错现场、备考材料索引 |
+| 生豆 | 筛网 + SPE 分级 + 瑕疵豆一级/二级 + 扣分规则 |
+| 特调 | 连锁品牌配方 + 咖啡奶茶特调（无咖啡因也记录） |
+| 学习 | 新手至资深资源：官方 SCA/CQI 训练 + 社区（小红书/感官/公众号/论坛/B站） |
+
+### MCP 工具 (26)
+
+| 组 | 工具 |
+|-------|------|
+| 冲煮/感官 | get_recipe, get_parameters_guide, diagnose_flavor, identify_flavor, get_sensory_training, get_craft_recipe, start_brew_session, next_step, log_brew_result |
+| 牛奶/风味 | get_milk_drink, get_flavor_wheel |
+| 调磨 | calibrate_grinder |
+| 杯测 | calculate_cupping_score, calculate_cva_score |
+| SCA/生豆 | get_sca_path, get_sca_course, get_green_grade, get_defect_bean, search_sca_sources |
+| Q-Grader | get_qgrader_exam, get_qgrader_study_plan, get_triangle_protocol |
+| 学习/RAG | get_learning_resources, rag_search, search_references, add_knowledge |
+
+全部 26 个工具都支持 language=zh/en + user_context JSON，文档详见 mcp-server/README.md
+
+### RAG 检索
+
+混合检索：CJK 2-gram 关键词得分 + sentence-transformers（paraphrase-multilingual-MiniLM-L12-v2）余弦相似度，按 references/ 文档分块。若未装 sentence-transformers 自动退化为纯关键词检索。SAG-style 实体超边重排（rag_entities.py）会boost 与查询共享实体的文档。PixelRAG 截屏通道延后 — 见 ADR 0001。
+
+### 决策追源
+
+项目借鉴 mattpocock/skills 与 ponytail 的文档卫生规则：
+
+- ADRs (docs/adr/) 记录"我们为何这样设计"，未来不再重复争辩
+- Out-of-scope (docs/out-of-scope/) 记录有意图不做的东西，并说明为何不做
+- SKILL.md frontmatter 把触发关键词拍平，一个分支一个触发
+
+### 致敬与灵感来源
+
+- Leonxlnx/taste-skill
+- nextlevelbuilder/ui-ux-pro-max-skill
+- pbakaus/impeccable
+- DavidHDev/react-bits
+- Zleap-AI/SAG
+- StarTrail-org/PixelRAG
+- mattpocock/skills
+- Shubhamsaboo/awesome-llm-apps
+- codecrafters-io/build-your-own-x
+- ponytail
+- andrej-karpathy-skills
+
+### License
 
 MIT.
