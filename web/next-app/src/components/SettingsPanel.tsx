@@ -7,6 +7,7 @@ import { PROVIDERS, fetchModels } from '@/lib/providers'
 import { buildSystemPrompt, DEFAULT_SYSTEM_PROMPT } from '@/lib/system-prompt'
 import { ThemeSwitcher } from './ThemeSwitcher'
 import { webSearchRaw } from '@/lib/anysearch'
+import { runKnowledgeSync, SYNC_INTERVAL_DAYS_DEFAULT, SYNC_TOPICS_DEFAULT } from '@/lib/knowledge-sync'
 import { X, Download, Upload, ChevronDown, ChevronRight, Save, Check, Search, Loader2, Plus, Trash2, RefreshCw, Globe, BookOpen } from 'lucide-react'
 
 export function SettingsPanel() {
@@ -32,6 +33,10 @@ export function SettingsPanel() {
   const [newGrinderName, setNewGrinderName] = useState("")
   const [newKnowledgeQuery, setNewKnowledgeQuery] = useState("")
   const [refreshingKnowledge, setRefreshingKnowledge] = useState(false)
+  const [autoSyncTopicsInput, setAutoSyncTopicsInput] = useState(
+    (settings.autoSyncTopics?.length ? settings.autoSyncTopics : SYNC_TOPICS_DEFAULT).join("，")
+  )
+  const [syncingAuto, setSyncingAuto] = useState(false)
   const profile = settings.profile || ({} as any)
 
   const addBean = () => {
@@ -79,6 +84,25 @@ export function SettingsPanel() {
       }
     } catch (e) { console.warn("[knowledge refresh]", e) }
     finally { setRefreshingKnowledge(false) }
+  }
+
+  // v7 P1：立即手动同步一轮（自动更新的手动触发版）
+  const handleAutoSyncNow = async () => {
+    if (syncingAuto) return
+    setSyncingAuto(true)
+    try {
+      const outcome = await runKnowledgeSync(settings)
+      if (outcome.added.length > 0) {
+        update({ knowledge: [...(settings.knowledge || []), ...outcome.added] })
+      }
+      update({ lastSyncAt: Date.now() })
+      if (outcome.errors.length > 0) console.warn("[auto-sync manual]", outcome.errors)
+    } catch (e) { console.warn("[auto-sync manual]", e) }
+    finally { setSyncingAuto(false) }
+  }
+  const handleAutoSyncTopicsSave = () => {
+    const topics = autoSyncTopicsInput.split(/[，,]/).map(t => t.trim()).filter(Boolean)
+    update({ autoSyncTopics: topics })
   }
 
   const handleSave = () => {
@@ -437,6 +461,54 @@ export function SettingsPanel() {
                   {n.source && <a href={n.source} target='_blank' className='text-[var(--accent)] underline'>来源</a>}
                 </div>
               ))}
+            </div>
+
+            {/* v7 P1：定期自动更新（知识引擎） */}
+            <div className='mt-3 pt-3 border-t border-[var(--rule)] space-y-2'>
+              <label className='flex items-center gap-2 text-xs cursor-pointer'>
+                <input
+                  type='checkbox'
+                  checked={!!settings.autoSyncOn}
+                  onChange={(e) => update({ autoSyncOn: e.target.checked, lastSyncAt: e.target.checked ? settings.lastSyncAt : 0 })}
+                  className='accent-[var(--accent)]'
+                />
+                <span className='text-[var(--text)]'>定期自动更新知识库</span>
+                <span className='text-[var(--text-faint)]'>
+                  {settings.lastSyncAt
+                    ? `上次 ${new Date(settings.lastSyncAt).toLocaleDateString()}`
+                    : '尚未同步过'}
+                </span>
+              </label>
+              <div className='flex items-center gap-2 text-xs'>
+                <span className='text-[var(--text-muted)]'>间隔</span>
+                <select
+                  value={settings.syncIntervalDays || SYNC_INTERVAL_DAYS_DEFAULT}
+                  onChange={(e) => update({ syncIntervalDays: Number(e.target.value) })}
+                  className='input text-xs w-20'
+                  disabled={!settings.autoSyncOn}
+                >
+                  <option value={1}>每天</option>
+                  <option value={7}>每周</option>
+                  <option value={30}>每月</option>
+                </select>
+                <button onClick={handleAutoSyncNow} disabled={syncingAuto} className='btn btn-secondary text-xs ml-auto shrink-0'>
+                  {syncingAuto ? <Loader2 className='w-3.5 h-3.5 animate-spin' strokeWidth={1.5} /> : <RefreshCw className='w-3.5 h-3.5' strokeWidth={1.5} />}
+                  <span className='ml-1'>立即同步</span>
+                </button>
+              </div>
+              <div className='flex gap-1'>
+                <input
+                  type='text'
+                  value={autoSyncTopicsInput}
+                  onChange={(e) => setAutoSyncTopicsInput(e.target.value)}
+                  onBlur={handleAutoSyncTopicsSave}
+                  placeholder='同步主题，用逗号分隔'
+                  className='input text-xs flex-1'
+                  disabled={!settings.autoSyncOn}
+                />
+                <button onClick={handleAutoSyncTopicsSave} className='btn btn-secondary text-xs shrink-0' disabled={!settings.autoSyncOn}>保存主题</button>
+              </div>
+              <p className='text-[var(--text-faint)] text-xs'>开启后，应用每次打开时自动检查；新条目以「auto:」前缀标记，可随时删除。</p>
             </div>
           </>
         )}

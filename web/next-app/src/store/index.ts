@@ -69,6 +69,10 @@ export interface Settings {
   mcpServerUrl: string;
   webSearchOn: boolean;
   anysearchKey: string;
+  autoSyncOn: boolean;          // v7: 知识库定期自动同步开关
+  syncIntervalDays: number;     // v7: 同步间隔（天）
+  autoSyncTopics: string[];     // v7: 同步主题（空则用默认）
+  lastSyncAt: number;           // v7: 上次同步时间戳（0=从未）
   profile: UserProfile;
   inventoryBeans: InventoryBean[];
   inventoryGrinders: string[];
@@ -92,6 +96,7 @@ export interface AppState {
   updateMessage: (convId: string, msgId: string, content: string) => void;
   appendCards: (convId: string, msgId: string, cards: ToolCard[]) => void;
   updateSettings: (patch: Partial<Settings>) => void;
+  addKnowledgeNotes: (notes: KnowledgeNote[]) => void;
   setTheme: (theme: ThemeMode) => void;
   toggleSidebar: () => void;
   setShowSettings: (v: boolean) => void;
@@ -111,6 +116,10 @@ const defaultSettings: Settings = {
   mcpServerUrl: "http://127.0.0.1:8765/mcp",
   webSearchOn: false,
   anysearchKey: "",
+  autoSyncOn: false,
+  syncIntervalDays: 7,
+  autoSyncTopics: [],
+  lastSyncAt: 0,
   profile: {
     grinder: "",
     brewer: "",
@@ -172,6 +181,8 @@ export const useStore = create<AppState>()(
       appendCards: (convId, msgId, cards) =>
         set((s) => ({ conversations: s.conversations.map((c) => (c.id !== convId ? c : { ...c, messages: c.messages.map((m) => (m.id === msgId ? { ...m, cards: [...(m.cards || []), ...cards] } : m)), updatedAt: Date.now() })) })),
       updateSettings: (patch) => set((s) => ({ settings: { ...s.settings, ...patch } })),
+      addKnowledgeNotes: (notes) =>
+        set((s) => ({ settings: { ...s.settings, knowledge: [...(s.settings.knowledge || []), ...notes] } })),
       setTheme: (theme) => set({ theme }),
       toggleSidebar: () => set((s) => ({ sidebarOpen: !s.sidebarOpen })),
       setShowSettings: (v) => set({ showSettings: v }),

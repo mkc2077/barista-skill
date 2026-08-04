@@ -2,11 +2,11 @@
 
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Version](https://img.shields.io/badge/version-6.1.1-blue)
-![MCP tools](https://img.shields.io/badge/MCP%20tools-26-blueviolet)
+![MCP tools](https://img.shields.io/badge/MCP%20tools-29-blueviolet)
 ![Brew methods](https://img.shields.io/badge/brew-14%20methods-success)
 ![Tests](https://img.shields.io/badge/tests-175%20pass-success)
 
-Dedicated coffee coach skill. The AI leads, asking deep follow-ups until it finds the ONE variable that will make the cup better. Bilingual (zh/en). 26-tool MCP server, one-click local app, RAG layer.
+Dedicated coffee coach skill. The AI leads, asking deep follow-ups until it finds the ONE variable that will make the cup better. Bilingual (zh/en). 29-tool MCP server, one-click local app, RAG layer.
 
 ---
 
@@ -42,7 +42,7 @@ Dedicated coffee coach skill. The AI leads, asking deep follow-ups until it find
 | Green | Defect beans I/II, scoring rules, sieve/SPE grading |
 | Learning | Official sources + community (Xiaohongshu / WeChat / Zhihu / forums / Bilibili) |
 
-### MCP tools (26)
+### MCP tools (29)
 
 | Group | Tools |
 |-------|-------|
@@ -116,7 +116,7 @@ The project adopted hygiene patterns from mattpocock/skills and ponytail:
 | 特调 | 连锁品牌配方 + 咖啡奶茶特调（无咖啡因也记录） |
 | 学习 | 新手至资深资源：官方 SCA/CQI 训练 + 社区（小红书/感官/公众号/论坛/B站） |
 
-### MCP 工具 (26)
+### MCP 工具 (29)
 
 | 组 | 工具 |
 |-------|------|
@@ -128,7 +128,7 @@ The project adopted hygiene patterns from mattpocock/skills and ponytail:
 | Q-Grader | get_qgrader_exam, get_qgrader_study_plan, get_triangle_protocol |
 | 学习/RAG | get_learning_resources, rag_search, search_references, add_knowledge |
 
-全部 26 个工具都支持 language=zh/en + user_context JSON，文档详见 mcp-server/README.md
+全部 29 个工具都支持 language=zh/en + user_context JSON，文档详见 mcp-server/README.md
 
 ### RAG 检索
 

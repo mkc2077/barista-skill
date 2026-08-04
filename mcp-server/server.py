@@ -16,6 +16,7 @@ Compatible with any MCP client (Claude Desktop / TRAE / Cursor / VS Code ...).
 from pathlib import Path
 from mcp.server.fastmcp import FastMCP
 import json
+import time
 
 
 
@@ -841,6 +842,94 @@ def add_knowledge(source_id: str, text: str, language: str = "zh") -> str:
                  f"Added to RAG index: {n} docs, {c} chunks")
     except Exception as e:
         return L(f"Failed: {e}", f"Failed: {e}")
+
+# --- v7 P1: knowledge auto-update tools ------------------------------------
+
+
+@mcp.tool()
+def sync_knowledge_now(topics: str = "", api_key: str = "", language: str = "zh", max_results: int = 5) -> str:
+    """手动触发一次知识库自动更新：AnySearch 联网拉取最新特调配方 / 冲煮手法 / 冠军方案并去重入库（source 前缀 auto:）。
+
+    Manually trigger a knowledge-library sync: fetch the latest craft recipes / brewing
+    methods / champion recipes via AnySearch, deduplicate, and append to the RAG index
+    (source prefix `auto:`).
+
+    Args:
+        topics: 主题列表，分号分隔；留空用默认主题（新特调配方/新冲煮手法/冠军方案/新磨豆机）
+        api_key: AnySearch Bearer key（可空 = 匿名额度）
+        language: 输出语言 zh/en（默认 zh）
+        max_results: 每主题拉取条数（默认 5）
+    Returns: 同步统计（拉取/入库/去重/错误数）。
+    """
+    import knowledge_sync as _ks
+    L = lambda en, zh: en if language == "en" else zh
+    topic_list = [t.strip() for t in topics.split(";") if t.strip()] if topics else None
+    try:
+        stats = _ks.sync_once(topics=topic_list, api_key=api_key,
+                              max_results=max_results, language=language)
+        head = L(f"Knowledge sync done ({stats['topics']} topics)", f"知识库同步完成（{stats['topics']} 个主题）")
+        lines = [
+            head,
+            L(f"- fetched: {stats['fetched']}", f"- 拉取: {stats['fetched']}"),
+            L(f"- added: {stats['added']}", f"- 入库: {stats['added']}"),
+            L(f"- dedup skipped: {stats['skipped_dup']}", f"- 去重跳过: {stats['skipped_dup']}"),
+            L(f"- errors: {stats['errors']}", f"- 错误: {stats['errors']}"),
+        ]
+        if stats.get("last_error"):
+            lines.append(L(f"- last error: {stats['last_error']}",
+                           f"- 最近错误: {stats['last_error']}"))
+        return "\n".join(lines)
+    except Exception as e:
+        return L(f"Sync failed: {e}", f"同步失败: {e}")
+
+
+@mcp.tool()
+def check_knowledge_updates(api_key: str = "", language: str = "zh") -> str:
+    """检查知识库是否需要更新（距上次成功同步 >7 天则触发一次同步；否则提示无需更新）。
+
+    Check whether the knowledge library is stale (>7 days since last successful sync);
+    if stale, trigger a sync now. Call periodically (e.g. weekly) to keep recipes fresh.
+
+    Args:
+        api_key: AnySearch Bearer key（可空 = 匿名额度）
+        language: 输出语言 zh/en（默认 zh）
+    """
+    import knowledge_sync as _ks
+    L = lambda en, zh: en if language == "en" else zh
+    if not _ks.needs_update():
+        last = _ks._load_state().get("last_success", 0.0)
+        return L(
+            "Knowledge library is up to date (last sync %s)." % time.strftime("%Y-%m-%d", time.localtime(last)),
+            "知识库无需更新（上次成功同步：%s）。" % time.strftime("%Y-%m-%d", time.localtime(last)),
+        )
+    return sync_knowledge_now(api_key=api_key, language=language)
+
+
+@mcp.tool()
+def set_knowledge_schedule(interval: str = "weekly", topics: str = "", api_key: str = "", language: str = "zh") -> str:
+    """配置并启动知识库自动更新调度（方案B 本地独立版用；daily/weekly/monthly）。
+
+    Configure and start the knowledge auto-update scheduler (daily / weekly / monthly).
+    The scheduler runs in the background and syncs at the given interval.
+
+    Args:
+        interval: daily | weekly | monthly（默认 weekly）
+        topics: 分号分隔的主题列表；留空用默认主题
+        api_key: AnySearch Bearer key
+        language: 输出语言 zh/en（默认 zh）
+    """
+    import knowledge_sync as _ks
+    L = lambda en, zh: en if language == "en" else zh
+    if interval not in _ks.INTERVALS:
+        return L(f"Invalid interval '{interval}'; use daily/weekly/monthly",
+                 f"无效间隔 '{interval}'；请用 daily/weekly/monthly")
+    topic_list = [t.strip() for t in topics.split(";") if t.strip()] if topics else None
+    st = _ks.set_schedule(interval=interval, topics=topic_list, api_key=api_key, start=True)
+    return L(
+        f"Scheduler running={st['running']}, interval={st['interval_seconds']}s, topics={len(st['topics'])}",
+        f"调度器运行中={st['running']}，间隔={st['interval_seconds']} 秒，主题数={len(st['topics'])}",
+    )
+
 
 # --- v3.0 SCA / Q-Grader / CVA / Green Coffee tools -------------------------
 

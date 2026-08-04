@@ -4,7 +4,7 @@
 
 Wraps the [barista-skill](../) coffee-coach skill as a Model Context Protocol service, callable from any MCP-compatible client. **Every tool takes a `language="zh"`/`"en"` argument and returns localized output.**
 
-## 提供的工具 (24) / Tools (24)
+## 提供的工具 (29) / Tools (29)
 
 | 工具 / Tool | 功能 / What | 示例 / Example |
 |------|------|------|
@@ -32,6 +32,11 @@ Wraps the [barista-skill](../) coffee-coach skill as a Model Context Protocol se
 | `start_brew_session` | 开冲煮练习会话骨架 / open brew-session scaffold | "开始一轮" / "start a session" |
 | `log_brew_result` | 记录一轮冲煮结果 / log one brew round | "记这一杯" / "log this cup" |
 | `next_step` | 下一步调参建议 / next tuning step | "太酸怎么调" / "too sour next" |
+| `sync_knowledge_now` | 手动触发知识库联网同步（AnySearch → 去重入库） / manual knowledge sync | "更新知识库" / "update KB" |
+| `check_knowledge_updates` | 每周自查：超 7 天未同步即自动更新 / weekly freshness check | "有新材料吗" / "any new recipes" |
+| `set_knowledge_schedule` | 方案B 调度器配置（daily/weekly/monthly） / configure auto-sync scheduler | "每周自动更新" / "weekly auto-sync" |
+
+> v7 P1（知识引擎）：`sync_knowledge_now` / `check_knowledge_updates` / `set_knowledge_schedule` 由 `knowledge_sync.py` 驱动——AnySearch 联网拉取最新配方/冲煮手法/冠军方案，标题去重（精确 + difflib 相似度）后以 `auto:` 前缀增量写入 RAG 索引；失败显式返回错误并保留上次成功时间，绝不静默。方案A：模型每周调用一次 `check_knowledge_updates`；方案B：Settings 开启「定期自动更新」即可。
 
 所有工具签名：最后一个可选参数 `language: str = "zh"`，传 `"en"` 即得到英文输出。
 All tools accept an optional trailing `language` arg; pass `"en"` for English.
@@ -104,7 +109,7 @@ pip install -e .            # 之后可直接用 `barista-mcp` 启动
 
 ```
 mcp-server/
-├── server.py          # MCP server, 26 tools (bilingual)
+├── server.py          # MCP server, 29 tools (bilingual)
 ├── pyproject.toml     # packaging (entry point: barista-mcp -> server:main)
 └── README.md          # this file
 ```

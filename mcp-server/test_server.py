@@ -39,17 +39,18 @@ def test_main_entrypoint_exists():
     assert callable(b.main)
 
 
-def test_tool_count_is_twenty_five():
+def test_tool_count_is_twenty_nine():
     tools = sorted(b.mcp._tool_manager._tools)
     assert tools == [
         "add_knowledge", "calculate_cupping_score", "calculate_cva_score", "calibrate_grinder",
-        "diagnose_flavor", "get_craft_recipe", "get_defect_bean",
+        "check_knowledge_updates", "diagnose_flavor", "get_craft_recipe", "get_defect_bean",
         "get_flavor_wheel", "get_green_grade", "get_learning_resources",
         "get_milk_drink", "get_parameters_guide", "get_qgrader_exam",
         "get_qgrader_study_plan", "get_recipe", "get_sca_course",
         "get_sca_path", "get_sensory_training", "get_triangle_protocol",
         "identify_flavor", "log_brew_result", "next_step",
-        "rag_search", "search_references", "search_sca_sources", "start_brew_session",
+        "rag_search", "search_references", "search_sca_sources", "set_knowledge_schedule",
+        "start_brew_session", "sync_knowledge_now",
     ]
 
 

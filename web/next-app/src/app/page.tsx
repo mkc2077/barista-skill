@@ -7,6 +7,7 @@ import { WelcomeView } from '@/components/WelcomeView'
 import { SettingsPanel } from '@/components/SettingsPanel'
 import { LocalExitButton } from '@/components/LocalExitButton'
 import { useStore, useCurrentConversation } from '@/store'
+import { AutoSync } from '@/components/AutoSync'
 
 export default function Home() {
   const theme = useStore((s) => s.theme)
@@ -22,6 +23,7 @@ export default function Home() {
 
   return (
     <main className={'theme-' + theme + ' bg-[var(--page)] text-[var(--text)] h-screen flex overflow-hidden'}>
+      <AutoSync />
       <Sidebar />
       <div className='flex-1 flex flex-col min-w-0'>
         {!hasConfig || !currentConv ? <WelcomeView /> : <ChatView />}
