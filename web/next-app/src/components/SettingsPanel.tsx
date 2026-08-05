@@ -174,6 +174,28 @@ export function SettingsPanel() {
         <span className='eyebrow'>API Settings</span>
         <h2 className='font-editorial text-2xl text-[var(--text)] mt-3 mb-5'>配置你的模型</h2>
 
+        {/* v7 P4：未配置时的 3 步快速开始（小白引导，复用下方现有字段） */}
+        {!hasApiKey && (
+          <div className='mb-5 rounded-lg border border-[var(--border)] bg-[var(--surface-inset)] p-3 space-y-2'>
+            <p className='text-xs font-medium text-[var(--text)]'>快速开始（3 步）</p>
+            <ol className='space-y-1.5 text-xs text-[var(--text-secondary)]'>
+              <li className='flex items-center gap-1.5'>
+                <span className='font-keystroke text-[var(--accent)]'>1</span>
+                选择供应商（下方下拉框）
+              </li>
+              <li className='flex items-center gap-1.5'>
+                <span className='font-keystroke text-[var(--accent)]'>2</span>
+                填入 API Key 并选择模型
+              </li>
+              <li className='flex items-center gap-1.5'>
+                <span className='font-keystroke text-[var(--accent)]'>3</span>
+                <span>（可选）填 AnySearch Key 开启联网搜索与知识库自动更新</span>
+              </li>
+            </ol>
+            <p className='text-[var(--text-faint)] text-xs'>完成后点右上角关闭，即可开始对话。</p>
+          </div>
+        )}
+
         {/* Provider */}
         <div className='mb-4'>
           <label className='block text-xs font-medium text-[var(--text-muted)] mb-1.5'>供应商</label>
