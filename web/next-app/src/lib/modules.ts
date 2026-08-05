@@ -55,6 +55,8 @@ export interface ModuleConfig {
   prompt: string
   ragFilter: string
   defaultMaterialCategories: InventoryCategory[]
+  /** 强调色（深色主题下的 swatch；与 globals.css [data-module] 覆盖保持一致） */
+  accent: { light: string; dark: string }
 }
 
 export const MODULES: ModuleConfig[] = [
@@ -68,6 +70,7 @@ export const MODULES: ModuleConfig[] = [
     prompt: '## 当前模块：手冲（通用）\n用户当前在与"手冲/通用冲煮模块"对话。优先考虑 V60 / Kalita / 法压 / 爱乐压 / 摩卡壶 / 冷萃 等器具的起步参数与诊断。所有参数建议参考 references/recipes-baseline.md。',
     ragFilter: '',
     defaultMaterialCategories: ['bean', 'grinder', 'brewer', 'dripper', 'filter', 'kettle', 'scale'],
+    accent: { light: 'oklch(50% 0.16 45)', dark: 'oklch(64% 0.15 45)' },
   },
   {
     id: 'espresso',
@@ -79,6 +82,7 @@ export const MODULES: ModuleConfig[] = [
     prompt: '## 当前模块：意式浓缩\n用户当前在请教意式/浓缩相关问题。优先使用 get_recipe(method="espresso", ...) / get_parameters_guide / calibrate_grinder。涉及变压萃取时必须联网核实，不编造压力曲线参数。讨论萃取率（EY%）与 TDS 浓度时给出具体范围。',
     ragFilter: '',
     defaultMaterialCategories: ['bean', 'grinder', 'machine', 'scale'],
+    accent: { light: 'oklch(44% 0.11 30)', dark: 'oklch(62% 0.11 30)' },
   },
   {
     id: 'milk',
@@ -90,6 +94,7 @@ export const MODULES: ModuleConfig[] = [
     prompt: '## 当前模块：奶咖\n用户当前在请教奶咖相关问题。优先调用 get_milk_drink(name=..., language="zh")。回答聚焦在：咖啡基底（浓缩/Ristretto/Lungo）+ 奶（蒸汽、打发温度）+ 比例 + 顺序。不要泛泛甩 11 款清单，只答用户问的那一种。',
     ragFilter: '',
     defaultMaterialCategories: ['bean', 'machine', 'mug', 'syrup'],
+    accent: { light: 'oklch(58% 0.09 85)', dark: 'oklch(74% 0.07 85)' },
   },
   {
     id: 'craft',
@@ -101,6 +106,7 @@ export const MODULES: ModuleConfig[] = [
     prompt: '## 当前模块：特调咖啡\n用户当前在请教特调/创意咖啡。优先 get_craft_recipe(...)。**任何具体门店或博主配方必须联网核实（AnySearch），标注来源 URL + 获取日期**，不编造门店当下菜单。涉及连锁配方时先 ask 用户具体想要哪一类（果味清爽/奶感醇厚/茶感/无咖啡因）。',
     ragFilter: '',
     defaultMaterialCategories: ['bean', 'syrup', 'mug'],
+    accent: { light: 'oklch(52% 0.16 355)', dark: 'oklch(68% 0.13 355)' },
   },
   {
     id: 'sca',
@@ -112,6 +118,7 @@ export const MODULES: ModuleConfig[] = [
     prompt: '## 当前模块：SCA / Q-Grader 备考\n用户当前在准备 SCA 或 Q-Grader 考试。优先调用 get_sca_path / get_sca_course / get_qgrader_exam / get_qgrader_study_plan / calculate_cva_score / get_triangle_protocol / search_sca_sources。涉及 CVA 评分时用 SCA-102/103/104/105 新标（1-9 分），旧 100 分制只在对照说明时使用。',
     ragFilter: '',
     defaultMaterialCategories: [],
+    accent: { light: 'oklch(50% 0.12 255)', dark: 'oklch(66% 0.11 255)' },
   },
   {
     id: 'sensory',
@@ -123,6 +130,7 @@ export const MODULES: ModuleConfig[] = [
     prompt: '## 当前模块：感官训练\n用户当前在做感官训练或杯测相关咨询。优先 get_sensory_training / get_flavor_wheel / calculate_cupping_score。涉及 10 个评分维度（干香/湿香/酸/醇厚/平衡/...）时按 SCA 标准；新人降级到风味轮类别。',
     ragFilter: '',
     defaultMaterialCategories: [],
+    accent: { light: 'oklch(48% 0.10 150)', dark: 'oklch(66% 0.09 150)' },
   },
 ]
 

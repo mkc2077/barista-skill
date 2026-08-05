@@ -8,8 +8,7 @@ import { buildSystemPrompt, DEFAULT_SYSTEM_PROMPT } from '@/lib/system-prompt'
 import { ThemeSwitcher } from './ThemeSwitcher'
 import { webSearchRaw } from '@/lib/anysearch'
 import { runKnowledgeSync, SYNC_INTERVAL_DAYS_DEFAULT, SYNC_TOPICS_DEFAULT } from '@/lib/knowledge-sync'
-import { X, Download, Upload, ChevronDown, ChevronRight, Save, Check, Search, Loader2, Plus, Trash2, RefreshCw, Globe, BookOpen, Package } from 'lucide-react'
-import type { InventoryItem, InventoryCategory, Settings } from '@/store'
+import { X, Download, Upload, ChevronDown, ChevronRight, Save, Check, Search, Loader2, Plus, Trash2, RefreshCw, Globe, BookOpen } from 'lucide-react'
 
 export function SettingsPanel() {
   const settings = useStore((s) => s.settings)
@@ -342,75 +341,9 @@ export function SettingsPanel() {
           <BookOpen className='w-4 h-4' strokeWidth={1.5} /> 我的画像 & 素材
         </button>
         {profileExpanded && (
-          <>
-            <div className='grid grid-cols-2 gap-2 mb-3'>
-              <select value={profile.grinder ?? ""} onChange={(e) => update({ profile: { ...profile, grinder: e.target.value } })} className='select text-xs'>
-                <option value="">你的磨豆机</option>
-                <option value="commandante_c40">Comandante C40</option>
-                <option value="1zpresso_jx_pro">1Zpresso JX-Pro</option>
-                <option value="1zpresso_k_ultra">1Zpresso K-Ultra</option>
-                <option value="timemore_c3">Timemore C3</option>
-                <option value="kingrinder_k6">Kingrinder K6</option>
-                <option value="lagom_mini">Lagom Mini</option>
-                <option value="df64">DF64</option>
-                <option value="niche_zero">Niche Zero</option>
-                <option value="other">手动输入 (见下)</option>
-              </select>
-              <select value={profile.brewer ?? ""} onChange={(e) => update({ profile: { ...profile, brewer: e.target.value } })} className='select text-xs'>
-                <option value="">常做器具</option>
-                <option value="pour_over">V60</option>
-                <option value="kalita">Kalita Wave</option>
-                <option value="ori">Origami</option>
-                <option value="french_press">法压壶</option>
-                <option value="aeropress">爱乐压</option>
-                <option value="moka_pot">摩卡壶</option>
-                <option value="espresso">意式浓缩</option>
-                <option value="cold_brew">冷萃</option>
-                <option value="siphon">虹吸壶</option>
-                <option value="turkish">土耳其壶</option>
-                <option value="clever">聪明杯</option>
-                <option value="budao">挂耳</option>
-                <option value="other">其他</option>
-              </select>
-            </div>
-            <div className='grid grid-cols-2 gap-2 mb-3'>
-              <select value={profile.level ?? ""} onChange={(e) => update({ profile: { ...profile, level: e.target.value } })} className='select text-xs'>
-                <option value="">经验档位</option>
-                <option value="beginner">新手</option>
-                <option value="intermediate">进阶</option>
-                <option value="advanced">资深</option>
-              </select>
-              <select value={profile.tastePref ?? ""} onChange={(e) => update({ profile: { ...profile, tastePref: e.target.value } })} className='select text-xs'>
-                <option value="">口味偏好</option>
-                <option value="acidity">爱干净明亮酸</option>
-                <option value="sweetness">爱甜感 / 回甘</option>
-                <option value="less_bitter">怕苦</option>
-                <option value="body">爱醇厚饱满</option>
-                <option value="clarity">爱风味清晰干净</option>
-              </select>
-            </div>
-            <div className='grid grid-cols-2 gap-2 mb-3'>
-              <input type='text' value={profile.waterTds ?? ""} onChange={(e) => update({ profile: { ...profile, waterTds: e.target.value } })} placeholder='水质 TDS (ppm)' className='input text-xs' />
-              <input type='text' value={profile.waterSource ?? ""} onChange={(e) => update({ profile: { ...profile, waterSource: e.target.value } })} placeholder='来源：过滤水 / RO / 瓶装' className='input text-xs' />
-            </div>
-            <label className='checkbox-label mb-2 text-xs'>
-              <input type='checkbox' checked={profile.scale ?? false} onChange={(e) => update({ profile: { ...profile, scale: e.target.checked } })} />
-              有电子秤
-            </label>
-            <div className='mb-3'>
-              <label className='block text-xs font-medium text-[var(--text-muted)] mb-1.5'>常喝豆种 (逗号分隔 origins / processes)</label>
-              <input
-                type='text'
-                value={(profile.beansUsual || []).join(", ")}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => update({ profile: { ...profile, beansUsual: e.target.value.split(",").map((s: string) => s.trim()).filter(Boolean) } })}
-                placeholder='例如 ethiopia, colombia, washed, natural'
-                className='input text-xs'
-              />
-            </div>
-
-            {/* 我的材料库（v7 P3c：通用物料管理） */}
-            <MaterialLibrarySection settings={settings} update={update} />
-          </>
+          <div className='surface-inset p-3 mb-3 text-xs text-[var(--text-secondary)]'>
+            「我的画像 & 素材」已迁出 Settings。点击侧边栏底部的「我的资料」进入独立管理页（含画像 + 材料库 + 主题/强调色）。
+          </div>
         )}
 
         {/* ── 本地知识库 & 联网刷新 ── */}
@@ -497,10 +430,10 @@ export function SettingsPanel() {
             </div>
           </>
         )}
-        
-        {/* Theme */}        {/* Theme */}
-        <div className='mb-4'>
-          <ThemeSwitcher />
+
+        {/* 主题/强调色已迁出到「我的资料」模块 */}
+        <div className='mb-4 p-3 surface-inset text-xs text-[var(--text-secondary)]'>
+          主题与强调色已迁移到「我的资料」模块（含 7 种预设：跟随模块 + 6 个模块色）。
         </div>
 
         {/* Advanced */}
@@ -550,102 +483,4 @@ export function SettingsPanel() {
   )
 }
 
-/* ─── 我的材料库（v7 P3c 通用物料管理） ─── */
-
-const MAT_CATEGORY_LABEL: Record<InventoryCategory, string> = {
-  bean: '咖啡豆', grinder: '磨豆机', brewer: '冲煮器具', machine: '咖啡机',
-  dripper: '滤杯', filter: '滤纸', syrup: '糖浆 / 调味',
-  kettle: '手冲壶', scale: '称', mug: '杯子', other: '其它',
-}
-
-function MaterialLibrarySection({
-  settings,
-  update,
-}: {
-  settings: Settings
-  update: (patch: Partial<Settings>) => void
-}) {
-  const [newCategory, setNewCategory] = useState<InventoryCategory>('bean')
-  const [newName, setNewName] = useState('')
-  const [newBrand, setNewBrand] = useState('')
-  const [newMeta, setNewMeta] = useState('')
-  const [expanded, setExpanded] = useState(false)
-  const items = settings.inventoryItems || []
-
-  const handleAdd = () => {
-    if (!newName.trim()) return
-    const item: InventoryItem = {
-      id: `${newCategory}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
-      category: newCategory,
-      name: newName.trim(),
-      brand: newBrand.trim() || undefined,
-      meta: newMeta.trim() ? Object.fromEntries(
-        newMeta.split(';')
-          .map((kv) => kv.split(':').map((s) => s.trim()))
-          .filter((pair): pair is [string, string] => pair.length === 2 && !!pair[1])
-      ) : undefined,
-      addedAt: Date.now(),
-    }
-    update({ inventoryItems: [...items, item] })
-    setNewName(''); setNewBrand(''); setNewMeta('')
-  }
-
-  const handleRemove = (id: string) =>
-    update({ inventoryItems: items.filter((it) => it.id !== id) })
-
-  const grouped = items.reduce<Record<InventoryCategory, InventoryItem[]>>((acc, it) => {
-    (acc[it.category] = acc[it.category] || []).push(it)
-    return acc
-  }, {} as Record<InventoryCategory, InventoryItem[]>)
-
-  return (
-    <div className='mb-3'>
-      <button
-        onClick={() => setExpanded(!expanded)}
-        className='flex items-center gap-1 text-xs font-medium text-[var(--text-muted)] mb-1.5 hover:text-[var(--accent)] transition-colors'
-      >
-        {expanded ? <ChevronDown className='w-3.5 h-3.5' strokeWidth={1.5} /> : <ChevronRight className='w-3.5 h-3.5' strokeWidth={1.5} />}
-        <Package className='w-3.5 h-3.5' strokeWidth={1.5} />
-        我的材料库
-        <span className='text-[var(--text-faint)] font-normal ml-1'>{items.length} 件</span>
-      </button>
-      {expanded && (
-        <>
-          <p className='text-[11px] text-[var(--text-faint)] mb-2'>记录手头的磨豆机 / 滤杯 / 滤纸 / 咖啡机 / 豆 / 糖浆等；顾问会在每次对话中读取、给针对性建议。</p>
-          {/* 按类别分组展示 */}
-          {(Object.entries(grouped) as [InventoryCategory, InventoryItem[]][]).map(([cat, list]) => (
-            <div key={cat} className='mb-2'>
-              <p className='text-[10px] font-keystroke uppercase tracking-widest text-[var(--text-faint)] mb-1'>{MAT_CATEGORY_LABEL[cat]}</p>
-              {list.map((it) => (
-                <div key={it.id} className='flex items-center gap-1 text-xs mb-1'>
-                  <span className='text-[var(--text)] flex-1 truncate'>
-                    {it.brand && <span className='text-[var(--text-secondary)]'>{it.brand} · </span>}
-                    {it.name}
-                    {it.meta && Object.keys(it.meta).length > 0 && (
-                      <span className='text-[var(--text-faint)]'> ({Object.entries(it.meta).map(([k, v]) => `${k}: ${v}`).join(' / ')})</span>
-                    )}
-                  </span>
-                  <button onClick={() => handleRemove(it.id)} className='btn-icon w-5 h-5' aria-label='Remove'><Trash2 className='w-3 h-3' strokeWidth={1.5} /></button>
-                </div>
-              ))}
-            </div>
-          ))}
-          {/* 添加新物料 */}
-          <div className='flex gap-1 mt-2'>
-            <select value={newCategory} onChange={(e) => setNewCategory(e.target.value as InventoryCategory)} className='select text-xs w-28'>
-              {(Object.keys(MAT_CATEGORY_LABEL) as InventoryCategory[]).map((k) => (
-                <option key={k} value={k}>{MAT_CATEGORY_LABEL[k]}</option>
-              ))}
-            </select>
-            <input type='text' value={newName} onChange={(e) => setNewName(e.target.value)} placeholder='名称 (例如 Hario V60 02 / Kalita Wave 155)' className='input text-xs flex-1' />
-            <button onClick={handleAdd} disabled={!newName.trim()} className='btn-icon w-7 h-7 disabled:opacity-40' aria-label='Add'><Plus className='w-3.5 h-3.5' strokeWidth={1.5} /></button>
-          </div>
-          <div className='flex gap-1 mt-1'>
-            <input type='text' value={newBrand} onChange={(e) => setNewBrand(e.target.value)} placeholder='品牌 (可选，如 Hario / Comandante)' className='input text-xs w-36' />
-            <input type='text' value={newMeta} onChange={(e) => setNewMeta(e.target.value)} placeholder='规格 (可选, 如 颜色: 透明 / 刀盘: C40)' className='input text-xs flex-1' />
-          </div>
-        </>
-      )}
-    </div>
-  )
-}
+/* 材料库相关已迁移到 ProfileView.tsx */

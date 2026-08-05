@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { v4 as uuidv4 } from "uuid";
-import type { ModuleId, InventoryItem, InventoryCategory } from '@/lib/modules'
+import type { ModuleId, InventoryItem } from '@/lib/modules'
 
 export type ThemeMode = "light" | "dark";
 
@@ -27,14 +27,13 @@ export interface UserProfile {
   scale: boolean;
   waterTds: string;
   waterSource: string;
-  tastePref: string;          // acidity | sweetness | less_bitter | body | clarity
-  dislikes: string[];          // e.g. ['焦苦', '涩']
-  level: string;               // beginner | intermediate | advanced
-  beansUsual: string[];         // origins/processes the user likes
+  tastePref: string;
+  dislikes: string[];
+  level: string;
+  beansUsual: string[];
 }
 
-// v7 P3c 弃用：保留为迁移期兼容读取，新代码请用 InventoryItem (settings.inventoryItems)
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// Legacy (kept for migration from v6.x)
 export interface InventoryBean {
   id: string;
   name: string;
@@ -44,13 +43,13 @@ export interface InventoryBean {
   note?: string;
 }
 
-export type { InventoryItem, InventoryCategory, ModuleId };
+export type { InventoryItem, ModuleId };
 
 export interface KnowledgeNote {
   id: string;
   title: string;
   text: string;
-  category: string;            // recipe | method | bean | gear | search | note
+  category: string;
   createdAt: number;
   source?: string;
 }
@@ -61,8 +60,10 @@ export interface Conversation {
   messages: Message[];
   createdAt: number;
   updatedAt: number;
-  moduleId?: ModuleId;         // v7 P3c：对话绑定的模块
+  moduleId?: ModuleId;
 }
+
+export type AccentOverride = 'auto' | ModuleId;
 
 export interface Settings {
   provider: string;
@@ -75,18 +76,21 @@ export interface Settings {
   mcpServerUrl: string;
   webSearchOn: boolean;
   anysearchKey: string;
-  autoSyncOn: boolean;          // v7: 知识库定期自动同步开关
-  syncIntervalDays: number;     // v7: 同步间隔（天）
-  autoSyncTopics: string[];     // v7: 同步主题（空则用默认）
-  lastSyncAt: number;           // v7: 上次同步时间戳（0=从未）
-  currentModule: ModuleId;    // v7 P3c：当前激活的模块
-  inventoryItems: InventoryItem[];  // v7 P3c：通用材料库
+  autoSyncOn: boolean;
+  syncIntervalDays: number;
+  autoSyncTopics: string[];
+  lastSyncAt: number;
+  currentModule: ModuleId;
+  accentOverride: AccentOverride;
+  inventoryItems: InventoryItem[];
   profile: UserProfile;
-  // v7 P3c 弃用：保留为兼容期读取，UI 写入请用 inventoryItems
+  // Legacy fields (read-only compat)
   inventoryBeans: InventoryBean[];
   inventoryGrinders: string[];
   knowledge: KnowledgeNote[];
 }
+
+export type ViewMode = 'chat' | 'profile';
 
 export interface AppState {
   conversations: Conversation[];
@@ -95,6 +99,7 @@ export interface AppState {
   theme: ThemeMode;
   sidebarOpen: boolean;
   showSettings: boolean;
+  viewMode: ViewMode;
   streaming: boolean;
 
   createConversation: () => string;
@@ -110,6 +115,7 @@ export interface AppState {
   updateInventoryItem: (id: string, patch: Partial<InventoryItem>) => void;
   removeInventoryItem: (id: string) => void;
   setTheme: (theme: ThemeMode) => void;
+  setViewMode: (m: ViewMode) => void;
   toggleSidebar: () => void;
   setShowSettings: (v: boolean) => void;
   setStreaming: (v: boolean) => void;
@@ -133,6 +139,7 @@ const defaultSettings: Settings = {
   autoSyncTopics: [],
   lastSyncAt: 0,
   currentModule: 'pourover',
+  accentOverride: 'auto',
   inventoryItems: [],
   profile: {
     grinder: "",
@@ -160,6 +167,7 @@ export const useStore = create<AppState>()(
       theme: "dark",
       sidebarOpen: true,
       showSettings: false,
+      viewMode: 'chat',
       streaming: false,
 
       createConversation: () => {
@@ -167,7 +175,7 @@ export const useStore = create<AppState>()(
         const now = Date.now();
         const conv: Conversation = {
           id, title: "新对话", messages: [], createdAt: now, updatedAt: now,
-          moduleId: get().settings.currentModule,  // v7 P3c: 绑定当前模块
+          moduleId: get().settings.currentModule,
         };
         set((s) => ({ conversations: [conv, ...s.conversations], currentConversationId: id }));
         return id;
@@ -176,10 +184,15 @@ export const useStore = create<AppState>()(
       deleteConversation: (id) =>
         set((s) => {
           const convs = s.conversations.filter((c) => c.id !== id);
-          return { conversations: convs, currentConversationId: s.currentConversationId === id ? (convs[0]?.id ?? null) : s.currentConversationId };
+          return {
+            conversations: convs,
+            currentConversationId: s.currentConversationId === id ? (convs[0]?.id ?? null) : s.currentConversationId,
+          };
         }),
       renameConversation: (id, title) =>
-        set((s) => ({ conversations: s.conversations.map((c) => (c.id === id ? { ...c, title, updatedAt: Date.now() } : c)) })),
+        set((s) => ({
+          conversations: s.conversations.map((c) => (c.id === id ? { ...c, title, updatedAt: Date.now() } : c)),
+        })),
       addMessage: (convId, msg) => {
         const id = uuidv4();
         const full: Message = { ...msg, id, timestamp: Date.now() };
@@ -194,30 +207,42 @@ export const useStore = create<AppState>()(
         return id;
       },
       updateMessage: (convId, msgId, content) =>
-        set((s) => ({ conversations: s.conversations.map((c) => (c.id !== convId ? c : { ...c, messages: c.messages.map((m) => (m.id === msgId ? { ...m, content } : m)), updatedAt: Date.now() })) })),
+        set((s) => ({
+          conversations: s.conversations.map((c) =>
+            c.id !== convId ? c : { ...c, messages: c.messages.map((m) => (m.id === msgId ? { ...m, content } : m)), updatedAt: Date.now() }
+          ),
+        })),
       appendCards: (convId, msgId, cards) =>
-        set((s) => ({ conversations: s.conversations.map((c) => (c.id !== convId ? c : { ...c, messages: c.messages.map((m) => (m.id === msgId ? { ...m, cards: [...(m.cards || []), ...cards] } : m)), updatedAt: Date.now() })) })),
-updateSettings: (patch) => set((s) => ({ settings: { ...s.settings, ...patch } })),
-  addKnowledgeNotes: (notes) =>
+        set((s) => ({
+          conversations: s.conversations.map((c) =>
+            c.id !== convId ? c : { ...c, messages: c.messages.map((m) => (m.id === msgId ? { ...m, cards: [...(m.cards || []), ...cards] } : m)), updatedAt: Date.now() }
+          ),
+        })),
+      updateSettings: (patch) => set((s) => ({ settings: { ...s.settings, ...patch } })),
+      addKnowledgeNotes: (notes) =>
         set((s) => ({ settings: { ...s.settings, knowledge: [...(s.settings.knowledge || []), ...notes] } })),
-  addInventoryItem: (item) =>
+      addInventoryItem: (item) =>
         set((s) => ({ settings: { ...s.settings, inventoryItems: [...(s.settings.inventoryItems || []), item] } })),
-  updateInventoryItem: (id, patch) =>
+      updateInventoryItem: (id, patch) =>
         set((s) => ({
           settings: {
             ...s.settings,
             inventoryItems: (s.settings.inventoryItems || []).map((it) => (it.id === id ? { ...it, ...patch } : it)),
           },
         })),
-  removeInventoryItem: (id) =>
+      removeInventoryItem: (id) =>
         set((s) => ({
           settings: { ...s.settings, inventoryItems: (s.settings.inventoryItems || []).filter((it) => it.id !== id) },
         })),
       setTheme: (theme) => set({ theme }),
+      setViewMode: (m) => set({ viewMode: m }),
       toggleSidebar: () => set((s) => ({ sidebarOpen: !s.sidebarOpen })),
       setShowSettings: (v) => set({ showSettings: v }),
       setStreaming: (v) => set({ streaming: v }),
-      exportData: () => { const { conversations, settings, theme } = get(); return { conversations, settings, theme }; },
+      exportData: () => {
+        const { conversations, settings, theme } = get();
+        return { conversations, settings, theme };
+      },
       importData: (data) => {
         const state = get();
         set({
@@ -245,30 +270,36 @@ updateSettings: (patch) => set((s) => ({ settings: { ...s.settings, ...patch } }
         sSettings.inventoryBeans = p.settings?.inventoryBeans ?? cur.settings.inventoryBeans ?? [];
         sSettings.inventoryGrinders = p.settings?.inventoryGrinders ?? cur.settings.inventoryGrinders ?? [];
         sSettings.knowledge = p.settings?.knowledge ?? cur.settings.knowledge ?? [];
-        // v7 P3c 字段：旧数据缺失时回退默认，并迁移旧 beans/grinders
         sSettings.currentModule = p.settings?.currentModule ?? cur.settings.currentModule ?? 'pourover';
+        sSettings.accentOverride = p.settings?.accentOverride ?? cur.settings.accentOverride ?? 'auto';
         const persistedItems: InventoryItem[] = p.settings?.inventoryItems ?? cur.settings.inventoryItems ?? [];
         const migrated: InventoryItem[] = [];
         if (!p.settings?.inventoryItems && cur.settings.inventoryItems?.length === 0) {
-          // 从旧字段一次性迁移（仅在目标为空时迁移）
           for (const b of (p.settings?.inventoryBeans ?? [])) {
             migrated.push({
               id: b.id ?? `bean-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
               category: 'bean',
               name: b.name,
               brand: b.origin,
-              meta: { ...(b.process ? { process: b.process } : {}), ...(b.roast ? { roast: b.roast } : {}), ...(b.note ? { note: b.note } : {}) },
+              meta: {
+                ...(b.process ? { process: b.process } : {}),
+                ...(b.roast ? { roast: b.roast } : {}),
+                ...(b.note ? { note: b.note } : {}),
+              },
               addedAt: Date.now(),
             });
           }
           for (const g of (p.settings?.inventoryGrinders ?? [])) {
-            migrated.push({ id: `gr-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, category: 'grinder', name: g, addedAt: Date.now() });
+            migrated.push({
+              id: `gr-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+              category: 'grinder',
+              name: g,
+              addedAt: Date.now(),
+            });
           }
         }
         sSettings.inventoryItems = persistedItems.length > 0 || migrated.length === 0 ? persistedItems : migrated;
-        // 对话加 moduleId 回退
-        const convs = (cur.conversations || []).map((c: any) => ({ ...c })) as Conversation[];
-        return { ...cur, ...p, settings: sSettings, conversations: convs };
+        return { ...cur, ...p, settings: sSettings };
       },
     }
   )

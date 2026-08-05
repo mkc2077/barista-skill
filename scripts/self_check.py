@@ -259,7 +259,16 @@ def run_checks() -> int:
     # 有意镜像 globals.css token 的色板：ThemeSwitcher 色板预览需同时显示两主题，
     # 无法用 var(--page)（只取当前主题）。白名单外一律打回（hex 与 oklch() 都扫）。
     ALLOWED_HEX = set()
-    ALLOWED_OKLCH = {"oklch(96.5% 0.005 250)", "oklch(14% 0.008 260)"}
+    # 与 globals.css [data-module] 块逐字对齐——Sidebar 模块按钮色点用
+    ALLOWED_OKLCH = {
+        "oklch(96.5% 0.005 250)", "oklch(14% 0.008 260)",  # 主题色板 (page)
+        "oklch(50% 0.16 45)", "oklch(64% 0.15 45)",      # pourover accent
+        "oklch(44% 0.11 30)", "oklch(62% 0.11 30)",      # espresso accent
+        "oklch(58% 0.09 85)", "oklch(74% 0.07 85)",      # milk accent
+        "oklch(52% 0.16 355)", "oklch(68% 0.13 355)",    # craft accent
+        "oklch(50% 0.12 255)", "oklch(66% 0.11 255)",    # sca accent
+        "oklch(48% 0.10 150)", "oklch(66% 0.09 150)",    # sensory accent
+    }
     if WEB_SRC.exists():
         bad = []
         for f in WEB_SRC.rglob("*.ts*"):

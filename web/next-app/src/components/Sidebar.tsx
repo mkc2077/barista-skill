@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useStore } from '@/store'
-import { Plus, MessageSquare, Pencil, Trash2, Settings, PanelLeftClose, PanelLeftOpen, Coffee, Package } from 'lucide-react'
+import { Plus, MessageSquare, Pencil, Trash2, Settings, PanelLeftClose, PanelLeftOpen, Coffee, User } from 'lucide-react'
 import { MODULES, type ModuleId } from '@/lib/modules'
 
 export function Sidebar() {
@@ -17,6 +17,9 @@ export function Sidebar() {
   const openSettings = useStore((s) => s.setShowSettings)
   const currentModule = useStore((s) => s.settings.currentModule)
   const updateSettings = useStore((s) => s.updateSettings)
+  const theme = useStore((s) => s.theme)
+  const viewMode = useStore((s) => s.viewMode)
+  const setViewMode = useStore((s) => s.setViewMode)
 
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editTitle, setEditTitle] = useState('')
@@ -45,28 +48,35 @@ export function Sidebar() {
               </button>
             </div>
 
-            {/* 模块切换器（v7 P3c）—— 6 个专注域 + 1 个「全部」 */}
+            {/* 模块切换器（v7 P3c）—— 6 个专注域（点击切模块，主题色随之变） */}
             <div className='px-2 pb-2'>
-              <p className='px-2 pb-1 text-[10px] font-keystroke uppercase tracking-widest text-[var(--text-faint)]'>
+              <p className='px-2 pb-1.5 text-[10px] font-keystroke uppercase tracking-widest text-[var(--text-faint)]'>
                 模块 / Modules
               </p>
-              <div className='flex flex-wrap gap-1'>
-                {MODULES.map((m) => (
-                  <button
-                    key={m.id}
-                    onClick={() => setModule(m.id)}
-                    title={m.description.zh}
-                    data-tooltip={m.description.zh}
-                    className={
-                      'px-2 py-1 text-[11px] rounded-md border transition-colors duration-150 ' +
-                      (currentModule === m.id
-                        ? 'border-[var(--accent)] bg-[var(--accent-bg)] text-[var(--text)]'
-                        : 'border-[var(--border)] text-[var(--text-muted)] hover:border-[var(--accent)] hover:text-[var(--text)]')
-                    }
-                  >
-                    {m.label.zh}
-                  </button>
-                ))}
+              <div className='grid grid-cols-2 gap-1'>
+                {MODULES.map((m) => {
+                  const isActive = currentModule === m.id
+                  return (
+                    <button
+                      key={m.id}
+                      onClick={() => setModule(m.id)}
+                      title={m.description.zh}
+                      data-tooltip={m.description.zh}
+                      className={
+                        'flex items-center gap-1.5 px-2 py-1.5 text-xs rounded-md border transition-colors duration-150 ' +
+                        (isActive
+                          ? 'border-[var(--accent)] bg-[var(--accent-bg)] text-[var(--text)]'
+                          : 'border-[var(--border)] text-[var(--text-muted)] hover:border-[var(--accent)] hover:text-[var(--text)]')
+                      }
+                    >
+                      <span
+                        className='inline-block w-2.5 h-2.5 rounded-full shrink-0'
+                        style={{ background: m.accent[theme === 'dark' ? 'dark' : 'light'] }}
+                      />
+                      {m.label.zh}
+                    </button>
+                  )
+                })}
               </div>
             </div>
 
@@ -137,11 +147,24 @@ export function Sidebar() {
 
             <div className='p-3 border-t border-[var(--rule)] space-y-1'>
               <button
+                onClick={() => setViewMode(viewMode === 'profile' ? 'chat' : 'profile')}
+                className={
+                  'flex items-center gap-2.5 w-full px-3 py-2 rounded-lg text-xs transition-colors duration-150 ' +
+                  (viewMode === 'profile'
+                    ? 'bg-[var(--accent-bg)] text-[var(--text)]'
+                    : 'text-[var(--text-muted)] hover:bg-[var(--surface-inset)]')
+                }
+                data-tooltip='画像 + 材料库 + 主题'
+              >
+                <User className='w-3.5 h-3.5' strokeWidth={1.5} />
+                我的资料
+              </button>
+              <button
                 onClick={() => openSettings(true)}
                 className='flex items-center gap-2.5 w-full px-3 py-2 rounded-lg text-xs font-keystroke text-[var(--text-muted)] hover:bg-[var(--surface-inset)] transition-colors duration-150'
               >
                 <Settings className='w-3.5 h-3.5' strokeWidth={1.5} />
-                Settings
+                API 设置
               </button>
             </div>
           </div>
