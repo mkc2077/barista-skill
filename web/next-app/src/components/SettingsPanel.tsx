@@ -8,7 +8,8 @@ import { buildSystemPrompt, DEFAULT_SYSTEM_PROMPT } from '@/lib/system-prompt'
 import { ThemeSwitcher } from './ThemeSwitcher'
 import { webSearchRaw } from '@/lib/anysearch'
 import { runKnowledgeSync, SYNC_INTERVAL_DAYS_DEFAULT, SYNC_TOPICS_DEFAULT } from '@/lib/knowledge-sync'
-import { X, Download, Upload, ChevronDown, ChevronRight, Save, Check, Search, Loader2, Plus, Trash2, RefreshCw, Globe, BookOpen } from 'lucide-react'
+import { X, Download, Upload, ChevronDown, ChevronRight, Save, Check, Search, Loader2, Plus, Trash2, RefreshCw, Globe, BookOpen, Package } from 'lucide-react'
+import type { InventoryItem, InventoryCategory, Settings } from '@/store'
 
 export function SettingsPanel() {
   const settings = useStore((s) => s.settings)
@@ -407,46 +408,8 @@ export function SettingsPanel() {
               />
             </div>
 
-            {/* 手上豆子 */}
-            <div className='mb-3'>
-              <label className='block text-xs font-medium text-[var(--text-muted)] mb-1.5'>手上的豆子</label>
-              {(settings.inventoryBeans || []).map((b) => (
-                <div key={b.id} className='flex items-center gap-1 mb-1 text-xs'>
-                  <span className='text-[var(--text)] flex-1'>{b.name}{b.roast ? " - 烘焙：" + b.roast : ""}</span>
-                  <button onClick={() => removeBean(b.id)} className='btn-icon w-5 h-5'><Trash2 className='w-3 h-3' strokeWidth={1.5} /></button>
-                </div>
-              ))}
-              <div className='flex gap-1 mt-1'>
-                <input type='text' value={newBeanName} onChange={(e) => setNewBeanName(e.target.value)} placeholder='豆名 (例如 耶加雪菲 日晒)' className='input text-xs flex-1' />
-                <select value={newBeanRoast} onChange={(e) => setNewBeanRoast(e.target.value)} className='select text-xs w-20'>
-                  <option value="">烘焙</option>
-                  <option value="light">浅</option>
-                  <option value="medium">中</option>
-                  <option value="dark">深</option>
-                </select>
-                <button onClick={addBean} className='btn-icon w-7 h-7'><Plus className='w-3.5 h-3.5' strokeWidth={1.5} /></button>
-              </div>
-              <div className='flex gap-1 mt-1'>
-                <input type='text' value={newBeanOrigin} onChange={(e) => setNewBeanOrigin(e.target.value)} placeholder='产地 (例如 埃塞俄比亚)' className='input text-xs w-28' />
-                <input type='text' value={newBeanProcess} onChange={(e) => setNewBeanProcess(e.target.value)} placeholder='处理法' className='input text-xs w-24' />
-                <input type='text' value={newBeanNote} onChange={(e) => setNewBeanNote(e.target.value)} placeholder='备注...' className='input text-xs flex-1' />
-              </div>
-            </div>
-
-            {/* 其他磨豆机 */}
-            <div className='mb-3'>
-              <label className='block text-xs font-medium text-[var(--text-muted)] mb-1.5'>其他磨豆机 (主力在上，其他在此)</label>
-              {(settings.inventoryGrinders || []).map((g: string, i: number) => (
-                <div key={i} className='flex items-center gap-1 text-xs mb-1'>
-                  <span className='text-[var(--text)] flex-1'>{g}</span>
-                  <button onClick={() => removeGrinder(i)} className='btn-icon w-5 h-5'><Trash2 className='w-3 h-3' strokeWidth={1.5} /></button>
-                </div>
-              ))}
-              <div className='flex gap-1 mt-1'>
-                <input type='text' value={newGrinderName} onChange={(e) => setNewGrinderName(e.target.value)} onKeyDown={(e) => e.key === "Enter" && addGrinder()} placeholder='例如：Comandante C40、1Zpresso' className='input text-xs flex-1' />
-                <button onClick={addGrinder} className='btn-icon w-7 h-7'><Plus className='w-3.5 h-3.5' strokeWidth={1.5} /></button>
-              </div>
-            </div>
+            {/* 我的材料库（v7 P3c：通用物料管理） */}
+            <MaterialLibrarySection settings={settings} update={update} />
           </>
         )}
 
@@ -583,6 +546,106 @@ export function SettingsPanel() {
           {saved ? '已保存' : '保存'}
         </button>
       </div>
+    </div>
+  )
+}
+
+/* ─── 我的材料库（v7 P3c 通用物料管理） ─── */
+
+const MAT_CATEGORY_LABEL: Record<InventoryCategory, string> = {
+  bean: '咖啡豆', grinder: '磨豆机', brewer: '冲煮器具', machine: '咖啡机',
+  dripper: '滤杯', filter: '滤纸', syrup: '糖浆 / 调味',
+  kettle: '手冲壶', scale: '称', mug: '杯子', other: '其它',
+}
+
+function MaterialLibrarySection({
+  settings,
+  update,
+}: {
+  settings: Settings
+  update: (patch: Partial<Settings>) => void
+}) {
+  const [newCategory, setNewCategory] = useState<InventoryCategory>('bean')
+  const [newName, setNewName] = useState('')
+  const [newBrand, setNewBrand] = useState('')
+  const [newMeta, setNewMeta] = useState('')
+  const [expanded, setExpanded] = useState(false)
+  const items = settings.inventoryItems || []
+
+  const handleAdd = () => {
+    if (!newName.trim()) return
+    const item: InventoryItem = {
+      id: `${newCategory}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      category: newCategory,
+      name: newName.trim(),
+      brand: newBrand.trim() || undefined,
+      meta: newMeta.trim() ? Object.fromEntries(
+        newMeta.split(';')
+          .map((kv) => kv.split(':').map((s) => s.trim()))
+          .filter((pair): pair is [string, string] => pair.length === 2 && !!pair[1])
+      ) : undefined,
+      addedAt: Date.now(),
+    }
+    update({ inventoryItems: [...items, item] })
+    setNewName(''); setNewBrand(''); setNewMeta('')
+  }
+
+  const handleRemove = (id: string) =>
+    update({ inventoryItems: items.filter((it) => it.id !== id) })
+
+  const grouped = items.reduce<Record<InventoryCategory, InventoryItem[]>>((acc, it) => {
+    (acc[it.category] = acc[it.category] || []).push(it)
+    return acc
+  }, {} as Record<InventoryCategory, InventoryItem[]>)
+
+  return (
+    <div className='mb-3'>
+      <button
+        onClick={() => setExpanded(!expanded)}
+        className='flex items-center gap-1 text-xs font-medium text-[var(--text-muted)] mb-1.5 hover:text-[var(--accent)] transition-colors'
+      >
+        {expanded ? <ChevronDown className='w-3.5 h-3.5' strokeWidth={1.5} /> : <ChevronRight className='w-3.5 h-3.5' strokeWidth={1.5} />}
+        <Package className='w-3.5 h-3.5' strokeWidth={1.5} />
+        我的材料库
+        <span className='text-[var(--text-faint)] font-normal ml-1'>{items.length} 件</span>
+      </button>
+      {expanded && (
+        <>
+          <p className='text-[11px] text-[var(--text-faint)] mb-2'>记录手头的磨豆机 / 滤杯 / 滤纸 / 咖啡机 / 豆 / 糖浆等；顾问会在每次对话中读取、给针对性建议。</p>
+          {/* 按类别分组展示 */}
+          {(Object.entries(grouped) as [InventoryCategory, InventoryItem[]][]).map(([cat, list]) => (
+            <div key={cat} className='mb-2'>
+              <p className='text-[10px] font-keystroke uppercase tracking-widest text-[var(--text-faint)] mb-1'>{MAT_CATEGORY_LABEL[cat]}</p>
+              {list.map((it) => (
+                <div key={it.id} className='flex items-center gap-1 text-xs mb-1'>
+                  <span className='text-[var(--text)] flex-1 truncate'>
+                    {it.brand && <span className='text-[var(--text-secondary)]'>{it.brand} · </span>}
+                    {it.name}
+                    {it.meta && Object.keys(it.meta).length > 0 && (
+                      <span className='text-[var(--text-faint)]'> ({Object.entries(it.meta).map(([k, v]) => `${k}: ${v}`).join(' / ')})</span>
+                    )}
+                  </span>
+                  <button onClick={() => handleRemove(it.id)} className='btn-icon w-5 h-5' aria-label='Remove'><Trash2 className='w-3 h-3' strokeWidth={1.5} /></button>
+                </div>
+              ))}
+            </div>
+          ))}
+          {/* 添加新物料 */}
+          <div className='flex gap-1 mt-2'>
+            <select value={newCategory} onChange={(e) => setNewCategory(e.target.value as InventoryCategory)} className='select text-xs w-28'>
+              {(Object.keys(MAT_CATEGORY_LABEL) as InventoryCategory[]).map((k) => (
+                <option key={k} value={k}>{MAT_CATEGORY_LABEL[k]}</option>
+              ))}
+            </select>
+            <input type='text' value={newName} onChange={(e) => setNewName(e.target.value)} placeholder='名称 (例如 Hario V60 02 / Kalita Wave 155)' className='input text-xs flex-1' />
+            <button onClick={handleAdd} disabled={!newName.trim()} className='btn-icon w-7 h-7 disabled:opacity-40' aria-label='Add'><Plus className='w-3.5 h-3.5' strokeWidth={1.5} /></button>
+          </div>
+          <div className='flex gap-1 mt-1'>
+            <input type='text' value={newBrand} onChange={(e) => setNewBrand(e.target.value)} placeholder='品牌 (可选，如 Hario / Comandante)' className='input text-xs w-36' />
+            <input type='text' value={newMeta} onChange={(e) => setNewMeta(e.target.value)} placeholder='规格 (可选, 如 颜色: 透明 / 刀盘: C40)' className='input text-xs flex-1' />
+          </div>
+        </>
+      )}
     </div>
   )
 }

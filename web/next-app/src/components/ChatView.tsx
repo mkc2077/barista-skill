@@ -5,6 +5,7 @@ import { useStore, useCurrentConversation } from '@/store'
 import { ChatMessage } from './ChatMessage'
 import { ChatInput } from './ChatInput'
 import { ArrowDown, Trash2, Settings } from 'lucide-react'
+import { getModule } from '@/lib/modules'
 
 export function ChatView() {
   const current = useCurrentConversation()
@@ -43,13 +44,18 @@ export function ChatView() {
   return (
     <div className='flex flex-col h-screen'>
       <header className='flex items-center justify-between px-6 py-3.5 border-b border-[var(--rule)] bg-[var(--surface)]'>
-        <div className='flex flex-col gap-0.5 min-w-0 ml-12'>
-          <span className='text-[10px] font-keystroke uppercase tracking-widest text-[var(--text-muted)] truncate'>
-            {meta.join('  ·  ')}
+        <div className='flex items-center gap-3 min-w-0 ml-12'>
+          <span className='px-1.5 py-0.5 rounded-md text-[10px] font-keystroke uppercase tracking-widest border border-[var(--accent)] bg-[var(--accent-bg)] text-[var(--text)] shrink-0'>
+            {getModule(current.moduleId || settings.currentModule).label.zh}
           </span>
-          <h2 className='font-editorial text-lg text-[var(--text)] truncate leading-tight'>
-            {current.title}
-          </h2>
+          <div className='flex flex-col gap-0.5 min-w-0'>
+            <span className='text-[10px] font-keystroke uppercase tracking-widest text-[var(--text-muted)] truncate'>
+              {meta.join('  ·  ')}
+            </span>
+            <h2 className='font-editorial text-lg text-[var(--text)] truncate leading-tight'>
+              {current.title}
+            </h2>
+          </div>
         </div>
         <div className='flex items-center gap-1'>
           <button onClick={() => openSettings(true)} className='btn-icon' data-tooltip='Settings'>

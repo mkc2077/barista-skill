@@ -1,4 +1,5 @@
 import type { Settings, UserProfile, InventoryBean, KnowledgeNote } from '@/store'
+import { getModule } from './modules'
 
 export const DEFAULT_SYSTEM_PROMPT = `你是一位专属咖啡顾问（Dedicated Coffee Consultant），不是被动问答机器人。你主导对话节奏，通过连续、高质量、穿透式的追问，帮用户摸清现状、拆解问题、找到影响口感的关键变量与下一步动作。
 
@@ -239,20 +240,37 @@ export function buildUserProfileBlock(s: Settings): string {
   if (taste.length) lines.push('- 口味：' + taste.join('；'))
   if (nonEmpty(p.level) && LEVEL_LABEL[p.level]) lines.push('- 技术档位：' + LEVEL_LABEL[p.level])
   if (p.beansUsual && p.beansUsual.length) lines.push('- 常喝豆：' + p.beansUsual.join('、'))
-  if (s.inventoryGrinders && s.inventoryGrinders.length) lines.push('- 其它磨豆机：' + s.inventoryGrinders.join('、'))
-  if (s.inventoryBeans && s.inventoryBeans.length) {
-    const beans = s.inventoryBeans.map((b: InventoryBean) => {
-      const parts: string[] = [b.name || '未命名豆']
-      const meta: string[] = []
-      if (nonEmpty(b.origin)) meta.push(b.origin!)
-      if (nonEmpty(b.process)) meta.push(b.process!)
-      const rl = roastLabel(b.roast)
-      if (rl) meta.push(rl)
-      if (meta.length) parts.push('（' + meta.join(' · ') + '）')
-      if (nonEmpty(b.note)) parts.push(' — ' + b.note!)
-      return parts.join('')
-    })
-    lines.push('- 手上的豆子：' + beans.join('；'))
+  // v7 P3c：通用材料库 inventoryItems（migrate 后已含 beans/grinders）。旧字段兼容：仅在 inventoryItems 为空时回退显示。
+  const items = s.inventoryItems || []
+  if (items.length > 0) {
+    const grouped = items.reduce<Record<string, string[]>>((acc, it) => {
+      const head = it.brand ? `${it.brand} · ${it.name}` : it.name
+      acc[it.category] = acc[it.category] ? [...acc[it.category], head] : [head]
+      return acc
+    }, {})
+    const labelMap: Record<string, string> = {
+      bean: '豆', grinder: '磨豆机', brewer: '冲煮器具', machine: '咖啡机',
+      dripper: '滤杯', filter: '滤纸', syrup: '糖浆/调味',
+      kettle: '手冲壶', scale: '秤', mug: '杯子', other: '其它',
+    }
+    const parts = Object.entries(grouped).map(([cat, names]) => `${labelMap[cat] || cat}：${names.join('、')}`)
+    lines.push('- 我的材料库：' + parts.join('；'))
+  } else if (s.inventoryGrinders?.length) {
+    lines.push('- 其它磨豆机：' + s.inventoryGrinders.join('、'))
+    if (s.inventoryBeans?.length) {
+      const beans = s.inventoryBeans.map((b: InventoryBean) => {
+        const parts: string[] = [b.name || '未命名豆']
+        const meta: string[] = []
+        if (nonEmpty(b.origin)) meta.push(b.origin!)
+        if (nonEmpty(b.process)) meta.push(b.process!)
+        const rl = roastLabel(b.roast)
+        if (rl) meta.push(rl)
+        if (meta.length) parts.push('（' + meta.join(' · ') + '）')
+        if (nonEmpty(b.note)) parts.push(' — ' + b.note!)
+        return parts.join('')
+      })
+      lines.push('- 手上的豆子：' + beans.join('；'))
+    }
   }
   if (lines.length === 0) return ''
   return '## 这位用户是谁（画像已在每次对话中带上来，请据此给方案、复用 TA 之前喝着满意的设定）\n' + lines.join('\n')
@@ -281,11 +299,14 @@ export function buildKnowledgeBlock(s: Settings): string {
   return '## 这位用户的本地知识库（TA 自己积累的笔记，回答时优先对照、可补充但不臆造）\n' + rows.join('\n')
 }
 
-export function buildSystemPrompt(s: Settings): string {
+export function buildSystemPrompt(s: Settings, moduleId?: Settings['currentModule']): string {
   const base = nonEmpty(s.systemPrompt) ? s.systemPrompt! : DEFAULT_SYSTEM_PROMPT
   const ctx = buildUserContextJSON(s)
   const profile = buildUserProfileBlock(s)
   const knowledge = buildKnowledgeBlock(s)
+  // v7 P3c：模块专属 prompt 片段（紧跟在 base 后，给模型显式"专注此模块"信号）
+  const mod = getModule(moduleId ?? s.currentModule)
+  const moduleBlock = mod.prompt ? `\n\n${mod.prompt}` : ''
   const tail: string[] = []
   if (profile) tail.push(profile)
   if (knowledge) tail.push(knowledge)
@@ -293,6 +314,6 @@ export function buildSystemPrompt(s: Settings): string {
     '## 调用工具时传 user_context（保持个性化一路贯通）\n' +
     '当你调用 get_recipe / get_parameters_guide / diagnose_flavor / identify_flavor / get_craft_recipe 这些工具时，如果它们有 user_context 参数，请把下面这段 JSON 作为 user_context 传过去，不要留空：\n' +
     '```json\n' + ctx + '\n```')
-  if (tail.length === 0) return base
-  return base + '\n\n' + tail.join('\n\n')
+  if (tail.length === 0) return base + moduleBlock
+  return base + moduleBlock + '\n\n' + tail.join('\n\n')
 }

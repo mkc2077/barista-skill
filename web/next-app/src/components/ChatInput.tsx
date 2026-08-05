@@ -162,27 +162,26 @@ export function ChatInput() {
   return (
     <div className='px-4 py-3 bg-[var(--surface)] border-t border-[var(--rule)]'>
       <div className='max-w-3xl mx-auto'>
-        <div className='flex items-end gap-2 surface-inset px-3 py-2.5 rounded-xl'>
-          {images.length > 0 && (
-            <div className='flex gap-2 mb-2 flex-wrap'>
-              {images.map((img, i) => (
-                <div key={i} className='relative group'>
-                  <img src={img} className='h-16 w-auto rounded-lg object-cover border border-[var(--border)]' />
-                  <button onClick={() => removeImage(i)} className='absolute -top-1.5 -right-1.5 btn-icon w-5 h-5 rounded-full bg-[var(--surface)] shadow-sm opacity-0 group-hover:opacity-100'>
-                    <X className='w-2.5 h-2.5' strokeWidth={2} />
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-          <div className='flex items-end gap-2 px-3 py-2.5'>
-          <label className='btn-icon cursor-pointer shrink-0 self-end mb-0.5' data-tooltip='Upload image'>
-            <ImageIcon className='w-4 h-4' strokeWidth={1.5} />
+        {images.length > 0 && (
+          <div className='flex gap-2 mb-2 flex-wrap'>
+            {images.map((img, i) => (
+              <div key={i} className='relative group'>
+                <img src={img} className='h-16 w-auto rounded-lg object-cover border border-[var(--border)]' />
+                <button onClick={() => removeImage(i)} className='absolute -top-1.5 -right-1.5 btn-icon w-5 h-5 rounded-full bg-[var(--surface)] shadow-sm opacity-0 group-hover:opacity-100'>
+                  <X className='w-2.5 h-2.5' strokeWidth={2} />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+        <div className='flex items-end gap-2 surface-inset px-3 py-2 rounded-xl'>
+          <label className='btn-icon cursor-pointer shrink-0' data-tooltip='Upload image'>
             <input type='file' accept='image/*' className='hidden' onChange={(e) => {
               const file = e.target.files?.[0];
               if (file) addImageFromFile(file);
               e.target.value = '';
             }} />
+            <ImageIcon className='w-4 h-4' strokeWidth={1.5} />
           </label>
           <textarea
             ref={textareaRef}
@@ -192,16 +191,15 @@ export function ChatInput() {
             rows={1}
             placeholder='输入消息... (Enter 发送 / Shift+Enter 换行)'
             onPaste={handlePaste}
-            className='flex-1 bg-transparent text-sm resize-none outline-none min-h-[24px] max-h-[120px] placeholder:opacity-50'
+            className='flex-1 bg-transparent text-sm resize-none outline-none min-h-[24px] max-h-[120px] py-1 placeholder:opacity-50'
           />
           <button
             onClick={handleSend}
-            className='shrink-0 flex items-center justify-center px-2.5 py-2.5 rounded-xl text-white font-medium text-sm btn-primary'
+            className='shrink-0 flex items-center justify-center px-3 py-2 rounded-xl text-white font-medium text-sm btn-primary'
             aria-label={streaming ? 'Stop' : 'Send'}
           >
             {streaming ? <Square className='w-4 h-4' strokeWidth={1.5} /> : <Send className='w-4 h-4' strokeWidth={1.5} />}
           </button>
-          </div>
         </div>
       </div>
     </div>
