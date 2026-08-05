@@ -195,6 +195,11 @@ body {
   min-height: 100dvh;
   font-size: 0.9375rem;
   line-height: 1.625;
+  /* 极淡的径向暗角（vignette）：让 page 背景摆脱纯色平铺 */
+  background-image:
+    radial-gradient(ellipse at 50% 0%, color-mix(in oklch, var(--accent) 5%, transparent) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 100%, color-mix(in oklch, var(--accent) 3%, transparent) 0%, transparent 50%);
+  background-attachment: fixed, fixed;
 }
 
 /* ─── Grain texture overlay ─── */
@@ -206,6 +211,13 @@ html::before {
   pointer-events: none;
   opacity: var(--grain-opacity, 0.015);
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+
+/* ─── 共享噪点 utility（用于卡片表面叠加纸感纹理） ─── */
+.surface-noise {
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-blend-mode: overlay;
 }
 
 /* ─── Focus ─── */
@@ -261,21 +273,39 @@ html::before {
 
 /* ─── Surface tiers (one level, never nested) ─── */
 .surface {
-  background: var(--surface);
+  background-color: var(--surface);
+  /* 极轻的纸感纹理 + 顶部 1px 高光带：让卡片脱离纯色平铺 */
+  background-image:
+    linear-gradient(180deg, color-mix(in oklch, var(--text) 4%, transparent) 0%, transparent 1.2rem),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  background-blend-mode: normal, overlay;
   border: 1px solid var(--border);
+  border-top-color: color-mix(in oklch, var(--text) 8%, var(--border));
   border-radius: 10px;
-  box-shadow: var(--shadow-ambient);
+  box-shadow:
+    inset 0 1px 0 0 color-mix(in oklch, white 6%, transparent),
+    var(--shadow-ambient);
 }
 
 .surface-raised {
-  background: var(--surface-raised);
+  background-color: var(--surface-raised);
+  background-image:
+    linear-gradient(180deg, color-mix(in oklch, var(--text) 6%, transparent) 0%, transparent 1.4rem),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  background-blend-mode: normal, overlay;
   border: 1px solid var(--border-strong);
+  border-top-color: color-mix(in oklch, var(--text) 10%, var(--border-strong));
   border-radius: 10px;
-  box-shadow: var(--shadow-md);
+  box-shadow:
+    inset 0 1px 0 0 color-mix(in oklch, white 8%, transparent),
+    var(--shadow-md);
 }
 
 .surface-inset {
-  background: var(--surface-inset);
+  background-color: var(--surface-inset);
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-blend-mode: overlay;
   border: 1px solid var(--border);
   border-radius: 10px;
 }

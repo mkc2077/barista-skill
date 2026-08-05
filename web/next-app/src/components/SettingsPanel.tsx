@@ -431,10 +431,7 @@ export function SettingsPanel() {
           </>
         )}
 
-        {/* 主题/强调色已迁出到「我的资料」模块 */}
-        <div className='mb-4 p-3 surface-inset text-xs text-[var(--text-secondary)]'>
-          主题与强调色已迁移到「我的资料」模块（含 7 种预设：跟随模块 + 6 个模块色）。
-        </div>
+        {/* 主题/强调色已迁出到「我的资料」模块（占位提示已删除，见 ProfileView） */}
 
         {/* Advanced */}
         <button onClick={() => setShowAdvanced(!showAdvanced)} className='flex items-center gap-1 text-sm text-[var(--accent)] hover:underline mt-2 transition-colors'>
