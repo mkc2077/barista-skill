@@ -20,17 +20,31 @@ export interface Message {
   images?: string[];
 }
 
+// 口味档位（按模块独立偏好）
+export type TasteKey = 'acidity' | 'sweetness' | 'less_bitter' | 'body' | 'clarity'
+
+export interface UserDevices {
+  grinders: string[]
+  brewers: string[]
+  kettles: string[]
+}
+
 export interface UserProfile {
-  grinder: string;
-  brewer: string;
-  kettle: string;
-  scale: boolean;
-  waterTds: string;
-  waterSource: string;
-  tastePref: string;
-  dislikes: string[];
-  level: string;
-  beansUsual: string[];
+  // 多设备（v7 P3c.5）：用户可能多台磨豆机/器具，按需勾选
+  devices: UserDevices
+  waterTds: string
+  waterSource: string
+  scale: boolean
+  dislikes: string[]
+  level: string
+  beansUsual: string[]
+  // 口味偏好按模块独立（v7 P3c.5）：意式爱苦 / 手冲爱酸 / 特调爱甜
+  tasteByModule: { [K in ModuleId]?: TasteKey }
+  // Legacy（v7 P3c.5 前单字段，保留为兼容期读取，UI 写入请用 devices/tasteByModule）
+  grinder?: string
+  brewer?: string
+  kettle?: string
+  tastePref?: string
 }
 
 // Legacy (kept for migration from v6.x)
@@ -123,6 +137,17 @@ export interface AppState {
   importData: (data: { conversations: Conversation[]; settings: Partial<Settings>; theme: ThemeMode }) => void;
 }
 
+const defaultProfile: UserProfile = {
+  devices: { grinders: [], brewers: [], kettles: [] },
+  waterTds: "",
+  waterSource: "",
+  scale: false,
+  dislikes: [],
+  level: "",
+  beansUsual: [],
+  tasteByModule: {},
+}
+
 const defaultSettings: Settings = {
   provider: "",
   apiKey: "",
@@ -141,18 +166,7 @@ const defaultSettings: Settings = {
   currentModule: 'pourover',
   accentOverride: 'auto',
   inventoryItems: [],
-  profile: {
-    grinder: "",
-    brewer: "",
-    kettle: "",
-    scale: false,
-    waterTds: "",
-    waterSource: "",
-    tastePref: "",
-    dislikes: [],
-    level: "",
-    beansUsual: [],
-  },
+  profile: defaultProfile,
   inventoryBeans: [],
   inventoryGrinders: [],
   knowledge: [],
@@ -264,6 +278,17 @@ export const useStore = create<AppState>()(
         sSettings.profile = {
           ...dp,
           ...(p.settings?.profile || {}),
+          // v7 P3c.5 迁移：把旧单值字段映射到 devices/tasteByModule
+          devices: (p.settings?.profile?.devices && Object.keys(p.settings.profile.devices).length > 0)
+            ? p.settings.profile.devices
+            : {
+                grinders: [p.settings?.profile?.grinder, ...(dp.grinders || [])].filter(Boolean),
+                brewers: [p.settings?.profile?.brewer, ...(dp.brewers || [])].filter(Boolean),
+                kettles: [p.settings?.profile?.kettle, ...(dp.kettles || [])].filter(Boolean),
+              },
+          tasteByModule: (p.settings?.profile?.tasteByModule && Object.keys(p.settings.profile.tasteByModule).length > 0)
+            ? p.settings.profile.tasteByModule
+            : (p.settings?.profile?.tastePref ? { pourover: p.settings.profile.tastePref as any } : (dp.tasteByModule || {})),
           dislikes: p.settings?.profile?.dislikes ?? dp.dislikes ?? [],
           beansUsual: p.settings?.profile?.beansUsual ?? dp.beansUsual ?? [],
         };

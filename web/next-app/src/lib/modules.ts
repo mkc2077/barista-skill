@@ -57,6 +57,18 @@ export interface ModuleConfig {
   defaultMaterialCategories: InventoryCategory[]
   /** 强调色（深色主题下的 swatch；与 globals.css [data-module] 覆盖保持一致） */
   accent: { light: string; dark: string }
+  /** lucide 图标 key（用于主题/强调色选择与模块按钮） */
+  iconKey: 'Coffee' | 'CupSoda' | 'GlassWater' | 'Sparkles' | 'Award' | 'Eye'
+}
+
+/** 每个模块配一个咖啡领域的小 SVG（用 lucide 不一定够时用 inline SVG） */
+export const MODULE_CAFE_GLYPHS: Record<ModuleId, string> = {
+  pourover: 'V60',  // 手冲滤杯（V60 风格）
+  espresso: 'ES',  // 意式浓缩杯（双份）
+  milk: 'CAP',  // 奶泡（cup + art pattern）
+  craft: 'LCH',  // 分层特调（layered craft）
+  sca: 'Q',     // SCA Q-Grader 证书徽章
+  sensory: 'CUP', // 杯测勺+杯
 }
 
 export const MODULES: ModuleConfig[] = [
@@ -71,6 +83,7 @@ export const MODULES: ModuleConfig[] = [
     ragFilter: '',
     defaultMaterialCategories: ['bean', 'grinder', 'brewer', 'dripper', 'filter', 'kettle', 'scale'],
     accent: { light: 'oklch(50% 0.16 45)', dark: 'oklch(64% 0.15 45)' },
+    iconKey: 'Coffee',
   },
   {
     id: 'espresso',
@@ -83,6 +96,7 @@ export const MODULES: ModuleConfig[] = [
     ragFilter: '',
     defaultMaterialCategories: ['bean', 'grinder', 'machine', 'scale'],
     accent: { light: 'oklch(44% 0.11 30)', dark: 'oklch(62% 0.11 30)' },
+    iconKey: 'CupSoda',
   },
   {
     id: 'milk',
@@ -95,6 +109,7 @@ export const MODULES: ModuleConfig[] = [
     ragFilter: '',
     defaultMaterialCategories: ['bean', 'machine', 'mug', 'syrup'],
     accent: { light: 'oklch(58% 0.09 85)', dark: 'oklch(74% 0.07 85)' },
+    iconKey: 'GlassWater',
   },
   {
     id: 'craft',
@@ -107,6 +122,7 @@ export const MODULES: ModuleConfig[] = [
     ragFilter: '',
     defaultMaterialCategories: ['bean', 'syrup', 'mug'],
     accent: { light: 'oklch(52% 0.16 355)', dark: 'oklch(68% 0.13 355)' },
+    iconKey: 'Sparkles',
   },
   {
     id: 'sca',
@@ -119,6 +135,7 @@ export const MODULES: ModuleConfig[] = [
     ragFilter: '',
     defaultMaterialCategories: [],
     accent: { light: 'oklch(50% 0.12 255)', dark: 'oklch(66% 0.11 255)' },
+    iconKey: 'Award',
   },
   {
     id: 'sensory',
@@ -131,6 +148,7 @@ export const MODULES: ModuleConfig[] = [
     ragFilter: '',
     defaultMaterialCategories: [],
     accent: { light: 'oklch(48% 0.10 150)', dark: 'oklch(66% 0.09 150)' },
+    iconKey: 'Eye',
   },
 ]
 

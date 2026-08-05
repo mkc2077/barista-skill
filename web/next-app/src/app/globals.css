@@ -195,10 +195,15 @@ body {
   min-height: 100dvh;
   font-size: 0.9375rem;
   line-height: 1.625;
-  /* 极淡的径向暗角（vignette）：让 page 背景摆脱纯色平铺 */
+  /* 咖啡色阶背景：浅烘 → 中烘 → 深烘 三段斜向渐变，opacity 极低 + 模块 accent 顶部暗角；
+     用 fixed attachment 让滚动时背景静止，营造咖啡纸品色彩深度。*/
   background-image:
-    radial-gradient(ellipse at 50% 0%, color-mix(in oklch, var(--accent) 5%, transparent) 0%, transparent 50%),
-    radial-gradient(ellipse at 100% 100%, color-mix(in oklch, var(--accent) 3%, transparent) 0%, transparent 50%);
+    radial-gradient(ellipse at 50% 0%, color-mix(in oklch, var(--accent) 5%, transparent) 0%, transparent 45%),
+    linear-gradient(135deg,
+      color-mix(in oklch, oklch(85% 0.10 70) 4%, transparent) 0%,
+      color-mix(in oklch, oklch(60% 0.12 60) 3%, transparent) 50%,
+      color-mix(in oklch, oklch(35% 0.08 50) 5%, transparent) 100%
+    );
   background-attachment: fixed, fixed;
 }
 

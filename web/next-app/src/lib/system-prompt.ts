@@ -1,5 +1,5 @@
 import type { Settings, UserProfile, InventoryBean, KnowledgeNote } from '@/store'
-import { getModule } from './modules'
+import { MODULES, getModule, type ModuleId } from './modules'
 
 export const DEFAULT_SYSTEM_PROMPT = `你是一位专属咖啡顾问（Dedicated Coffee Consultant），不是被动问答机器人。你主导对话节奏，通过连续、高质量、穿透式的追问，帮用户摸清现状、拆解问题、找到影响口感的关键变量与下一步动作。
 
@@ -213,6 +213,7 @@ const LEVEL_LABEL: Record<string, string> = {
   intermediate: '进阶（给区间，关键术语配口语解释）',
   advanced: '资深（可直接给精确参数与反应机理）',
 }
+const MODULE_LABEL: Record<ModuleId, string> = Object.fromEntries(MODULES.map(m => [m.id, m.label.zh])) as Record<ModuleId, string>
 
 function nonEmpty(v: string | undefined): v is string { return !!v && v.trim().length > 0 }
 
@@ -224,20 +225,34 @@ function roastLabel(r?: string) {
 export function buildUserProfileBlock(s: Settings): string {
   const p: UserProfile = s.profile || ({} as UserProfile)
   const lines: string[] = []
+  // v7 P3c.5：多设备支持（旧单字段 → devices.grinders/brewers/kettles 数组）
+  const devs = p.devices || { grinders: [], brewers: [], kettles: [] }
+  const legacyGrinders = (nonEmpty(p.grinder) ? [p.grinder!] : []).concat(devs.grinders || [])
+  const legacyBrewers = (nonEmpty(p.brewer) ? [p.brewer!] : []).concat(devs.brewers || [])
+  const legacyKettles = (nonEmpty(p.kettle) ? [p.kettle!] : []).concat(devs.kettles || [])
   const gear: string[] = []
-  if (nonEmpty(p.grinder)) gear.push('磨豆机 ' + p.grinder)
-  if (nonEmpty(p.brewer)) gear.push('常做器具 ' + p.brewer)
-  if (nonEmpty(p.kettle)) gear.push('手冲壶 ' + p.kettle)
+  if (legacyGrinders.length) gear.push('磨豆机 ' + legacyGrinders.join('、'))
+  if (legacyBrewers.length) gear.push('器具 ' + legacyBrewers.join('、'))
+  if (legacyKettles.length) gear.push('手冲壶 ' + legacyKettles.join('、'))
   if (p.scale) gear.push('有秤')
-  if (gear.length) lines.push('- 设备：' + gear.join('，'))
+  if (gear.length) lines.push('- 设备：' + gear.join('；'))
   const water: string[] = []
   if (nonEmpty(p.waterTds)) water.push('TDS ' + p.waterTds + 'ppm')
   if (nonEmpty(p.waterSource)) water.push(p.waterSource)
   if (water.length) lines.push('- 水质：' + water.join('，'))
-  const taste: string[] = []
-  if (nonEmpty(p.tastePref) && TASTE_LABEL[p.tastePref]) taste.push(TASTE_LABEL[p.tastePref])
-  if (p.dislikes && p.dislikes.length) taste.push('不喜欢 ' + p.dislikes.join('、'))
-  if (taste.length) lines.push('- 口味：' + taste.join('；'))
+  // v7 P3c.5：口味按模块独立（用户在意式可能爱苦，手冲爱酸，特调爱甜）
+  const tb = p.tasteByModule || {}
+  const tasteByMod = (Object.entries(tb) as [string, string][])
+    .filter(([, v]) => v && TASTE_LABEL[v])
+    .map(([m, v]) => `${MODULE_LABEL[m as keyof typeof MODULE_LABEL] || m}：${TASTE_LABEL[v]}`)
+  // 兼容旧单字段 tastePref：归到「手冲」
+  const legacyTaste = (nonEmpty(p.tastePref) && TASTE_LABEL[p.tastePref!])
+    ? `手冲：${TASTE_LABEL[p.tastePref!]}（旧字段，建议迁移到 per-模块）`
+    : null
+  const tasteParts = [...tasteByMod]
+  if (legacyTaste) tasteParts.push(legacyTaste)
+  if (p.dislikes && p.dislikes.length) tasteParts.push('不喜欢 ' + p.dislikes.join('、'))
+  if (tasteParts.length) lines.push('- 口味偏好：' + tasteParts.join('；'))
   if (nonEmpty(p.level) && LEVEL_LABEL[p.level]) lines.push('- 技术档位：' + LEVEL_LABEL[p.level])
   if (p.beansUsual && p.beansUsual.length) lines.push('- 常喝豆：' + p.beansUsual.join('、'))
   // v7 P3c：通用材料库 inventoryItems（migrate 后已含 beans/grinders）。旧字段兼容：仅在 inventoryItems 为空时回退显示。
