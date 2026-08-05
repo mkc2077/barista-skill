@@ -195,14 +195,34 @@ body {
   min-height: 100dvh;
   font-size: 0.9375rem;
   line-height: 1.625;
-  /* 咖啡色阶背景：浅烘 → 中烘 → 深烘 三段斜向渐变，opacity 极低 + 模块 accent 顶部暗角；
-     用 fixed attachment 让滚动时背景静止，营造咖啡纸品色彩深度。*/
+  background-color: var(--page);
+}
+
+/* ─── 应用主背景（挂 main 上，body 被 main 全屏覆盖所以渐变放这里） ───
+   咖啡色阶：浅烘 → 中烘 → 深烘 斜向渐变 + 顶部 accent 暗角。
+   之前放在 body 但 main 的 bg-[var(--page)] 是不透明实色完全盖住，
+   改成 .app-bg 直接应用在 main（page.tsx）。opacity 提到 5-8% 让
+   深色主题也能看到微妙咖啡色变化。 */
+.app-bg {
+  background-color: var(--page);
   background-image:
-    radial-gradient(ellipse at 50% 0%, color-mix(in oklch, var(--accent) 5%, transparent) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 0%, color-mix(in oklch, var(--accent) 7%, transparent) 0%, transparent 45%),
     linear-gradient(135deg,
-      color-mix(in oklch, oklch(85% 0.10 70) 4%, transparent) 0%,
-      color-mix(in oklch, oklch(60% 0.12 60) 3%, transparent) 50%,
-      color-mix(in oklch, oklch(35% 0.08 50) 5%, transparent) 100%
+      color-mix(in oklch, oklch(82% 0.09 75) 8%, transparent) 0%,
+      color-mix(in oklch, oklch(58% 0.10 62) 5%, transparent) 48%,
+      color-mix(in oklch, oklch(33% 0.07 48) 9%, transparent) 100%
+    );
+  background-attachment: fixed, fixed;
+}
+
+/* 深色主题下提高咖啡色阶强度（暗底上更明显） */
+.theme-dark.app-bg {
+  background-image:
+    radial-gradient(ellipse at 50% 0%, color-mix(in oklch, var(--accent) 10%, transparent) 0%, transparent 45%),
+    linear-gradient(135deg,
+      color-mix(in oklch, oklch(82% 0.09 75) 6%, transparent) 0%,
+      color-mix(in oklch, oklch(58% 0.10 62) 4%, transparent) 48%,
+      color-mix(in oklch, oklch(33% 0.07 48) 7%, transparent) 100%
     );
   background-attachment: fixed, fixed;
 }

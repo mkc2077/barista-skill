@@ -30,7 +30,7 @@ export default function Home() {
   return (
     <main
       data-module={effectiveAccent}
-      className={'theme-' + theme + ' bg-[var(--page)] text-[var(--text)] h-screen flex overflow-hidden'}
+      className={'theme-' + theme + ' app-bg text-[var(--text)] h-screen flex overflow-hidden'}
     >
       <AutoSync />
       <Sidebar />
