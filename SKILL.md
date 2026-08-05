@@ -2,7 +2,7 @@
 name: barista
 description: 主面向 barista / coffee 与 SCA/Q-Grader 备考的专业咖啡顾问 Skill — 用连续穿透式提问主导对话节奏，帮用户拆解问题并定位改进的关键变量。触发：咖啡冲煮/咖啡口感/咖啡豆选购与保存/杯测评分（SCA、CVA）/磨豆机校准/水质/参数调优/分段注水/咖啡感官训练/生豆分级/瑕疵豆/特调配方/联网核实冠军配方与变压曲线/备考 SCA 认证与 Q-Grader 考试。中英双语 · MCP 服务器提供 29 个双语工具（language=zh/en）。English: barista/coffee consultant skill — dialogue-led, helps users find the ONE variable to fix per iteration. Fired when the user wants help with coffee brewing, coffee beans, coffee sensory, cupping scoring (SCA/CVA), grinder calibration, water chemistry, parameter tuning, green-coffee grading (defect beans), specialty signature drinks, online-verifying champion recipes and pressure profiles, or SCA certification / Q-Grader prep. Ships with a 29-tool bilingual MCP server.
 license: MIT
-version: 6.1.1
+version: 7.0.0
 ---
 
 # Barista 咖啡师教练 → 专属咖啡顾问

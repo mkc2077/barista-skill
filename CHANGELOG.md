@@ -3,7 +3,40 @@
 本文件记录 barista 技能的版本变更。版本号遵循 [语义化版本](https://semver.org/)：主版本.次版本.修订号。
 
 ---
----
+## [7.0.0] - 2026-08-05
+
+### 模块化重构（v7 主线）
+- **6 模块专业域**：手冲（默认）/ 意式 / 奶咖 / 特调 / SCA 备考 / 感官。侧边栏顶部模块切换器；新对话绑定当前模块；模块专属 system prompt 注入（`lib/modules.ts` + `system-prompt.ts`）。
+- **每模块独立主题色**：切换模块 → 全站 accent 随 `data-module` 变化（意式棕 / 奶咖象牙 / 特调莓红 / SCA 墨蓝 / 感官生豆绿）；「我的资料」提供 7 种强调色预设（跟随模块 + 6 模块色固定，`accentOverride`）。
+
+### 我的资料（独立模块，从 Settings 迁出）
+- 独立 `ProfileView` 页面（Sidebar「我的资料」入口）：画像 + 材料库 + 主题/强调色。
+- **多设备支持**：磨豆机 / 器具 / 手冲壶改数组（C40 + Niche Zero 同持），chip 列表 + 添加/删除。
+- **口味按模块独立**：意式爱苦 / 手冲爱酸 / 特调爱甜 各设各的（6 模块 × 5 口味网格）。
+- **材料库通用化**：`InventoryItem` 11 类（豆/磨豆机/冲煮器具/咖啡机/滤杯/滤纸/糖浆/壶/秤/杯/其它），品牌 + 自由规格 k:v；旧 `inventoryBeans`/`inventoryGrinders` 自动迁移。
+
+### 知识库自动更新引擎（v7 P1）
+- 后端同步器 + 3 个新 MCP 工具：`sync_knowledge_now`（手动同步）、`check_knowledge_updates`（每周自查，超 7 天触发）、`set_knowledge_schedule`（方案B 调度配置）。
+- 方案B 前端：设置面板「定期自动更新知识库」（每天/每周/每月）+ 立即同步按钮；自动条目带 `auto:` 来源标记，可随时删除。
+
+### RAG v2（v7 P2）
+- `rag_search` 元数据过滤（`filter="category=search"` 等）+ fast/precise 两档检索。
+- 黄金问答评估：`evals/golden_qa.jsonl` + `scripts/run_rag_eval.py`（Recall@5）。
+
+### 设计系统与质感升级（v7 P3）
+- `DESIGN.md` 设计契约：反 AI 俗套 12 条（禁卡片套卡片 / 禁彩底灰字 / 弹簧物理 / 骨架屏 / 反居中），模块专属 accent 语义。
+- `self_check` [7.1] CSS 令牌门禁：扫 tsx 硬编码 hex + oklch()（白名单仅有意镜像）。
+- 调色板 **Terracotta→Carob 深焦糖**（浅色 slate 纸感 + 深色石墨），卡片三层质感（fractal-noise 纹理 + 顶部高光 + inset 阴影），body/主背景咖啡烘焙色阶（浅烘→中烘→深烘）。
+- react-bits 动效移植：`BlurText` 标题逐词模糊入场（IntersectionObserver）、`Magnet` 主按钮磁吸（零依赖）；新增 `motion` 依赖。
+
+### 体验修复
+- ChatInput 输入框过窄 bug（嵌套 div 双重 padding + 图片预览错排）。
+- 首启 3 步快速开始引导（Settings 顶部，未配置时显示）。
+- README 重写：两种方案（Skill / 本地一键启动）并排 + 各自 3 步 quickstart + FAQ 5 条。
+
+### 兼容性
+- 旧 localStorage（`inventoryBeans` / `inventoryGrinders` / `tastePref` / 单值设备字段）首次加载自动迁移，不丢数据。
+
 ---
 ## [6.1.1] - 2026-08-04
 
