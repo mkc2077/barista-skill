@@ -12,6 +12,7 @@ import { AutoSync } from '@/components/AutoSync'
 export default function Home() {
   const theme = useStore((s) => s.theme)
   const showSettings = useStore((s) => s.showSettings)
+  const currentModule = useStore((s) => s.settings.currentModule)
   const hasConfig = useStore((s) =>
     Boolean(s.settings.baseUrl && s.settings.model && (s.settings.apiKey || s.settings.provider === 'ollama'))
   )
@@ -22,7 +23,10 @@ export default function Home() {
   }, [theme])
 
   return (
-    <main className={'theme-' + theme + ' bg-[var(--page)] text-[var(--text)] h-screen flex overflow-hidden'}>
+    <main
+      data-module={currentModule}
+      className={'theme-' + theme + ' bg-[var(--page)] text-[var(--text)] h-screen flex overflow-hidden'}
+    >
       <AutoSync />
       <Sidebar />
       <div className='flex-1 flex flex-col min-w-0'>

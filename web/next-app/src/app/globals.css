@@ -106,6 +106,80 @@
   --grain-opacity: 0.028;
 }
 
+/* ─── 模块专属强调色（v7 P3c.2：data-module 切换主题主色） ───
+   每模块一个辨识度 accent，组件全部引用 var(--accent*)，覆盖即全站变色。
+   与 slate 底协调：浅色主题用深 accent（对比足够），深色主题用亮 accent。 */
+.theme-light[data-module='espresso'] {
+  --accent: oklch(44% 0.11 30);
+  --accent-hover: oklch(38% 0.10 30);
+  --accent-bg: oklch(44% 0.11 30 / 0.10);
+  --accent-ring: oklch(44% 0.11 30 / 0.28);
+  --user-bubble: oklch(40% 0.10 30);
+}
+.theme-dark[data-module='espresso'] {
+  --accent: oklch(62% 0.11 30);
+  --accent-hover: oklch(55% 0.10 30);
+  --accent-bg: oklch(62% 0.11 30 / 0.12);
+  --accent-ring: oklch(62% 0.11 30 / 0.30);
+  --user-bubble: oklch(44% 0.09 30);
+}
+.theme-light[data-module='milk'] {
+  --accent: oklch(58% 0.09 85);
+  --accent-hover: oklch(51% 0.08 85);
+  --accent-bg: oklch(58% 0.09 85 / 0.10);
+  --accent-ring: oklch(58% 0.09 85 / 0.28);
+  --user-bubble: oklch(52% 0.08 85);
+}
+.theme-dark[data-module='milk'] {
+  --accent: oklch(74% 0.07 85);
+  --accent-hover: oklch(67% 0.07 85);
+  --accent-bg: oklch(74% 0.07 85 / 0.12);
+  --accent-ring: oklch(74% 0.07 85 / 0.30);
+  --user-bubble: oklch(55% 0.07 85);
+}
+.theme-light[data-module='craft'] {
+  --accent: oklch(52% 0.16 355);
+  --accent-hover: oklch(45% 0.15 355);
+  --accent-bg: oklch(52% 0.16 355 / 0.10);
+  --accent-ring: oklch(52% 0.16 355 / 0.28);
+  --user-bubble: oklch(47% 0.14 355);
+}
+.theme-dark[data-module='craft'] {
+  --accent: oklch(68% 0.13 355);
+  --accent-hover: oklch(61% 0.12 355);
+  --accent-bg: oklch(68% 0.13 355 / 0.12);
+  --accent-ring: oklch(68% 0.13 355 / 0.30);
+  --user-bubble: oklch(50% 0.12 355);
+}
+.theme-light[data-module='sca'] {
+  --accent: oklch(50% 0.12 255);
+  --accent-hover: oklch(43% 0.11 255);
+  --accent-bg: oklch(50% 0.12 255 / 0.10);
+  --accent-ring: oklch(50% 0.12 255 / 0.28);
+  --user-bubble: oklch(45% 0.11 255);
+}
+.theme-dark[data-module='sca'] {
+  --accent: oklch(66% 0.11 255);
+  --accent-hover: oklch(59% 0.10 255);
+  --accent-bg: oklch(66% 0.11 255 / 0.12);
+  --accent-ring: oklch(66% 0.11 255 / 0.30);
+  --user-bubble: oklch(49% 0.10 255);
+}
+.theme-light[data-module='sensory'] {
+  --accent: oklch(48% 0.10 150);
+  --accent-hover: oklch(41% 0.09 150);
+  --accent-bg: oklch(48% 0.10 150 / 0.10);
+  --accent-ring: oklch(48% 0.10 150 / 0.28);
+  --user-bubble: oklch(44% 0.09 150);
+}
+.theme-dark[data-module='sensory'] {
+  --accent: oklch(66% 0.09 150);
+  --accent-hover: oklch(59% 0.08 150);
+  --accent-bg: oklch(66% 0.09 150 / 0.12);
+  --accent-ring: oklch(66% 0.09 150 / 0.30);
+  --user-bubble: oklch(48% 0.08 150);
+}
+
 /* ─── Base ─── */
 html, body {
   margin: 0;
