@@ -15,3 +15,12 @@ Barista.exe
 
 # local RAG cache (rebuilt via scripts/build_rag_index.py)
 data/rag_index.pkl
+
+# Next.js 构建产物副本（build-exe.py 打包用，勿提交）
+web/next-app/out/
+web/next-app/.next*
+web/next-app/launcher/out/
+web/next-app/launcher/out_*
+web/next-app/launcher/out_bak_*
+web/next-app/dist/
+web/next-app/build/
