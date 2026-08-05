@@ -2,6 +2,8 @@
 
 import { useStore } from '@/store'
 import { ArrowRight, Settings, Coffee } from 'lucide-react'
+import BlurText from './motion/BlurText'
+import Magnet from './motion/Magnet'
 
 export function WelcomeView() {
   const settings = useStore((s) => s.settings)
@@ -10,7 +12,7 @@ export function WelcomeView() {
 
   const hasApiKey = settings.apiKey || settings.provider === 'ollama'
 
-  const tags = ['14 \u79cd\u51b2\u716e\u6cd5', '11 \u6b3e\u7ecf\u5178\u5976\u996e', '\u745e\u590f\u6392\u6e23', '\u611f\u5b98\u5f15\u5e26', 'RAG \u77e5\u8bc6\u5e93']
+  const tags = ['14 种冲煮法', '11 款经典奶咖', '瑞夏排渣', '感官引带', 'RAG 知识库']
 
   return (
     <div className='flex-1 min-h-0 flex flex-col items-center justify-center px-4 py-16 md:py-24'>
@@ -18,16 +20,21 @@ export function WelcomeView() {
         <div className='flex items-center justify-center gap-2 mb-6'>
           <Coffee className='w-4 h-4' style={{ color: 'var(--accent)' }} strokeWidth={1.5} />
           <span className='text-[10px] font-keystroke uppercase tracking-widest text-[var(--text-muted)]'>
-            Barista v6
+            Barista v7
           </span>
         </div>
 
-        <h1 className='font-editorial text-5xl md:text-6xl mb-5 tracking-tight leading-none text-[var(--text)]'>
-          Brew with Intention
-        </h1>
+        <BlurText
+          text='Brew with Intention'
+          className='font-editorial text-5xl md:text-6xl mb-5 tracking-tight leading-none text-[var(--text)]'
+          animateBy='words'
+          direction='top'
+          delay={120}
+          stepDuration={0.3}
+        />
 
         <p className='max-w-md mx-auto text-base text-[var(--text-secondary)] leading-relaxed mb-8'>
-          \u987e\u95ee\u5f0f\u5bf9\u8bdd\uff0c\u8ffd\u95ee\u7ec6\u8282\uff0c\u676f\u4e2d\u627e\u5230\u7b54\u6848\u3002
+          顾问式对话，追问细节，杯中答案。
         </p>
 
         <div className='flex flex-wrap justify-center gap-2 mb-8'>
@@ -37,26 +44,28 @@ export function WelcomeView() {
         </div>
 
         <div className='flex flex-col sm:flex-row items-center justify-center gap-3'>
-          <button
-            onClick={() => hasApiKey ? create() : openSettings(true)}
-            disabled={!hasApiKey}
-            className='btn btn-primary px-8 py-3 text-base disabled:cursor-not-allowed'
-          >
-            <ArrowRight className='w-5 h-5' strokeWidth={1.5} />
-            {hasApiKey ? '\u5f00\u59cb\u5bf9\u8bdd' : '\u914d\u7f6e API Key'}
-          </button>
+          <Magnet padding={60} magnetStrength={3} disabled={!hasApiKey}>
+            <button
+              onClick={() => hasApiKey ? create() : openSettings(true)}
+              disabled={!hasApiKey}
+              className='btn btn-primary px-8 py-3 text-base disabled:cursor-not-allowed'
+            >
+              <ArrowRight className='w-5 h-5' strokeWidth={1.5} />
+              {hasApiKey ? '开始对话' : '配置 API Key'}
+            </button>
+          </Magnet>
 
           {!hasApiKey && (
             <button onClick={() => openSettings(true)} className='btn btn-secondary px-6 py-3'>
               <Settings className='w-4 h-4' strokeWidth={1.5} />
-              \u8bbe\u7f6e
+              设置
             </button>
           )}
         </div>
 
         {hasApiKey && (
           <p className='text-[10px] font-keystroke text-[var(--text-faint)] tracking-widest mt-6 uppercase'>
-            Ready \u00b7 {(settings.provider ?? '-').toUpperCase()}
+            Ready · {(settings.provider ?? '-').toUpperCase()}
           </p>
         )}
       </div>

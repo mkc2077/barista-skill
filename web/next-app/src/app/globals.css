@@ -24,29 +24,29 @@
 
 /* ─── Fonts ─── */
 
-/* ─── Theme: Light Cream ─── */
+/* ─── Theme: Light Slate（暖灰纸感 + 陶土强调）─── */
 .theme-light {
-  --page: #faf7f2;
-  --surface: #ffffff;
-  --surface-raised: #f5f1eb;
-  --surface-inset: #ede7df;
+  --page: oklch(96.5% 0.005 250);
+  --surface: oklch(99% 0.002 250);
+  --surface-raised: oklch(94% 0.007 250);
+  --surface-inset: oklch(91% 0.009 250);
 
-  --text: oklch(22% 0.014 70);
-  --text-secondary: oklch(42% 0.012 70);
-  --text-muted: oklch(58% 0.010 70);
-  --text-faint: oklch(74% 0.008 70);
+  --text: oklch(24% 0.012 260);
+  --text-secondary: oklch(42% 0.010 260);
+  --text-muted: oklch(57% 0.008 260);
+  --text-faint: oklch(72% 0.006 260);
   --text-on-accent: oklch(98% 0 0);
 
-  --accent: oklch(62% 0.14 55);
-  --accent-hover: oklch(54% 0.13 55);
-  --accent-bg: oklch(62% 0.14 55 / 0.08);
-  --accent-ring: oklch(62% 0.14 55 / 0.28);
+  --accent: oklch(58% 0.17 40);
+  --accent-hover: oklch(51% 0.16 40);
+  --accent-bg: oklch(58% 0.17 40 / 0.10);
+  --accent-ring: oklch(58% 0.17 40 / 0.28);
 
-  --border: oklch(88% 0.006 80);
-  --border-strong: oklch(82% 0.010 80);
-  --rule: oklch(22% 0.014 70 / 0.10);
+  --border: oklch(88% 0.008 250);
+  --border-strong: oklch(82% 0.010 250);
+  --rule: oklch(24% 0.012 260 / 0.10);
 
-  --user-bubble: oklch(48% 0.10 55);
+  --user-bubble: oklch(52% 0.15 40);
   --user-text: oklch(98% 0 0);
   --assistant-bubble: #ffffff;
 
@@ -54,10 +54,10 @@
   --danger-bg: #fce8e8;
   --success: #2e7d32;
 
-  --scrollbar-thumb: oklch(84% 0.010 80);
+  --scrollbar-thumb: oklch(84% 0.008 250);
   --scrollbar-track: transparent;
 
-  --shadow-ambient: 0 1px 2px oklch(0% 0 0 / 0.04), 0 4px 16px oklch(62% 0.14 55 / 0.06);
+  --shadow-ambient: 0 1px 2px oklch(0% 0 0 / 0.04), 0 4px 16px oklch(58% 0.17 40 / 0.06);
   --shadow-sm: 0 1px 2px oklch(0% 0 0 / 0.04);
   --shadow-md: 0 4px 12px oklch(0% 0 0 / 0.06);
   --shadow-lg: 0 12px 40px oklch(0% 0 0 / 0.10);
@@ -65,37 +65,37 @@
   --grain-opacity: 0.018;
 }
 
-/* ─── Theme: Dark Espresso ─── */
+/* ─── Theme: Dark Slate（石墨 + 陶土强调）─── */
 .theme-dark {
-  --page: #0f0d0b;
-  --surface: #171410;
-  --surface-raised: #1e1a15;
-  --surface-inset: #0b0a08;
+  --page: oklch(14% 0.008 260);
+  --surface: oklch(18% 0.010 260);
+  --surface-raised: oklch(21% 0.012 260);
+  --surface-inset: oklch(11% 0.006 260);
 
-  --text: oklch(91% 0 0);
-  --text-secondary: oklch(76% 0.008 80);
-  --text-muted: oklch(60% 0.008 80);
-  --text-faint: oklch(46% 0.006 80);
-  --text-on-accent: oklch(15% 0.010 70);
+  --text: oklch(92% 0.004 250);
+  --text-secondary: oklch(76% 0.008 250);
+  --text-muted: oklch(60% 0.008 250);
+  --text-faint: oklch(46% 0.006 250);
+  --text-on-accent: oklch(13% 0.010 30);
 
-  --accent: oklch(72% 0.16 65);
-  --accent-hover: oklch(64% 0.15 65);
-  --accent-bg: oklch(72% 0.16 65 / 0.10);
-  --accent-ring: oklch(72% 0.16 65 / 0.28);
+  --accent: oklch(70% 0.16 40);
+  --accent-hover: oklch(63% 0.15 40);
+  --accent-bg: oklch(70% 0.16 40 / 0.12);
+  --accent-ring: oklch(70% 0.16 40 / 0.30);
 
-  --border: oklch(26% 0.008 80);
-  --border-strong: oklch(32% 0.010 80);
-  --rule: oklch(91% 0 0 / 0.10);
+  --border: oklch(26% 0.010 250);
+  --border-strong: oklch(32% 0.012 250);
+  --rule: oklch(92% 0.004 250 / 0.10);
 
-  --user-bubble: oklch(52% 0.11 55);
+  --user-bubble: oklch(50% 0.14 40);
   --user-text: oklch(96% 0 0);
-  --assistant-bubble: #1e1a15;
+  --assistant-bubble: oklch(21% 0.012 260);
 
   --danger: #ef5350;
   --danger-bg: oklch(30% 0.08 20);
   --success: #66bb6a;
 
-  --scrollbar-thumb: oklch(32% 0.008 80);
+  --scrollbar-thumb: oklch(32% 0.010 250);
   --scrollbar-track: transparent;
 
   --shadow-ambient: 0 2px 8px rgba(0,0,0,0.45), 0 8px 32px rgba(0,0,0,0.30);

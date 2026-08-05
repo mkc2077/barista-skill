@@ -7,8 +7,8 @@ export function ThemeSwitcher() {
   const setTheme = useStore((s) => s.setTheme)
 
   const modes: { id: ThemeMode; name: string; bg: string }[] = [
-    { id: 'light', name: '浅煤', bg: '#faf7f2' },
-    { id: 'dark', name: '深煤', bg: '#0f0d0b' },
+    { id: 'light', name: '浅板岩', bg: 'oklch(96.5% 0.005 250)' },
+    { id: 'dark', name: '深石墨', bg: 'oklch(14% 0.008 260)' },
   ]
 
   return (

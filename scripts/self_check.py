@@ -254,11 +254,12 @@ def run_checks() -> int:
 
     # [7.1] hardcoded color literals in web src (CSS token discipline, v7 P3)
     print("")
-    print("[7.1] web/next-app/src: hardcoded hex literals == CSS token allowlist")
+    print("[7.1] web/next-app/src: hardcoded color literals == CSS token allowlist")
     WEB_SRC = ROOT / "web" / "next-app" / "src"
     # 有意镜像 globals.css token 的色板：ThemeSwitcher 色板预览需同时显示两主题，
-    # 无法用 var(--page)（只取当前主题）。白名单外一律打回。
-    ALLOWED_HEX = {"#faf7f2", "#0f0d0b"}
+    # 无法用 var(--page)（只取当前主题）。白名单外一律打回（hex 与 oklch() 都扫）。
+    ALLOWED_HEX = set()
+    ALLOWED_OKLCH = {"oklch(96.5% 0.005 250)", "oklch(14% 0.008 260)"}
     if WEB_SRC.exists():
         bad = []
         for f in WEB_SRC.rglob("*.ts*"):
@@ -268,13 +269,16 @@ def run_checks() -> int:
                 for m in re.findall(r"#[0-9a-fA-F]{3,8}\b", line):
                     if m.lower() not in ALLOWED_HEX:
                         bad.append(f"{f.relative_to(ROOT)}:{i}: {m}")
+                for m in re.findall(r"oklch\([^)]*\)", line):
+                    if m not in ALLOWED_OKLCH:
+                        bad.append(f"{f.relative_to(ROOT)}:{i}: {m}")
         if bad:
-            fail("hardcoded hex outside token allowlist",
+            fail("hardcoded color outside token allowlist",
                  "\n".join(bad[:20]) + ("\n..." if len(bad) > 20 else ""))
             fails += 1
         else:
-            ok("no hardcoded hex outside allowlist",
-               "token discipline holds (" + str(len(ALLOWED_HEX)) + " intentional mirrors allowed)")
+            ok("no hardcoded color outside allowlist",
+               "token discipline holds (" + str(len(ALLOWED_OKLCH)) + " intentional mirrors allowed)")
     else:
         ok("web/next-app/src not present (skip)")
 

@@ -13,9 +13,9 @@
 
 - 现有系统基线：v6.0「Full Rebuild」已实现大部分反 AI 俗套规则（见 §3 现状清单）
 - v7 增量 = 文档化 + 补漏（弹簧物理、彩底灰字、滚动监听、骨架屏），**不推倒换肤**
-- **开放决策（待用户拍板）**：调色板方向——当前 Cream/Espresso + 铜/琥珀单强调色
-  为 v6.0 既定；蓝图候选方向 A. Terracotta+Slate（暖陶土+冷板岩）、B. Forest（深绿+骨白+琥珀）。
-  在用户选定前，**保持现有 Cream/Espresso**，不在本文件之外的代码里偷偷改色。
+- **调色板（2026-08-05 已定）**：**Terracotta + Slate**（暖陶土强调 + 冷板岩/石墨底），
+  已落地 `globals.css` 两套主题 token：浅色=暖灰纸感（hue 250）、深色=石墨（hue 260），
+  强调色统一陶土（oklch hue 40）——避开咖啡类默认的 cream/brass/espresso 盘
 
 ---
 
@@ -45,11 +45,11 @@
 现有 `globals.css` 的语义变量即令牌源（`--page / --surface / --text* / --accent* / --border* / --user-bubble ...`），
 **组件必须引用变量，禁止硬编码色值**。新增 token 必须先加变量再加使用。
 
-- 主题：`.theme-light`（Cream）+ `.theme-dark`（Espresso），主题切换经 `ThemeSwitcher`
-- 强调色：单色相（铜/琥珀，oklch 62% 0.14 55）
-- 文字层级：text / text-secondary / text-muted / text-faint 四级，全部 oklch 明度递减
+- 主题：`.theme-light`（Light Slate 暖灰纸感）+ `.theme-dark`（Dark Slate 石墨），主题切换经 `ThemeSwitcher`
+- 强调色：单色相陶土（oklch hue 40；浅色 58% 0.17，深色 70% 0.16）
+- 文字层级：text / text-secondary / text-muted / text-faint 四级，全部 oklch 明度递减（hue 260 冷灰）
 - 材质：电影颗粒（--grain-opacity 0.018）+ 阴影分层（ambient/sm/md/lg）
-- **审计门禁**：`scripts/self_check.py` 增补 CSS 令牌扫描（见 §4），硬编码色值进白名单才算过
+- **审计门禁**：`scripts/self_check.py` [7.1] 扫描 tsx/ts 中硬编码 hex 与 oklch()（白名单仅 ThemeSwitcher 两枚有意镜像）
 
 ## 3. 字体与排版
 
@@ -72,5 +72,4 @@
 ## 5. 技术债与豁免（明确记录，防止悄悄回潮）
 
 - **lucide 图标家族**：接受偏差，记入 v7 待办（迁移 @phosphor-icons/react 或保持）
-- **调色板方向**：Terracotta+Slate / Forest 候选待用户决策；未决策前保持 Cream/Espresso
-- **react-bits 动效组件**：P3 后半精选 3-5 个落地（BlurText 类标题入场等），落地时遵循 §1#10 弹簧物理
+- **react-bits 动效组件**：精选落地中（BlurText 类标题入场等），落地时遵循 §1#10 弹簧物理
