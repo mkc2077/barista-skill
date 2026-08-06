@@ -840,3 +840,13 @@ input[type="range"]::-webkit-slider-thumb {
 .spotlight-card:hover::before {
   opacity: 1;
 }
+
+/* Dock：macOS 磁悬浮（v7 P3e.1）——容器 hover 整体凸起，当前项再放大一档 */
+.dock-root:hover .dock-item {
+  transform: scale(var(--dock-max-scale, 1.18));
+}
+.dock-root .dock-item:hover {
+  transform: scale(calc(var(--dock-max-scale, 1.18) * 1.12));
+  z-index: 2;
+  position: relative;
+}

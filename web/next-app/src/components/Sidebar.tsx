@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useStore } from '@/store'
 import { Plus, MessageSquare, Pencil, Trash2, Settings, PanelLeftClose, PanelLeftOpen, Coffee, User } from 'lucide-react'
 import { MODULES, type ModuleId } from '@/lib/modules'
+import { DockItem } from './motion/Dock'
 
 export function Sidebar() {
   const conversations = useStore((s) => s.conversations)
@@ -52,7 +53,7 @@ export function Sidebar() {
               </button>
             </div>
 
-            {/* 模块切换器（v7 P3c）—— 6 个专注域（点击切模块，主题色随之变） */}
+            {/* 模块切换器（v7 P3c）—— 6 个专注域（点击切模块，主题色随之变）；v7 P3e.1 Dock 磁悬浮 */}
             <div className='px-2 pb-2'>
               <p className='px-2 pb-1.5 text-[10px] font-keystroke uppercase tracking-widest text-[var(--text-faint)]'>
                 模块 / Modules
@@ -61,24 +62,25 @@ export function Sidebar() {
                 {MODULES.map((m) => {
                   const isActive = currentModule === m.id
                   return (
-                    <button
-                      key={m.id}
-                      onClick={() => setModule(m.id)}
-                      title={m.description.zh}
-                      data-tooltip={m.description.zh}
-                      className={
-                        'flex items-center gap-1.5 px-2 py-1.5 text-xs rounded-md border transition-colors duration-150 ' +
-                        (isActive
-                          ? 'border-[var(--accent)] bg-[var(--accent-bg)] text-[var(--text)]'
-                          : 'border-[var(--border)] text-[var(--text-muted)] hover:border-[var(--accent)] hover:text-[var(--text)]')
-                      }
-                    >
-                      <span
-                        className='inline-block w-2.5 h-2.5 rounded-full shrink-0'
-                        style={{ background: m.accent[theme === 'dark' ? 'dark' : 'light'] }}
-                      />
-                      {m.label.zh}
-                    </button>
+                    <DockItem key={m.id}>
+                      <button
+                        onClick={() => setModule(m.id)}
+                        title={m.description.zh}
+                        data-tooltip={m.description.zh}
+                        className={
+                          'w-full flex items-center gap-1.5 px-2 py-1.5 text-xs rounded-md border transition-colors duration-150 ' +
+                          (isActive
+                            ? 'border-[var(--accent)] bg-[var(--accent-bg)] text-[var(--text)]'
+                            : 'border-[var(--border)] text-[var(--text-muted)] hover:border-[var(--accent)] hover:text-[var(--text)]')
+                        }
+                      >
+                        <span
+                          className='inline-block w-2.5 h-2.5 rounded-full shrink-0'
+                          style={{ background: m.accent[theme === 'dark' ? 'dark' : 'light'] }}
+                        />
+                        {m.label.zh}
+                      </button>
+                    </DockItem>
                   )
                 })}
               </div>

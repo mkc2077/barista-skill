@@ -22,6 +22,8 @@ import {
 } from '@/lib/modules'
 import { ModuleHeroGlyph } from '@/lib/module-glyphs'
 import { SpotlightCard } from '@/components/SpotlightCard'
+import BlurText from './motion/BlurText'
+import Magnet from './motion/Magnet'
 import {
   ArrowLeft, Coffee, Droplets, Package, ArrowRight, Award, Eye, Sparkles,
   CupSoda, GlassWater, Check, Beaker, BookmarkPlus, BookmarkCheck,
@@ -101,15 +103,17 @@ export function ModuleView({ moduleId }: { moduleId: ModuleId }) {
             </div>
           </section>
 
-          <button
-            onClick={() => setSubmitted(true)}
-            disabled={!allFilled}
-            className='w-full py-3 rounded-lg font-medium text-white transition-opacity disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2'
-            style={{ background: 'var(--accent)' }}
-          >
-            <Check className='w-4 h-4' strokeWidth={2} />
-            开始匹配方案
-          </button>
+          <Magnet padding={80} magnetStrength={4}>
+            <button
+              onClick={() => setSubmitted(true)}
+              disabled={!allFilled}
+              className='w-full py-3 rounded-lg font-medium text-white transition-opacity disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2'
+              style={{ background: 'var(--accent)' }}
+            >
+              <Check className='w-4 h-4' strokeWidth={2} />
+              开始匹配方案
+            </button>
+          </Magnet>
         </div>
       </div>
     )
@@ -210,7 +214,9 @@ function Hero({ moduleId, m, Icon, setViewMode, resultMode }: {
             <Icon className='w-3.5 h-3.5' style={{ color: 'var(--accent)' }} strokeWidth={1.5} />
             <span className='eyebrow'>{m.label.en}</span>
           </div>
-          <h1 className='font-editorial text-3xl text-[var(--text)] leading-tight'>{m.label.zh}</h1>
+          <h1 className='font-editorial text-3xl text-[var(--text)] leading-tight'>
+            <BlurText text={m.label.zh} delay={0.05} animateBy='letters' className='font-editorial text-3xl' stepDuration={0.04} />
+          </h1>
           <p className='text-xs text-[var(--text-muted)] mt-1.5 max-w-md'>{m.description.zh}</p>
         </div>
         <button

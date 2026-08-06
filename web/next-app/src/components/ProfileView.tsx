@@ -20,6 +20,7 @@ import {
 } from 'lucide-react'
 import type { InventoryItem, Settings } from '@/store'
 import { MODULES, type ModuleId, type InventoryCategory } from '@/lib/modules'
+import BlurText from './motion/BlurText'
 
 const MAT_CATEGORY_LABEL: Record<InventoryCategory, string> = {
   bean: '咖啡豆', grinder: '磨豆机', brewer: '冲煮器具', machine: '咖啡机',
@@ -166,7 +167,9 @@ export function ProfileView() {
               <User className='w-3.5 h-3.5' style={{ color: 'var(--accent)' }} strokeWidth={1.5} />
               <span className='eyebrow'>Profile & Gear</span>
             </div>
-            <h1 className='font-editorial text-3xl text-[var(--text)] leading-tight'>我的资料</h1>
+            <h1 className='font-editorial text-3xl text-[var(--text)] leading-tight'>
+            <BlurText text='我的资料' delay={0.05} animateBy='letters' className='font-editorial text-3xl' stepDuration={0.04} />
+          </h1>
             <p className='text-xs text-[var(--text-muted)] mt-1.5 max-w-md'>
               {profileComplete > 0
                 ? `画像完成度 ${profileComplete}/4 · ${devices.grinders.length + devices.brewers.length} 台设备 · ${moduleTasteCount}/6 模块口味 · 材料 ${items.length} 件 · 每次对话自动带入`
