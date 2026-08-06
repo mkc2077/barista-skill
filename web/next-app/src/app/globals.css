@@ -24,29 +24,29 @@
 
 /* ─── Fonts ─── */
 
-/* ─── Theme: Light Slate（暖灰纸感 + 深焦糖强调）─── */
+/* ─── Theme: Light Slate（暖灰纸感 + 咖啡金强调）─── */
 .theme-light {
-  --page: oklch(96.5% 0.005 250);
-  --surface: oklch(99% 0.002 250);
-  --surface-raised: oklch(94% 0.007 250);
-  --surface-inset: oklch(91% 0.009 250);
+  --page: oklch(96.8% 0.004 80);
+  --surface: oklch(99% 0.002 80);
+  --surface-raised: oklch(94.5% 0.005 80);
+  --surface-inset: oklch(91.5% 0.006 80);
 
-  --text: oklch(24% 0.012 260);
-  --text-secondary: oklch(42% 0.010 260);
-  --text-muted: oklch(57% 0.008 260);
-  --text-faint: oklch(72% 0.006 260);
+  --text: oklch(24% 0.010 70);
+  --text-secondary: oklch(42% 0.008 70);
+  --text-muted: oklch(57% 0.006 70);
+  --text-faint: oklch(72% 0.005 70);
   --text-on-accent: oklch(98% 0 0);
 
-  --accent: oklch(50% 0.16 45);
-  --accent-hover: oklch(43% 0.15 45);
-  --accent-bg: oklch(50% 0.16 45 / 0.10);
-  --accent-ring: oklch(50% 0.16 45 / 0.28);
+  --accent: oklch(52% 0.11 70);
+  --accent-hover: oklch(45% 0.10 70);
+  --accent-bg: oklch(52% 0.11 70 / 0.10);
+  --accent-ring: oklch(52% 0.11 70 / 0.28);
 
-  --border: oklch(88% 0.008 250);
-  --border-strong: oklch(82% 0.010 250);
-  --rule: oklch(24% 0.012 260 / 0.10);
+  --border: oklch(88% 0.006 70);
+  --border-strong: oklch(82% 0.008 70);
+  --rule: oklch(24% 0.010 70 / 0.10);
 
-  --user-bubble: oklch(46% 0.14 45);
+  --user-bubble: oklch(46% 0.11 70);
   --user-text: oklch(98% 0 0);
   --assistant-bubble: #ffffff;
 
@@ -54,10 +54,10 @@
   --danger-bg: #fce8e8;
   --success: #2e7d32;
 
-  --scrollbar-thumb: oklch(84% 0.008 250);
+  --scrollbar-thumb: oklch(84% 0.006 70);
   --scrollbar-track: transparent;
 
-  --shadow-ambient: 0 1px 2px oklch(0% 0 0 / 0.04), 0 4px 16px oklch(58% 0.17 40 / 0.06);
+  --shadow-ambient: 0 1px 2px oklch(0% 0 0 / 0.04), 0 4px 16px oklch(58% 0.11 70 / 0.06);
   --shadow-sm: 0 1px 2px oklch(0% 0 0 / 0.04);
   --shadow-md: 0 4px 12px oklch(0% 0 0 / 0.06);
   --shadow-lg: 0 12px 40px oklch(0% 0 0 / 0.10);
@@ -65,31 +65,31 @@
   --grain-opacity: 0.018;
 }
 
-/* ─── Theme: Dark Slate（石墨 + 深焦糖强调）─── */
+/* ─── Theme: Dark Slate（暖石墨 + 咖啡金强调）─── */
 .theme-dark {
-  --page: oklch(14% 0.008 260);
-  --surface: oklch(18% 0.010 260);
-  --surface-raised: oklch(21% 0.012 260);
-  --surface-inset: oklch(11% 0.006 260);
+  --page: oklch(14% 0.005 70);
+  --surface: oklch(18% 0.007 70);
+  --surface-raised: oklch(21% 0.009 70);
+  --surface-inset: oklch(11% 0.004 70);
 
-  --text: oklch(92% 0.004 250);
-  --text-secondary: oklch(76% 0.008 250);
-  --text-muted: oklch(60% 0.008 250);
-  --text-faint: oklch(46% 0.006 250);
-  --text-on-accent: oklch(13% 0.010 30);
+  --text: oklch(92% 0.003 60);
+  --text-secondary: oklch(76% 0.006 60);
+  --text-muted: oklch(60% 0.006 60);
+  --text-faint: oklch(46% 0.005 60);
+  --text-on-accent: oklch(13% 0.008 40);
 
-  --accent: oklch(64% 0.15 45);
-  --accent-hover: oklch(57% 0.14 45);
-  --accent-bg: oklch(64% 0.15 45 / 0.12);
-  --accent-ring: oklch(64% 0.15 45 / 0.30);
+  --accent: oklch(66% 0.11 70);
+  --accent-hover: oklch(59% 0.10 70);
+  --accent-bg: oklch(66% 0.11 70 / 0.12);
+  --accent-ring: oklch(66% 0.11 70 / 0.30);
 
-  --border: oklch(26% 0.010 250);
-  --border-strong: oklch(32% 0.012 250);
-  --rule: oklch(92% 0.004 250 / 0.10);
+  --border: oklch(26% 0.008 70);
+  --border-strong: oklch(32% 0.010 70);
+  --rule: oklch(92% 0.003 60 / 0.10);
 
-  --user-bubble: oklch(46% 0.13 45);
+  --user-bubble: oklch(46% 0.11 70);
   --user-text: oklch(96% 0 0);
-  --assistant-bubble: oklch(21% 0.012 260);
+  --assistant-bubble: oklch(21% 0.009 70);
 
   --danger: #ef5350;
   --danger-bg: oklch(30% 0.08 20);
@@ -391,7 +391,7 @@ html::before {
   background-blend-mode: normal, overlay;
   border: 1px solid var(--border);
   border-top-color: color-mix(in oklch, var(--text) 8%, var(--border));
-  border-radius: 10px;
+  border-radius: 14px;
   box-shadow:
     inset 0 1px 0 0 color-mix(in oklch, white 6%, transparent),
     var(--shadow-ambient);
@@ -405,7 +405,7 @@ html::before {
   background-blend-mode: normal, overlay;
   border: 1px solid var(--border-strong);
   border-top-color: color-mix(in oklch, var(--text) 10%, var(--border-strong));
-  border-radius: 10px;
+  border-radius: 14px;
   box-shadow:
     inset 0 1px 0 0 color-mix(in oklch, white 8%, transparent),
     var(--shadow-md);
@@ -417,7 +417,7 @@ html::before {
     url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
   background-blend-mode: overlay;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 14px;
 }
 
 /* ─── Rule ─── */
@@ -770,4 +770,73 @@ input[type="range"]::-webkit-slider-thumb {
   font-size: 0.7rem;
   color: var(--text-muted);
   letter-spacing: 0.05em;
+}
+
+/* ─── Apple-grade 质感层（v7 P3e，源自 impeccable / taste-skill / react-bits 提炼） ─── */
+
+/* 苹果味动效曲线：自定贝塞尔（严禁 linear / ease-in-out） */
+:root {
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-soft: cubic-bezier(0.32, 0.72, 0, 1);
+  --spring-damping: 26;
+}
+
+/* 细体字阶（display 用 100-300 细体，苹果味） */
+.font-display-thin {
+  font-weight: 200;
+  letter-spacing: -0.02em;
+}
+.font-display-light {
+  font-weight: 300;
+  letter-spacing: -0.01em;
+}
+
+/* 聚焦光晕：输入框 focus 用 accent 微光而非硬边框 */
+.input:focus, .select:focus, textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-ring), inset 0 1px 2px oklch(0% 0 0 / 0.06);
+  border-color: var(--accent);
+  transition: box-shadow 0.2s var(--ease-out-soft);
+}
+
+/* 按钮按压反馈：scale 0.97（苹果触感） */
+.btn:active, button:active {
+  transform: scale(0.97);
+  transition: transform 0.15s var(--ease-out-soft);
+}
+
+/* 尊重系统减弱动效设置（taste-skill §6.B） */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* SpotlightCard：鼠标聚光（react-bits 移植，v7 P3e） */
+.spotlight-card {
+  position: relative;
+  overflow: hidden;
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  --spot-opacity: 0;
+}
+.spotlight-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    340px circle at var(--mouse-x) var(--mouse-y),
+    color-mix(in oklch, var(--accent) 12%, transparent),
+    transparent 65%
+  );
+  opacity: var(--spot-opacity);
+  transition: opacity 0.3s var(--ease-out-soft);
+}
+.spotlight-card:hover::before {
+  opacity: 1;
 }

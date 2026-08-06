@@ -21,6 +21,7 @@ import {
   type ModuleId, type ModuleConfig, type ModuleField, type MasterSOP, type MilkBrand, type FilterBrand, type TeaBaseRecipe, type EspressoPreset, type IcedPourGuide,
 } from '@/lib/modules'
 import { ModuleHeroGlyph } from '@/lib/module-glyphs'
+import { SpotlightCard } from '@/components/SpotlightCard'
 import {
   ArrowLeft, Coffee, Droplets, Package, ArrowRight, Award, Eye, Sparkles,
   CupSoda, GlassWater, Check, Beaker, BookmarkPlus, BookmarkCheck,
@@ -398,7 +399,7 @@ function PlanOutput({ generic, masters, waterMode, waterDetail, useExistingGear,
 
       {/* 通用手法 + 大师手法 */}
       <div className='grid md:grid-cols-2 gap-3'>
-        <section className='surface p-5'>
+        <SpotlightCard className='surface p-5'>
           <div className='flex items-center justify-between mb-3'>
             <h3 className='font-editorial text-base text-[var(--text)]'>{generic.title}</h3>
             <button
@@ -418,8 +419,8 @@ function PlanOutput({ generic, masters, waterMode, waterDetail, useExistingGear,
               </li>
             ))}
           </ol>
-        </section>
-        <section className='surface p-5'>
+        </SpotlightCard>
+        <SpotlightCard className='surface p-5'>
           <h3 className='font-editorial text-base text-[var(--text)] mb-3'>大师 / 博主手法</h3>
           {masters.length > 0 ? masters.map((sop, i) => (
             <div key={sop.id} className='mb-3 last:mb-0 pb-3 border-b border-[var(--rule)] last:border-0'>
@@ -440,7 +441,7 @@ function PlanOutput({ generic, masters, waterMode, waterDetail, useExistingGear,
           )) : (
             <p className='text-xs text-[var(--text-muted)]'>未匹配到推荐 SOP；进入对话详细咨询。</p>
           )}
-        </section>
+        </SpotlightCard>
       </div>
 
       {/* 操作 */}
