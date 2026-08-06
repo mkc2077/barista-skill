@@ -24,170 +24,168 @@
 
 /* ─── Fonts ─── */
 
-/* ─── Theme: Light（暖奶咖纸感 + 咖啡金强调，v8 苹果味通透化） ─── */
+/* ─── Theme: Light（奶油燕麦纸感 + 铜金，v9 推倒重做：精品咖啡店白天） ─── */
 .theme-light {
-  --page: oklch(95.5% 0.016 75);
-  --surface: oklch(98.8% 0.008 75);
-  --surface-raised: oklch(97% 0.012 75);
-  --surface-inset: oklch(92.5% 0.014 75);
+  --page: oklch(96% 0.010 80);
+  --surface: oklch(99.2% 0.006 80);
+  --surface-raised: oklch(97.5% 0.008 80);
+  --surface-inset: oklch(93% 0.011 80);
 
-  --text: oklch(21% 0.018 70);
-  --text-secondary: oklch(39% 0.016 70);
-  --text-muted: oklch(54% 0.014 70);
-  --text-faint: oklch(70% 0.012 70);
+  --text: oklch(22% 0.020 70);
+  --text-secondary: oklch(40% 0.017 70);
+  --text-muted: oklch(55% 0.013 70);
+  --text-faint: oklch(71% 0.010 70);
   --text-on-accent: oklch(99% 0 0);
 
-  --accent: oklch(53% 0.132 70);
-  --accent-hover: oklch(46% 0.128 70);
-  --accent-bg: oklch(53% 0.132 70 / 0.10);
-  --accent-ring: oklch(53% 0.132 70 / 0.28);
+  --accent: oklch(51% 0.100 65);
+  --accent-hover: oklch(44% 0.095 65);
+  --accent-bg: oklch(51% 0.100 65 / 0.10);
+  --accent-ring: oklch(51% 0.100 65 / 0.26);
 
-  --border: oklch(87% 0.013 70);
-  --border-strong: oklch(79% 0.016 70);
-  --rule: oklch(21% 0.018 70 / 0.10);
+  --border: oklch(88% 0.009 80);
+  --border-strong: oklch(81% 0.012 80);
+  --rule: oklch(22% 0.020 70 / 0.09);
 
-  --user-bubble: oklch(47% 0.128 70);
+  --user-bubble: oklch(45% 0.095 65);
   --user-text: oklch(99% 0 0);
-  --assistant-bubble: #fbfaf6;
+  --assistant-bubble: #fffefc;
 
   --danger: #c62828;
   --danger-bg: #fce8e8;
   --success: #2e7d32;
 
-  --scrollbar-thumb: oklch(83% 0.012 70);
+  --scrollbar-thumb: oklch(84% 0.009 80);
   --scrollbar-track: transparent;
 
-  --shadow-ambient: 0 1px 2px oklch(20% 0.05 60 / 0.05), 0 2px 8px oklch(54% 0.13 70 / 0.06), 0 12px 32px oklch(54% 0.13 70 / 0.06);
-  --shadow-sm: 0 1px 2px oklch(0% 0 0 / 0.04);
-  --shadow-md: 0 2px 6px oklch(28% 0.08 60 / 0.07), 0 8px 24px oklch(28% 0.08 60 / 0.07);
-  --shadow-lg: 0 8px 20px oklch(28% 0.08 60 / 0.10), 0 24px 64px oklch(28% 0.08 60 / 0.14);
+  --shadow-ambient: 0 1px 1px oklch(20% 0.04 60 / 0.03), 0 2px 6px oklch(20% 0.04 60 / 0.03);
+  --shadow-sm: 0 1px 1px oklch(0% 0 0 / 0.03);
+  --shadow-md: 0 2px 8px oklch(28% 0.06 60 / 0.05);
+  --shadow-lg: 0 8px 24px oklch(28% 0.06 60 / 0.08);
 
-  --glass-bg: oklch(99% 0.006 75 / 0.72);
-  --glass-border: oklch(100% 0 0 / 0.65);
-  --glass-highlight: oklch(100% 0 0 / 0.9);
-  --glass-shadow: 0 8px 32px oklch(20% 0.05 60 / 0.12);
+  --glass-bg: oklch(99% 0.004 80 / 0.70);
+  --glass-border: oklch(100% 0 0 / 0.55);
+  --glass-highlight: oklch(100% 0 0 / 0.8);
+  --glass-shadow: 0 8px 24px oklch(20% 0.04 60 / 0.08);
 
-  --grain-opacity: 0.02;
+  --grain-opacity: 0.015;
 }
-
-/* ─── Theme: Dark（暖咖啡石墨 + 咖啡金强调，v8 苹果味高级石墨化） ─── */
+/* ─── Theme: Dark（浓缩咖啡暖黑 + 铜金，v9 推倒重做：精品咖啡店夜间） ─── */
 .theme-dark {
-  --page: oklch(14% 0.014 60);
-  --surface: oklch(19% 0.018 60);
-  --surface-raised: oklch(23% 0.022 60);
-  --surface-inset: oklch(12% 0.012 60);
+  --page: oklch(15% 0.014 55);
+  --surface: oklch(20% 0.019 55);
+  --surface-raised: oklch(23.5% 0.022 55);
+  --surface-inset: oklch(12.5% 0.012 55);
 
-  --text: oklch(95% 0.008 65);
-  --text-secondary: oklch(79% 0.010 65);
-  --text-muted: oklch(63% 0.012 65);
-  --text-faint: oklch(49% 0.010 65);
-  --text-on-accent: oklch(13% 0.020 50);
+  --text: oklch(93% 0.009 70);
+  --text-secondary: oklch(78% 0.011 70);
+  --text-muted: oklch(62% 0.012 70);
+  --text-faint: oklch(49% 0.010 70);
+  --text-on-accent: oklch(13% 0.015 50);
 
-  --accent: oklch(73% 0.140 75);
-  --accent-hover: oklch(65% 0.135 75);
-  --accent-bg: oklch(73% 0.140 75 / 0.12);
-  --accent-ring: oklch(73% 0.140 75 / 0.30);
+  --accent: oklch(70% 0.115 75);
+  --accent-hover: oklch(63% 0.110 75);
+  --accent-bg: oklch(70% 0.115 75 / 0.13);
+  --accent-ring: oklch(70% 0.115 75 / 0.30);
 
-  --border: oklch(27% 0.016 60);
-  --border-strong: oklch(36% 0.020 60);
-  --rule: oklch(95% 0.008 65 / 0.09);
+  --border: oklch(27% 0.016 55);
+  --border-strong: oklch(35% 0.020 55);
+  --rule: oklch(93% 0.009 70 / 0.09);
 
-  --user-bubble: oklch(49% 0.126 70);
+  --user-bubble: oklch(46% 0.090 65);
   --user-text: oklch(96% 0 0);
-  --assistant-bubble: oklch(23% 0.020 60);
+  --assistant-bubble: oklch(23.5% 0.020 55);
 
   --danger: #ef5350;
   --danger-bg: oklch(30% 0.08 20);
   --success: #66bb6a;
 
-  --scrollbar-thumb: oklch(33% 0.010 250);
+  --scrollbar-thumb: oklch(32% 0.014 55);
   --scrollbar-track: transparent;
 
-  --shadow-ambient: 0 1px 2px rgba(0,0,0,0.35), 0 4px 16px rgba(0,0,0,0.22), 0 12px 40px rgba(0,0,0,0.14);
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.25);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.32), 0 12px 32px rgba(0,0,0,0.18);
-  --shadow-lg: 0 12px 32px rgba(0,0,0,0.42), 0 32px 80px rgba(0,0,0,0.30);
+  --shadow-ambient: 0 1px 1px rgba(0,0,0,0.30), 0 2px 8px rgba(0,0,0,0.16);
+  --shadow-sm: 0 1px 1px rgba(0,0,0,0.25);
+  --shadow-md: 0 2px 8px rgba(0,0,0,0.30), 0 8px 24px rgba(0,0,0,0.16);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.38), 0 24px 64px rgba(0,0,0,0.28);
 
-  --glass-bg: oklch(22% 0.02 60 / 0.66);
-  --glass-border: oklch(100% 0 0 / 0.09);
-  --glass-highlight: oklch(100% 0 0 / 0.14);
-  --glass-shadow: 0 8px 32px rgba(0,0,0,0.45);
+  --glass-bg: oklch(22% 0.016 55 / 0.60);
+  --glass-border: oklch(100% 0 0 / 0.08);
+  --glass-highlight: oklch(100% 0 0 / 0.12);
+  --glass-shadow: 0 8px 24px rgba(0,0,0,0.38);
 
-  --grain-opacity: 0.03;
+  --grain-opacity: 0.02;
 }
-
 /* ─── 模块专属强调色（v7 P3c.2：data-module 切换主题主色） ───
    每模块一个辨识度 accent，组件全部引用 var(--accent*)，覆盖即全站变色。
    与 slate 底协调：浅色主题用深 accent（对比足够），深色主题用亮 accent。 */
 .theme-light[data-module='espresso'] {
-  --accent: oklch(44% 0.11 30);
-  --accent-hover: oklch(38% 0.10 30);
-  --accent-bg: oklch(44% 0.11 30 / 0.10);
-  --accent-ring: oklch(44% 0.11 30 / 0.28);
-  --user-bubble: oklch(40% 0.10 30);
+  --accent: oklch(45% 0.110 55);
+  --accent-hover: oklch(38% 0.105 55);
+  --accent-bg: oklch(45% 0.110 55 / 0.10);
+  --accent-ring: oklch(45% 0.110 55 / 0.26);
+  --user-bubble: oklch(45% 0.110 55);
 }
 .theme-dark[data-module='espresso'] {
-  --accent: oklch(62% 0.11 30);
-  --accent-hover: oklch(55% 0.10 30);
-  --accent-bg: oklch(62% 0.11 30 / 0.12);
-  --accent-ring: oklch(62% 0.11 30 / 0.30);
-  --user-bubble: oklch(44% 0.09 30);
+  --accent: oklch(64% 0.125 60);
+  --accent-hover: oklch(57% 0.120 60);
+  --accent-bg: oklch(64% 0.125 60 / 0.13);
+  --accent-ring: oklch(64% 0.125 60 / 0.30);
+  --user-bubble: oklch(64% 0.125 60);
 }
 .theme-light[data-module='milk'] {
-  --accent: oklch(58% 0.09 85);
-  --accent-hover: oklch(51% 0.08 85);
-  --accent-bg: oklch(58% 0.09 85 / 0.10);
-  --accent-ring: oklch(58% 0.09 85 / 0.28);
-  --user-bubble: oklch(52% 0.08 85);
+  --accent: oklch(53% 0.085 80);
+  --accent-hover: oklch(46% 0.080 80);
+  --accent-bg: oklch(53% 0.085 80 / 0.10);
+  --accent-ring: oklch(53% 0.085 80 / 0.26);
+  --user-bubble: oklch(53% 0.085 80);
 }
 .theme-dark[data-module='milk'] {
-  --accent: oklch(74% 0.07 85);
-  --accent-hover: oklch(67% 0.07 85);
-  --accent-bg: oklch(74% 0.07 85 / 0.12);
-  --accent-ring: oklch(74% 0.07 85 / 0.30);
-  --user-bubble: oklch(55% 0.07 85);
+  --accent: oklch(72% 0.090 85);
+  --accent-hover: oklch(65% 0.085 85);
+  --accent-bg: oklch(72% 0.090 85 / 0.13);
+  --accent-ring: oklch(72% 0.090 85 / 0.30);
+  --user-bubble: oklch(72% 0.090 85);
 }
 .theme-light[data-module='craft'] {
-  --accent: oklch(52% 0.16 355);
-  --accent-hover: oklch(45% 0.15 355);
-  --accent-bg: oklch(52% 0.16 355 / 0.10);
-  --accent-ring: oklch(52% 0.16 355 / 0.28);
-  --user-bubble: oklch(47% 0.14 355);
+  --accent: oklch(48% 0.105 55);
+  --accent-hover: oklch(41% 0.100 55);
+  --accent-bg: oklch(48% 0.105 55 / 0.10);
+  --accent-ring: oklch(48% 0.105 55 / 0.26);
+  --user-bubble: oklch(48% 0.105 55);
 }
 .theme-dark[data-module='craft'] {
-  --accent: oklch(68% 0.13 355);
-  --accent-hover: oklch(61% 0.12 355);
-  --accent-bg: oklch(68% 0.13 355 / 0.12);
-  --accent-ring: oklch(68% 0.13 355 / 0.30);
-  --user-bubble: oklch(50% 0.12 355);
+  --accent: oklch(67% 0.115 60);
+  --accent-hover: oklch(60% 0.110 60);
+  --accent-bg: oklch(67% 0.115 60 / 0.13);
+  --accent-ring: oklch(67% 0.115 60 / 0.30);
+  --user-bubble: oklch(67% 0.115 60);
 }
 .theme-light[data-module='sca'] {
-  --accent: oklch(50% 0.12 255);
-  --accent-hover: oklch(43% 0.11 255);
-  --accent-bg: oklch(50% 0.12 255 / 0.10);
-  --accent-ring: oklch(50% 0.12 255 / 0.28);
-  --user-bubble: oklch(45% 0.11 255);
+  --accent: oklch(47% 0.090 70);
+  --accent-hover: oklch(40% 0.085 70);
+  --accent-bg: oklch(47% 0.090 70 / 0.10);
+  --accent-ring: oklch(47% 0.090 70 / 0.26);
+  --user-bubble: oklch(47% 0.090 70);
 }
 .theme-dark[data-module='sca'] {
-  --accent: oklch(66% 0.11 255);
-  --accent-hover: oklch(59% 0.10 255);
-  --accent-bg: oklch(66% 0.11 255 / 0.12);
-  --accent-ring: oklch(66% 0.11 255 / 0.30);
-  --user-bubble: oklch(49% 0.10 255);
+  --accent: oklch(68% 0.100 75);
+  --accent-hover: oklch(61% 0.095 75);
+  --accent-bg: oklch(68% 0.100 75 / 0.13);
+  --accent-ring: oklch(68% 0.100 75 / 0.30);
+  --user-bubble: oklch(68% 0.100 75);
 }
 .theme-light[data-module='sensory'] {
-  --accent: oklch(48% 0.10 150);
-  --accent-hover: oklch(41% 0.09 150);
-  --accent-bg: oklch(48% 0.10 150 / 0.10);
-  --accent-ring: oklch(48% 0.10 150 / 0.28);
-  --user-bubble: oklch(44% 0.09 150);
+  --accent: oklch(50% 0.080 75);
+  --accent-hover: oklch(43% 0.075 75);
+  --accent-bg: oklch(50% 0.080 75 / 0.10);
+  --accent-ring: oklch(50% 0.080 75 / 0.26);
+  --user-bubble: oklch(50% 0.080 75);
 }
 .theme-dark[data-module='sensory'] {
-  --accent: oklch(66% 0.09 150);
-  --accent-hover: oklch(59% 0.08 150);
-  --accent-bg: oklch(66% 0.09 150 / 0.12);
-  --accent-ring: oklch(66% 0.09 150 / 0.30);
-  --user-bubble: oklch(48% 0.08 150);
+  --accent: oklch(70% 0.085 80);
+  --accent-hover: oklch(63% 0.080 80);
+  --accent-bg: oklch(70% 0.085 80 / 0.13);
+  --accent-ring: oklch(70% 0.085 80 / 0.30);
+  --user-bubble: oklch(70% 0.085 80);
 }
 
 /* ─── Base ─── */
@@ -214,47 +212,32 @@ body {
   color: var(--text);
 }
 
-/* ─── 应用主背景（v8：苹果味通透 + 咖啡色阶水印） ───
-   浅烘（oklch 88）→ 中烘（58）→ 深烘（28）三段斜向
-   + 顶部细高光带（纸感）+ accent 径向暗角 + V60 滤杯水印 */
+/* ─── 应用主背景（v9 推倒重做：精品咖啡店安静纸感，无大水印） ───
+   大留白：极淡 2 层暖色渐变（左上奶泡微光 + 右下浓缩微暗）+ 顶部极细高光。
+   克制——背景不说话，内容说话。 */
 .app-bg {
   background-color: var(--page);
   background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cg fill='none' stroke='%23000' stroke-width='1.4' opacity='0.06'%3E%3Cpath d='M120 80 L280 80 L240 360 L160 360 Z'/%3E%3Cpath d='M280 150 Q340 150 340 200 Q340 250 290 250'/%3E%3Cpath d='M176 50 Q168 30 184 14'/%3E%3Cpath d='M210 56 Q218 36 202 18'/%3E%3Cpath d='M244 50 Q236 30 252 14'/%3E%3C/g%3E%3C/svg%3E"),
-    linear-gradient(180deg, color-mix(in oklch, white 55%, transparent) 0%, transparent 16rem),
-    radial-gradient(ellipse 70% 60% at 50% 0%, color-mix(in oklch, var(--accent) 10%, transparent) 0%, transparent 60%),
-    radial-gradient(circle at 100% 100%, color-mix(in oklch, oklch(35% 0.10 50) 12%, transparent) 0%, transparent 50%),
-    radial-gradient(circle at 0% 0%, color-mix(in oklch, oklch(92% 0.025 80) 18%, transparent) 0%, transparent 45%),
-    linear-gradient(135deg,
-      color-mix(in oklch, oklch(88% 0.04 80) 12%, transparent) 0%,
-      color-mix(in oklch, oklch(60% 0.08 65) 8%, transparent) 48%,
-      color-mix(in oklch, oklch(28% 0.06 50) 14%, transparent) 100%
-    );
-  background-position: right bottom, top center, top center, right bottom, left top, center;
-  background-size: 56% auto, auto, auto, auto, auto, auto;
-  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
-  background-attachment: fixed, fixed, fixed, fixed, fixed, fixed;
+    linear-gradient(180deg, color-mix(in oklch, white 45%, transparent) 0%, transparent 18rem),
+    radial-gradient(ellipse 55% 45% at 85% 100%, color-mix(in oklch, oklch(40% 0.09 55) 9%, transparent) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 10% 0%, color-mix(in oklch, oklch(93% 0.02 85) 14%, transparent) 0%, transparent 55%);
+  background-position: top center, right bottom, left top;
+  background-size: auto, auto, auto;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-attachment: fixed, fixed, fixed;
 }
 
-/* 深色主题下大咖啡元素水印更显眼 + 顶部高光改为冷白微光 */
+/* 深色：左上极淡琥珀微光 + 右下更暗的浓缩，整体安静暖黑 */
 .theme-dark.app-bg {
   background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.4' opacity='0.09'%3E%3Cpath d='M120 80 L280 80 L240 360 L160 360 Z'/%3E%3Cpath d='M280 150 Q340 150 340 200 Q340 250 290 250'/%3E%3Cpath d='M176 50 Q168 30 184 14'/%3E%3Cpath d='M210 56 Q218 36 202 18'/%3E%3Cpath d='M244 50 Q236 30 252 14'/%3E%3C/g%3E%3C/svg%3E"),
-    linear-gradient(180deg, color-mix(in oklch, white 4%, transparent) 0%, transparent 18rem),
-    radial-gradient(ellipse 70% 60% at 50% 0%, color-mix(in oklch, var(--accent) 15%, transparent) 0%, transparent 60%),
-    radial-gradient(circle at 100% 100%, color-mix(in oklch, oklch(35% 0.10 50) 16%, transparent) 0%, transparent 50%),
-    radial-gradient(circle at 0% 0%, color-mix(in oklch, oklch(35% 0.06 70) 10%, transparent) 0%, transparent 45%),
-    linear-gradient(135deg,
-      color-mix(in oklch, oklch(28% 0.04 60) 16%, transparent) 0%,
-      color-mix(in oklch, oklch(20% 0.04 65) 10%, transparent) 48%,
-      color-mix(in oklch, oklch(14% 0.04 50) 20%, transparent) 100%
-    );
-  background-position: right bottom, top center, top center, right bottom, left top, center;
-  background-size: 56% auto, auto, auto, auto, auto, auto;
-  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
-  background-attachment: fixed, fixed, fixed, fixed, fixed, fixed;
+    linear-gradient(180deg, color-mix(in oklch, white 3%, transparent) 0%, transparent 18rem),
+    radial-gradient(ellipse 55% 45% at 85% 100%, color-mix(in oklch, oklch(18% 0.03 55) 35%, transparent) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 10% 0%, color-mix(in oklch, oklch(32% 0.05 75) 10%, transparent) 0%, transparent 55%);
+  background-position: top center, right bottom, left top;
+  background-size: auto, auto, auto;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-attachment: fixed, fixed, fixed;
 }
-
 /* ─── Grain texture overlay ─── */
 html::before {
   content: '';
@@ -409,46 +392,28 @@ html::before {
   background-size: 65% auto;
 }
 
-/* ─── Surface tiers (one level, never nested) ─── */
+/* ─── Surface tiers（v9 推倒重做：苹果平卡片——纯色 + hairline + 大圆角 + 几乎无阴影） ───
+   去掉了 fractal-noise 纹理叠加：精品店要的是干净的哑光纸，不是做旧质感。 */
 .surface {
   background-color: var(--surface);
-  /* 极轻的纸感纹理 + 顶部 1px 高光带：让卡片脱离纯色平铺 */
-  background-image:
-    linear-gradient(180deg, color-mix(in oklch, var(--text) 3%, transparent) 0%, transparent 1rem),
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-  background-blend-mode: normal, overlay;
   border: 1px solid var(--border);
-  border-top-color: color-mix(in oklch, var(--text) 7%, var(--border));
-  border-radius: 16px;
-  box-shadow:
-    inset 0 1px 0 0 color-mix(in oklch, white 7%, transparent),
-    var(--shadow-ambient);
+  border-radius: 18px;
+  box-shadow: 0 1px 2px oklch(0% 0 0 / 0.03);
 }
 
 .surface-raised {
   background-color: var(--surface-raised);
-  background-image:
-    linear-gradient(180deg, color-mix(in oklch, var(--text) 5%, transparent) 0%, transparent 1.2rem),
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  background-blend-mode: normal, overlay;
   border: 1px solid var(--border-strong);
-  border-top-color: color-mix(in oklch, var(--text) 9%, var(--border-strong));
-  border-radius: 16px;
-  box-shadow:
-    inset 0 1px 0 0 color-mix(in oklch, white 9%, transparent),
-    var(--shadow-md);
+  border-radius: 18px;
+  box-shadow: 0 1px 3px oklch(0% 0 0 / 0.05);
 }
 
 .surface-inset {
   background-color: var(--surface-inset);
-  background-image:
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  background-blend-mode: overlay;
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 16px;
   box-shadow: inset 0 1px 2px oklch(0% 0 0 / 0.04);
 }
-
 /* ─── Glass（苹果毛玻璃，v8） ───
    顶部高光带 + 半透明 bg + 细边框 + 外投影；深色/浅色主题都用同一套变量 */
 .glass {
