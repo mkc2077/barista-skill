@@ -335,6 +335,52 @@ html::before {
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cg fill='none' stroke='%23000' stroke-width='0.6' opacity='0.05'%3E%3Cline x1='36' y1='148' x2='108' y2='72' stroke-width='3'/%3E%3Cellipse cx='124' cy='58' rx='26' ry='16'/%3E%3Cellipse cx='40' cy='158' rx='14' ry='5'/%3E%3Cellipse cx='80' cy='158' rx='14' ry='5'/%3E%3Cellipse cx='120' cy='158' rx='14' ry='5'/%3E%3Cellipse cx='40' cy='132' width='28' height='26' fill='%23000' opacity='0.04'/%3E%3Cellipse cx='80' cy='132' width='28' height='26' fill='%23000' opacity='0.04'/%3E%3Cellipse cx='120' cy='132' width='28' height='26' fill='%23000' opacity='0.04'/%3E%3C/g%3E%3C/svg%3E");
 }
 
+/* ─── 模块字段表单区背景元素（v7 P3d.3 大幅咖啡元素装饰） ───
+   比 Hero 区水印更明显：7-9% opacity 的真实咖啡元素 SVG 放在表单区右下/左下，
+   让模块工作流页面一眼能识别"我在哪个咖啡域"。 */
+/* V60 滤杯 + 蒸汽（手冲） */
+[data-module='pourover'] .module-form-bg {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cg fill='none' stroke='%23000' stroke-width='0.8' opacity='0.085'%3E%3Cpath d='M120 80 L280 80 L240 360 L160 360 Z'/%3E%3Cpath d='M280 150 Q340 150 340 200 Q340 250 290 250'/%3E%3Cpath d='M176 50 Q168 30 184 14'/%3E%3Cpath d='M210 56 Q218 36 202 18'/%3E%3Cpath d='M244 50 Q236 30 252 14'/%3E%3Cline x1='100' y1='370' x2='320' y2='370' opacity='0.6' stroke-dasharray='3 5'/%3E%3C/g%3E%3C/svg%3E");
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  background-size: 60% auto;
+}
+/* 浓缩杯 + 油脂 crema（意式） */
+[data-module='espresso'] .module-form-bg {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cg fill='none' stroke='%23000' stroke-width='0.8' opacity='0.085'%3E%3Cpath d='M130 160 L260 160 Q280 160 280 180 Q280 200 260 200 L155 200 Q120 200 120 250 Q120 360 145 360 L245 360 Q270 360 270 250'/%3E%3Cpath d='M260 220 Q310 220 310 260 Q310 300 265 300'/%3E%3Cellipse cx='195' cy='190' rx='62' ry='5' fill='%23000' opacity='0.1'/%3E%3Cellipse cx='195' cy='180' rx='55' ry='3' fill='%23000' opacity='0.12'/%3E%3Cpath d='M195 178 Q188 174 182 176 Q179 180 195 188 Q211 180 208 176 Q202 174 195 178 Z' fill='%23000' opacity='0.15'/%3E%3C/g%3E%3C/svg%3E");
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  background-size: 55% auto;
+}
+/* 拿铁玻璃杯 + 拉花 + 蒸汽（奶咖） */
+[data-module='milk'] .module-form-bg {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cg fill='none' stroke='%23000' stroke-width='0.8' opacity='0.085'%3E%3Cpath d='M130 60 L270 60 L255 360 L145 360 Z'/%3E%3Cline x1='130' y1='60' x2='270' y2='60'/%3E%3Cpath d='M148 240 L252 240 L248 358 L152 358 Z' fill='%23000' opacity='0.08'/%3E%3Cpath d='M145 160 L255 160 L250 240 L150 240 Z' fill='%23000' opacity='0.05'/%3E%3Cpath d='M200 180 Q180 160 160 180 Q155 205 200 230 Q245 205 240 180 Q220 160 200 180 Z' fill='%23000' opacity='0.15'/%3E%3Cpath d='M165 36 Q158 18 174 6'/%3E%3Cpath d='M210 30 Q218 12 202 0'/%3E%3Cpath d='M250 36 Q243 18 259 6'/%3E%3C/g%3E%3C/svg%3E");
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  background-size: 55% auto;
+}
+/* 分层鸡尾酒杯 + 樱桃（特调） */
+[data-module='craft'] .module-form-bg {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cg fill='none' stroke='%23000' stroke-width='0.8' opacity='0.085'%3E%3Cpath d='M165 36 L235 36 L210 180 L210 380 L190 380 L190 180 Z'/%3E%3Cline x1='165' y1='36' x2='235' y2='36'/%3E%3Crect x='190' y='328' width='20' height='52' fill='%23000' opacity='0.25'/%3E%3Crect x='190' y='248' width='20' height='80' fill='%23000' opacity='0.15'/%3E%3Crect x='190' y='180' width='20' height='68' fill='%23000' opacity='0.06'/%3E%3Cline x1='220' y1='180' x2='220' y2='32'/%3E%3Cline x1='230' y1='195' x2='230' y2='28'/%3E%3Ccircle cx='210' cy='172' r='8' fill='%23000' opacity='0.2'/%3E%3Cpath d='M208 168 L210 156 M212 168 L210 156' stroke='%23000' stroke-width='0.6'/%3E%3C/g%3E%3C/svg%3E");
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  background-size: 50% auto;
+}
+/* 证书徽章 + 缎带（SCA） */
+[data-module='sca'] .module-form-bg {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cg fill='none' stroke='%23000' stroke-width='0.8' opacity='0.085'%3E%3Cpath d='M200 30 L230 60 L280 56 L290 100 L336 110 L322 150 L356 200 L306 220 L296 280 L240 270 L200 310 L160 270 L104 280 L94 220 L44 200 L78 150 L64 110 L110 100 L120 56 L170 60 Z'/%3E%3Ccircle cx='200' cy='170' r='74'/%3E%3Ccircle cx='200' cy='170' r='52'/%3E%3Cpath d='M134 300 L134 360 L164 332 L200 360 L236 332 L266 360 L266 300' fill='%23000' opacity='0.08'/%3E%3C/g%3E%3C/svg%3E");
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  background-size: 60% auto;
+}
+/* 杯测勺 + 4 杯阵列（感官） */
+[data-module='sensory'] .module-form-bg {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cg fill='none' stroke='%23000' stroke-width='0.8' opacity='0.085'%3E%3Cline x1='70' y1='310' x2='240' y2='140' stroke-width='6'/%3E%3Cellipse cx='276' cy='100' rx='56' ry='34'/%3E%3Cellipse cx='276' cy='106' rx='44' ry='24' fill='%23000' opacity='0.12'/%3E%3Cellipse cx='50' cy='360' rx='32' ry='11'/%3E%3Cellipse cx='135' cy='360' rx='32' ry='11'/%3E%3Cellipse cx='220' cy='360' rx='32' ry='11'/%3E%3Cellipse cx='305' cy='360' rx='32' ry='11'/%3E%3Crect x='32' y='300' width='38' height='60' fill='%23000' opacity='0.08'/%3E%3Crect x='117' y='300' width='38' height='60' fill='%23000' opacity='0.08'/%3E%3Crect x='202' y='300' width='38' height='60' fill='%23000' opacity='0.08'/%3E%3Crect x='287' y='300' width='38' height='60' fill='%23000' opacity='0.08'/%3E%3C/g%3E%3C/svg%3E");
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  background-size: 65% auto;
+}
+
 /* ─── Surface tiers (one level, never nested) ─── */
 .surface {
   background-color: var(--surface);

@@ -16,7 +16,10 @@
 
 import { useState, useMemo } from 'react'
 import { useStore } from '@/store'
-import { getModule, MASTER_SOPS, type ModuleId, type ModuleConfig, type ModuleField, type MasterSOP } from '@/lib/modules'
+import {
+  getModule, MASTER_SOPS, MILK_BRANDS, FILTER_BRANDS, TEA_RECIPES, ESPRESSO_PRESETS, ICED_POUR_GUIDES,
+  type ModuleId, type ModuleConfig, type ModuleField, type MasterSOP, type MilkBrand, type FilterBrand, type TeaBaseRecipe, type EspressoPreset, type IcedPourGuide,
+} from '@/lib/modules'
 import { ModuleHeroGlyph } from '@/lib/module-glyphs'
 import {
   ArrowLeft, Coffee, Droplets, Package, ArrowRight, Award, Eye, Sparkles,
@@ -85,7 +88,7 @@ export function ModuleView({ moduleId }: { moduleId: ModuleId }) {
           )}
 
           {/* 字段表单 */}
-          <section className='surface p-5 mb-4'>
+          <section className='module-form-bg surface p-5 mb-4 relative overflow-hidden'>
             <div className='flex items-center justify-between mb-3'>
               <h2 className='font-editorial text-lg text-[var(--text)]'>配置你的 {m.label.zh} 参数</h2>
               <span className='text-[10px] font-keystroke uppercase tracking-widest text-[var(--text-muted)]'>{filled}/{total} 已填</span>
