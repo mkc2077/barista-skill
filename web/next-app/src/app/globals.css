@@ -24,72 +24,72 @@
 
 /* ─── Fonts ─── */
 
-/* ─── Theme: Light Slate（暖灰纸感 + 咖啡金强调）─── */
+/* ─── Theme: Light（暖奶咖纸感 + 咖啡金强调，v7 P3e.2 大幅可见升级） ─── */
 .theme-light {
-  --page: oklch(96.8% 0.004 80);
-  --surface: oklch(99% 0.002 80);
-  --surface-raised: oklch(94.5% 0.005 80);
-  --surface-inset: oklch(91.5% 0.006 80);
+  --page: oklch(94.5% 0.018 75);
+  --surface: oklch(98% 0.010 75);
+  --surface-raised: oklch(96% 0.013 75);
+  --surface-inset: oklch(91% 0.016 75);
 
-  --text: oklch(24% 0.010 70);
-  --text-secondary: oklch(42% 0.008 70);
-  --text-muted: oklch(57% 0.006 70);
-  --text-faint: oklch(72% 0.005 70);
+  --text: oklch(22% 0.020 70);
+  --text-secondary: oklch(40% 0.018 70);
+  --text-muted: oklch(55% 0.015 70);
+  --text-faint: oklch(70% 0.013 70);
   --text-on-accent: oklch(98% 0 0);
 
-  --accent: oklch(52% 0.11 70);
-  --accent-hover: oklch(45% 0.10 70);
-  --accent-bg: oklch(52% 0.11 70 / 0.10);
-  --accent-ring: oklch(52% 0.11 70 / 0.28);
+  --accent: oklch(54% 0.135 70);
+  --accent-hover: oklch(47% 0.130 70);
+  --accent-bg: oklch(54% 0.135 70 / 0.12);
+  --accent-ring: oklch(54% 0.135 70 / 0.30);
 
-  --border: oklch(88% 0.006 70);
-  --border-strong: oklch(82% 0.008 70);
-  --rule: oklch(24% 0.010 70 / 0.10);
+  --border: oklch(86% 0.014 70);
+  --border-strong: oklch(78% 0.018 70);
+  --rule: oklch(22% 0.020 70 / 0.12);
 
-  --user-bubble: oklch(46% 0.11 70);
+  --user-bubble: oklch(48% 0.130 70);
   --user-text: oklch(98% 0 0);
-  --assistant-bubble: #ffffff;
+  --assistant-bubble: #fafaf6;
 
   --danger: #c62828;
   --danger-bg: #fce8e8;
   --success: #2e7d32;
 
-  --scrollbar-thumb: oklch(84% 0.006 70);
+  --scrollbar-thumb: oklch(82% 0.014 70);
   --scrollbar-track: transparent;
 
-  --shadow-ambient: 0 1px 2px oklch(0% 0 0 / 0.04), 0 4px 16px oklch(58% 0.11 70 / 0.06);
-  --shadow-sm: 0 1px 2px oklch(0% 0 0 / 0.04);
-  --shadow-md: 0 4px 12px oklch(0% 0 0 / 0.06);
-  --shadow-lg: 0 12px 40px oklch(0% 0 0 / 0.10);
+  --shadow-ambient: 0 1px 2px oklch(20% 0.05 60 / 0.06), 0 4px 16px oklch(54% 0.13 70 / 0.10);
+  --shadow-sm: 0 1px 2px oklch(0% 0 0 / 0.05);
+  --shadow-md: 0 4px 12px oklch(28% 0.08 60 / 0.10);
+  --shadow-lg: 0 12px 40px oklch(28% 0.08 60 / 0.14);
 
-  --grain-opacity: 0.018;
+  --grain-opacity: 0.025;
 }
 
-/* ─── Theme: Dark Slate（暖石墨 + 咖啡金强调）─── */
+/* ─── Theme: Dark（暖咖啡石墨 + 咖啡金强调，v7 P3e.2 大幅可见升级） ─── */
 .theme-dark {
-  --page: oklch(14% 0.005 70);
-  --surface: oklch(18% 0.007 70);
-  --surface-raised: oklch(21% 0.009 70);
-  --surface-inset: oklch(11% 0.004 70);
+  --page: oklch(15% 0.018 60);
+  --surface: oklch(20% 0.022 60);
+  --surface-raised: oklch(24% 0.026 60);
+  --surface-inset: oklch(13% 0.016 60);
 
-  --text: oklch(92% 0.003 60);
-  --text-secondary: oklch(76% 0.006 60);
-  --text-muted: oklch(60% 0.006 60);
-  --text-faint: oklch(46% 0.005 60);
-  --text-on-accent: oklch(13% 0.008 40);
+  --text: oklch(94% 0.010 65);
+  --text-secondary: oklch(78% 0.012 65);
+  --text-muted: oklch(62% 0.014 65);
+  --text-faint: oklch(48% 0.010 65);
+  --text-on-accent: oklch(13% 0.020 50);
 
-  --accent: oklch(66% 0.11 70);
-  --accent-hover: oklch(59% 0.10 70);
-  --accent-bg: oklch(66% 0.11 70 / 0.12);
-  --accent-ring: oklch(66% 0.11 70 / 0.30);
+  --accent: oklch(72% 0.145 75);
+  --accent-hover: oklch(64% 0.140 75);
+  --accent-bg: oklch(72% 0.145 75 / 0.14);
+  --accent-ring: oklch(72% 0.145 75 / 0.32);
 
-  --border: oklch(26% 0.008 70);
-  --border-strong: oklch(32% 0.010 70);
-  --rule: oklch(92% 0.003 60 / 0.10);
+  --border: oklch(28% 0.020 60);
+  --border-strong: oklch(36% 0.024 60);
+  --rule: oklch(94% 0.010 65 / 0.10);
 
-  --user-bubble: oklch(46% 0.11 70);
+  --user-bubble: oklch(50% 0.130 70);
   --user-text: oklch(96% 0 0);
-  --assistant-bubble: oklch(21% 0.009 70);
+  --assistant-bubble: oklch(24% 0.024 60);
 
   --danger: #ef5350;
   --danger-bg: oklch(30% 0.08 20);
@@ -198,33 +198,48 @@ body {
   background-color: var(--page);
 }
 
-/* ─── 应用主背景（挂 main 上，body 被 main 全屏覆盖所以渐变放这里） ───
-   咖啡色阶：浅烘 → 中烘 → 深烘 斜向渐变 + 顶部 accent 暗角。
-   之前放在 body 但 main 的 bg-[var(--page)] 是不透明实色完全盖住，
-   改成 .app-bg 直接应用在 main（page.tsx）。opacity 提到 5-8% 让
-   深色主题也能看到微妙咖啡色变化。 */
+/* ─── 应用主背景（v7 P3e.2 显著可见升级：opacity 3-5% → 9-16%） ───
+   咖啡色阶：浅烘（oklch 88）→ 中烘（58）→ 深烘（28）三段斜向
+   + 顶部 accent 径向暗角 + 右下角大咖啡元素水印（V60 滤杯，6-7% opacity，全屏可见） */
 .app-bg {
   background-color: var(--page);
   background-image:
-    radial-gradient(ellipse at 50% 0%, color-mix(in oklch, var(--accent) 7%, transparent) 0%, transparent 45%),
+    /* 大咖啡元素水印（V60 滤杯，全屏固定右下，6% opacity，深色主题更明显） */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cg fill='none' stroke='%23000' stroke-width='1.4' opacity='0.07'%3E%3Cpath d='M120 80 L280 80 L240 360 L160 360 Z'/%3E%3Cpath d='M280 150 Q340 150 340 200 Q340 250 290 250'/%3E%3Cpath d='M176 50 Q168 30 184 14'/%3E%3Cpath d='M210 56 Q218 36 202 18'/%3E%3Cpath d='M244 50 Q236 30 252 14'/%3E%3C/g%3E%3C/svg%3E"),
+    /* 顶部 accent 径向 */
+    radial-gradient(ellipse 70% 60% at 50% 0%, color-mix(in oklch, var(--accent) 12%, transparent) 0%, transparent 60%),
+    /* 右下深焦糖暖色斑 */
+    radial-gradient(circle at 100% 100%, color-mix(in oklch, oklch(35% 0.10 50) 14%, transparent) 0%, transparent 50%),
+    /* 左上浅奶咖色斑 */
+    radial-gradient(circle at 0% 0%, color-mix(in oklch, oklch(92% 0.025 80) 22%, transparent) 0%, transparent 45%),
+    /* 浅烘 → 中烘 → 深烘 三段斜向主色阶 */
     linear-gradient(135deg,
-      color-mix(in oklch, oklch(82% 0.09 75) 8%, transparent) 0%,
-      color-mix(in oklch, oklch(58% 0.10 62) 5%, transparent) 48%,
-      color-mix(in oklch, oklch(33% 0.07 48) 9%, transparent) 100%
+      color-mix(in oklch, oklch(88% 0.04 80) 14%, transparent) 0%,
+      color-mix(in oklch, oklch(60% 0.08 65) 10%, transparent) 48%,
+      color-mix(in oklch, oklch(28% 0.06 50) 16%, transparent) 100%
     );
-  background-attachment: fixed, fixed;
+  background-position: right bottom, top center, right bottom, left top, center;
+  background-size: 56% auto, auto, auto, auto, auto;
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  background-attachment: fixed, fixed, fixed, fixed, fixed;
 }
 
-/* 深色主题下提高咖啡色阶强度（暗底上更明显） */
+/* 深色主题下大咖啡元素水印更显眼 + 渐变更饱和 */
 .theme-dark.app-bg {
   background-image:
-    radial-gradient(ellipse at 50% 0%, color-mix(in oklch, var(--accent) 10%, transparent) 0%, transparent 45%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.4' opacity='0.10'%3E%3Cpath d='M120 80 L280 80 L240 360 L160 360 Z'/%3E%3Cpath d='M280 150 Q340 150 340 200 Q340 250 290 250'/%3E%3Cpath d='M176 50 Q168 30 184 14'/%3E%3Cpath d='M210 56 Q218 36 202 18'/%3E%3Cpath d='M244 50 Q236 30 252 14'/%3E%3C/g%3E%3C/svg%3E"),
+    radial-gradient(ellipse 70% 60% at 50% 0%, color-mix(in oklch, var(--accent) 16%, transparent) 0%, transparent 60%),
+    radial-gradient(circle at 100% 100%, color-mix(in oklch, oklch(35% 0.10 50) 18%, transparent) 0%, transparent 50%),
+    radial-gradient(circle at 0% 0%, color-mix(in oklch, oklch(35% 0.06 70) 12%, transparent) 0%, transparent 45%),
     linear-gradient(135deg,
-      color-mix(in oklch, oklch(82% 0.09 75) 6%, transparent) 0%,
-      color-mix(in oklch, oklch(58% 0.10 62) 4%, transparent) 48%,
-      color-mix(in oklch, oklch(33% 0.07 48) 7%, transparent) 100%
+      color-mix(in oklch, oklch(28% 0.04 60) 18%, transparent) 0%,
+      color-mix(in oklch, oklch(20% 0.04 65) 12%, transparent) 48%,
+      color-mix(in oklch, oklch(14% 0.04 50) 22%, transparent) 100%
     );
-  background-attachment: fixed, fixed;
+  background-position: right bottom, top center, right bottom, left top, center;
+  background-size: 56% auto, auto, auto, auto, auto;
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  background-attachment: fixed, fixed, fixed, fixed, fixed;
 }
 
 /* ─── Grain texture overlay ─── */

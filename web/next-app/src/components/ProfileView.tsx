@@ -356,7 +356,7 @@ export function ProfileView() {
         </SectionGroup>
 
         {/* ── 主题 / 强调色（每模块按钮显示咖啡元素字标） ── */}
-        <SectionGroup icon={Palette} title='主题与强调色' subtitle='明暗 + 强调色（共 7 种预设）。模块按钮带咖啡元素字标（V60 / ES / CAP / LCH / Q / CUP）'>
+        <SectionGroup icon={Palette} title='主题与强调色' subtitle='明暗 + 强调色（共 7 种预设）'>
           <div className='space-y-4'>
             <div>
               <p className='text-xs font-medium text-[var(--text-muted)] mb-2'>明暗模式</p>
