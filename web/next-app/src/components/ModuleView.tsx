@@ -20,7 +20,7 @@ import { getModule, MASTER_SOPS, type ModuleId, type ModuleConfig, type ModuleFi
 import { ModuleHeroGlyph } from '@/lib/module-glyphs'
 import {
   ArrowLeft, Coffee, Droplets, Package, ArrowRight, Award, Eye, Sparkles,
-  CupSoda, GlassWater, Check, Beaker,
+  CupSoda, GlassWater, Check, Beaker, BookmarkPlus, BookmarkCheck,
 } from 'lucide-react'
 
 // lucide icon resolver
@@ -31,6 +31,7 @@ export function ModuleView({ moduleId }: { moduleId: ModuleId }) {
   const theme = useStore((s) => s.theme)
   const profile = useStore((s) => s.settings.profile || {}) as any
   const items = useStore((s) => s.settings.inventoryItems || [])
+  const addKnowledgeNotes = useStore((s) => s.addKnowledgeNotes)
   const setViewMode = useStore((s) => s.setViewMode)
   const Icon = ICONS[m.iconKey] || Coffee
 
@@ -147,12 +148,23 @@ export function ModuleView({ moduleId }: { moduleId: ModuleId }) {
             useExistingGear={useExistingGear}
             inventoryItems={items}
             level={level}
+            m={m}
             onBack={() => setSubmitted(false)}
             onChat={(ctx) => {
               // 把模块工作流结果作为 user_context 注入，跳到聊天
               setViewMode('chat')
               // 这里可以创建新对话并把 ctx 注入，但为简化先提示用户去聊天开始
               // TODO: P3d.2 把 ctx 注入第一条用户消息
+            }}
+            onSave={(note) => {
+              addKnowledgeNotes([{
+                id: `recipe-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+                title: note.title,
+                text: note.text,
+                category: 'recipe',
+                createdAt: Date.now(),
+                source: note.source,
+              }])
             }}
           />
         )}
@@ -340,7 +352,7 @@ function AskUseGear({ onAnswer }: { onAnswer: (ans: 'yes' | 'no') => void }) {
   )
 }
 
-function PlanOutput({ generic, masters, waterMode, waterDetail, useExistingGear, inventoryItems, level, onBack, onChat }: {
+function PlanOutput({ generic, masters, waterMode, waterDetail, useExistingGear, inventoryItems, level, onBack, onChat, onSave, m }: {
   generic: { title: string; steps: string[] }
   masters: MasterSOP[]
   waterMode: 'required' | 'skip' | null
@@ -350,7 +362,24 @@ function PlanOutput({ generic, masters, waterMode, waterDetail, useExistingGear,
   level: string
   onBack: () => void
   onChat: (ctx: string) => void
+  onSave: (note: { title: string; text: string; source: string }) => void
+  m: ModuleConfig
 }) {
+  const [savedKey, setSavedKey] = useState<string | null>(null)
+
+  const saveGeneric = () => {
+    const text = `# ${generic.title}\n\n` + generic.steps.map((s, i) => `${i + 1}. ${s}`).join('\n')
+    onSave({ title: `${m.label.zh} · ${generic.title}`, text, source: '模块工作流' })
+    setSavedKey('generic')
+    setTimeout(() => setSavedKey(null), 2000)
+  }
+  const saveMaster = (sop: MasterSOP) => {
+    const text = `# ${sop.name}\n\n${sop.brief}\n\n出处：${sop.source}${sop.url ? `\n链接：${sop.url}` : ''}`
+    onSave({ title: `${m.label.zh} · ${sop.name}`, text, source: sop.source })
+    setSavedKey(sop.id)
+    setTimeout(() => setSavedKey(null), 2000)
+  }
+
   return (
     <>
       {/* 水质建议 */}
@@ -367,7 +396,17 @@ function PlanOutput({ generic, masters, waterMode, waterDetail, useExistingGear,
       {/* 通用手法 + 大师手法 */}
       <div className='grid md:grid-cols-2 gap-3'>
         <section className='surface p-5'>
-          <h3 className='font-editorial text-base text-[var(--text)] mb-3'>{generic.title}</h3>
+          <div className='flex items-center justify-between mb-3'>
+            <h3 className='font-editorial text-base text-[var(--text)]'>{generic.title}</h3>
+            <button
+              onClick={saveGeneric}
+              className='flex items-center gap-1 text-xs text-[var(--text-faint)] hover:text-[var(--accent)]'
+              title='保存到本地知识库（Settings → 本地知识库）'
+            >
+              {savedKey === 'generic' ? <BookmarkCheck className='w-3.5 h-3.5' strokeWidth={1.5} /> : <BookmarkPlus className='w-3.5 h-3.5' strokeWidth={1.5} />}
+              {savedKey === 'generic' ? '已保存' : '保存'}
+            </button>
+          </div>
           <ol className='space-y-2 text-sm text-[var(--text-secondary)]'>
             {generic.steps.map((s, i) => (
               <li key={i} className='flex gap-2'>
@@ -379,14 +418,21 @@ function PlanOutput({ generic, masters, waterMode, waterDetail, useExistingGear,
         </section>
         <section className='surface p-5'>
           <h3 className='font-editorial text-base text-[var(--text)] mb-3'>大师 / 博主手法</h3>
-          {masters.length > 0 ? masters.map((m, i) => (
-            <div key={m.id} className='mb-3 last:mb-0 pb-3 border-b border-[var(--rule)] last:border-0'>
+          {masters.length > 0 ? masters.map((sop, i) => (
+            <div key={sop.id} className='mb-3 last:mb-0 pb-3 border-b border-[var(--rule)] last:border-0'>
               <div className='flex items-baseline justify-between mb-1'>
-                <span className='text-sm font-medium text-[var(--text)]'>{m.name}</span>
-                <span className='text-[10px] font-keystroke uppercase tracking-widest text-[var(--text-faint)]'>#{i + 1}</span>
+                <span className='text-sm font-medium text-[var(--text)]'>{sop.name}</span>
+                <button
+                  onClick={() => saveMaster(sop)}
+                  className='flex items-center gap-1 text-[var(--text-faint)] hover:text-[var(--accent)]'
+                  title='保存到本地知识库'
+                >
+                  {savedKey === sop.id ? <BookmarkCheck className='w-3 h-3' strokeWidth={1.5} /> : <BookmarkPlus className='w-3 h-3' strokeWidth={1.5} />}
+                  <span className='text-[10px]'>{savedKey === sop.id ? '已保存' : '收藏'}</span>
+                </button>
               </div>
-              <p className='text-xs text-[var(--text-muted)] mb-1'>{m.source}</p>
-              <p className='text-xs text-[var(--text-secondary)]'>{m.brief}</p>
+              <p className='text-xs text-[var(--text-muted)] mb-1'>{sop.source}</p>
+              <p className='text-xs text-[var(--text-secondary)]'>{sop.brief}</p>
             </div>
           )) : (
             <p className='text-xs text-[var(--text-muted)]'>未匹配到推荐 SOP；进入对话详细咨询。</p>
