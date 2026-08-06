@@ -228,7 +228,7 @@ export function ProfileView() {
         <SectionGroup icon={Heart} title='口味与水平' subtitle='每种咖啡可以不同口味：意式爱苦、手冲爱酸、特调爱甜' badge={moduleTasteCount > 0 ? `${moduleTasteCount}/6 已设` : '未设'}>
           {/* 6 模块 × 5 口味选项 = 6 行（每模块一行：图标 + 名称 + 5 个口味 chip） */}
           <div className='space-y-2.5'>
-            {MODULES.map((m) => (
+            {MODULES.filter((m) => m.id !== 'sca' && m.id !== 'sensory').map((m) => (
               <div key={m.id} className='flex items-center gap-2'>
                 <span
                   className='inline-flex items-center justify-center w-7 h-7 rounded-md shrink-0'

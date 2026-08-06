@@ -6,9 +6,8 @@ import type { KnowledgeNote } from '@/store'
 import { PROVIDERS, fetchModels } from '@/lib/providers'
 import { buildSystemPrompt, DEFAULT_SYSTEM_PROMPT } from '@/lib/system-prompt'
 import { ThemeSwitcher } from './ThemeSwitcher'
-import { webSearchRaw } from '@/lib/anysearch'
 import { runKnowledgeSync, SYNC_INTERVAL_DAYS_DEFAULT, SYNC_TOPICS_DEFAULT } from '@/lib/knowledge-sync'
-import { X, Download, Upload, ChevronDown, ChevronRight, Save, Check, Search, Loader2, Plus, Trash2, RefreshCw, Globe, BookOpen } from 'lucide-react'
+import { X, Download, Upload, ChevronDown, ChevronRight, Save, Check, Search, Loader2, Plus, Trash2, RefreshCw, BookOpen } from 'lucide-react'
 
 export function SettingsPanel() {
   const settings = useStore((s) => s.settings)
@@ -31,8 +30,6 @@ export function SettingsPanel() {
   const [newBeanRoast, setNewBeanRoast] = useState("")
   const [newBeanNote, setNewBeanNote] = useState("")
   const [newGrinderName, setNewGrinderName] = useState("")
-  const [newKnowledgeQuery, setNewKnowledgeQuery] = useState("")
-  const [refreshingKnowledge, setRefreshingKnowledge] = useState(false)
   const [autoSyncTopicsInput, setAutoSyncTopicsInput] = useState(
     (settings.autoSyncTopics?.length ? settings.autoSyncTopics : SYNC_TOPICS_DEFAULT).join("，")
   )
@@ -65,26 +62,7 @@ export function SettingsPanel() {
     update({ knowledge: [...(settings.knowledge || []), n] })
   const removeKnowledge = (id: string) =>
     update({ knowledge: (settings.knowledge || []).filter(k => k.id !== id) })
-  const handleRefreshKnowledge = async () => {
-    if (!newKnowledgeQuery.trim() || refreshingKnowledge) return
-    setRefreshingKnowledge(true)
-    try {
-      const { results } = await webSearchRaw(newKnowledgeQuery.trim(), settings.anysearchKey, 5)
-      for (let i = 0; i < results.length; i++) {
-        const r = results[i]
-        const snip = (r.snippet || r.content || "").trim().slice(0, 300)
-        addKnowledge({
-          id: "k-" + Date.now() + "-" + i,
-          title: r.title.slice(0, 80),
-          text: snip,
-          category: "search",
-          createdAt: Date.now(),
-          source: r.url,
-        })
-      }
-    } catch (e) { console.warn("[knowledge refresh]", e) }
-    finally { setRefreshingKnowledge(false) }
-  }
+  // 联网搜索入口已去除：用户自主搜索，偏好靠本地知识库（ChatMessage「收藏配方」可一键入库）
 
   // v7 P1：立即手动同步一轮（自动更新的手动触发版）
   const handleAutoSyncNow = async () => {
@@ -335,16 +313,7 @@ export function SettingsPanel() {
           <p className='text-xs text-[var(--text-faint)] mt-1'>Key 仅保存在浏览器；匿名免费</p>
         </div>
 
-        {/* ── 我的画像 & 素材 ── */}
-        <button onClick={() => setProfileExpanded(!profileExpanded)} className='flex items-center gap-1 text-sm text-[var(--accent)] hover:underline mb-3 mt-4 transition-colors'>
-          {profileExpanded ? <ChevronDown className='w-4 h-4' strokeWidth={1.5} /> : <ChevronRight className='w-4 h-4' strokeWidth={1.5} />}
-          <BookOpen className='w-4 h-4' strokeWidth={1.5} /> 我的画像 & 素材
-        </button>
-        {profileExpanded && (
-          <div className='surface-inset p-3 mb-3 text-xs text-[var(--text-secondary)]'>
-            「我的画像 & 素材」已迁出 Settings。点击侧边栏底部的「我的资料」进入独立管理页（含画像 + 材料库 + 主题/强调色）。
-          </div>
-        )}
+        {/* 「我的画像 & 素材」已迁出 → 整段已删除 */}
 
         {/* ── 本地知识库 & 联网刷新 ── */}
         <button onClick={() => setKnowledgeExpanded(!knowledgeExpanded)} className='flex items-center gap-1 text-sm text-[var(--accent)] hover:underline mb-3 transition-colors'>
@@ -353,20 +322,8 @@ export function SettingsPanel() {
         </button>
         {knowledgeExpanded && (
           <>
-            <div className='flex gap-1 mb-2'>
-              <input
-                type='text'
-                value={newKnowledgeQuery}
-                onChange={(e) => setNewKnowledgeQuery(e.target.value)}
-                placeholder='联网搜索关键词 (输入后点右侧搜索按钮)'
-                className='input text-xs flex-1'
-                onKeyDown={(e: React.KeyboardEvent) => e.key === "Enter" && handleRefreshKnowledge()}
-              />
-              <button onClick={handleRefreshKnowledge} disabled={refreshingKnowledge} className='btn btn-secondary text-xs shrink-0'>
-                {refreshingKnowledge ? <Loader2 className='w-3.5 h-3.5 animate-spin' strokeWidth={1.5} /> : <Globe className='w-3.5 h-3.5' strokeWidth={1.5} />}
-                <span className='ml-1 text-xs'>搜索新内容</span>
-              </button>
-            </div>
+            {/* 联网搜索已去除：用户自己搜索，记住偏好靠本地知识库 */}
+
             <div className='max-h-[240px] overflow-y-auto space-y-1 pr-1'>
               {(settings.knowledge || []).slice().sort((a, b) => b.createdAt - a.createdAt).map(n => (
                 <div key={n.id} className='flex flex-col gap-1 text-xs border-t border-[var(--rule)] pt-1.5'>
