@@ -103,7 +103,7 @@ export function ModuleView({ moduleId }: { moduleId: ModuleId }) {
             </div>
           </section>
 
-          <Magnet padding={80} magnetStrength={4}>
+          <Magnet padding={80} magnetStrength={4} wrapperClassName='block w-full'>
             <button
               onClick={() => setSubmitted(true)}
               disabled={!allFilled}
