@@ -296,6 +296,45 @@ html::before {
   color: var(--text-muted);
 }
 
+/* ─── 模块专属 Hero 区背景纹理（v7 P3d 主题高级化） ───
+   每个模块有自己的"咖啡元素水印"：V60 滤杯 / 浓缩杯 / 奶泡杯 / 分层杯 / 证书徽章 / 杯测勺。 */
+/* V60 滤杯纹（手冲） */
+[data-module='pourover'] .module-hero-bg {
+  background-image:
+    linear-gradient(135deg, color-mix(in oklch, var(--accent) 14%, var(--surface)) 0%, var(--surface) 55%, var(--surface-raised) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cg fill='none' stroke='%23000' stroke-width='0.6' opacity='0.05'%3E%3Cpath d='M60 20 L120 20 L106 158 L74 158 Z'/%3E%3Cpath d='M120 38 Q140 38 140 56 Q140 72 124 72'/%3E%3Cpath d='M86 12 Q82 6 88 0'/%3E%3Cpath d='M98 14 Q102 8 96 2'/%3E%3C/g%3E%3C/svg%3E");
+}
+/* 浓缩杯纹（意式） */
+[data-module='espresso'] .module-hero-bg {
+  background-image:
+    linear-gradient(135deg, color-mix(in oklch, var(--accent) 14%, var(--surface)) 0%, var(--surface) 55%, var(--surface-raised) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cg fill='none' stroke='%23000' stroke-width='0.6' opacity='0.05'%3E%3Cpath d='M56 76 L132 76 Q140 76 140 84 Q140 92 132 92 L66 92 Q52 92 52 110 Q52 152 64 152 L124 152 Q136 152 136 110'/%3E%3Cpath d='M132 102 Q156 102 156 122 Q156 138 134 138'/%3E%3Cellipse cx='94' cy='92' rx='28' ry='3' fill='%23000' opacity='0.06'/%3E%3C/g%3E%3C/svg%3E");
+}
+/* 奶泡拉花纹（奶咖） */
+[data-module='milk'] .module-hero-bg {
+  background-image:
+    linear-gradient(135deg, color-mix(in oklch, var(--accent) 14%, var(--surface)) 0%, var(--surface) 55%, var(--surface-raised) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cg fill='none' stroke='%23000' stroke-width='0.6' opacity='0.05'%3E%3Cpath d='M56 30 L124 30 L116 162 L64 162 Z'/%3E%3Cpath d='M64 110 L116 110 L114 156 L66 156 Z'/%3E%3Cpath d='M92 70 Q80 60 70 70 Q66 84 92 100 Q118 84 114 70 Q104 60 92 70 Z'/%3E%3C/g%3E%3C/svg%3E");
+}
+/* 分层鸡尾酒杯纹（特调） */
+[data-module='craft'] .module-hero-bg {
+  background-image:
+    linear-gradient(135deg, color-mix(in oklch, var(--accent) 14%, var(--surface)) 0%, var(--surface) 55%, var(--surface-raised) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cg fill='none' stroke='%23000' stroke-width='0.6' opacity='0.05'%3E%3Cpath d='M76 16 L104 16 L88 80 L88 160 L92 160 L92 80 Z'/%3E%3Cpath d='M86 110 L94 110 L94 156 L86 156 Z'/%3E%3Cpath d='M86 80 L94 80 L94 110 L86 110 Z'/%3E%3Cpath d='M88 75 L94 75 L94 80 L88 80 Z'/%3E%3C/g%3E%3C/svg%3E");
+}
+/* 证书徽章纹（SCA） */
+[data-module='sca'] .module-hero-bg {
+  background-image:
+    linear-gradient(135deg, color-mix(in oklch, var(--accent) 14%, var(--surface)) 0%, var(--surface) 55%, var(--surface-raised) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cg fill='none' stroke='%23000' stroke-width='0.6' opacity='0.05'%3E%3Cpath d='M90 16 L106 32 L132 28 L136 54 L158 64 L150 88 L168 108 L146 120 L142 144 L114 140 L90 158 L66 140 L38 144 L34 120 L12 108 L30 88 L22 64 L44 54 L48 28 L74 32 Z'/%3E%3Ccircle cx='90' cy='88' r='34'/%3E%3C/g%3E%3C/svg%3E");
+}
+/* 杯测勺 + 杯阵列纹（感官） */
+[data-module='sensory'] .module-hero-bg {
+  background-image:
+    linear-gradient(135deg, color-mix(in oklch, var(--accent) 14%, var(--surface)) 0%, var(--surface) 55%, var(--surface-raised) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cg fill='none' stroke='%23000' stroke-width='0.6' opacity='0.05'%3E%3Cline x1='36' y1='148' x2='108' y2='72' stroke-width='3'/%3E%3Cellipse cx='124' cy='58' rx='26' ry='16'/%3E%3Cellipse cx='40' cy='158' rx='14' ry='5'/%3E%3Cellipse cx='80' cy='158' rx='14' ry='5'/%3E%3Cellipse cx='120' cy='158' rx='14' ry='5'/%3E%3Cellipse cx='40' cy='132' width='28' height='26' fill='%23000' opacity='0.04'/%3E%3Cellipse cx='80' cy='132' width='28' height='26' fill='%23000' opacity='0.04'/%3E%3Cellipse cx='120' cy='132' width='28' height='26' fill='%23000' opacity='0.04'/%3E%3C/g%3E%3C/svg%3E");
+}
+
 /* ─── Surface tiers (one level, never nested) ─── */
 .surface {
   background-color: var(--surface);

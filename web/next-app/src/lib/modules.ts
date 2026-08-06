@@ -71,6 +71,63 @@ export const MODULE_CAFE_GLYPHS: Record<ModuleId, string> = {
   sensory: 'CUP', // 杯测勺+杯
 }
 
+/** 每个模块工作流的输入字段（v7 P3d） */
+export interface ModuleFieldOption {
+  value: string
+  label: string
+  hint?: string
+}
+
+export interface ModuleField {
+  key: string
+  label: string
+  hint?: string
+  type: 'select' | 'chips' | 'text' | 'text-optional'
+  options?: ModuleFieldOption[]
+  placeholder?: string
+}
+
+export interface ModuleConfig {
+  id: ModuleId
+  label: { zh: string; en: string }
+  description: { zh: string; en: string }
+  prompt: string
+  ragFilter: string
+  defaultMaterialCategories: InventoryCategory[]
+  accent: { light: string; dark: string }
+  iconKey: 'Coffee' | 'CupSoda' | 'GlassWater' | 'Sparkles' | 'Award' | 'Eye'
+  /** 输入字段（按模块定制） */
+  fields: ModuleField[]
+  /** 提交后的追问链（按顺序询问） */
+  followUps: string[]
+  /** 输出侧标题：通用手法 vs 大师/博主手法 */
+  outputLabels: { generic: string; master: string }
+}
+
+/** 大师/博主 SOP 库（精简版，按模块分类） */
+export interface MasterSOP {
+  id: string
+  moduleId: ModuleId
+  name: string
+  source: string  // 出处
+  brief: string   // 一句话手法特征
+  url?: string    // 原文链接
+  keywords: string[]  // 匹配关键词（如滤杯/产地/期望风味）
+}
+
+export const MASTER_SOPS: MasterSOP[] = [
+  // 手冲
+  { id: 'pour-tetsu', moduleId: 'pourover', name: '粕谷哲 4:6 法', source: 'Tetsu Kasuya 2016 WBC 冠军', brief: '分两段注水，先甜后浓；适合浅烘、酸感豆', keywords: ['v60', '浅烘', '酸'] },
+  { id: 'pour-tetsu-deep', moduleId: 'pourover', name: '粕谷哲 4:6 法（中深烘调整）', source: 'Tetsu Kasuya', brief: '4:6 法中深烘变体，先浓后甜', keywords: ['v60', '中烘', '深烘'] },
+  { id: 'pour-origami-james', moduleId: 'pourover', name: 'James Hoffmann 单段中心注水', source: 'James Hoffmann YouTube', brief: 'Origami/平底滤杯单段快速绕圈，干净清晰', keywords: ['origami', 'kalita', '清晰'] },
+  { id: 'pour-george-1', moduleId: 'pourover', name: 'George Howell 单段慢注', source: 'George Howell', brief: '细水流慢注 3min，强调萃取均匀', keywords: ['v60', '平衡'] },
+  { id: 'pour-chemex', moduleId: 'pourover', name: 'Chemex 5 段式', source: 'Chemex 官方', brief: '梅卡克斯厚滤纸 5 段注水，分批均匀萃取', keywords: ['chemex', '厚滤纸'] },
+  // 意式
+  { id: 'esp-flat-9bar', moduleId: 'espresso', name: 'Flat 9 Bar 标准', source: 'SCA 教学', brief: '9bar 恒压 25-30s 萃取，EY 18-22%', keywords: ['意式机', '9bar', '标准'] },
+  { id: 'esp-lance-hedrick', moduleId: 'espresso', name: 'Lance Hedrick 减压变压', source: 'Lance Hedrick YouTube', brief: '预浸降压 + 后期减压，甜感突出', keywords: ['变压', '甜'] },
+  { id: 'esp-julian', moduleId: 'espresso', name: 'Julian 给你的「苦甜平衡」配方', source: '36 味咖啡实验室', brief: '深烘意式机 1:2 ratio 高温快萃取', keywords: ['深烘', '平衡'] },
+]
+
 export const MODULES: ModuleConfig[] = [
   {
     id: 'pourover',
@@ -84,6 +141,51 @@ export const MODULES: ModuleConfig[] = [
     defaultMaterialCategories: ['bean', 'grinder', 'brewer', 'dripper', 'filter', 'kettle', 'scale'],
     accent: { light: 'oklch(50% 0.16 45)', dark: 'oklch(64% 0.15 45)' },
     iconKey: 'Coffee',
+    fields: [
+      { key: 'bean', label: '豆子信息', hint: '产地 / 处理法 / 烘焙度 / 品种', type: 'text', placeholder: '如 耶加雪菲 / 日晒 / 浅-中烘 / Heirloom' },
+      { key: 'dripper', label: '滤杯', type: 'select', options: [
+        { value: '', label: '-- 选择 --' },
+        { value: 'v60', label: 'Hario V60', hint: '锥形 / 流速快' },
+        { value: 'kalita', label: 'Kalita Wave', hint: '平底 / 浸泡均匀' },
+        { value: 'origami', label: 'Origami', hint: '半锥形 / 折纸滤纸通用' },
+        { value: 'chemex', label: 'Chemex', hint: '玻璃厚滤纸' },
+        { value: 'melitta', label: 'Melitta', hint: '传统扇形' },
+        { value: 'clever', label: '聪明杯', hint: '浸泡式' },
+      ]},
+      { key: 'material', label: '滤杯材质', type: 'chips', options: [
+        { value: 'ceramic', label: '陶瓷' },
+        { value: 'glass', label: '玻璃' },
+        { value: 'plastic', label: '树脂' },
+        { value: 'metal', label: '金属' },
+      ]},
+      { key: 'filter', label: '滤纸', type: 'chips', options: [
+        { value: 'white', label: '漂白' },
+        { value: 'natural', label: '未漂白' },
+        { value: 'metal', label: '金属片' },
+        { value: 'cloth', label: '滤布' },
+      ]},
+      { key: 'strength', label: '浓度', type: 'chips', options: [
+        { value: 'light', label: '淡 1:16' },
+        { value: 'medium', label: '中 1:14' },
+        { value: 'strong', label: '浓 1:12' },
+      ]},
+      { key: 'temp', label: '热 / 冰', type: 'chips', options: [
+        { value: 'hot', label: '热冲 92℃' },
+        { value: 'ice', label: '冰冲（冰块代水）' },
+      ]},
+      { key: 'flavor', label: '期望风味', type: 'chips', options: [
+        { value: 'sweet', label: '偏甜' },
+        { value: 'acid', label: '偏酸' },
+        { value: 'balanced', label: '平衡' },
+        { value: 'body', label: '醇厚' },
+      ]},
+      { key: 'bypass', label: '接受旁通水?', hint: '萃取后加水稀释尾段', type: 'chips', options: [
+        { value: 'yes', label: '接受' },
+        { value: 'no', label: '不接受' },
+      ]},
+    ],
+    followUps: ['water', 'useExistingGear', 'levelCheck'],
+    outputLabels: { generic: '通用手法', master: '大师/博主手法' },
   },
   {
     id: 'espresso',
@@ -97,6 +199,39 @@ export const MODULES: ModuleConfig[] = [
     defaultMaterialCategories: ['bean', 'grinder', 'machine', 'scale'],
     accent: { light: 'oklch(44% 0.11 30)', dark: 'oklch(62% 0.11 30)' },
     iconKey: 'CupSoda',
+    fields: [
+      { key: 'bean', label: '豆子信息', hint: '产地 / 处理法 / 烘焙度', type: 'text', placeholder: '如 巴西 / 日晒 / 中深烘 SOE' },
+      { key: 'basket', label: '粉碗尺寸', type: 'chips', options: [
+        { value: 'single', label: '单份 7g' },
+        { value: 'double', label: '双份 14g' },
+        { value: 'triple', label: '三份 18g' },
+        { value: 'triple_lungo', label: '三份长 21g' },
+      ]},
+      { key: 'shot', label: '目标萃取', type: 'chips', options: [
+        { value: 'ristretto', label: 'Ristretto 1:1' },
+        { value: 'normale', label: 'Normale 1:2' },
+        { value: 'lungo', label: 'Lungo 1:3' },
+        { value: 'allonge', label: 'Allongé 1:4' },
+      ]},
+      { key: 'ey', label: '萃取率偏好', type: 'chips', options: [
+        { value: 'safe', label: '稳妥 18-22%' },
+        { value: 'yield', label: '高产 22-26%' },
+      ]},
+      { key: 'flow', label: '流量偏好', type: 'chips', options: [
+        { value: 'classic', label: '经典 9bar 恒压' },
+        { value: 'ramp', label: 'Ramp 升压' },
+        { value: 'declump', label: '减压收尾' },
+        { value: 'pre', label: '预浸泡长' },
+      ]},
+      { key: 'flavor', label: '期望风味', type: 'chips', options: [
+        { value: 'bitter', label: '偏苦' },
+        { value: 'acid', label: '偏酸' },
+        { value: 'sweet', label: '偏甜' },
+        { value: 'body', label: '醇厚' },
+      ]},
+    ],
+    followUps: ['water', 'useExistingGear', 'levelCheck'],
+    outputLabels: { generic: '通用萃取参数', master: '大师/冠军配方' },
   },
   {
     id: 'milk',
@@ -110,6 +245,43 @@ export const MODULES: ModuleConfig[] = [
     defaultMaterialCategories: ['bean', 'machine', 'mug', 'syrup'],
     accent: { light: 'oklch(58% 0.09 85)', dark: 'oklch(74% 0.07 85)' },
     iconKey: 'GlassWater',
+    fields: [
+      { key: 'base', label: '咖啡基底', type: 'chips', options: [
+        { value: 'espresso', label: 'Espresso' },
+        { value: 'ristretto', label: 'Ristretto' },
+        { value: 'lungo', label: 'Lungo' },
+      ]},
+      { key: 'drink', label: '想做的奶咖', type: 'select', options: [
+        { value: '', label: '-- 选择 --' },
+        { value: 'latte', label: '拿铁 Latte' },
+        { value: 'cappuccino', label: '卡布奇诺 Cappuccino' },
+        { value: 'flatwhite', label: '澳白 Flat White' },
+        { value: 'cortado', label: '可塔朵 Cortado' },
+        { value: 'macchiato', label: '玛奇朵 Macchiato' },
+        { value: 'mocha', label: '摩卡 Mocha' },
+        { value: 'affogato', label: 'Affogato' },
+        { value: 'vienna', label: '维也纳 Vienna' },
+      ]},
+      { key: 'milk', label: '牛奶', type: 'chips', options: [
+        { value: 'whole', label: '全脂牛奶' },
+        { value: 'oat', label: '燕麦奶' },
+        { value: 'lowfat', label: '低脂' },
+        { value: 'jersey', label: 'Jersey 高脂' },
+      ]},
+      { key: 'flavor', label: '期望风格', type: 'chips', options: [
+        { value: 'strong', label: '咖啡感强' },
+        { value: 'balanced', label: '奶咖平衡' },
+        { value: 'milky', label: '奶香为主' },
+        { value: 'sweet', label: '偏甜' },
+      ]},
+      { key: 'temp', label: '奶温', type: 'chips', options: [
+        { value: 'hot', label: '热 60-65℃' },
+        { value: 'warm', label: '温 55-60℃' },
+        { value: 'iced', label: '冰奶咖' },
+      ]},
+    ],
+    followUps: ['water', 'useExistingGear'],
+    outputLabels: { generic: '通用配比', master: '冠军/精品配方' },
   },
   {
     id: 'craft',
@@ -123,6 +295,39 @@ export const MODULES: ModuleConfig[] = [
     defaultMaterialCategories: ['bean', 'syrup', 'mug'],
     accent: { light: 'oklch(52% 0.16 355)', dark: 'oklch(68% 0.13 355)' },
     iconKey: 'Sparkles',
+    fields: [
+      { key: 'category', label: '品类', type: 'chips', options: [
+        { value: 'fruit', label: '果味清爽' },
+        { value: 'milky', label: '奶感醇厚' },
+        { value: 'tea', label: '茶感' },
+        { value: 'decaf', label: '无咖啡因' },
+        { value: 'sparkling', label: '气泡/苏打' },
+      ]},
+      { key: 'sweetness', label: '甜度', type: 'chips', options: [
+        { value: 'no', label: '无糖' },
+        { value: 'low', label: '低糖' },
+        { value: 'medium', label: '中糖' },
+        { value: 'high', label: '高糖' },
+      ]},
+      { key: 'ice', label: '冰量', type: 'chips', options: [
+        { value: 'hot', label: '热' },
+        { value: 'less', label: '少冰' },
+        { value: 'normal', label: '正常' },
+      ]},
+      { key: 'base', label: '咖啡基底', type: 'chips', options: [
+        { value: 'espresso', label: 'Espresso' },
+        { value: 'cold_brew', label: '冷萃' },
+        { value: 'none', label: '不用咖啡' },
+      ]},
+      { key: 'diet', label: '饮食约束', type: 'chips', options: [
+        { value: 'normal', label: '无' },
+        { value: 'vegan', label: '素食/植物奶' },
+        { value: 'low_caffeine', label: '低咖啡因' },
+        { value: 'lactose_free', label: '乳糖不耐' },
+      ]},
+    ],
+    followUps: ['water', 'useExistingGear', 'levelCheck'],
+    outputLabels: { generic: '通用特调骨架', master: '门店 / 博主 SOP' },
   },
   {
     id: 'sca',
@@ -136,6 +341,31 @@ export const MODULES: ModuleConfig[] = [
     defaultMaterialCategories: [],
     accent: { light: 'oklch(50% 0.12 255)', dark: 'oklch(66% 0.11 255)' },
     iconKey: 'Award',
+    fields: [
+      { key: 'goal', label: '目标认证', type: 'chips', options: [
+        { value: 'csp_brew', label: 'CSP Brewing' },
+        { value: 'csp_barista', label: 'CSP Barista Skills' },
+        { value: 'csp_sensory', label: 'CSP Sensory' },
+        { value: 'csp_roast', label: 'CSP Roasting' },
+        { value: 'csp_green', label: 'CSP Green Coffee' },
+        { value: 'qgrader', label: 'Q-Grader' },
+      ]},
+      { key: 'stage', label: '当前阶段', type: 'chips', options: [
+        { value: 'planning', label: '准备中' },
+        { value: 'studying', label: '学习中' },
+        { value: 'practicing', label: '模拟考中' },
+        { value: 'reviewing', label: '复盘错题' },
+      ]},
+      { key: 'hours', label: '周学习时间', type: 'chips', options: [
+        { value: 'less_3', label: '<3 小时' },
+        { value: '3_6', label: '3-6 小时' },
+        { value: '6_10', label: '6-10 小时' },
+        { value: 'more_10', label: '>10 小时' },
+      ]},
+      { key: 'deadline', label: '期望考试月份', type: 'text-optional', placeholder: '如 2027-03' },
+    ],
+    followUps: ['levelCheck'],
+    outputLabels: { generic: '通用备考路径', master: '考过的前辈分享' },
   },
   {
     id: 'sensory',
@@ -149,6 +379,27 @@ export const MODULES: ModuleConfig[] = [
     defaultMaterialCategories: [],
     accent: { light: 'oklch(48% 0.10 150)', dark: 'oklch(66% 0.09 150)' },
     iconKey: 'Eye',
+    fields: [
+      { key: 'goal', label: '训练目标', type: 'chips', options: [
+        { value: 'beginner', label: '新手入门风味轮' },
+        { value: 'cupping', label: '杯测打分入门' },
+        { value: 'aroma_kit', label: 'Le Nez du Café 闻香瓶' },
+        { value: 'triangle', label: '三角杯测练习' },
+        { value: 'production', label: '日常盲品找缺陷' },
+      ]},
+      { key: 'frequency', label: '训练频率', type: 'chips', options: [
+        { value: 'weekly', label: '每周 1 次' },
+        { value: '3week', label: '每 3 天 1 次' },
+        { value: 'daily', label: '每天' },
+      ]},
+      { key: 'kit', label: '已有器具', type: 'chips', options: [
+        { value: 'wheel', label: '风味轮' },
+        { value: 'aroma', label: '闻香瓶' },
+        { value: 'cupping_glasses', label: '杯测杯 5+ 个' },
+      ]},
+    ],
+    followUps: ['levelCheck'],
+    outputLabels: { generic: '训练计划', master: 'SCA 杯测标准' },
   },
 ]
 

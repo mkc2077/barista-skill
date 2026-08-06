@@ -24,7 +24,11 @@ export function Sidebar() {
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editTitle, setEditTitle] = useState('')
 
-  const setModule = (id: ModuleId) => updateSettings({ currentModule: id })
+  const setModule = (id: ModuleId) => {
+    // v7 P3d：点击模块按钮直接进入该模块的独立页面（而不是只切 currentModule）
+    updateSettings({ currentModule: id })
+    setViewMode(id)
+  }
 
   return (
     <>

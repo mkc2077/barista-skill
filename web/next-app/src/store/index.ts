@@ -104,7 +104,7 @@ export interface Settings {
   knowledge: KnowledgeNote[];
 }
 
-export type ViewMode = 'chat' | 'profile';
+export type ViewMode = 'chat' | 'profile' | ModuleId
 
 export interface AppState {
   conversations: Conversation[];

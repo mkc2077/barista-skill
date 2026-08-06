@@ -8,7 +8,9 @@ import { SettingsPanel } from '@/components/SettingsPanel'
 import { ProfileView } from '@/components/ProfileView'
 import { LocalExitButton } from '@/components/LocalExitButton'
 import { useStore, useCurrentConversation } from '@/store'
+import { MODULES, type ModuleId } from '@/lib/modules'
 import { AutoSync } from '@/components/AutoSync'
+import { ModuleView } from '@/components/ModuleView'
 
 export default function Home() {
   const theme = useStore((s) => s.theme)
@@ -27,6 +29,9 @@ export default function Home() {
 
   const effectiveAccent = accentOverride === 'auto' ? currentModule : accentOverride
 
+  // viewMode: 'chat' | 'profile' | ModuleId（手冲/意式/奶咖/特调/SCA/感官）
+  const isModuleView = typeof viewMode === 'string' && (MODULES.find((m) => m.id === viewMode) !== undefined)
+
   return (
     <main
       data-module={effectiveAccent}
@@ -35,9 +40,11 @@ export default function Home() {
       <AutoSync />
       <Sidebar />
       <div className='flex-1 flex flex-col min-w-0'>
-        {viewMode === 'profile'
-          ? <ProfileView />
-          : (!hasConfig || !currentConv ? <WelcomeView /> : <ChatView />)}
+        {isModuleView
+          ? <ModuleView moduleId={viewMode as ModuleId} />
+          : viewMode === 'profile'
+            ? <ProfileView />
+            : (!hasConfig || !currentConv ? <WelcomeView /> : <ChatView />)}
       </div>
       {showSettings && <SettingsPanel />}
       <LocalExitButton />
