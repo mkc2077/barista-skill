@@ -24,95 +24,97 @@
 
 /* ─── Fonts ─── */
 
-/* ─── Theme: Light（奶油燕麦纸感 + 铜金，v9 推倒重做：精品咖啡店白天） ─── */
+/* ─── Theme: Light（中性暖灰纸面 + 咖啡棕 accent，v10 推倒重做）
+   依据 impeccable/taste-skill 反模式清理：禁奶油米白底、禁彩色辉光、
+   禁纯黑白；背景纯色、hairline-first、阴影克制。 ─── */
 .theme-light {
-  --page: oklch(96% 0.010 80);
-  --surface: oklch(99.2% 0.006 80);
-  --surface-raised: oklch(97.5% 0.008 80);
-  --surface-inset: oklch(93% 0.011 80);
+  --page: oklch(97% 0.007 95);
+  --surface: oklch(99.5% 0.004 95);
+  --surface-raised: oklch(98% 0.006 95);
+  --surface-inset: oklch(94.5% 0.008 95);
 
-  --text: oklch(22% 0.020 70);
-  --text-secondary: oklch(40% 0.017 70);
-  --text-muted: oklch(55% 0.013 70);
-  --text-faint: oklch(71% 0.010 70);
+  --text: oklch(22% 0.012 95);
+  --text-secondary: oklch(40% 0.010 95);
+  --text-muted: oklch(55% 0.008 95);
+  --text-faint: oklch(70% 0.006 95);
   --text-on-accent: oklch(99% 0 0);
 
-  --accent: oklch(51% 0.100 65);
-  --accent-hover: oklch(44% 0.095 65);
-  --accent-bg: oklch(51% 0.100 65 / 0.10);
-  --accent-ring: oklch(51% 0.100 65 / 0.26);
+  --accent: oklch(45% 0.085 60);
+  --accent-hover: oklch(39% 0.080 60);
+  --accent-bg: oklch(45% 0.085 60 / 0.10);
+  --accent-ring: oklch(45% 0.085 60 / 0.24);
 
-  --border: oklch(88% 0.009 80);
-  --border-strong: oklch(81% 0.012 80);
-  --rule: oklch(22% 0.020 70 / 0.09);
+  --border: oklch(78% 0 0 / 0.16);
+  --border-strong: oklch(78% 0 0 / 0.30);
+  --rule: oklch(22% 0.012 95 / 0.09);
 
-  --user-bubble: oklch(45% 0.095 65);
+  --user-bubble: oklch(45% 0.085 60);
   --user-text: oklch(99% 0 0);
-  --assistant-bubble: #fffefc;
+  --assistant-bubble: oklch(99.5% 0.004 95);
 
   --danger: #c62828;
   --danger-bg: #fce8e8;
   --success: #2e7d32;
 
-  --scrollbar-thumb: oklch(84% 0.009 80);
+  --scrollbar-thumb: oklch(84% 0.006 95);
   --scrollbar-track: transparent;
 
-  --shadow-ambient: 0 1px 1px oklch(20% 0.04 60 / 0.03), 0 2px 6px oklch(20% 0.04 60 / 0.03);
-  --shadow-sm: 0 1px 1px oklch(0% 0 0 / 0.03);
-  --shadow-md: 0 2px 8px oklch(28% 0.06 60 / 0.05);
-  --shadow-lg: 0 8px 24px oklch(28% 0.06 60 / 0.08);
+  --shadow-ambient: 0 1px 2px oklch(20% 0.02 60 / 0.05);
+  --shadow-sm: 0 1px 2px oklch(0% 0 0 / 0.04);
+  --shadow-md: 0 2px 10px oklch(0% 0 0 / 0.06);
+  --shadow-lg: 0 8px 32px oklch(0% 0 0 / 0.10);
 
-  --glass-bg: oklch(99% 0.004 80 / 0.70);
+  --glass-bg: oklch(99% 0.004 95 / 0.72);
   --glass-border: oklch(100% 0 0 / 0.55);
   --glass-highlight: oklch(100% 0 0 / 0.8);
-  --glass-shadow: 0 8px 24px oklch(20% 0.04 60 / 0.08);
+  --glass-shadow: 0 8px 24px oklch(20% 0.02 60 / 0.08);
 
-  --grain-opacity: 0.015;
+  --grain-opacity: 0;
 }
-/* ─── Theme: Dark（浓缩咖啡暖黑 + 铜金，v9 推倒重做：精品咖啡店夜间） ─── */
+/* ─── Theme: Dark（暖矿物黑 + 咖啡棕 accent，v10 推倒重做） ─── */
 .theme-dark {
-  --page: oklch(15% 0.014 55);
-  --surface: oklch(20% 0.019 55);
-  --surface-raised: oklch(23.5% 0.022 55);
-  --surface-inset: oklch(12.5% 0.012 55);
+  --page: oklch(9.5% 0.006 90);
+  --surface: oklch(12.5% 0.008 90);
+  --surface-raised: oklch(15% 0.010 90);
+  --surface-inset: oklch(8% 0.005 90);
 
-  --text: oklch(93% 0.009 70);
-  --text-secondary: oklch(78% 0.011 70);
-  --text-muted: oklch(62% 0.012 70);
-  --text-faint: oklch(49% 0.010 70);
-  --text-on-accent: oklch(13% 0.015 50);
+  --text: oklch(93% 0.004 90);
+  --text-secondary: oklch(76% 0.006 90);
+  --text-muted: oklch(60% 0.006 90);
+  --text-faint: oklch(46% 0.004 90);
+  --text-on-accent: oklch(13% 0.010 40);
 
-  --accent: oklch(70% 0.115 75);
-  --accent-hover: oklch(63% 0.110 75);
-  --accent-bg: oklch(70% 0.115 75 / 0.13);
-  --accent-ring: oklch(70% 0.115 75 / 0.30);
+  --accent: oklch(68% 0.100 65);
+  --accent-hover: oklch(61% 0.095 65);
+  --accent-bg: oklch(68% 0.100 65 / 0.13);
+  --accent-ring: oklch(68% 0.100 65 / 0.28);
 
-  --border: oklch(27% 0.016 55);
-  --border-strong: oklch(35% 0.020 55);
-  --rule: oklch(93% 0.009 70 / 0.09);
+  --border: oklch(100% 0 0 / 0.10);
+  --border-strong: oklch(100% 0 0 / 0.20);
+  --rule: oklch(93% 0.004 90 / 0.09);
 
-  --user-bubble: oklch(46% 0.090 65);
+  --user-bubble: oklch(46% 0.085 60);
   --user-text: oklch(96% 0 0);
-  --assistant-bubble: oklch(23.5% 0.020 55);
+  --assistant-bubble: oklch(12.5% 0.008 90);
 
   --danger: #ef5350;
   --danger-bg: oklch(30% 0.08 20);
   --success: #66bb6a;
 
-  --scrollbar-thumb: oklch(32% 0.014 55);
+  --scrollbar-thumb: oklch(30% 0.010 90);
   --scrollbar-track: transparent;
 
-  --shadow-ambient: 0 1px 1px rgba(0,0,0,0.30), 0 2px 8px rgba(0,0,0,0.16);
-  --shadow-sm: 0 1px 1px rgba(0,0,0,0.25);
-  --shadow-md: 0 2px 8px rgba(0,0,0,0.30), 0 8px 24px rgba(0,0,0,0.16);
-  --shadow-lg: 0 8px 24px rgba(0,0,0,0.38), 0 24px 64px rgba(0,0,0,0.28);
+  --shadow-ambient: 0 1px 2px rgba(0,0,0,0.25);
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.20);
+  --shadow-md: 0 2px 10px rgba(0,0,0,0.30);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.40);
 
-  --glass-bg: oklch(22% 0.016 55 / 0.60);
-  --glass-border: oklch(100% 0 0 / 0.08);
+  --glass-bg: oklch(14% 0.008 90 / 0.66);
+  --glass-border: oklch(100% 0 0 / 0.10);
   --glass-highlight: oklch(100% 0 0 / 0.12);
   --glass-shadow: 0 8px 24px rgba(0,0,0,0.38);
 
-  --grain-opacity: 0.02;
+  --grain-opacity: 0;
 }
 /* ─── 模块专属强调色（v7 P3c.2：data-module 切换主题主色） ───
    每模块一个辨识度 accent，组件全部引用 var(--accent*)，覆盖即全站变色。
@@ -212,40 +214,36 @@ body {
   color: var(--text);
 }
 
-/* ─── 应用主背景（v9 推倒重做：精品咖啡店安静纸感，无大水印） ───
-   大留白：极淡 2 层暖色渐变（左上奶泡微光 + 右下浓缩微暗）+ 顶部极细高光。
-   克制——背景不说话，内容说话。 */
+/* ─── 应用主背景（v10 推倒重做：纯色地面，零装饰） ───
+   impeccable「Texture Budget Rule」：地面纯色，装饰只放承重位。
+   背景不说话，内容说话。仅保留顶部一条 1px 极细高光模拟纸面受光。 */
 .app-bg {
   background-color: var(--page);
   background-image:
-    linear-gradient(180deg, color-mix(in oklch, white 45%, transparent) 0%, transparent 18rem),
-    radial-gradient(ellipse 55% 45% at 85% 100%, color-mix(in oklch, oklch(40% 0.09 55) 9%, transparent) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 40% at 10% 0%, color-mix(in oklch, oklch(93% 0.02 85) 14%, transparent) 0%, transparent 55%);
-  background-position: top center, right bottom, left top;
-  background-size: auto, auto, auto;
-  background-repeat: no-repeat, no-repeat, no-repeat;
-  background-attachment: fixed, fixed, fixed;
+    linear-gradient(180deg, color-mix(in oklch, white 30%, transparent) 0%, transparent 10rem);
+  background-position: top center;
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
-/* 深色：左上极淡琥珀微光 + 右下更暗的浓缩，整体安静暖黑 */
+/* 深色：近黑微暖，无任何辉光/渐变装饰 */
 .theme-dark.app-bg {
   background-image:
-    linear-gradient(180deg, color-mix(in oklch, white 3%, transparent) 0%, transparent 18rem),
-    radial-gradient(ellipse 55% 45% at 85% 100%, color-mix(in oklch, oklch(18% 0.03 55) 35%, transparent) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 40% at 10% 0%, color-mix(in oklch, oklch(32% 0.05 75) 10%, transparent) 0%, transparent 55%);
-  background-position: top center, right bottom, left top;
-  background-size: auto, auto, auto;
-  background-repeat: no-repeat, no-repeat, no-repeat;
-  background-attachment: fixed, fixed, fixed;
+    linear-gradient(180deg, color-mix(in oklch, white 2.5%, transparent) 0%, transparent 10rem);
+  background-position: top center;
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
-/* ─── Grain texture overlay ─── */
+/* ─── Grain texture overlay（v10：关闭——噪点是反模式） ─── */
 html::before {
   content: '';
   position: fixed;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  opacity: var(--grain-opacity, 0.015);
+  opacity: var(--grain-opacity, 0);
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
 }
 
@@ -392,26 +390,25 @@ html::before {
   background-size: 65% auto;
 }
 
-/* ─── Surface tiers（v9 推倒重做：苹果平卡片——纯色 + hairline + 大圆角 + 几乎无阴影） ───
-   去掉了 fractal-noise 纹理叠加：精品店要的是干净的哑光纸，不是做旧质感。 */
+/* ─── Surface tiers（v10：苹果平卡片——纯色 + hairline + 统一圆角 + 无阴影） ─── */
 .surface {
   background-color: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 18px;
+  border-radius: 14px;
   box-shadow: 0 1px 2px oklch(0% 0 0 / 0.03);
 }
 
 .surface-raised {
   background-color: var(--surface-raised);
   border: 1px solid var(--border-strong);
-  border-radius: 18px;
+  border-radius: 14px;
   box-shadow: 0 1px 3px oklch(0% 0 0 / 0.05);
 }
 
 .surface-inset {
   background-color: var(--surface-inset);
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: 12px;
   box-shadow: inset 0 1px 2px oklch(0% 0 0 / 0.04);
 }
 /* ─── Glass（苹果毛玻璃，v8） ───
@@ -903,10 +900,10 @@ input[type="range"]::-webkit-slider-thumb {
   pointer-events: none;
   background: radial-gradient(
     340px circle at var(--mouse-x) var(--mouse-y),
-    color-mix(in oklch, var(--accent) 12%, transparent),
+    color-mix(in oklch, var(--accent) 6%, transparent),
     transparent 65%
   );
-  opacity: var(--spot-opacity);
+  opacity: calc(var(--spot-opacity) * 0.35);
   transition: opacity 0.3s var(--ease-out-soft);
 }
 .spotlight-card:hover::before {
