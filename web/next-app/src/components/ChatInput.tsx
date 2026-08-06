@@ -160,13 +160,18 @@ export function ChatInput() {
   }
 
   return (
-    <div className='px-4 py-3 bg-[var(--surface)] border-t border-[var(--rule)]'>
-      <div className='max-w-3xl mx-auto'>
+    <div className='px-4 py-3 relative'>
+      <div className='absolute inset-0 pointer-events-none' style={{
+        background: 'var(--glass-bg)',
+        WebkitBackdropFilter: 'blur(20px) saturate(1.8)',
+        backdropFilter: 'blur(20px) saturate(1.8)',
+      }} />
+      <div className='relative max-w-3xl mx-auto'>
         {images.length > 0 && (
           <div className='flex gap-2 mb-2 flex-wrap'>
             {images.map((img, i) => (
               <div key={i} className='relative group'>
-                <img src={img} className='h-16 w-auto rounded-lg object-cover border border-[var(--border)]' />
+                <img src={img} className='h-16 w-auto rounded-xl object-cover border border-[var(--border)]' />
                 <button onClick={() => removeImage(i)} className='absolute -top-1.5 -right-1.5 btn-icon w-5 h-5 rounded-full bg-[var(--surface)] shadow-sm opacity-0 group-hover:opacity-100'>
                   <X className='w-2.5 h-2.5' strokeWidth={2} />
                 </button>
@@ -174,7 +179,7 @@ export function ChatInput() {
             ))}
           </div>
         )}
-        <div className='flex items-end gap-2 surface-inset px-3 py-2 rounded-xl'>
+        <div className='flex items-end gap-1.5 surface-inset px-2 py-1.5 rounded-[20px] focus-within:shadow-[0_0_0_3px_var(--accent-ring)] transition-shadow duration-200'>
           <label className='btn-icon cursor-pointer shrink-0' data-tooltip='Upload image'>
             <input type='file' accept='image/*' className='hidden' onChange={(e) => {
               const file = e.target.files?.[0];
@@ -195,10 +200,14 @@ export function ChatInput() {
           />
           <button
             onClick={handleSend}
-            className='shrink-0 flex items-center justify-center px-3 py-2 rounded-xl text-white font-medium text-sm btn-primary'
+            className='shrink-0 flex items-center justify-center w-8 h-8 rounded-full text-white font-medium text-sm transition-all duration-150'
+            style={{
+              background: 'var(--accent)',
+              boxShadow: 'inset 0 1px 0 0 color-mix(in oklch, white 22%, transparent), inset 0 -1px 0 0 color-mix(in oklch, black 14%, transparent), var(--shadow-sm)',
+            }}
             aria-label={streaming ? 'Stop' : 'Send'}
           >
-            {streaming ? <Square className='w-4 h-4' strokeWidth={1.5} /> : <Send className='w-4 h-4' strokeWidth={1.5} />}
+            {streaming ? <Square className='w-3.5 h-3.5' strokeWidth={1.5} /> : <Send className='w-3.5 h-3.5' strokeWidth={1.5} />}
           </button>
         </div>
       </div>

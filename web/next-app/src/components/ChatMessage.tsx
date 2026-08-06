@@ -16,6 +16,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
   const addKnowledgeNotes = useStore((s) => s.addKnowledgeNotes)
   const isUser = message.role === 'user'
   const isError = message.role === 'assistant' && message.content.startsWith('\u26a0')
+  const isStreaming = isUser === false && message.content === '' && message.role === 'assistant'
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(message.content)
@@ -46,11 +47,14 @@ export function ChatMessage({ message }: ChatMessageProps) {
     <div className='flex gap-3 max-w-3xl mx-auto w-full animate-[msg-in_0.35s_cubic-bezier(0.16,1,0.3,1)_both]'>
       <div className='flex-shrink-0 mt-0.5'>
         <div
-          className='w-8 h-8 rounded-lg flex items-center justify-center text-xs font-medium font-keystroke'
+          className='w-8 h-8 rounded-xl flex items-center justify-center text-xs font-medium font-keystroke shadow-sm'
           style={{
             background: isUser ? 'var(--accent)' : isError ? 'var(--danger)' : 'var(--surface-raised)',
             color: isUser || isError ? 'var(--text-on-accent)' : 'var(--text-muted)',
             border: isUser || isError ? 'none' : '1px solid var(--border)',
+            boxShadow: isUser
+              ? 'inset 0 1px 0 0 color-mix(in oklch, white 20%, transparent), var(--shadow-sm)'
+              : undefined,
           }}
         >
           {monogram}
@@ -59,11 +63,14 @@ export function ChatMessage({ message }: ChatMessageProps) {
 
       <div className='flex-1 group min-w-0'>
         <div
-          className='px-4 py-3 text-sm leading-relaxed rounded-lg'
+          className='px-4 py-3 text-sm leading-relaxed rounded-2xl'
           style={{
             background: isUser ? 'var(--user-bubble)' : 'var(--surface)',
             color: isUser ? 'var(--user-text)' : 'var(--text)',
             border: isUser ? 'none' : '1px solid var(--border)',
+            boxShadow: isUser
+              ? 'inset 0 1px 0 0 color-mix(in oklch, white 18%, transparent), inset 0 -1px 0 0 color-mix(in oklch, black 12%, transparent), var(--shadow-sm)'
+              : 'inset 0 1px 0 0 color-mix(in oklch, white 6%, transparent), var(--shadow-ambient)',
           }}
         >
           {isUser ? (
@@ -71,7 +78,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
               {message.images && message.images.length > 0 && (
                 <div className="flex gap-2 flex-wrap mb-1">
                   {message.images.map((img, i) => (
-                    <img key={i} src={img} className="h-32 w-auto rounded-lg object-cover border border-[var(--border)]" />
+                    <img key={i} src={img} className="h-32 w-auto rounded-xl object-cover border border-white/20" />
                   ))}
                 </div>
               )}
@@ -86,7 +93,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
                   ))}
                 </div>
               )}
-              <div className='prose prose-sm max-w-none'>
+              <div className={'prose prose-sm max-w-none' + (isStreaming ? ' stream-caret' : '')}>
                 <ReactMarkdown>{message.content}</ReactMarkdown>
               </div>
             </>

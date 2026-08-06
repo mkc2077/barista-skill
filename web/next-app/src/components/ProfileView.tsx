@@ -426,7 +426,7 @@ function SectionGroup({
   // 共享噪点 SVG data URI（内层 url(#n) 不能含单引号，会与 JS 字符串冲突）
 const NOISE_SVG = 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 200\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'2\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' fill=\'white\' filter=\'url(%23n)\'/%3E%3C/svg%3E")'
   return (
-    <section className='relative surface p-5 overflow-hidden'>
+    <section className='relative surface glow-border p-5 overflow-hidden'>
       <div className='absolute inset-0 opacity-[0.025] pointer-events-none' style={{ backgroundImage: NOISE_SVG }} />
       <div className='relative'>
         <div className='flex items-center justify-between mb-1'>

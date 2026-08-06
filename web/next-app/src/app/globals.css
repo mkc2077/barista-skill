@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@100;200;300;400;500;600&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -24,86 +24,96 @@
 
 /* ─── Fonts ─── */
 
-/* ─── Theme: Light（暖奶咖纸感 + 咖啡金强调，v7 P3e.2 大幅可见升级） ─── */
+/* ─── Theme: Light（暖奶咖纸感 + 咖啡金强调，v8 苹果味通透化） ─── */
 .theme-light {
-  --page: oklch(94.5% 0.018 75);
-  --surface: oklch(98% 0.010 75);
-  --surface-raised: oklch(96% 0.013 75);
-  --surface-inset: oklch(91% 0.016 75);
+  --page: oklch(95.5% 0.016 75);
+  --surface: oklch(98.8% 0.008 75);
+  --surface-raised: oklch(97% 0.012 75);
+  --surface-inset: oklch(92.5% 0.014 75);
 
-  --text: oklch(22% 0.020 70);
-  --text-secondary: oklch(40% 0.018 70);
-  --text-muted: oklch(55% 0.015 70);
-  --text-faint: oklch(70% 0.013 70);
-  --text-on-accent: oklch(98% 0 0);
+  --text: oklch(21% 0.018 70);
+  --text-secondary: oklch(39% 0.016 70);
+  --text-muted: oklch(54% 0.014 70);
+  --text-faint: oklch(70% 0.012 70);
+  --text-on-accent: oklch(99% 0 0);
 
-  --accent: oklch(54% 0.135 70);
-  --accent-hover: oklch(47% 0.130 70);
-  --accent-bg: oklch(54% 0.135 70 / 0.12);
-  --accent-ring: oklch(54% 0.135 70 / 0.30);
+  --accent: oklch(53% 0.132 70);
+  --accent-hover: oklch(46% 0.128 70);
+  --accent-bg: oklch(53% 0.132 70 / 0.10);
+  --accent-ring: oklch(53% 0.132 70 / 0.28);
 
-  --border: oklch(86% 0.014 70);
-  --border-strong: oklch(78% 0.018 70);
-  --rule: oklch(22% 0.020 70 / 0.12);
+  --border: oklch(87% 0.013 70);
+  --border-strong: oklch(79% 0.016 70);
+  --rule: oklch(21% 0.018 70 / 0.10);
 
-  --user-bubble: oklch(48% 0.130 70);
-  --user-text: oklch(98% 0 0);
-  --assistant-bubble: #fafaf6;
+  --user-bubble: oklch(47% 0.128 70);
+  --user-text: oklch(99% 0 0);
+  --assistant-bubble: #fbfaf6;
 
   --danger: #c62828;
   --danger-bg: #fce8e8;
   --success: #2e7d32;
 
-  --scrollbar-thumb: oklch(82% 0.014 70);
+  --scrollbar-thumb: oklch(83% 0.012 70);
   --scrollbar-track: transparent;
 
-  --shadow-ambient: 0 1px 2px oklch(20% 0.05 60 / 0.06), 0 4px 16px oklch(54% 0.13 70 / 0.10);
-  --shadow-sm: 0 1px 2px oklch(0% 0 0 / 0.05);
-  --shadow-md: 0 4px 12px oklch(28% 0.08 60 / 0.10);
-  --shadow-lg: 0 12px 40px oklch(28% 0.08 60 / 0.14);
+  --shadow-ambient: 0 1px 2px oklch(20% 0.05 60 / 0.05), 0 2px 8px oklch(54% 0.13 70 / 0.06), 0 12px 32px oklch(54% 0.13 70 / 0.06);
+  --shadow-sm: 0 1px 2px oklch(0% 0 0 / 0.04);
+  --shadow-md: 0 2px 6px oklch(28% 0.08 60 / 0.07), 0 8px 24px oklch(28% 0.08 60 / 0.07);
+  --shadow-lg: 0 8px 20px oklch(28% 0.08 60 / 0.10), 0 24px 64px oklch(28% 0.08 60 / 0.14);
 
-  --grain-opacity: 0.025;
+  --glass-bg: oklch(99% 0.006 75 / 0.72);
+  --glass-border: oklch(100% 0 0 / 0.65);
+  --glass-highlight: oklch(100% 0 0 / 0.9);
+  --glass-shadow: 0 8px 32px oklch(20% 0.05 60 / 0.12);
+
+  --grain-opacity: 0.02;
 }
 
-/* ─── Theme: Dark（暖咖啡石墨 + 咖啡金强调，v7 P3e.2 大幅可见升级） ─── */
+/* ─── Theme: Dark（暖咖啡石墨 + 咖啡金强调，v8 苹果味高级石墨化） ─── */
 .theme-dark {
-  --page: oklch(15% 0.018 60);
-  --surface: oklch(20% 0.022 60);
-  --surface-raised: oklch(24% 0.026 60);
-  --surface-inset: oklch(13% 0.016 60);
+  --page: oklch(14% 0.014 60);
+  --surface: oklch(19% 0.018 60);
+  --surface-raised: oklch(23% 0.022 60);
+  --surface-inset: oklch(12% 0.012 60);
 
-  --text: oklch(94% 0.010 65);
-  --text-secondary: oklch(78% 0.012 65);
-  --text-muted: oklch(62% 0.014 65);
-  --text-faint: oklch(48% 0.010 65);
+  --text: oklch(95% 0.008 65);
+  --text-secondary: oklch(79% 0.010 65);
+  --text-muted: oklch(63% 0.012 65);
+  --text-faint: oklch(49% 0.010 65);
   --text-on-accent: oklch(13% 0.020 50);
 
-  --accent: oklch(72% 0.145 75);
-  --accent-hover: oklch(64% 0.140 75);
-  --accent-bg: oklch(72% 0.145 75 / 0.14);
-  --accent-ring: oklch(72% 0.145 75 / 0.32);
+  --accent: oklch(73% 0.140 75);
+  --accent-hover: oklch(65% 0.135 75);
+  --accent-bg: oklch(73% 0.140 75 / 0.12);
+  --accent-ring: oklch(73% 0.140 75 / 0.30);
 
-  --border: oklch(28% 0.020 60);
-  --border-strong: oklch(36% 0.024 60);
-  --rule: oklch(94% 0.010 65 / 0.10);
+  --border: oklch(27% 0.016 60);
+  --border-strong: oklch(36% 0.020 60);
+  --rule: oklch(95% 0.008 65 / 0.09);
 
-  --user-bubble: oklch(50% 0.130 70);
+  --user-bubble: oklch(49% 0.126 70);
   --user-text: oklch(96% 0 0);
-  --assistant-bubble: oklch(24% 0.024 60);
+  --assistant-bubble: oklch(23% 0.020 60);
 
   --danger: #ef5350;
   --danger-bg: oklch(30% 0.08 20);
   --success: #66bb6a;
 
-  --scrollbar-thumb: oklch(32% 0.010 250);
+  --scrollbar-thumb: oklch(33% 0.010 250);
   --scrollbar-track: transparent;
 
-  --shadow-ambient: 0 2px 8px rgba(0,0,0,0.45), 0 8px 32px rgba(0,0,0,0.30);
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.30);
-  --shadow-md: 0 4px 16px rgba(0,0,0,0.40);
-  --shadow-lg: 0 12px 48px rgba(0,0,0,0.50);
+  --shadow-ambient: 0 1px 2px rgba(0,0,0,0.35), 0 4px 16px rgba(0,0,0,0.22), 0 12px 40px rgba(0,0,0,0.14);
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.25);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.32), 0 12px 32px rgba(0,0,0,0.18);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,0.42), 0 32px 80px rgba(0,0,0,0.30);
 
-  --grain-opacity: 0.028;
+  --glass-bg: oklch(22% 0.02 60 / 0.66);
+  --glass-border: oklch(100% 0 0 / 0.09);
+  --glass-highlight: oklch(100% 0 0 / 0.14);
+  --glass-shadow: 0 8px 32px rgba(0,0,0,0.45);
+
+  --grain-opacity: 0.03;
 }
 
 /* ─── 模块专属强调色（v7 P3c.2：data-module 切换主题主色） ───
@@ -186,9 +196,10 @@ html, body {
   padding: 0;
   background: var(--page);
   color: var(--text);
-  font-family: 'PingFang SC', 'Microsoft YaHei', 'Inter', -apple-system, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'PingFang SC', 'HarmonyOS Sans SC', 'Microsoft YaHei', 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
@@ -198,48 +209,50 @@ body {
   background-color: var(--page);
 }
 
-/* ─── 应用主背景（v7 P3e.2 显著可见升级：opacity 3-5% → 9-16%） ───
-   咖啡色阶：浅烘（oklch 88）→ 中烘（58）→ 深烘（28）三段斜向
-   + 顶部 accent 径向暗角 + 右下角大咖啡元素水印（V60 滤杯，6-7% opacity，全屏可见） */
+::selection {
+  background: var(--accent-bg);
+  color: var(--text);
+}
+
+/* ─── 应用主背景（v8：苹果味通透 + 咖啡色阶水印） ───
+   浅烘（oklch 88）→ 中烘（58）→ 深烘（28）三段斜向
+   + 顶部细高光带（纸感）+ accent 径向暗角 + V60 滤杯水印 */
 .app-bg {
   background-color: var(--page);
   background-image:
-    /* 大咖啡元素水印（V60 滤杯，全屏固定右下，6% opacity，深色主题更明显） */
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cg fill='none' stroke='%23000' stroke-width='1.4' opacity='0.07'%3E%3Cpath d='M120 80 L280 80 L240 360 L160 360 Z'/%3E%3Cpath d='M280 150 Q340 150 340 200 Q340 250 290 250'/%3E%3Cpath d='M176 50 Q168 30 184 14'/%3E%3Cpath d='M210 56 Q218 36 202 18'/%3E%3Cpath d='M244 50 Q236 30 252 14'/%3E%3C/g%3E%3C/svg%3E"),
-    /* 顶部 accent 径向 */
-    radial-gradient(ellipse 70% 60% at 50% 0%, color-mix(in oklch, var(--accent) 12%, transparent) 0%, transparent 60%),
-    /* 右下深焦糖暖色斑 */
-    radial-gradient(circle at 100% 100%, color-mix(in oklch, oklch(35% 0.10 50) 14%, transparent) 0%, transparent 50%),
-    /* 左上浅奶咖色斑 */
-    radial-gradient(circle at 0% 0%, color-mix(in oklch, oklch(92% 0.025 80) 22%, transparent) 0%, transparent 45%),
-    /* 浅烘 → 中烘 → 深烘 三段斜向主色阶 */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cg fill='none' stroke='%23000' stroke-width='1.4' opacity='0.06'%3E%3Cpath d='M120 80 L280 80 L240 360 L160 360 Z'/%3E%3Cpath d='M280 150 Q340 150 340 200 Q340 250 290 250'/%3E%3Cpath d='M176 50 Q168 30 184 14'/%3E%3Cpath d='M210 56 Q218 36 202 18'/%3E%3Cpath d='M244 50 Q236 30 252 14'/%3E%3C/g%3E%3C/svg%3E"),
+    linear-gradient(180deg, color-mix(in oklch, white 55%, transparent) 0%, transparent 16rem),
+    radial-gradient(ellipse 70% 60% at 50% 0%, color-mix(in oklch, var(--accent) 10%, transparent) 0%, transparent 60%),
+    radial-gradient(circle at 100% 100%, color-mix(in oklch, oklch(35% 0.10 50) 12%, transparent) 0%, transparent 50%),
+    radial-gradient(circle at 0% 0%, color-mix(in oklch, oklch(92% 0.025 80) 18%, transparent) 0%, transparent 45%),
     linear-gradient(135deg,
-      color-mix(in oklch, oklch(88% 0.04 80) 14%, transparent) 0%,
-      color-mix(in oklch, oklch(60% 0.08 65) 10%, transparent) 48%,
-      color-mix(in oklch, oklch(28% 0.06 50) 16%, transparent) 100%
+      color-mix(in oklch, oklch(88% 0.04 80) 12%, transparent) 0%,
+      color-mix(in oklch, oklch(60% 0.08 65) 8%, transparent) 48%,
+      color-mix(in oklch, oklch(28% 0.06 50) 14%, transparent) 100%
     );
-  background-position: right bottom, top center, right bottom, left top, center;
-  background-size: 56% auto, auto, auto, auto, auto;
-  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
-  background-attachment: fixed, fixed, fixed, fixed, fixed;
+  background-position: right bottom, top center, top center, right bottom, left top, center;
+  background-size: 56% auto, auto, auto, auto, auto, auto;
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  background-attachment: fixed, fixed, fixed, fixed, fixed, fixed;
 }
 
-/* 深色主题下大咖啡元素水印更显眼 + 渐变更饱和 */
+/* 深色主题下大咖啡元素水印更显眼 + 顶部高光改为冷白微光 */
 .theme-dark.app-bg {
   background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.4' opacity='0.10'%3E%3Cpath d='M120 80 L280 80 L240 360 L160 360 Z'/%3E%3Cpath d='M280 150 Q340 150 340 200 Q340 250 290 250'/%3E%3Cpath d='M176 50 Q168 30 184 14'/%3E%3Cpath d='M210 56 Q218 36 202 18'/%3E%3Cpath d='M244 50 Q236 30 252 14'/%3E%3C/g%3E%3C/svg%3E"),
-    radial-gradient(ellipse 70% 60% at 50% 0%, color-mix(in oklch, var(--accent) 16%, transparent) 0%, transparent 60%),
-    radial-gradient(circle at 100% 100%, color-mix(in oklch, oklch(35% 0.10 50) 18%, transparent) 0%, transparent 50%),
-    radial-gradient(circle at 0% 0%, color-mix(in oklch, oklch(35% 0.06 70) 12%, transparent) 0%, transparent 45%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.4' opacity='0.09'%3E%3Cpath d='M120 80 L280 80 L240 360 L160 360 Z'/%3E%3Cpath d='M280 150 Q340 150 340 200 Q340 250 290 250'/%3E%3Cpath d='M176 50 Q168 30 184 14'/%3E%3Cpath d='M210 56 Q218 36 202 18'/%3E%3Cpath d='M244 50 Q236 30 252 14'/%3E%3C/g%3E%3C/svg%3E"),
+    linear-gradient(180deg, color-mix(in oklch, white 4%, transparent) 0%, transparent 18rem),
+    radial-gradient(ellipse 70% 60% at 50% 0%, color-mix(in oklch, var(--accent) 15%, transparent) 0%, transparent 60%),
+    radial-gradient(circle at 100% 100%, color-mix(in oklch, oklch(35% 0.10 50) 16%, transparent) 0%, transparent 50%),
+    radial-gradient(circle at 0% 0%, color-mix(in oklch, oklch(35% 0.06 70) 10%, transparent) 0%, transparent 45%),
     linear-gradient(135deg,
-      color-mix(in oklch, oklch(28% 0.04 60) 18%, transparent) 0%,
-      color-mix(in oklch, oklch(20% 0.04 65) 12%, transparent) 48%,
-      color-mix(in oklch, oklch(14% 0.04 50) 22%, transparent) 100%
+      color-mix(in oklch, oklch(28% 0.04 60) 16%, transparent) 0%,
+      color-mix(in oklch, oklch(20% 0.04 65) 10%, transparent) 48%,
+      color-mix(in oklch, oklch(14% 0.04 50) 20%, transparent) 100%
     );
-  background-position: right bottom, top center, right bottom, left top, center;
-  background-size: 56% auto, auto, auto, auto, auto;
-  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
-  background-attachment: fixed, fixed, fixed, fixed, fixed;
+  background-position: right bottom, top center, top center, right bottom, left top, center;
+  background-size: 56% auto, auto, auto, auto, auto, auto;
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  background-attachment: fixed, fixed, fixed, fixed, fixed, fixed;
 }
 
 /* ─── Grain texture overlay ─── */
@@ -401,28 +414,28 @@ html::before {
   background-color: var(--surface);
   /* 极轻的纸感纹理 + 顶部 1px 高光带：让卡片脱离纯色平铺 */
   background-image:
-    linear-gradient(180deg, color-mix(in oklch, var(--text) 4%, transparent) 0%, transparent 1.2rem),
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+    linear-gradient(180deg, color-mix(in oklch, var(--text) 3%, transparent) 0%, transparent 1rem),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
   background-blend-mode: normal, overlay;
   border: 1px solid var(--border);
-  border-top-color: color-mix(in oklch, var(--text) 8%, var(--border));
-  border-radius: 14px;
+  border-top-color: color-mix(in oklch, var(--text) 7%, var(--border));
+  border-radius: 16px;
   box-shadow:
-    inset 0 1px 0 0 color-mix(in oklch, white 6%, transparent),
+    inset 0 1px 0 0 color-mix(in oklch, white 7%, transparent),
     var(--shadow-ambient);
 }
 
 .surface-raised {
   background-color: var(--surface-raised);
   background-image:
-    linear-gradient(180deg, color-mix(in oklch, var(--text) 6%, transparent) 0%, transparent 1.4rem),
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    linear-gradient(180deg, color-mix(in oklch, var(--text) 5%, transparent) 0%, transparent 1.2rem),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
   background-blend-mode: normal, overlay;
   border: 1px solid var(--border-strong);
-  border-top-color: color-mix(in oklch, var(--text) 10%, var(--border-strong));
-  border-radius: 14px;
+  border-top-color: color-mix(in oklch, var(--text) 9%, var(--border-strong));
+  border-radius: 16px;
   box-shadow:
-    inset 0 1px 0 0 color-mix(in oklch, white 8%, transparent),
+    inset 0 1px 0 0 color-mix(in oklch, white 9%, transparent),
     var(--shadow-md);
 }
 
@@ -433,12 +446,85 @@ html::before {
   background-blend-mode: overlay;
   border: 1px solid var(--border);
   border-radius: 14px;
+  box-shadow: inset 0 1px 2px oklch(0% 0 0 / 0.04);
+}
+
+/* ─── Glass（苹果毛玻璃，v8） ───
+   顶部高光带 + 半透明 bg + 细边框 + 外投影；深色/浅色主题都用同一套变量 */
+.glass {
+  position: relative;
+  background-color: var(--glass-bg);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  backdrop-filter: blur(20px) saturate(1.8);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  box-shadow:
+    inset 0 1px 0 0 var(--glass-highlight),
+    var(--glass-shadow);
+}
+
+.glass-thin {
+  position: relative;
+  background-color: var(--glass-bg);
+  -webkit-backdrop-filter: blur(12px) saturate(1.6);
+  backdrop-filter: blur(12px) saturate(1.6);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  box-shadow:
+    inset 0 1px 0 0 var(--glass-highlight),
+    var(--shadow-ambient);
+}
+
+/* ─── Apple 微光边框（hover 时边框泛起一缕光，v8） ─── */
+.glow-border {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  transition: border-color 0.25s var(--ease-out-soft), box-shadow 0.25s var(--ease-out-soft);
+}
+.glow-border::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, color-mix(in oklch, var(--accent) 55%, transparent), transparent 40%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s var(--ease-out-soft);
+  pointer-events: none;
+}
+.glow-border:hover {
+  border-color: color-mix(in oklch, var(--accent) 35%, var(--border));
+  box-shadow: 0 0 0 3px var(--accent-ring);
+}
+.glow-border:hover::after {
+  opacity: 1;
 }
 
 /* ─── Rule ─── */
 .rule {
   border: none;
   border-top: 1px solid var(--rule);
+}
+
+/* ─── 主题切换平滑过渡（苹果味：变主题时表面层淡入淡出，不影响按钮动效） ─── */
+html.theme-light .surface, html.theme-dark .surface,
+html.theme-light .surface-raised, html.theme-dark .surface-raised,
+html.theme-light .surface-inset, html.theme-dark .surface-inset,
+html.theme-light .glass, html.theme-dark .glass,
+html.theme-light .app-bg, html.theme-dark .app-bg {
+  transition: background-color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.theme-light .surface, html.theme-dark .surface,
+  html.theme-light .surface-raised, html.theme-dark .surface-raised,
+  html.theme-light .surface-inset, html.theme-dark .surface-inset,
+  html.theme-light .glass, html.theme-dark .glass {
+    transition: none;
+  }
 }
 
 /* ─── Buttons ─── */
@@ -450,7 +536,7 @@ html::before {
   padding: 0.625rem 1.25rem;
   font-size: 0.8125rem;
   font-weight: 500;
-  border-radius: 9px;
+  border-radius: 10px;
   border: none;
   cursor: pointer;
   font-family: inherit;
@@ -469,12 +555,18 @@ html::before {
 .btn-primary {
   background: var(--accent);
   color: var(--text-on-accent);
-  box-shadow: var(--shadow-sm);
+  box-shadow:
+    inset 0 1px 0 0 color-mix(in oklch, white 22%, transparent),
+    inset 0 -1px 0 0 color-mix(in oklch, black 14%, transparent),
+    var(--shadow-sm);
 }
 
 .btn-primary:hover:not(:disabled) {
   background: var(--accent-hover);
-  box-shadow: var(--shadow-md);
+  box-shadow:
+    inset 0 1px 0 0 color-mix(in oklch, white 18%, transparent),
+    inset 0 -1px 0 0 color-mix(in oklch, black 14%, transparent),
+    var(--shadow-md);
   transform: translateY(-1px);
 }
 
@@ -864,4 +956,127 @@ input[type="range"]::-webkit-slider-thumb {
   transform: scale(calc(var(--dock-max-scale, 1.18) * 1.12));
   z-index: 2;
   position: relative;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   v8 Apple-grade 质感层二：蒸汽 / 液体 / streaming / 细线光效
+   ════════════════════════════════════════════════════════════════ */
+
+/* 蒸汽动画（咖啡杯热气，Welcome/Hero 装饰用）：
+   三段飘升 + 摆动 + 消散，纯 CSS 关键帧，零 JS */
+.steam {
+  position: absolute;
+  bottom: 0;
+  width: 4px;
+  height: 28px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, transparent 0%, color-mix(in oklch, var(--text) 16%, transparent) 50%, transparent 100%);
+  filter: blur(1.5px);
+  animation: steam-rise 3.2s var(--ease-out-soft) infinite;
+  opacity: 0;
+  pointer-events: none;
+}
+@keyframes steam-rise {
+  0%   { transform: translateY(0) translateX(0) scaleY(1); opacity: 0; }
+  18%  { opacity: 0.9; }
+  55%  { transform: translateY(-34px) translateX(3px) scaleY(1.25); opacity: 0.55; }
+  82%  { transform: translateY(-64px) translateX(-2px) scaleY(1.5); opacity: 0.18; }
+  100% { transform: translateY(-84px) translateX(1px) scaleY(1.7); opacity: 0; }
+}
+
+/* 液体流动细光（长条卡片上的一条极细流动光带，咖啡金） */
+.liquid-sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  overflow: hidden;
+}
+.liquid-sheen::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  left: -60%;
+  width: 220%;
+  height: 70%;
+  transform: rotate(8deg);
+  background: linear-gradient(180deg, transparent 0%, color-mix(in oklch, var(--accent) 14%, transparent) 50%, transparent 100%);
+  animation: sheen-slide 6.5s var(--ease-out-soft) infinite;
+}
+@keyframes sheen-slide {
+  0%   { transform: translateX(-30%) rotate(8deg); opacity: 0; }
+  12%  { opacity: 1; }
+  38%  { transform: translateX(28%) rotate(8deg); opacity: 0; }
+  100% { transform: translateX(28%) rotate(8deg); opacity: 0; }
+}
+
+/* streaming 打字光标：跟随流式输出的琥珀细线 */
+.stream-caret::after {
+  content: '';
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  border-radius: 1px;
+  background: var(--accent);
+  animation: caret-blink 1s steps(1) infinite;
+}
+@keyframes caret-blink {
+  0%, 55% { opacity: 1; }
+  56%, 100% { opacity: 0; }
+}
+
+/* 呼吸微光（用于「正在生成」状态点 / 高亮徽章） */
+.pulse-glow {
+  animation: pulse-glow 2.4s var(--ease-out-soft) infinite;
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-ring); }
+  50% { box-shadow: 0 0 0 6px color-mix(in oklch, var(--accent) 0%, transparent); }
+}
+
+/* 页面进入的柔焦上升（比 msg-in 更慢更柔，适合整块 view 出现） */
+.view-enter {
+  animation: view-in 0.55s var(--ease-out-expo) both;
+}
+@keyframes view-in {
+  from { opacity: 0; transform: translateY(10px); filter: blur(4px); }
+  to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+/* 细字阶字重 utility（苹果 SF 味：超大标题用 200/300） */
+.t-weight-thin   { font-weight: 200; }
+.t-weight-light  { font-weight: 300; }
+.t-weight-regular{ font-weight: 400; }
+.t-weight-medium { font-weight: 500; }
+
+/* 滚动容器隐藏条（苹果设置列表风，配合自定义 scrollbar） */
+.scroll-slim::-webkit-scrollbar { width: 5px; }
+.scroll-slim::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 5px; }
+.scroll-slim::-webkit-scrollbar-track { background: transparent; }
+
+/* AppleCard：苹果触感卡片（react-bits PressableCard 移植，v8）——
+   hover 微浮 1px + 聚光；active 按压 iOS 式 scale 0.98 */
+.apple-card {
+  position: relative;
+  cursor: pointer;
+  border-radius: 16px;
+  transition:
+    transform 0.25s var(--ease-out-soft),
+    box-shadow 0.25s var(--ease-out-soft),
+    border-color 0.25s var(--ease-out-soft);
+  will-change: transform;
+}
+.apple-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+.apple-card:active {
+  transform: scale(0.98);
+  box-shadow: var(--shadow-md);
+  transition-duration: 0.12s;
+}
+.apple-card:hover .spotlight-card::before {
+  opacity: 1;
 }

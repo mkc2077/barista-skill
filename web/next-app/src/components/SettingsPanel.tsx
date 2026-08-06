@@ -141,10 +141,14 @@ export function SettingsPanel() {
   const hasApiKey = settings.apiKey || settings.provider === 'ollama'
 
   return (
-    <div className='fixed inset-0 z-50 flex items-center justify-center'>
-      <div className='absolute inset-0 bg-black/30 backdrop-blur-sm' onClick={() => close(false)} />
+    <div className='fixed inset-0 z-50 flex items-center justify-center p-4'>
+      <div
+        className='absolute inset-0'
+        style={{ background: 'color-mix(in oklch, var(--page) 55%, transparent)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}
+        onClick={() => close(false)}
+      />
 
-      <div className='surface relative w-[92%] max-w-md max-h-[88vh] overflow-y-auto p-6 animate-[fade-in_0.2s_ease_both]'>
+      <div className='glass relative w-full max-w-md max-h-[88vh] overflow-y-auto p-6 animate-[view-in_0.45s_cubic-bezier(0.16,1,0.3,1)_both] scroll-slim'>
         <button onClick={() => close(false)} className='absolute top-4 right-4 btn-icon w-8 h-8' aria-label='Close'>
           <X className='w-4 h-4' strokeWidth={1.5} />
         </button>
@@ -154,7 +158,7 @@ export function SettingsPanel() {
 
         {/* v7 P4：未配置时的 3 步快速开始（小白引导，复用下方现有字段） */}
         {!hasApiKey && (
-          <div className='mb-5 rounded-lg border border-[var(--border)] bg-[var(--surface-inset)] p-3 space-y-2'>
+          <div className='mb-5 rounded-xl border border-[var(--border)] bg-[var(--surface-inset)] p-3 space-y-2'>
             <p className='text-xs font-medium text-[var(--text)]'>快速开始（3 步）</p>
             <ol className='space-y-1.5 text-xs text-[var(--text-secondary)]'>
               <li className='flex items-center gap-1.5'>
@@ -424,10 +428,11 @@ export function SettingsPanel() {
         <button
           onClick={handleSave}
           disabled={saved}
-          className={
-            'btn w-full mt-3 ' +
-            (saved ? 'btn-primary' : 'btn-primary')
-          }
+          className='btn w-full mt-3'
+          style={{
+            background: saved ? 'var(--success)' : 'var(--accent)',
+            color: 'var(--text-on-accent)',
+          }}
         >
           {saved ? <Check className='w-4 h-4' strokeWidth={1.5} /> : <Save className='w-4 h-4' strokeWidth={1.5} />}
           {saved ? '已保存' : '保存'}

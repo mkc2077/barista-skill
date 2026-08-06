@@ -26,7 +26,6 @@ export function Sidebar() {
   const [editTitle, setEditTitle] = useState('')
 
   const setModule = (id: ModuleId) => {
-    // v7 P3d：点击模块按钮直接进入该模块的独立页面（而不是只切 currentModule）
     updateSettings({ currentModule: id })
     setViewMode(id)
   }
@@ -35,15 +34,20 @@ export function Sidebar() {
     <>
       <div
         className={
-          'bg-[var(--surface)] border-r border-[var(--border)] flex flex-col shrink-0 overflow-hidden sidebar-transition ' +
-          (sidebarOpen ? 'w-64' : 'w-0')
+          'glass relative z-10 border-r border-[var(--glass-border)] flex flex-col shrink-0 overflow-hidden sidebar-transition ' +
+          (sidebarOpen ? 'w-64' : 'w-0 border-r-0')
         }
       >
         {sidebarOpen && (
           <div className='flex flex-col h-full animate-[fade-in_0.2s_ease_both]'>
             <div className='px-4 pt-4 pb-3 flex items-center justify-between'>
               <div className='flex items-center gap-2'>
-                <Coffee className='w-4 h-4' style={{ color: 'var(--accent)' }} strokeWidth={1.5} />
+                <div
+                  className='w-6 h-6 rounded-full flex items-center justify-center'
+                  style={{ background: 'var(--accent-bg)', color: 'var(--accent)' }}
+                >
+                  <Coffee className='w-3.5 h-3.5' strokeWidth={1.5} />
+                </div>
                 <span className='text-xs font-keystroke text-[var(--text-muted)] tracking-wider'>
                   BARISTA
                 </span>
@@ -53,29 +57,30 @@ export function Sidebar() {
               </button>
             </div>
 
-            {/* 模块切换器（v7 P3c）—— 6 个专注域（点击切模块，主题色随之变）；v7 P3e.1 Dock 磁悬浮 */}
-            <div className='px-2 pb-2'>
-              <p className='px-2 pb-1.5 text-[10px] font-keystroke uppercase tracking-widest text-[var(--text-faint)]'>
+            {/* 模块切换器 —— pill 式 dock */}
+            <div className='px-3 pb-2'>
+              <p className='px-1 pb-1.5 text-[10px] font-keystroke uppercase tracking-widest text-[var(--text-faint)]'>
                 模块 / Modules
               </p>
-              <div className='grid grid-cols-2 gap-1'>
+              <div className='grid grid-cols-2 gap-1.5'>
                 {MODULES.map((m) => {
                   const isActive = currentModule === m.id
                   return (
-                    <DockItem key={m.id}>
+                    <DockItem key={m.id} className='dock-item'>
                       <button
                         onClick={() => setModule(m.id)}
                         title={m.description.zh}
                         data-tooltip={m.description.zh}
                         className={
-                          'w-full flex items-center gap-1.5 px-2 py-1.5 text-xs rounded-md border transition-colors duration-150 ' +
+                          'w-full flex items-center gap-1.5 px-2.5 py-1.5 text-xs rounded-full border transition-all duration-200 ' +
                           (isActive
-                            ? 'border-[var(--accent)] bg-[var(--accent-bg)] text-[var(--text)]'
+                            ? 'border-transparent text-[var(--text)] shadow-sm'
                             : 'border-[var(--border)] text-[var(--text-muted)] hover:border-[var(--accent)] hover:text-[var(--text)]')
                         }
+                        style={isActive ? { background: 'var(--accent-bg)', boxShadow: 'inset 0 1px 0 0 var(--glass-highlight), var(--shadow-sm)' } : undefined}
                       >
                         <span
-                          className='inline-block w-2.5 h-2.5 rounded-full shrink-0'
+                          className='inline-block w-2 h-2 rounded-full shrink-0'
                           style={{ background: m.accent[theme === 'dark' ? 'dark' : 'light'] }}
                         />
                         {m.label.zh}
@@ -86,7 +91,11 @@ export function Sidebar() {
               </div>
             </div>
 
-            <div className='flex-1 overflow-y-auto px-2 py-1 space-y-0.5'>
+            {/* 会话列表 —— app 式分组 */}
+            <div className='flex-1 overflow-y-auto px-2 py-1 space-y-0.5 scroll-slim'>
+              <p className='px-2 pb-1 pt-1 text-[10px] font-keystroke uppercase tracking-widest text-[var(--text-faint)]'>
+                会话 / Sessions
+              </p>
               {conversations.length === 0 ? (
                 <p className='px-3 py-6 text-xs text-[var(--text-faint)] text-center'>
                   No sessions yet
@@ -97,7 +106,7 @@ export function Sidebar() {
                     key={conv.id}
                     onClick={() => select(conv.id)}
                     className={
-                      'group flex items-center gap-2.5 px-3 py-2 rounded-lg cursor-pointer transition-colors duration-150 ' +
+                      'group flex items-center gap-2.5 px-3 py-2 rounded-xl cursor-pointer transition-all duration-150 ' +
                       (conv.id === currentId
                         ? 'bg-[var(--accent-bg)] text-[var(--text)]'
                         : 'text-[var(--text-secondary)] hover:bg-[var(--surface-inset)] hover:text-[var(--text)]')
@@ -179,7 +188,7 @@ export function Sidebar() {
 
       <button
         onClick={toggleSidebar}
-        className='absolute top-3 left-3 z-20 btn-icon w-8 h-8 rounded-lg bg-[var(--surface)] border border-[var(--border)] shadow-sm'
+        className='absolute top-3 left-3 z-30 btn-icon w-8 h-8 rounded-lg glass-thin shadow-sm'
       >
         {sidebarOpen ? <PanelLeftClose className='w-3.5 h-3.5' strokeWidth={1.5} /> : <PanelLeftOpen className='w-3.5 h-3.5' strokeWidth={1.5} />}
       </button>

@@ -17,6 +17,8 @@
 
 ### 方式一：纯浏览器（零依赖）/ Option A: Browser-only (zero deps)
 
+> ⚠️ **注意**：`barista-chat.html` 是 **v4.x 时代的遗留轻量版**（单文件原型，2026-08-04 起保留）。当前主线是 **Next.js v7 版**（`web/next-app/`，含模块化工作流 / 材料库 / 本地知识库 / 主题系统 / 一键 exe）。单文件版仅用于快速体验，功能与视觉不再跟进新版本。
+
 1. 双击打开 `barista-chat.html`（任何现代浏览器：Chrome / Edge / Firefox / Safari）。
 2. 点击右上角 ⚙ 设置图标。
 3. 选择 API 供应商 → 填入 API Key →（可选）调整 Base URL / 模型名 / 温度。
@@ -65,16 +67,16 @@ npm run dev
 
 ## 版本对比 / Version Comparison
 
-| | 单文件 HTML (`barista-chat.html`) | Next.js 版 (`web/next-app/`) | MCP Server (`mcp-server/`) |
+| | 单文件 HTML (`barista-chat.html`) · 遗留轻量版 | Next.js 版 (`web/next-app/`) · 当前主线 | MCP Server (`mcp-server/`) |
 |---|---|---|---|
-| 运行环境 | 浏览器（纯前端） | Node.js + 浏览器 | Python 进程 |
+| 运行环境 | 浏览器（纯前端） | Node.js + 浏览器（或一键 exe） | Python 进程 |
 | 依赖 | 零依赖 | npm install | pip install |
 | 多对话管理 | 单对话 | 多对话（侧边栏） | N/A |
-| 主题切换 | 单一主题 | 4 种咖啡主题 | N/A |
+| 主题切换 | 单一主题（v7 色板同步） | 6 模块专属主题 + 7 种强调色预设 | N/A |
+| 模块工作流 | 无 | 手冲/意式/奶咖/特调/SCA/感官 独立页面 | N/A |
 | 本地模型发现 | 手动填写 | 自动发现 | N/A |
 | 导入/导出 | 不支持 | 支持 | N/A |
-| 数据源 | 内嵌系统提示词（静态） | 内嵌系统提示词 + MCP 动态查询 | 28 个 JSON 数据文件 |
-| 工具调用 | 可选 MCP（[v4.2]） | 可选 MCP（[v4.3]） | 24 个双语 MCP 工具 |
+| 本地知识库 | 无 | 收藏配方 / 笔记 / 自动注入 | 29 个双语 MCP 工具 |
 | 适用场景 | 快速体验、零安装 | 日常使用、完整功能 | Agent 平台集成 |
 
 ## 隐私 / Privacy

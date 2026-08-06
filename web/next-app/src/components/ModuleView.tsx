@@ -91,7 +91,7 @@ export function ModuleView({ moduleId }: { moduleId: ModuleId }) {
           )}
 
           {/* 字段表单 */}
-          <section className='module-form-bg surface p-5 mb-4 relative overflow-hidden'>
+          <section className='module-form-bg surface glow-border p-5 mb-4 relative overflow-hidden'>
             <div className='flex items-center justify-between mb-3'>
               <h2 className='font-editorial text-lg text-[var(--text)]'>配置你的 {m.label.zh} 参数</h2>
               <span className='text-[10px] font-keystroke uppercase tracking-widest text-[var(--text-muted)]'>{filled}/{total} 已填</span>
@@ -293,7 +293,7 @@ function FieldInput({ field, value, onChange }: {
 
 function AskWater({ onAnswer }: { onAnswer: (mode: 'required' | 'skip', detail?: string) => void }) {
   return (
-    <section className='surface p-5 border-l-2' style={{ borderLeftColor: 'var(--accent)' }}>
+    <section className='surface glow-border p-5 border-l-2' style={{ borderLeftColor: 'var(--accent)' }}>
       <div className='flex items-center gap-2 mb-2'>
         <Droplets className='w-4 h-4' style={{ color: 'var(--accent)' }} strokeWidth={1.5} />
         <h3 className='eyebrow !m-0'>第 1 步 · 水质</h3>
@@ -312,7 +312,7 @@ function AskWater({ onAnswer }: { onAnswer: (mode: 'required' | 'skip', detail?:
 function AskWaterDetail({ m, onConfirm }: { m: ModuleConfig; onConfirm: (detail: string) => void }) {
   const [rec, setRec] = useState('')
   return (
-    <section className='surface p-5 border-l-2' style={{ borderLeftColor: 'var(--accent)' }}>
+    <section className='surface glow-border p-5 border-l-2' style={{ borderLeftColor: 'var(--accent)' }}>
       <p className='text-sm text-[var(--text)] mb-2'>告诉我你的偏好：</p>
       <div className='space-y-2'>
         {[
@@ -348,7 +348,7 @@ function AskWaterDetail({ m, onConfirm }: { m: ModuleConfig; onConfirm: (detail:
 
 function AskUseGear({ onAnswer }: { onAnswer: (ans: 'yes' | 'no') => void }) {
   return (
-    <section className='surface p-5 border-l-2' style={{ borderLeftColor: 'var(--accent)' }}>
+    <section className='surface glow-border p-5 border-l-2' style={{ borderLeftColor: 'var(--accent)' }}>
       <div className='flex items-center gap-2 mb-2'>
         <Package className='w-4 h-4' style={{ color: 'var(--accent)' }} strokeWidth={1.5} />
         <h3 className='eyebrow !m-0'>第 2 步 · 已有器具</h3>
@@ -394,7 +394,7 @@ function PlanOutput({ generic, masters, waterMode, waterDetail, useExistingGear,
     <>
       {/* 水质建议 */}
       {waterMode === 'required' && (
-        <section className='surface p-5 border-l-2' style={{ borderLeftColor: 'var(--accent)' }}>
+        <section className='surface glow-border p-5 border-l-2' style={{ borderLeftColor: 'var(--accent)' }}>
           <div className='flex items-center gap-2 mb-2'>
             <Droplets className='w-4 h-4' style={{ color: 'var(--accent)' }} strokeWidth={1.5} />
             <h3 className='eyebrow !m-0'>水质推荐</h3>
@@ -405,7 +405,7 @@ function PlanOutput({ generic, masters, waterMode, waterDetail, useExistingGear,
 
       {/* 通用手法 + 大师手法 */}
       <div className='grid md:grid-cols-2 gap-3'>
-        <SpotlightCard className='surface p-5'>
+        <SpotlightCard className='surface glow-border p-5'>
           <div className='flex items-center justify-between mb-3'>
             <h3 className='font-editorial text-base text-[var(--text)]'>{generic.title}</h3>
             <button
@@ -426,7 +426,7 @@ function PlanOutput({ generic, masters, waterMode, waterDetail, useExistingGear,
             ))}
           </ol>
         </SpotlightCard>
-        <SpotlightCard className='surface p-5'>
+        <SpotlightCard className='surface glow-border p-5'>
           <h3 className='font-editorial text-base text-[var(--text)] mb-3'>大师 / 博主手法</h3>
           {masters.length > 0 ? masters.map((sop, i) => (
             <div key={sop.id} className='mb-3 last:mb-0 pb-3 border-b border-[var(--rule)] last:border-0'>

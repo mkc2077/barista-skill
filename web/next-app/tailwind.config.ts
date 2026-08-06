@@ -30,7 +30,7 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["PingFang SC", "Microsoft YaHei", "Inter", "sans-serif"],
+        sans: ["-apple-system", "BlinkMacSystemFont", "SF Pro Display", "SF Pro Text", "PingFang SC", "Microsoft YaHei", "Inter", "sans-serif"],
         editorial: ["Instrument Serif", "Georgia", "serif"],
         keystroke: ["JetBrains Mono", "Fira Code", "monospace"],
       },
@@ -42,6 +42,9 @@ const config: Config = {
       animation: {
         "msg-in": "msg-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) both",
         "fade-in": "fade-in 0.3s ease both",
+        "view-in": "view-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) both",
+        "steam-rise": "steam-rise 3.2s cubic-bezier(0.32, 0.72, 0, 1) infinite",
+        "pulse-glow": "pulse-glow 2.4s cubic-bezier(0.32, 0.72, 0, 1) infinite",
       },
       keyframes: {
         "msg-in": {
@@ -52,18 +55,34 @@ const config: Config = {
           from: { opacity: "0" },
           to: { opacity: "1" },
         },
+        "view-in": {
+          from: { opacity: "0", transform: "translateY(10px)", filter: "blur(4px)" },
+          to: { opacity: "1", transform: "translateY(0)", filter: "blur(0)" },
+        },
+        "steam-rise": {
+          "0%": { transform: "translateY(0) translateX(0) scaleY(1)", opacity: "0" },
+          "18%": { opacity: "0.9" },
+          "55%": { transform: "translateY(-34px) translateX(3px) scaleY(1.25)", opacity: "0.55" },
+          "82%": { transform: "translateY(-64px) translateX(-2px) scaleY(1.5)", opacity: "0.18" },
+          "100%": { transform: "translateY(-84px) translateX(1px) scaleY(1.7)", opacity: "0" },
+        },
+        "pulse-glow": {
+          "0%, 100%": { boxShadow: "0 0 0 0 var(--accent-ring)" },
+          "50%": { boxShadow: "0 0 0 6px transparent" },
+        },
       },
       boxShadow: {
         ambient: "var(--shadow-ambient)",
         "sm": "var(--shadow-sm)",
         "md": "var(--shadow-md)",
         "lg": "var(--shadow-lg)",
+        "glass": "var(--glass-shadow)",
       },
       borderRadius: {
-        card: "10px",
-        btn: "9px",
+        card: "16px",
+        btn: "10px",
         tag: "6px",
-        modal: "14px",
+        modal: "18px",
       },
       transitionTimingFunction: {
         "calm": "cubic-bezier(0.32, 0.72, 0, 1)",

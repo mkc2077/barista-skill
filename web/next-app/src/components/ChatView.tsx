@@ -43,8 +43,13 @@ export function ChatView() {
 
   return (
     <div className='flex flex-col h-screen'>
-      <header className='flex items-center justify-between px-6 py-3.5 border-b border-[var(--rule)] bg-[var(--surface)]'>
-        <div className='flex items-center gap-3 min-w-0 ml-12'>
+      <header className='relative flex items-center justify-between px-6 py-3.5 border-b border-[var(--rule)]'>
+        <div className='absolute inset-0 pointer-events-none' style={{
+          background: 'var(--glass-bg)',
+          WebkitBackdropFilter: 'blur(20px) saturate(1.8)',
+          backdropFilter: 'blur(20px) saturate(1.8)',
+        }} />
+        <div className='relative flex items-center gap-3 min-w-0 ml-12'>
           <span className='px-1.5 py-0.5 rounded-md text-[10px] font-keystroke uppercase tracking-widest border border-[var(--accent)] bg-[var(--accent-bg)] text-[var(--text)] shrink-0'>
             {getModule(current.moduleId || settings.currentModule).label.zh}
           </span>
@@ -57,7 +62,7 @@ export function ChatView() {
             </h2>
           </div>
         </div>
-        <div className='flex items-center gap-1'>
+        <div className='relative flex items-center gap-1'>
           <button onClick={() => openSettings(true)} className='btn-icon' data-tooltip='Settings'>
             <Settings className='w-4 h-4' strokeWidth={1.5} />
           </button>
