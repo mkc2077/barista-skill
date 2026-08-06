@@ -69,11 +69,21 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             # 仅 os._exit 只能杀子进程，父进程会残留。这里按镜像名整树结束。
             threading.Thread(target=_quit_tree, daemon=True).start()
             return
+        # 静态资源禁止浏览器缓存：exe 升级后必须加载新 chunk，
+        # 否则浏览器会用旧 JS（例如旧的「每个模块都有粉碗尺寸」产物）——v7 P3e.5 修复
         fs_path = self.translate_path(self.path)
         if not os.path.exists(fs_path):
             # 单页应用回退：未知路径统一返回 index.html
             self.path = "/index.html"
-        return super().do_GET()
+        resp = super().do_GET()
+        try:
+            if self.path.endswith((".js", ".mjs", ".css", ".html", ".json", ".svg", ".png", ".ico", ".webp", ".ttf", ".woff", ".woff2")):
+                self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
+                self.send_header("Pragma", "no-cache")
+                self.send_header("Expires", "0")
+        except Exception:
+            pass
+        return resp
 
     def guess_type(self, path):
         # 强制 .js / .mjs 为 text/javascript，浏览器严格 MIME 检查下才能执行
