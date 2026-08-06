@@ -1571,7 +1571,7 @@ def main() -> None:
     """Entry point used by the console script `barista-mcp`.
 
     Default: stdio transport (for MCP clients like Claude Desktop / TRAE / Cursor).
-    With --http: streamable-http on localhost:8765 (for browser clients like web/barista-chat.html).
+    With --http: streamable-http on localhost:8765 (for MCP web clients; the built-in exe/next-app talks to it).
     """
     import argparse
     parser = argparse.ArgumentParser(description="Barista MCP Server")
