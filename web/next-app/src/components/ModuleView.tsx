@@ -20,7 +20,7 @@ import {
   getModule, MASTER_SOPS, MILK_BRANDS, FILTER_BRANDS, TEA_RECIPES, ESPRESSO_PRESETS, ICED_POUR_GUIDES,
   type ModuleId, type ModuleConfig, type ModuleField, type MasterSOP, type MilkBrand, type FilterBrand, type TeaBaseRecipe, type EspressoPreset, type IcedPourGuide,
 } from '@/lib/modules'
-import { ModuleHeroGlyph } from '@/lib/module-glyphs'
+import { ModuleHeroGlyph, ModuleHeroIllustration } from '@/lib/module-glyphs'
 import { SpotlightCard } from '@/components/SpotlightCard'
 import BlurText from './motion/BlurText'
 import Magnet from './motion/Magnet'
@@ -80,7 +80,7 @@ export function ModuleView({ moduleId }: { moduleId: ModuleId }) {
   if (!submitted) {
     return (
       <div className='flex-1 min-h-0 overflow-y-auto'>
-        <Hero moduleId={moduleId} m={m} Icon={Icon} setViewMode={setViewMode} />
+        <Hero moduleId={moduleId} m={m} setViewMode={setViewMode} />
         <div className='max-w-2xl mx-auto px-6 py-6'>
           {/* 已有材料提示（用户填了之后这里显示用还是不用） */}
           {hasExisting && (
@@ -122,7 +122,7 @@ export function ModuleView({ moduleId }: { moduleId: ModuleId }) {
   // 结果页
   return (
     <div className='flex-1 min-h-0 overflow-y-auto'>
-      <Hero moduleId={moduleId} m={m} Icon={Icon} setViewMode={setViewMode} resultMode />
+      <Hero moduleId={moduleId} m={m} setViewMode={setViewMode} resultMode />
       <div className='max-w-2xl mx-auto px-6 py-6 space-y-5'>
         {/* 你的输入 */}
         <section className='surface p-5'>
@@ -183,54 +183,72 @@ export function ModuleView({ moduleId }: { moduleId: ModuleId }) {
 
 /* ─── 子组件 ─── */
 
-function Hero({ moduleId, m, Icon, setViewMode, resultMode }: {
+function Hero({ moduleId, m, setViewMode, resultMode }: {
   moduleId: ModuleId; m: ModuleConfig;
-  Icon: React.ComponentType<{ className?: string; strokeWidth?: number; style?: React.CSSProperties }>;
   setViewMode: (m: 'chat' | 'profile' | ModuleId) => void;
   resultMode?: boolean;
 }) {
   return (
     <header
-      className='module-hero-bg relative px-6 py-8 border-b border-[var(--rule)] overflow-hidden'
+      className='hero-bath relative px-6 py-8 md:py-12 overflow-hidden'
+      style={{ minHeight: 280 }}
     >
-      <div className='absolute top-0 left-0 right-0 h-[3px]' style={{ background: 'var(--accent)' }} />
+      <div className='hero-cloud' aria-hidden='true' />
+
+      {/* 印象派大背景插画（中央，超模糊，跟随 hero 主色） */}
       <div
-        className='absolute inset-0 opacity-[0.04] pointer-events-none'
+        className='absolute inset-0 pointer-events-none'
         style={{
-          backgroundImage:
-            'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 200 200\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'2\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' fill=\'white\' filter=\'url(%23n)\'/%3E%3C/svg%3E")',
+          color: 'var(--hue, currentColor)',
+          opacity: 0.85,
         }}
-      />
-      {/* 模块专属装饰 SVG（右上角） */}
-      <div
-        className='absolute right-4 top-4 md:right-8 md:top-6 opacity-20 pointer-events-none hidden sm:block'
-        style={{ color: 'var(--accent)' }}
       >
-        <ModuleHeroGlyph moduleId={moduleId} className='w-28 h-28 md:w-36 md:h-36' />
-      </div>
-      <div className='relative max-w-2xl mx-auto flex items-start justify-between gap-4'>
-        <div>
-          <div className='flex items-center gap-2 mb-2'>
-            <Icon className='w-3.5 h-3.5' style={{ color: 'var(--accent)' }} strokeWidth={1.5} />
-            <span className='eyebrow'>{m.label.en}</span>
-          </div>
-          <h1 className='font-editorial text-3xl text-[var(--text)] leading-tight'>
-            <BlurText text={m.label.zh} delay={0.05} animateBy='letters' className='font-editorial text-3xl' stepDuration={0.04} />
-          </h1>
-          <p className='text-xs text-[var(--text-muted)] mt-1.5 max-w-md'>{m.description.zh}</p>
+        <div className='absolute inset-x-0 top-1/2 -translate-y-1/2 h-[440px]'>
+          <ModuleHeroIllustration moduleId={moduleId} className='w-full h-full' />
         </div>
-        <button
-          onClick={() => setViewMode('chat')}
-          className='flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--border)] text-xs text-[var(--text-secondary)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors shrink-0'
-        >
-          <ArrowLeft className='w-3.5 h-3.5' strokeWidth={1.5} />
-          返回对话
-        </button>
+      </div>
+
+      <div className='hero-content relative max-w-3xl mx-auto'>
+        {/* 顶部：圆环 logo（左）+ 返回按钮（右） */}
+        <div className='flex items-center justify-between mb-8 md:mb-10'>
+          <div className='hero-mark'>
+            <svg viewBox='0 0 48 48' fill='none' stroke='currentColor' strokeWidth='1'>
+              <circle cx='24' cy='24' r='20' />
+              <circle cx='24' cy='24' r='12' />
+              <circle cx='24' cy='24' r='4' fill='currentColor' />
+            </svg>
+            <span className='hero-mark-eyebrow'>{m.label.en}</span>
+          </div>
+          <button
+            onClick={() => setViewMode('chat')}
+            className='hero-back'
+          >
+            <ArrowLeft className='w-3.5 h-3.5' strokeWidth={1.5} />
+            Back
+          </button>
+        </div>
+
+        {/* 主体：英文大写 tracked + 中文衬线副标题 */}
+        <div className='text-center mb-8'>
+          <div className='font-hero-eyebrow mb-3'>
+            Module / {resultMode ? 'Recipe Output' : 'Pour-Over'}
+          </div>
+          <h1 className='font-hero-display mb-3'>{m.label.zh}</h1>
+          <p className='font-hero-cn'>{m.description.zh}</p>
+        </div>
+
+        {/* 底部 hairline + 小字版权 */}
+        <div className='flex items-center gap-4 max-w-md mx-auto'>
+          <div className='hero-hair flex-1' />
+          <span className='font-hero-eyebrow' style={{ letterSpacing: '0.4em' }}>
+            Barista · No.{String(['pourover','espresso','milk','craft','sca','sensory'].indexOf(moduleId) + 1).padStart(2, '0')}
+          </span>
+          <div className='hero-hair flex-1' />
+        </div>
       </div>
     </header>
   )
 }
-
 function FieldInput({ field, value, onChange }: {
   field: ModuleField
   value: string

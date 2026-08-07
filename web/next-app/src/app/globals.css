@@ -1042,3 +1042,133 @@ input[type="range"]::-webkit-slider-thumb {
 .apple-card:hover .spotlight-card::before {
   opacity: 1;
 }
+
+
+/* ==========================================================================
+   CONACH 豆卡风 v11 — 模块 Hero 沉浸色调海报
+   灵感：C:\Users\ROG\Desktop\\u8c46卡\ 6 张咖啡豆卡
+   配方：深底 + 主色浸染 + noise + 大写 tracked 字 + 中文装饰副标题 + 圆环 logo
+   范围：仅模块 Hero（独立层，不跟随 light/dark）；聊天/表单区保持中性
+   ========================================================================== */
+
+:root {
+  --hue-pourover:   #E8A4A8;
+  --hue-espresso:   #C2503A;
+  --hue-milk:       #A8C49A;
+  --hue-craft:      #7FB3C4;
+  --hue-sca:        #D4B36A;
+  --hue-sensory:    #E8973A;
+  --hero-ink:       #0a0a0c;
+  --hero-paper:     #f5f3ee;
+}
+
+.hero-bath {
+  position: relative;
+  background: var(--hero-ink);
+  color: var(--hero-paper);
+  overflow: hidden;
+  isolation: isolate;
+}
+.hero-bath::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(80% 65% at 50% 38%, var(--hue, #E8A4A8) 0%, transparent 62%);
+  opacity: 0.55;
+  mix-blend-mode: screen;
+  z-index: 0;
+}
+.hero-bath::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  z-index: 1;
+  pointer-events: none;
+}
+.hero-bath .hero-cloud {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(40% 30% at 20% 20%, rgba(255,255,255,0.06) 0%, transparent 60%),
+    radial-gradient(40% 35% at 80% 80%, rgba(0,0,0,0.22) 0%, transparent 60%);
+  z-index: 1;
+  pointer-events: none;
+}
+.hero-content { position: relative; z-index: 2; }
+
+.font-hero-display {
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  line-height: 0.95;
+  font-size: clamp(2.4rem, 6vw, 4.5rem);
+  color: var(--hero-paper);
+}
+.font-hero-cn {
+  font-family: var(--font-cn-serif), 'Source Han Serif SC', 'Noto Serif SC', 'Songti SC', serif;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  font-size: clamp(0.95rem, 1.4vw, 1.25rem);
+  color: rgba(245, 243, 238, 0.78);
+}
+.font-hero-eyebrow {
+  font-family: var(--font-inter), 'SF Mono', monospace;
+  font-weight: 400;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: rgba(245, 243, 238, 0.55);
+}
+
+.hero-hair {
+  height: 1px;
+  background: rgba(245, 243, 238, 0.18);
+  width: 100%;
+}
+
+.hero-mark {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: rgba(245, 243, 238, 0.78);
+}
+.hero-mark svg { width: 38px; height: 38px; }
+.hero-mark-eyebrow {
+  font-family: var(--font-inter), monospace;
+  font-weight: 500;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+}
+
+.hero-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 16px;
+  border: 1px solid rgba(245,243,238,0.20);
+  border-radius: 999px;
+  color: rgba(245,243,238,0.85);
+  background: transparent;
+  font-family: var(--font-inter), monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.20em;
+  transition: background 0.25s var(--ease-out-soft), border-color 0.25s var(--ease-out-soft);
+}
+.hero-back:hover {
+  background: rgba(245,243,238,0.06);
+  border-color: rgba(245,243,238,0.40);
+}
+
+[data-module="pourover"] .hero-bath { --hue: var(--hue-pourover); }
+[data-module="espresso"] .hero-bath { --hue: var(--hue-espresso); }
+[data-module="milk"]     .hero-bath { --hue: var(--hue-milk); }
+[data-module="craft"]    .hero-bath { --hue: var(--hue-craft); }
+[data-module="sca"]      .hero-bath { --hue: var(--hue-sca); }
+[data-module="sensory"]  .hero-bath { --hue: var(--hue-sensory); }
