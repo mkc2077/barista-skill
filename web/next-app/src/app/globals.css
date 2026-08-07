@@ -27,7 +27,7 @@
 .theme-light {
   /* 环境层 — 深 lacquer */
   --page: #0a0a0c;
-  --surface-inset: oklch(15% 0.014 60);
+  --surface-inset: oklch(93% 0.014 75);
 
   --text-secondary: rgba(245, 243, 238, 0.72);
   --text-muted: rgba(245, 243, 238, 0.52);
@@ -76,7 +76,7 @@
 .theme-dark {
   /* 环境层 — 更冷的深 lacquer */
   --page: #08080a;
-  --surface-inset: oklch(11% 0.012 60);
+  --surface-inset: oklch(91% 0.016 75);
 
   --text-secondary: rgba(245, 243, 238, 0.72);
   --text-muted: rgba(245, 243, 238, 0.52);
