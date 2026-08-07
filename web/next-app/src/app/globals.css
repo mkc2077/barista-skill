@@ -24,98 +24,104 @@
 
 /* ─── Fonts ─── */
 
-/* ─── Theme: Light（中性暖灰纸面 + 咖啡棕 accent，v10 推倒重做）
-   依据 impeccable/taste-skill 反模式清理：禁奶油米白底、禁彩色辉光、
-   禁纯黑白；背景纯色、hairline-first、阴影克制。 ─── */
 .theme-light {
-  --page: oklch(97% 0.007 95);
-  --surface: oklch(99.5% 0.004 95);
-  --surface-raised: oklch(98% 0.006 95);
-  --surface-inset: oklch(94.5% 0.008 95);
+  /* 环境层 — 深 lacquer */
+  --page: #0a0a0c;
+  --surface-inset: oklch(15% 0.014 60);
 
-  --text: oklch(22% 0.012 95);
-  --text-secondary: oklch(40% 0.010 95);
-  --text-muted: oklch(55% 0.008 95);
-  --text-faint: oklch(70% 0.006 95);
+  --text-secondary: rgba(245, 243, 238, 0.72);
+  --text-muted: rgba(245, 243, 238, 0.52);
+  --text-faint: rgba(245, 243, 238, 0.36);
+
+  --border: rgba(245, 243, 238, 0.10);
+  --border-strong: rgba(245, 243, 238, 0.18);
+  --rule: rgba(245, 243, 238, 0.08);
+
+  /* 工作纸卡片层 — 保持浅色高对比 */
+  --surface: oklch(97% 0.008 75);
+  --surface-raised: oklch(99.5% 0.004 75);
+
+  --text: oklch(22% 0.018 70);
   --text-on-accent: oklch(99% 0 0);
 
-  --accent: oklch(45% 0.085 60);
-  --accent-hover: oklch(39% 0.080 60);
-  --accent-bg: oklch(45% 0.085 60 / 0.10);
-  --accent-ring: oklch(45% 0.085 60 / 0.24);
+  --accent: var(--hue-pourover);
+  --accent-hover: oklch(45% 0.090 60);
+  --accent-bg: oklch(51% 0.100 65 / 0.10);
+  --accent-ring: oklch(51% 0.100 65 / 0.24);
 
-  --border: oklch(78% 0 0 / 0.16);
-  --border-strong: oklch(78% 0 0 / 0.30);
-  --rule: oklch(22% 0.012 95 / 0.09);
-
-  --user-bubble: oklch(45% 0.085 60);
+  --user-bubble: oklch(45% 0.090 65);
   --user-text: oklch(99% 0 0);
-  --assistant-bubble: oklch(99.5% 0.004 95);
+  --assistant-bubble: #fffefc;
 
   --danger: #c62828;
   --danger-bg: #fce8e8;
   --success: #2e7d32;
 
-  --scrollbar-thumb: oklch(84% 0.006 95);
+  --scrollbar-thumb: rgba(245, 243, 238, 0.18);
   --scrollbar-track: transparent;
 
-  --shadow-ambient: 0 1px 2px oklch(20% 0.02 60 / 0.05);
-  --shadow-sm: 0 1px 2px oklch(0% 0 0 / 0.04);
-  --shadow-md: 0 2px 10px oklch(0% 0 0 / 0.06);
-  --shadow-lg: 0 8px 32px oklch(0% 0 0 / 0.10);
+  --shadow-ambient: 0 1px 1px rgba(0,0,0,0.40), 0 2px 8px rgba(0,0,0,0.16);
+  --shadow-sm: 0 1px 1px rgba(0,0,0,0.30);
+  --shadow-md: 0 2px 8px rgba(0,0,0,0.30), 0 8px 24px rgba(0,0,0,0.16);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.40), 0 24px 64px rgba(0,0,0,0.24);
 
-  --glass-bg: oklch(99% 0.004 95 / 0.72);
-  --glass-border: oklch(100% 0 0 / 0.55);
-  --glass-highlight: oklch(100% 0 0 / 0.8);
-  --glass-shadow: 0 8px 24px oklch(20% 0.02 60 / 0.08);
+  --glass-bg: rgba(18, 18, 22, 0.55);
+  --glass-border: rgba(245, 243, 238, 0.10);
+  --glass-highlight: rgba(245, 243, 238, 0.14);
+  --glass-shadow: 0 8px 24px rgba(0,0,0,0.32);
 
-  --grain-opacity: 0;
+  --grain-opacity: 0.03;
 }
-/* ─── Theme: Dark（暖矿物黑 + 咖啡棕 accent，v10 推倒重做） ─── */
+
 .theme-dark {
-  --page: oklch(9.5% 0.006 90);
-  --surface: oklch(12.5% 0.008 90);
-  --surface-raised: oklch(15% 0.010 90);
-  --surface-inset: oklch(8% 0.005 90);
+  /* 环境层 — 更冷的深 lacquer */
+  --page: #08080a;
+  --surface-inset: oklch(11% 0.012 60);
 
-  --text: oklch(93% 0.004 90);
-  --text-secondary: oklch(76% 0.006 90);
-  --text-muted: oklch(60% 0.006 90);
-  --text-faint: oklch(46% 0.004 90);
-  --text-on-accent: oklch(13% 0.010 40);
+  --text-secondary: rgba(245, 243, 238, 0.72);
+  --text-muted: rgba(245, 243, 238, 0.52);
+  --text-faint: rgba(245, 243, 238, 0.32);
 
-  --accent: oklch(68% 0.100 65);
-  --accent-hover: oklch(61% 0.095 65);
-  --accent-bg: oklch(68% 0.100 65 / 0.13);
-  --accent-ring: oklch(68% 0.100 65 / 0.28);
+  --border: rgba(245, 243, 238, 0.10);
+  --border-strong: rgba(245, 243, 238, 0.18);
+  --rule: rgba(245, 243, 238, 0.08);
 
-  --border: oklch(100% 0 0 / 0.10);
-  --border-strong: oklch(100% 0 0 / 0.20);
-  --rule: oklch(93% 0.004 90 / 0.09);
+  /* 工作纸 — 黑色下用浅黄金纸 */
+  --surface: oklch(96% 0.012 80);
+  --surface-raised: oklch(98% 0.008 80);
 
-  --user-bubble: oklch(46% 0.085 60);
-  --user-text: oklch(96% 0 0);
-  --assistant-bubble: oklch(12.5% 0.008 90);
+  --text: oklch(20% 0.020 70);
+  --text-on-accent: oklch(13% 0.012 50);
+
+  --accent: var(--hue-pourover);
+  --accent-hover: oklch(45% 0.090 60);
+  --accent-bg: oklch(51% 0.100 65 / 0.10);
+  --accent-ring: oklch(51% 0.100 65 / 0.24);
+
+  --user-bubble: oklch(46% 0.090 65);
+  --user-text: oklch(99% 0 0);
+  --assistant-bubble: oklch(98% 0.006 80);
 
   --danger: #ef5350;
   --danger-bg: oklch(30% 0.08 20);
   --success: #66bb6a;
 
-  --scrollbar-thumb: oklch(30% 0.010 90);
+  --scrollbar-thumb: rgba(245, 243, 238, 0.16);
   --scrollbar-track: transparent;
 
-  --shadow-ambient: 0 1px 2px rgba(0,0,0,0.25);
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.20);
-  --shadow-md: 0 2px 10px rgba(0,0,0,0.30);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,0.40);
+  --shadow-ambient: 0 1px 1px rgba(0,0,0,0.50), 0 2px 8px rgba(0,0,0,0.30);
+  --shadow-sm: 0 1px 1px rgba(0,0,0,0.40);
+  --shadow-md: 0 2px 8px rgba(0,0,0,0.40), 0 8px 24px rgba(0,0,0,0.24);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.50), 0 24px 64px rgba(0,0,0,0.32);
 
-  --glass-bg: oklch(14% 0.008 90 / 0.66);
-  --glass-border: oklch(100% 0 0 / 0.10);
-  --glass-highlight: oklch(100% 0 0 / 0.12);
-  --glass-shadow: 0 8px 24px rgba(0,0,0,0.38);
+  --glass-bg: rgba(12, 12, 14, 0.60);
+  --glass-border: rgba(245, 243, 238, 0.10);
+  --glass-highlight: rgba(245, 243, 238, 0.14);
+  --glass-shadow: 0 8px 24px rgba(0,0,0,0.40);
 
-  --grain-opacity: 0;
+  --grain-opacity: 0.04;
 }
+
 /* ─── 模块专属强调色（v7 P3c.2：data-module 切换主题主色） ───
    每模块一个辨识度 accent，组件全部引用 var(--accent*)，覆盖即全站变色。
    与 slate 底协调：浅色主题用深 accent（对比足够），深色主题用亮 accent。 */
@@ -1172,3 +1178,139 @@ input[type="range"]::-webkit-slider-thumb {
 [data-module="craft"]    .hero-bath { --hue: var(--hue-craft); }
 [data-module="sca"]      .hero-bath { --hue: var(--hue-sca); }
 [data-module="sensory"]  .hero-bath { --hue: var(--hue-sensory); }
+
+
+/* ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════
+   v11 CONACH 全局深 lacquer 沉浸底 — 跟随模块 hue
+   使用方式：[data-module="..."] .app-bg-conach { --hue: ... }
+   ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
+.app-bg-conach {
+  position: relative;
+  background: var(--page);
+  overflow: hidden;
+  isolation: isolate;
+}
+.app-bg-conach::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60% 50% at 12% 8%, var(--hue, #E8A4A8) 0%, transparent 60%),
+    radial-gradient(45% 40% at 92% 100%, var(--hue, #E8A4A8) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,0.02) 0%, transparent 30%);
+  opacity: 0.18;
+  mix-blend-mode: screen;
+  z-index: 0;
+  pointer-events: none;
+}
+.app-bg-conach::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  z-index: 1;
+  pointer-events: none;
+}
+.app-bg-conach > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* 深底面板（Sidebar / Welcome / Settings / Chat 容器用） */
+.conach-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  border: 1px solid var(--glass-border);
+}
+
+/* 深底胶囊按钮（类似 Apple 按钮，引用模块主色边框 + 背景） */
+.conach-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(245, 243, 238, 0.20);
+  background: rgba(245, 243, 238, 0.04);
+  color: rgba(245, 243, 238, 0.88);
+  font-family: var(--font-inter), monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  transition: background 0.25s var(--ease-out-soft), border-color 0.25s var(--ease-out-soft);
+}
+.conach-pill-btn:hover {
+  background: rgba(245, 243, 238, 0.10);
+  border-color: rgba(245, 243, 238, 0.36);
+}
+
+/* 深底卡片（用于需要在深底上的底色卡片占位，如聊天记录中的“带颜色巾点”） */
+.conach-card {
+  background: rgba(18, 18, 22, 0.55);
+  backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid rgba(245, 243, 238, 0.10);
+  border-radius: 14px;
+  color: rgba(245, 243, 238, 0.92);
+}
+
+/* 深底 input 输入框 */
+.conach-input {
+  background: rgba(245, 243, 238, 0.04);
+  border: 1px solid rgba(245, 243, 238, 0.14);
+  color: rgba(245, 243, 238, 0.92);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, sans-serif;
+  transition: border-color 0.2s var(--ease-out-soft), background 0.2s var(--ease-out-soft);
+}
+.conach-input:focus {
+  outline: none;
+  border-color: var(--hue, var(--accent));
+  background: rgba(245, 243, 238, 0.06);
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--hue, var(--accent)) 22%, transparent);
+}
+.conach-input::placeholder {
+  color: rgba(245, 243, 238, 0.36);
+}
+
+/* 深底字体颜色工具类 */
+.text-conach {
+  color: rgba(245, 243, 238, 0.92);
+}
+.text-conach-soft {
+  color: rgba(245, 243, 238, 0.62);
+}
+.text-conach-faint {
+  color: rgba(245, 243, 238, 0.36);
+}
+
+/* 深底 hairline */
+.conach-hair {
+  height: 1px;
+  background: rgba(245, 243, 238, 0.10);
+}
+
+/* 工作纸卡片在深底上、依然高对比浅色（表单/设置项/账号记录） */
+.paper-card {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: 14px;
+}
+
+/* 默认 accent 随模块 hue 变（继承 page.tsx 的 data-module） */
+[data-module="pourover"] .conach-pill-btn { color: color-mix(in oklch, var(--hue-pourover) 80%, white); }
+[data-module="pourover"] .accent-themed { color: var(--hue-pourover); }
+[data-module="pourover"] .accent-themed-bg { background: var(--hue-pourover); color: var(--text-on-accent); }
+
+
+/* 主题色同步主题 hue — user-bubble/accent 跟随当前模块 */
+[data-module="pourover"]  { --accent: var(--hue-pourover);  --user-bubble: var(--hue-pourover); }
+[data-module="espresso"]  { --accent: var(--hue-espresso);  --user-bubble: var(--hue-espresso); }
+[data-module="milk"]      { --accent: var(--hue-milk);      --user-bubble: var(--hue-milk); }
+[data-module="craft"]     { --accent: var(--hue-craft);     --user-bubble: var(--hue-craft); }
+[data-module="sca"]       { --accent: var(--hue-sca);       --user-bubble: var(--hue-sca); }
+[data-module="sensory"]   { --accent: var(--hue-sensory);   --user-bubble: var(--hue-sensory); }

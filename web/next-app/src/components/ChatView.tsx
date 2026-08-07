@@ -50,14 +50,14 @@ export function ChatView() {
           backdropFilter: 'blur(20px) saturate(1.8)',
         }} />
         <div className='relative flex items-center gap-3 min-w-0 ml-12'>
-          <span className='px-1.5 py-0.5 rounded-md text-[10px] font-keystroke uppercase tracking-widest border border-[var(--accent)] bg-[var(--accent-bg)] text-[var(--text)] shrink-0'>
+          <span className='px-1.5 py-0.5 rounded-md text-[10px] font-keystroke uppercase tracking-widest border border-[var(--accent)] bg-[var(--accent-bg)] text-conach shrink-0'>
             {getModule(current.moduleId || settings.currentModule).label.zh}
           </span>
           <div className='flex flex-col gap-0.5 min-w-0'>
             <span className='text-[10px] font-keystroke uppercase tracking-widest text-[var(--text-muted)] truncate'>
               {meta.join('  ·  ')}
             </span>
-            <h2 className='font-editorial text-lg text-[var(--text)] truncate leading-tight'>
+            <h2 className='font-editorial text-lg text-conach truncate leading-tight'>
               {current.title}
             </h2>
           </div>
@@ -87,7 +87,7 @@ export function ChatView() {
           className='absolute bottom-24 right-6 z-10 p-2 rounded-full bg-[var(--surface-raised)] border border-[var(--border)] shadow-md'
           aria-label='Scroll to bottom'
         >
-          <ArrowDown className='w-4 h-4 text-[var(--text)]' strokeWidth={1.5} />
+          <ArrowDown className='w-4 h-4 text-conach' strokeWidth={1.5} />
         </button>
       )}
 

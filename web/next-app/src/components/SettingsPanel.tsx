@@ -148,18 +148,18 @@ export function SettingsPanel() {
         onClick={() => close(false)}
       />
 
-      <div className='glass relative w-full max-w-md max-h-[88vh] overflow-y-auto p-6 animate-[view-in_0.45s_cubic-bezier(0.16,1,0.3,1)_both] scroll-slim'>
+      <div className='conach-panel relative w-full max-w-md max-h-[88vh] overflow-y-auto p-6 animate-[view-in_0.45s_cubic-bezier(0.16,1,0.3,1)_both] scroll-slim text-conach rounded-2xl'>
         <button onClick={() => close(false)} className='absolute top-4 right-4 btn-icon w-8 h-8' aria-label='Close'>
           <X className='w-4 h-4' strokeWidth={1.5} />
         </button>
 
         <span className='eyebrow'>API Settings</span>
-        <h2 className='font-editorial text-2xl text-[var(--text)] mt-3 mb-5'>配置你的模型</h2>
+        <h2 className='font-editorial text-2xl text-conach mt-3 mb-5'>配置你的模型</h2>
 
         {/* v7 P4：未配置时的 3 步快速开始（小白引导，复用下方现有字段） */}
         {!hasApiKey && (
           <div className='mb-5 rounded-xl border border-[var(--border)] bg-[var(--surface-inset)] p-3 space-y-2'>
-            <p className='text-xs font-medium text-[var(--text)]'>快速开始（3 步）</p>
+            <p className='text-xs font-medium text-conach'>快速开始（3 步）</p>
             <ol className='space-y-1.5 text-xs text-[var(--text-secondary)]'>
               <li className='flex items-center gap-1.5'>
                 <span className='font-keystroke text-[var(--accent)]'>1</span>
@@ -244,7 +244,7 @@ export function SettingsPanel() {
                   className={
                     'px-2.5 py-1 text-xs rounded-full border transition-all ' +
                     (settings.model === model
-                      ? 'border-[var(--accent)] bg-[var(--accent-bg)] text-[var(--text)]'
+                      ? 'border-[var(--accent)] bg-[var(--accent-bg)] text-conach'
                       : 'border-[var(--border)] text-[var(--text-muted)] hover:border-[var(--accent)]')
                   }
                 >
@@ -264,7 +264,7 @@ export function SettingsPanel() {
         <div className='mb-4'>
           <label className='flex items-center justify-between text-xs font-medium text-[var(--text-muted)] mb-1.5'>
             <span>Temperature</span>
-            <span className='font-keystroke text-[var(--text)]'>{settings.temperature.toFixed(1)}</span>
+            <span className='font-keystroke text-conach'>{settings.temperature.toFixed(1)}</span>
           </label>
           <input
             type='range'
@@ -332,7 +332,7 @@ export function SettingsPanel() {
               {(settings.knowledge || []).slice().sort((a, b) => b.createdAt - a.createdAt).map(n => (
                 <div key={n.id} className='flex flex-col gap-1 text-xs border-t border-[var(--rule)] pt-1.5'>
                   <div className='flex items-start gap-1'>
-                    <span className='font-medium text-[var(--text)]'>{n.title}</span>
+                    <span className='font-medium text-conach'>{n.title}</span>
                     <span className='text-[var(--text-faint)]'>{n.category}</span>
                     <button onClick={() => removeKnowledge(n.id)} className='btn-icon w-4 h-4 ml-auto'><Trash2 className='w-3 h-3' strokeWidth={1.5} /></button>
                   </div>
@@ -351,7 +351,7 @@ export function SettingsPanel() {
                   onChange={(e) => update({ autoSyncOn: e.target.checked, lastSyncAt: e.target.checked ? settings.lastSyncAt : 0 })}
                   className='accent-[var(--accent)]'
                 />
-                <span className='text-[var(--text)]'>定期自动更新知识库</span>
+                <span className='text-conach'>定期自动更新知识库</span>
                 <span className='text-[var(--text-faint)]'>
                   {settings.lastSyncAt
                     ? `上次 ${new Date(settings.lastSyncAt).toLocaleDateString()}`

@@ -179,7 +179,7 @@ export function ChatInput() {
             ))}
           </div>
         )}
-        <div className='flex items-end gap-1.5 surface-inset px-2 py-1.5 rounded-[20px] focus-within:shadow-[0_0_0_3px_var(--accent-ring)] transition-shadow duration-200'>
+        <div className='flex items-end gap-1.5 conach-input !rounded-[20px] !py-1.5 !px-2 focus-within:shadow-[0_0_0_3px_color-mix(in_oklch,var(--accent)_28%,transparent)] transition-shadow duration-200'>
           <label className='btn-icon cursor-pointer shrink-0' data-tooltip='Upload image'>
             <input type='file' accept='image/*' className='hidden' onChange={(e) => {
               const file = e.target.files?.[0];
