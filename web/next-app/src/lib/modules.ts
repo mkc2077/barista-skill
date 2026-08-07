@@ -367,7 +367,7 @@ export const MODULES: ModuleConfig[] = [
     iconKey: 'CupSoda',
     fields: [
       { key: 'bean', label: '豆子信息', hint: '产地 / 处理法 / 烘焙度', type: 'text', placeholder: '如 巴西 / 日晒 / 中深烘 SOE' },
-      { key: 'basket', label: '粉碗尺寸', type: 'chips', options: [
+      { key: 'basket_size', label: '粉碗尺寸', type: 'chips', options: [
         { value: 'single', label: '单份 7g' },
         { value: 'double', label: '双份 14g' },
         { value: 'triple', label: '三份 18g' },

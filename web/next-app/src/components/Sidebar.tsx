@@ -218,8 +218,8 @@ export function Sidebar() {
 
       <button
         onClick={toggleSidebar}
-        className='absolute top-3 left-3 z-30 conach-pill-btn !p-2'
-        style={{ background: 'rgba(18,18,22,0.55)', backdropFilter: 'blur(20px)' }}
+        className='fixed top-3 left-3 z-50 conach-pill-btn !p-2 shadow-lg'
+        style={{ background: 'rgba(18,18,22,0.75)', backdropFilter: 'blur(20px)' }}
       >
         {sidebarOpen ? <PanelLeftClose className='w-3.5 h-3.5' strokeWidth={1.5} /> : <PanelLeftOpen className='w-3.5 h-3.5' strokeWidth={1.5} />}
       </button>

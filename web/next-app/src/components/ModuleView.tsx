@@ -276,11 +276,12 @@ function FieldInput({ field, value, onChange }: {
                   type='button'
                   onClick={() => onChange(active ? '' : o.value)}
                   className={
-                    'px-3 py-1.5 text-xs rounded-md border transition-colors ' +
+                    'px-3.5 py-2 text-xs rounded-full border transition-all duration-200 ' +
                     (active
-                      ? 'border-[var(--accent)] bg-[var(--accent-bg)] text-[var(--text)]'
-                      : 'border-[var(--border)] text-[var(--text-muted)] hover:border-[var(--accent)] hover:text-[var(--text)]')
+                      ? 'border-transparent text-[var(--text)] shadow-[inset_0_1px_0_0_color-mix(in_oklch,white_18%,transparent),0_1px_3px_color-mix(in_oklch,var(--accent)_32%,transparent)]'
+                      : 'border-[var(--border)] text-[var(--text-muted)] hover:border-[var(--accent)] hover:text-[var(--text)] hover:shadow-sm')
                   }
+                  style={active ? { background: 'var(--accent-bg)' } : undefined}
                   title={o.hint}
                 >
                   {o.label}
@@ -504,7 +505,7 @@ function buildGenericPlan(m: ModuleConfig, values: Record<string, string>, water
     steps.push(water)
   } else if (m.id === 'espresso') {
     const bean = values.bean || '你的豆子'
-    const basket = values.basket || 'double'
+    const basket = values.basket_size || 'double'
     const shot = values.shot || 'normale'
     const flow = values.flow || 'classic'
     steps.push(`${bean} 配 ${basket} 粉碗，目标萃取 ${shot}`)
