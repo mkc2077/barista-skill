@@ -49,7 +49,7 @@ export function WelcomeView() {
             <circle cx='32' cy='32' r='6' fill='currentColor' />
           </svg>
           <span className='font-hero-eyebrow text-conach-soft' style={{ letterSpacing: '0.32em' }}>
-            Barista \u00b7 Coffee Consultant
+            Barista · Coffee Consultant
           </span>
         </div>
 
@@ -60,11 +60,11 @@ export function WelcomeView() {
 
         {/* \u4e2d\u6587\u88c5\u9970\u526f\u6807\u9898 */}
         <p className='font-hero-cn mb-2 max-w-md mx-auto'>
-          \u987e\u95ee\u5f0f\u5bf9\u8bdd\uff0c\u8ffd\u95ee\u7ec6\u8282\uff0c\u676f\u4e2d\u7b54\u6848\u3002
+          顾问式对话，追问细节，杯中答案。
         </p>
 
         <p className='text-xs text-conach-faint mb-10 font-hero-eyebrow' style={{ letterSpacing: '0.28em' }}>
-          ONE VARIABLE \u00b7 ONE SLIP \u00b7 ONE STEP
+          ONE VARIABLE · ONE SLIP · ONE STEP
         </p>
 
         {/* \u80fd\u529b chips */}
@@ -116,7 +116,7 @@ export function WelcomeView() {
         <div className='flex items-center gap-4 max-w-sm mx-auto mt-12'>
           <div className='conach-hair flex-1' />
           <span className='font-hero-eyebrow text-conach-faint' style={{ letterSpacing: '0.4em' }}>
-            Barista \u00b7 No.00
+            Barista · No.00
           </span>
           <div className='conach-hair flex-1' />
         </div>

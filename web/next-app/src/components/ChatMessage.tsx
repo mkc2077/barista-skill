@@ -101,8 +101,8 @@ export function ChatMessage({ message }: ChatMessageProps) {
         </div>
 
         {!isUser && message.content && (
-          <div className='mt-1.5 flex items-center gap-3 text-xs text-[var(--text-faint)] opacity-0 group-hover:opacity-100 transition-opacity duration-200'>
-            <button onClick={handleCopy} className='flex items-center gap-1 hover:text-[var(--text-secondary)]'>
+          <div className='mt-1.5 flex items-center gap-3 text-xs text-conach-faint opacity-0 group-hover:opacity-100 transition-opacity duration-200'>
+            <button onClick={handleCopy} className='flex items-center gap-1 hover:text-conach'>
               {copied ? <Check className='w-3 h-3' strokeWidth={1.5} /> : <Copy className='w-3 h-3' strokeWidth={1.5} />}
               {copied ? '已复制' : '复制'}
             </button>

@@ -54,7 +54,7 @@ export function ChatView() {
             {getModule(current.moduleId || settings.currentModule).label.zh}
           </span>
           <div className='flex flex-col gap-0.5 min-w-0'>
-            <span className='text-[10px] font-keystroke uppercase tracking-widest text-[var(--text-muted)] truncate'>
+            <span className='text-[10px] font-keystroke uppercase tracking-widest text-conach-soft truncate'>
               {meta.join('  ·  ')}
             </span>
             <h2 className='font-editorial text-lg text-conach truncate leading-tight'>

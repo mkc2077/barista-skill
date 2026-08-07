@@ -29,9 +29,9 @@
   --page: #0a0a0c;
   --surface-inset: oklch(93% 0.014 75);
 
-  --text-secondary: rgba(245, 243, 238, 0.72);
-  --text-muted: rgba(245, 243, 238, 0.52);
-  --text-faint: rgba(245, 243, 238, 0.36);
+  --text-secondary: oklch(42% 0.014 70);
+  --text-muted: oklch(56% 0.012 70);
+  --text-faint: oklch(72% 0.010 70);
 
   --border: rgba(245, 243, 238, 0.10);
   --border-strong: rgba(245, 243, 238, 0.18);
@@ -78,9 +78,9 @@
   --page: #08080a;
   --surface-inset: oklch(91% 0.016 75);
 
-  --text-secondary: rgba(245, 243, 238, 0.72);
-  --text-muted: rgba(245, 243, 238, 0.52);
-  --text-faint: rgba(245, 243, 238, 0.32);
+  --text-secondary: oklch(42% 0.014 70);
+  --text-muted: oklch(56% 0.012 70);
+  --text-faint: oklch(72% 0.010 70);
 
   --border: rgba(245, 243, 238, 0.10);
   --border-strong: rgba(245, 243, 238, 0.18);

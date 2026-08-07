@@ -47,12 +47,9 @@ export function Sidebar() {
                   <circle cx='16' cy='16' r='8' />
                   <circle cx='16' cy='16' r='2.5' fill='currentColor' />
                 </svg>
-                <div className='flex flex-col'>
+                <div className='flex items-center gap-2'>
                   <span className='font-hero-eyebrow text-conach' style={{ letterSpacing: '0.30em' }}>
                     Barista
-                  </span>
-                  <span className='text-[10px] font-hero-eyebrow text-conach-faint mt-0.5' style={{ letterSpacing: '0.22em' }}>
-                    v7 · Café App
                   </span>
                 </div>
               </div>

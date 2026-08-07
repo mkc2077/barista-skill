@@ -160,7 +160,7 @@ export function SettingsPanel() {
         {!hasApiKey && (
           <div className='mb-5 rounded-xl border border-[var(--border)] bg-[var(--surface-inset)] p-3 space-y-2'>
             <p className='text-xs font-medium text-conach'>快速开始（3 步）</p>
-            <ol className='space-y-1.5 text-xs text-[var(--text-secondary)]'>
+            <ol className='space-y-1.5 text-xs text-conach'>
               <li className='flex items-center gap-1.5'>
                 <span className='font-keystroke text-[var(--accent)]'>1</span>
                 选择供应商（下方下拉框）
@@ -174,13 +174,13 @@ export function SettingsPanel() {
                 <span>（可选）填 AnySearch Key 开启联网搜索与知识库自动更新</span>
               </li>
             </ol>
-            <p className='text-[var(--text-faint)] text-xs'>完成后点右上角关闭，即可开始对话。</p>
+            <p className='text-conach-faint text-xs'>完成后点右上角关闭，即可开始对话。</p>
           </div>
         )}
 
         {/* Provider */}
         <div className='mb-4'>
-          <label className='block text-xs font-medium text-[var(--text-muted)] mb-1.5'>供应商</label>
+          <label className='block text-xs font-medium text-conach-soft mb-1.5'>供应商</label>
           <select value={settings.provider} onChange={(e) => handleProviderChange(e.target.value)} className='select'>
             <option value=''>-- 选择 --</option>
             {Object.entries(PROVIDERS).map(([key, p]) => (
@@ -191,7 +191,7 @@ export function SettingsPanel() {
 
         {/* API Key */}
         <div className='mb-4'>
-          <label className='block text-xs font-medium text-[var(--text-muted)] mb-1.5'>API Key</label>
+          <label className='block text-xs font-medium text-conach-soft mb-1.5'>API Key</label>
           <input
             type='password'
             value={settings.apiKey}
@@ -199,12 +199,12 @@ export function SettingsPanel() {
             placeholder='sk-...'
             className='input'
           />
-          <p className='text-xs text-[var(--text-faint)] mt-1'>Key 仅保存在浏览器本地</p>
+          <p className='text-xs text-conach-faint mt-1'>Key 仅保存在浏览器本地</p>
         </div>
 
         {/* Base URL */}
         <div className='mb-4'>
-          <label className='block text-xs font-medium text-[var(--text-muted)] mb-1.5'>Base URL</label>
+          <label className='block text-xs font-medium text-conach-soft mb-1.5'>Base URL</label>
           <input
             type='text'
             value={settings.baseUrl}
@@ -216,7 +216,7 @@ export function SettingsPanel() {
 
         {/* Model */}
         <div className='mb-4'>
-          <label className='block text-xs font-medium text-[var(--text-muted)] mb-1.5'>模型</label>
+          <label className='block text-xs font-medium text-conach-soft mb-1.5'>模型</label>
           <div className='flex gap-2'>
             <input
               type='text'
@@ -245,14 +245,14 @@ export function SettingsPanel() {
                     'px-2.5 py-1 text-xs rounded-full border transition-all ' +
                     (settings.model === model
                       ? 'border-[var(--accent)] bg-[var(--accent-bg)] text-conach'
-                      : 'border-[var(--border)] text-[var(--text-muted)] hover:border-[var(--accent)]')
+                      : 'border-[var(--border)] text-conach-soft hover:border-[var(--accent)]')
                   }
                 >
                   {model}
                 </button>
               ))}
               {availableModels.length > 8 && (
-                <span className='px-2.5 py-1 text-xs text-[var(--text-faint)]'>
+                <span className='px-2.5 py-1 text-xs text-conach-faint'>
                   +{availableModels.length - 8} 更多
                 </span>
               )}
@@ -262,7 +262,7 @@ export function SettingsPanel() {
 
         {/* Temperature */}
         <div className='mb-4'>
-          <label className='flex items-center justify-between text-xs font-medium text-[var(--text-muted)] mb-1.5'>
+          <label className='flex items-center justify-between text-xs font-medium text-conach-soft mb-1.5'>
             <span>Temperature</span>
             <span className='font-keystroke text-conach'>{settings.temperature.toFixed(1)}</span>
           </label>
@@ -274,7 +274,7 @@ export function SettingsPanel() {
             value={settings.temperature}
             onChange={(e) => update({ temperature: parseFloat(e.target.value) })}
           />
-          <p className='text-xs text-[var(--text-faint)] mt-1'>Higher = more creative, lower = more focused</p>
+          <p className='text-xs text-conach-faint mt-1'>Higher = more creative, lower = more focused</p>
         </div>
 
         {/* MCP */}
@@ -294,7 +294,7 @@ export function SettingsPanel() {
             placeholder='http://127.0.0.1:8765/mcp'
             className='input mt-2'
           />
-          <p className='text-xs text-[var(--text-faint)] mt-1'>26 个咖啡工具。一键启动自动运行</p>
+          <p className='text-xs text-conach-faint mt-1'>26 个咖啡工具。一键启动自动运行</p>
         </div>
 
         {/* Web Search */}
@@ -314,7 +314,7 @@ export function SettingsPanel() {
             placeholder="AnySearch Key（可选，匿名亦可）"
             className='input mt-2'
           />
-          <p className='text-xs text-[var(--text-faint)] mt-1'>Key 仅保存在浏览器；匿名免费</p>
+          <p className='text-xs text-conach-faint mt-1'>Key 仅保存在浏览器；匿名免费</p>
         </div>
 
         {/* 「我的画像 & 素材」已迁出 → 整段已删除 */}
@@ -333,10 +333,10 @@ export function SettingsPanel() {
                 <div key={n.id} className='flex flex-col gap-1 text-xs border-t border-[var(--rule)] pt-1.5'>
                   <div className='flex items-start gap-1'>
                     <span className='font-medium text-conach'>{n.title}</span>
-                    <span className='text-[var(--text-faint)]'>{n.category}</span>
+                    <span className='text-conach-faint'>{n.category}</span>
                     <button onClick={() => removeKnowledge(n.id)} className='btn-icon w-4 h-4 ml-auto'><Trash2 className='w-3 h-3' strokeWidth={1.5} /></button>
                   </div>
-                  {n.text && <p className='text-[var(--text-muted)]'>{n.text.slice(0, 150)}</p>}
+                  {n.text && <p className='text-conach-soft'>{n.text.slice(0, 150)}</p>}
                   {n.source && <a href={n.source} target='_blank' className='text-[var(--accent)] underline'>来源</a>}
                 </div>
               ))}
@@ -352,14 +352,14 @@ export function SettingsPanel() {
                   className='accent-[var(--accent)]'
                 />
                 <span className='text-conach'>定期自动更新知识库</span>
-                <span className='text-[var(--text-faint)]'>
+                <span className='text-conach-faint'>
                   {settings.lastSyncAt
                     ? `上次 ${new Date(settings.lastSyncAt).toLocaleDateString()}`
                     : '尚未同步过'}
                 </span>
               </label>
               <div className='flex items-center gap-2 text-xs'>
-                <span className='text-[var(--text-muted)]'>间隔</span>
+                <span className='text-conach-soft'>间隔</span>
                 <select
                   value={settings.syncIntervalDays || SYNC_INTERVAL_DAYS_DEFAULT}
                   onChange={(e) => update({ syncIntervalDays: Number(e.target.value) })}
@@ -387,7 +387,7 @@ export function SettingsPanel() {
                 />
                 <button onClick={handleAutoSyncTopicsSave} className='btn btn-secondary text-xs shrink-0' disabled={!settings.autoSyncOn}>保存主题</button>
               </div>
-              <p className='text-[var(--text-faint)] text-xs'>开启后，应用每次打开时自动检查；新条目以「auto:」前缀标记，可随时删除。</p>
+              <p className='text-conach-faint text-xs'>开启后，应用每次打开时自动检查；新条目以「auto:」前缀标记，可随时删除。</p>
             </div>
           </>
         )}
@@ -406,7 +406,7 @@ export function SettingsPanel() {
               onChange={(e) => update({ systemPrompt: e.target.value })}
               className='input min-h-[200px] text-xs font-keystroke resize-y'
             />
-            <p className='text-xs text-[var(--text-faint)] mt-1'>留空则用默认提示词</p>
+            <p className='text-xs text-conach-faint mt-1'>留空则用默认提示词</p>
           </div>
         )}
 
