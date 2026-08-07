@@ -276,12 +276,8 @@ function FieldInput({ field, value, onChange }: {
                   type='button'
                   onClick={() => onChange(active ? '' : o.value)}
                   className={
-                    'px-3.5 py-2 text-xs rounded-full border transition-all duration-200 ' +
-                    (active
-                      ? 'border-transparent text-[var(--text)] shadow-[inset_0_1px_0_0_color-mix(in_oklch,white_18%,transparent),0_1px_3px_color-mix(in_oklch,var(--accent)_32%,transparent)]'
-                      : 'border-[var(--border)] text-[var(--text-muted)] hover:border-[var(--accent)] hover:text-[var(--text)] hover:shadow-sm')
+                    'chip-conach' + (active ? ' active' : '')
                   }
-                  style={active ? { background: 'var(--accent-bg)' } : undefined}
                   title={o.hint}
                 >
                   {o.label}
